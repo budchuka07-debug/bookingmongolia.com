@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mongolia Destinations Map Section</title>
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f5ef;color:#1f2937}
+    .wrap{max-width:1200px;margin:0 auto;padding:40px 20px}
+    h1,h2,h3{margin:0 0 12px}
+    p{line-height:1.6}
+    .section-head{max-width:760px;margin-bottom:28px}
+    .layout{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+    .panel{background:#fff;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:24px}
+    .mapbox{
+      position:relative;min-height:620px;border-radius:18px;overflow:hidden;
+      background:linear-gradient(180deg,#e8f0f7,#f7f5ef);
+      border:1px solid #e5e7eb;
+    }
+    .map-bg{
+      position:absolute;inset:20px;
+      background:url('images/mongolia-map-placeholder.jpg') center/contain no-repeat;
+      opacity:.22;
+    }
+    .point{
+      position:absolute;transform:translate(-50%,-50%);
+      background:#0f3557;color:#fff;border:none;border-radius:999px;
+      padding:10px 14px;font-weight:700;cursor:pointer;box-shadow:0 10px 18px rgba(15,53,87,.25)
+    }
+    .point:hover,.point.active{background:#c98b2f}
+    .info-card h3{color:#0f3557}
+    .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+    .meta div{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:999px;font-weight:700;text-decoration:none}
+    .btn-primary{background:#0f3557;color:#fff}
+    .btn-secondary{background:#c98b2f;color:#fff}
+    .province-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+    .province-link{
+      display:block;padding:14px 16px;border-radius:12px;background:#f9fafb;border:1px solid #e5e7eb;
+      color:#111827;text-decoration:none;font-weight:700
+    }
+    .province-link:hover{border-color:#0f3557;color:#0f3557}
+    .tip{margin-top:18px;padding:16px;border-radius:14px;background:#eef6ff;border:1px solid #cfe2ff}
+    @media (max-width: 900px){
+      .layout{grid-template-columns:1fr}
+      .mapbox{min-height:480px}
+      .province-list{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="section-head">
+      <h1>Explore Mongolia by Destination</h1>
+      <p>Use this section on your homepage so travelers can click a destination and open a province page. Replace the placeholder map image and links with your real pages later.</p>
+    </div>
+
+    <div class="layout">
+      <div class="panel">
+        <div class="mapbox">
+          <div class="map-bg"></div>
+
+          <button class="point active" style="left:32%;top:45%" onclick="showProvince('khuvsgul')">Khuvsgul</button>
+          <button class="point" style="left:18%;top:32%" onclick="showProvince('bayanulgii')">Bayan-Ulgii</button>
+          <button class="point" style="left:57%;top:63%" onclick="showProvince('umnugovi')">Umnugovi</button>
+          <button class="point" style="left:41%;top:44%" onclick="showProvince('arkhangai')">Arkhangai</button>
+          <button class="point" style="left:50%;top:50%" onclick="showProvince('tuv')">Tuv</button>
+          <button class="point" style="left:64%;top:48%" onclick="showProvince('khentii')">Khentii</button>
+        </div>
+      </div>
+
+      <div class="panel info-card">
+        <div id="provinceContent">
+          <h3>Khuvsgul</h3>
+          <p>The Blue Pearl of Mongolia, famous for Khuvsgul Lake, taiga forests and reindeer culture.</p>
+          <div class="meta">
+            <div><strong>Best For</strong><br>Lake, taiga, reindeer</div>
+            <div><strong>From UB</strong><br>Flight or long-distance bus</div>
+            <div><strong>Best Season</strong><br>June – September</div>
+            <div><strong>Tour Type</strong><br>Nature, culture, adventure</div>
+          </div>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="destinations/khuvsgul.html">Open Province Page</a>
+            <a class="btn btn-secondary" href="tours/reindeer-tour.html">View Related Tour</a>
+          </div>
+        </div>
+
+        <div class="tip">
+          <strong>Tip:</strong> Put this map section on the homepage, then build a separate page for each province with places to visit, transport, accommodation and tour suggestions.
+        </div>
+
+        <h3 style="margin-top:22px">Quick Destination Links</h3>
+        <div class="province-list">
+          <a class="province-link" href="destinations/khuvsgul.html">Khuvsgul</a>
+          <a class="province-link" href="destinations/bayan-ulgii.html">Bayan-Ulgii</a>
+          <a class="province-link" href="destinations/umnugovi.html">Umnugovi</a>
+          <a class="province-link" href="destinations/arkhangai.html">Arkhangai</a>
+          <a class="province-link" href="destinations/tuv.html">Tuv</a>
+          <a class="province-link" href="destinations/khentii.html">Khentii</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const provinceData = {
+      khuvsgul: {
+        title: "Khuvsgul",
+        text: "The Blue Pearl of Mongolia, famous for Khuvsgul Lake, taiga forests and reindeer culture.",
+        bestFor: "Lake, taiga, reindeer",
+        fromUB: "Flight or long-distance bus",
+        season: "June – September",
+        type: "Nature, culture, adventure",
+        page: "destinations/khuvsgul.html",
+        tour: "tours/reindeer-tour.html"
+      },
+      bayanulgii: {
+        title: "Bayan-Ulgii",
+        text: "Western Mongolia’s mountain province with Altai Tavan Bogd, glaciers and eagle hunter culture.",
+        bestFor: "Mountains, trekking, culture",
+        fromUB: "Domestic flight recommended",
+        season: "June – September",
+        type: "Adventure, culture, trekking",
+        page: "destinations/bayan-ulgii.html",
+        tour: "tours/altai-tour.html"
+      },
+      umnugovi: {
+        title: "Umnugovi",
+        text: "Home of the Gobi Desert, Khongor dunes, Yol Valley and Flaming Cliffs.",
+        bestFor: "Desert, dunes, fossils",
+        fromUB: "Flight, bus or 4×4 tour",
+        season: "May – October",
+        type: "Desert adventure",
+        page: "destinations/umnugovi.html",
+        tour: "tours/gobi-desert-tour.html"
+      },
+      arkhangai: {
+        title: "Arkhangai",
+        text: "A beautiful region of volcanic landscapes, green valleys, lakes and central Mongolia experiences.",
+        bestFor: "Nature, hot springs, central route",
+        fromUB: "Bus or private vehicle",
+        season: "June – September",
+        type: "Scenic and cultural travel",
+        page: "destinations/arkhangai.html",
+        tour: "tours/central-mongolia-tour.html"
+      },
+      tuv: {
+        title: "Tuv",
+        text: "Easy access from Ulaanbaatar with Terelj, Hustai and Chinggis Khan Statue Complex.",
+        bestFor: "Short trips, family travel",
+        fromUB: "Bus, car or day tour",
+        season: "Year-round",
+        type: "Short trips and day tours",
+        page: "destinations/tuv.html",
+        tour: "tours/terelj-tour.html"
+      },
+      khentii: {
+        title: "Khentii",
+        text: "Historic homeland landscapes, open steppe and routes linked to Chinggis Khan history.",
+        bestFor: "History, culture, steppe",
+        fromUB: "Road trip or private vehicle",
+        season: "June – September",
+        type: "History and nature",
+        page: "destinations/khentii.html",
+        tour: "tours/history-steppe-tour.html"
+      }
+    };
+
+    function showProvince(key){
+      const d = provinceData[key];
+      document.querySelectorAll('.point').forEach(p=>p.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('provinceContent').innerHTML = `
+        <h3>${d.title}</h3>
+        <p>${d.text}</p>
+        <div class="meta">
+          <div><strong>Best For</strong><br>${d.bestFor}</div>
+          <div><strong>From UB</strong><br>${d.fromUB}</div>
+          <div><strong>Best Season</strong><br>${d.season}</div>
+          <div><strong>Tour Type</strong><br>${d.type}</div>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="${d.page}">Open Province Page</a>
+          <a class="btn btn-secondary" href="${d.tour}">View Related Tour</a>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
