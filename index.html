@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discover Mongolia Tours | Nomadic Life, Adventure & VIP Tours</title>
+  <meta name="description" content="Discover Mongolia with local travel experts. Explore VIP tours, nomadic life experiences, reindeer tours, Altai Tavan Bogd, Gobi Desert, Naadam Festival, transport booking, and Mongolia travel guide in English, Japanese, and Korean." />
+  <style>
+    :root {
+      --primary: #0d3b66;
+      --secondary: #14532d;
+      --accent: #c98b2f;
+      --light: #f7f5ef;
+      --dark: #1f2937;
+      --muted: #6b7280;
+      --white: #ffffff;
+      --shadow: 0 12px 30px rgba(0,0,0,0.08);
+      --radius: 18px;
+      --max: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--dark);
+      background: var(--light);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      background: var(--primary);
+      color: var(--white);
+      font-size: 14px;
+      padding: 10px 0;
+    }
+
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .lang-switch {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lang-switch button {
+      border: 1px solid #d1d5db;
+      background: var(--white);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .lang-switch button.active,
+    .lang-switch button:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 86vh;
+      display: flex;
+      align-items: center;
+      color: var(--white);
+      background:
+        linear-gradient(rgba(8,20,33,0.45), rgba(8,20,33,0.55)),
+        url('images/hero-mongolia.jpg') center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 760px;
+      padding: 90px 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 { line-height: 1.2; margin: 0 0 14px; }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 64px);
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 680px;
+      margin: 0 0 28px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 2px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-outline {
+      border-color: rgba(255,255,255,0.7);
+      color: var(--white);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius);
+      padding: 18px;
+      backdrop-filter: blur(5px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    section {
+      padding: 78px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .card-body { padding: 22px; }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: var(--primary);
+      font-size: 12px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .exp-card img,
+    .tour-card img,
+    .dest-card img,
+    .guide-card img {
+      height: 240px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .price {
+      margin-top: 12px;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .muted { color: var(--muted); }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .feature-item {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .services {
+      background: #edf6ff;
+    }
+
+    .service-card {
+      padding: 24px;
+    }
+
+    .service-card ul {
+      padding-left: 18px;
+      margin: 14px 0 0;
+      color: var(--muted);
+    }
+
+    .guide-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .guide-main {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .guide-mini {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .about {
+      background: linear-gradient(135deg, #fff8eb 0%, #f7f5ef 100%);
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .about-photo {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 460px;
+      background: url('images/about-guide.jpg') center/cover no-repeat;
+    }
+
+    .video-section iframe {
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .reviews {
+      background: #f0f7f2;
+    }
+
+    .review-card {
+      padding: 24px;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .esim {
+      background: linear-gradient(135deg, #0d3b66, #123f52);
+      color: var(--white);
+      border-radius: 26px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .booking {
+      background: var(--white);
+    }
+
+    .booking-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .contact-card,
+    form {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+    }
+
+    .contact-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+    }
+
+    .contact-card li { margin-bottom: 10px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 13px 14px;
+      font: inherit;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    footer {
+      background: #0d1b2a;
+      color: rgba(255,255,255,0.88);
+      padding: 24px 0;
+      font-size: 14px;
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .guide-wrap,
+      .about-wrap,
+      .booking-wrap,
+      .esim {
+        grid-template-columns: 1fr;
+      }
+      .hero-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .nav { padding: 14px 0; }
+      .nav-links { display: none; }
+      .grid-4,
+      .grid-3,
+      .grid-2,
+      .form-grid,
+      .guide-grid,
+      .feature-list,
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+      .hero { min-height: auto; }
+      .hero-content { padding: 70px 0; }
+      .video-section iframe { min-height: 260px; }
+      .about-photo { min-height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <div data-i18n="topbarLeft">Local Mongolia Travel Expert • Private Tours • Transport Help</div>
+      <div data-i18n="topbarRight">WhatsApp: +976 90283039 • English / 日本語 / 한국어</div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <a href="#home" class="logo">Discover<span>Mongolia</span></a>
+
+      <nav class="nav-links">
+        <a href="#experiences" data-i18n="navExperiences">Experiences</a>
+        <a href="#destinations" data-i18n="navDestinations">Destinations</a>
+        <a href="#tours" data-i18n="navTours">VIP Tours</a>
+        <a href="#services" data-i18n="navServices">Services</a>
+        <a href="#guide" data-i18n="navGuide">Travel Guide</a>
+        <a href="#about" data-i18n="navAbout">About</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
+
+      <div class="lang-switch">
+        <button class="active" onclick="setLanguage('en', this)">EN</button>
+        <button onclick="setLanguage('jp', this)">日本語</button>
+        <button onclick="setLanguage('kr', this)">한국어</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow" data-i18n="heroEyebrow">Authentic Mongolia Tours • Nomadic Life • Adventure • Festivals</div>
+        <h1 data-i18n="heroTitle">Discover the Real Mongolia with Local Experts</h1>
+        <p data-i18n="heroText">Explore nomadic culture, reindeer families, Altai Tavan Bogd, Gobi Desert, Naadam Festival, winter adventures, and private 4×4 journeys across Mongolia.</p>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#tours" data-i18n="heroBtn1">Book VIP Tour</a>
+          <a class="btn btn-outline" href="#destinations" data-i18n="heroBtn2">Explore Destinations</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>18+</strong>
+            <span data-i18n="stat1">Province guides and destination ideas</span>
+          </div>
+          <div class="stat">
+            <strong>4×4</strong>
+            <span data-i18n="stat2">Private transport for remote areas</span>
+          </div>
+          <div class="stat">
+            <strong>VIP</strong>
+            <span data-i18n="stat3">Custom private tours and local support</span>
+          </div>
+          <div class="stat">
+            <strong>Guide</strong>
+            <span data-i18n="stat4">Culture, food, transport and travel tips</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiences">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="expTitle">Top Mongolia Experiences</h2>
+        <p data-i18n="expText">Feature the experiences international travelers search for most: reindeer, Altai, Gobi, nomadic life, winter and festivals.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card exp-card">
+          <img src="images/reindeer-tour.jpg" alt="Reindeer experience in northern Mongolia" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tagNorth">Northern Mongolia</span>
+            <h3 data-i18n="exp1Title">Reindeer Experience</h3>
+            <p class="muted" data-i18n="exp1Text">Meet Tsaatan reindeer families in the taiga and discover one of Mongolia's most unique living cultures.</p>
+          </div>
+        </article>
+
+        <article class="card exp-card">
+          <img src="images/altai-tavan-bogd.jpg" alt="Altai Tavan Bogd mountain adventure" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tagWest">Western Mongolia</span>
+            <h3 data-i18n="exp2Title">Altai Tavan Bogd Adventure</h3>
+            <p class="muted" data-i18n="exp2Text">Explore glaciers, high mountains, Kazakh culture and the dramatic landscapes of western Mongolia.</p>
+          </div>
+        </article>
+
+        <article class="card exp-card">
+          <img src="images/gobi-desert.jpg" alt="Gobi Desert camel and dunes" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tagSouth">Southern Mongolia</span>
+            <h3 data-i18n="exp3Title">Gobi Desert Expedition</h3>
+            <p class="muted" data-i18n="exp3Text">Discover sand dunes, flaming cliffs, camels, dinosaur fossil sites and vast desert landscapes.</p>
+          </div>
+        </article>
+
+        <article class="card exp-card">
+          <img src="images/nomadic-life.jpg" alt="Nomadic family in Central Mongolia" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tagCentral">Central Mongolia</span>
+            <h3 data-i18n="exp4Title">Nomadic Life Experience</h3>
+            <p class="muted" data-i18n="exp4Text">Stay with local families, ride horses, taste Mongolian food and experience daily nomadic life.</p>
+          </div>
+        </article>
+
+        <article class="card exp-card">
+          <img src="images/ice-festival.jpg" alt="Ice festival in Khuvsgul" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tagWinter">Winter Mongolia</span>
+            <h3 data-i18n="exp5Title">Ice Festival & Winter Tours</h3>
+            <p class="muted" data-i18n="exp5Text">Experience frozen lakes, winter landscapes, ice games and unique cold-season adventures.</p>
+          </div>
+        </article>
+
+        <article class="card exp-card">
+          <img src="images/naadam-festival.jpg" alt="Naadam festival wrestling in Mongolia" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tagFestival">Festival Season</span>
+            <h3 data-i18n="exp6Title">Naadam Festival</h3>
+            <p class="muted" data-i18n="exp6Text">See traditional wrestling, horse racing and archery during Mongolia's most famous festival.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="destinations">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="destTitle">Explore Mongolia by Destination</h2>
+        <p data-i18n="destText">Build destination pages for each province with places to visit, transport info, where to stay and how to travel.</p>
+      </div>
+
+      <div class="grid grid-4">
+        <article class="card dest-card">
+          <img src="images/khuvsgul.jpg" alt="Khuvsgul Lake" />
+          <div class="card-body">
+            <h3>Khuvsgul</h3>
+            <p class="muted" data-i18n="dest1">Lake, taiga, reindeer culture and northern adventures.</p>
+          </div>
+        </article>
+
+        <article class="card dest-card">
+          <img src="images/bayan-ulgii.jpg" alt="Bayan-Ulgii and Altai" />
+          <div class="card-body">
+            <h3>Bayan-Ulgii</h3>
+            <p class="muted" data-i18n="dest2">Altai Tavan Bogd, glaciers, eagle hunters and trekking.</p>
+          </div>
+        </article>
+
+        <article class="card dest-card">
+          <img src="images/umnugovi.jpg" alt="Umnugovi Gobi" />
+          <div class="card-body">
+            <h3>Umnugovi</h3>
+            <p class="muted" data-i18n="dest3">Khongor sand dunes, Yol Valley and Flaming Cliffs.</p>
+          </div>
+        </article>
+
+        <article class="card dest-card">
+          <img src="images/tuv.jpg" alt="Terelj and Hustai" />
+          <div class="card-body">
+            <h3>Tuv</h3>
+            <p class="muted" data-i18n="dest4">Terelj, Hustai, Chinggis statue and short trips from UB.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="tours">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="tourTitle">Featured VIP Tours</h2>
+        <p data-i18n="tourText">Use this section for your main bookable tours with price, route, duration and inquiry button.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card tour-card">
+          <img src="images/terelj-tour.jpg" alt="Terelj VIP tour" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tourTag1">Short Tour</span>
+            <h3 data-i18n="tour1Title">3 Day Terelj & Hustai Tour</h3>
+            <p class="muted" data-i18n="tour1Text">Ideal for first-time visitors who want nature, horses, ger stay and easy access from Ulaanbaatar.</p>
+            <div class="price" data-i18n="tour1Price">From $280 per person</div>
+          </div>
+        </article>
+
+        <article class="card tour-card">
+          <img src="images/central-mongolia.jpg" alt="Central Mongolia VIP tour" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tourTag2">Cultural Tour</span>
+            <h3 data-i18n="tour2Title">5 Day Central Mongolia Nomadic Tour</h3>
+            <p class="muted" data-i18n="tour2Text">Experience Kharkhorin, Orkhon Valley, nomadic family life, horse riding and Mongolian food.</p>
+            <div class="price" data-i18n="tour2Price">From $650 per person</div>
+          </div>
+        </article>
+
+        <article class="card tour-card">
+          <img src="images/reindeer-vip.jpg" alt="Reindeer VIP tour" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tourTag3">Northern Adventure</span>
+            <h3 data-i18n="tour3Title">7 Day Reindeer Taiga Experience</h3>
+            <p class="muted" data-i18n="tour3Text">Travel north to meet reindeer herders, explore forest landscapes and remote mountain life.</p>
+            <div class="price" data-i18n="tour3Price">From $1,180 per person</div>
+          </div>
+        </article>
+
+        <article class="card tour-card">
+          <img src="images/altai-vip.jpg" alt="Altai Tavan Bogd VIP tour" />
+          <div class="card-body">
+            <span class="tag" data-i18n="tourTag4">Western Adventure</span>
+            <h3 data-i18n="tour4Title">10 Day Altai Tavan Bogd Expedition</h3>
+            <p class="muted" data-i18n="tour4Text">A premium journey through western Mongolia with mountains, glaciers and unforgettable views.</p>
+            <div class="price" data-i18n="tour4Price">From $1,650 per person</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="serviceTitle">Travel Services & Booking Support</h2>
+        <p data-i18n="serviceText">Offer private transport, car rental and booking help for travelers who want flexibility or independent travel support.</p>
+      </div>
+
+      <div class="grid grid-4">
+        <article class="card service-card">
+          <h3 data-i18n="service1Title">4×4 Private Transport</h3>
+          <p class="muted" data-i18n="service1Text">Private jeep with driver for remote destinations like Gobi, Altai and taiga regions.</p>
+          <ul>
+            <li data-i18n="service1a">Land Cruiser / 4WD options</li>
+            <li data-i18n="service1b">Driver included</li>
+            <li data-i18n="service1c">Fuel and route planning</li>
+          </ul>
+        </article>
+
+        <article class="card service-card">
+          <h3 data-i18n="service2Title">Bus & Train Help</h3>
+          <p class="muted" data-i18n="service2Text">Help travelers understand routes, schedules and realistic travel times from Ulaanbaatar.</p>
+          <ul>
+            <li data-i18n="service2a">Terelj bus information</li>
+            <li data-i18n="service2b">Khustain route help</li>
+            <li data-i18n="service2c">Train info to key towns</li>
+          </ul>
+        </article>
+
+        <article class="card service-card">
+          <h3 data-i18n="service3Title">Domestic Flight Support</h3>
+          <p class="muted" data-i18n="service3Text">Useful for long-distance travel to Murun, Dalanzadgad or Ulgii when time matters most.</p>
+          <ul>
+            <li data-i18n="service3a">Route suggestions</li>
+            <li data-i18n="service3b">Time-saving planning</li>
+            <li data-i18n="service3c">Airport pickup add-on</li>
+          </ul>
+        </article>
+
+        <article class="card service-card">
+          <h3 data-i18n="service4Title">Car Rental & Pickup</h3>
+          <p class="muted" data-i18n="service4Text">Add rental vehicles, airport transfers and custom local arrangements for independent travelers.</p>
+          <ul>
+            <li data-i18n="service4a">SUV rental options</li>
+            <li data-i18n="service4b">Airport pickup</li>
+            <li data-i18n="service4c">Flexible travel support</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="guide">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="guideTitle">Mongolia Travel Guide</h2>
+        <p data-i18n="guideText">Use this section to educate travelers, build trust and naturally move them toward your tours or booking services.</p>
+      </div>
+
+      <div class="guide-wrap">
+        <div class="guide-main">
+          <h3 data-i18n="guideMainTitle">What Travelers Need to Know Before Visiting Mongolia</h3>
+          <p class="muted" data-i18n="guideMainText">Mongolia is a very large country with long travel distances, limited public transport in rural areas and huge seasonal differences. This guide helps travelers understand transport, weather, nomadic culture, food, festivals and practical travel realities.</p>
+
+          <div class="guide-grid">
+            <div class="guide-mini">
+              <h4 data-i18n="gm1Title">Nomadic Culture</h4>
+              <p class="muted" data-i18n="gm1Text">Daily life, ger culture, livestock, hospitality and movement across seasons.</p>
+              <a class="btn btn-primary" href="guide/nomadic-culture.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+            <div class="guide-mini">
+              <h4 data-i18n="gm2Title">Religion & Traditions</h4>
+              <p class="muted" data-i18n="gm2Text">Buddhism, shamanic roots, ovoo worship and local customs for travelers.</p>
+              <a class="btn btn-primary" href="guide/religion-traditions.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+            <div class="guide-mini">
+              <h4 data-i18n="gm3Title">Food & Local Taste</h4>
+              <p class="muted" data-i18n="gm3Text">Buuz, khuushuur, tsuivan, dairy foods and what to expect on tours.</p>
+              <a class="btn btn-primary" href="guide/mongolian-food.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+            <div class="guide-mini">
+              <h4 data-i18n="gm4Title">Weather & Seasons</h4>
+              <p class="muted" data-i18n="gm4Text">Summer travel, winter conditions, road reality and what to pack.</p>
+              <a class="btn btn-primary" href="guide/weather-seasons.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+            <div class="guide-mini">
+              <h4 data-i18n="gm5Title">Money & Currency</h4>
+              <p class="muted" data-i18n="gm5Text">MNT, card use in cities, cash for countryside and estimated travel budgets.</p>
+              <a class="btn btn-primary" href="guide/money-currency.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+            <div class="guide-mini">
+              <h4 data-i18n="gm6Title">Transport Reality</h4>
+              <p class="muted" data-i18n="gm6Text">How far provinces are, why group tours help and where public transport is limited.</p>
+              <a class="btn btn-primary" href="guide/transport-reality.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <article class="card guide-card">
+            <img src="images/transport-guide.jpg" alt="Mongolia transport guide" />
+            <div class="card-body">
+              <h3 data-i18n="guideCard1Title">Transport in Mongolia</h3>
+              <p class="muted" data-i18n="guideCard1Text">Explain buses, domestic flights, trains, road conditions and why remote travel often needs private transport.</p>
+              <a class="btn btn-primary" href="guide/transport-in-mongolia.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+          </article>
+          <article class="card guide-card">
+            <img src="images/mongolian-ger.jpg" alt="Mongolian ger guide" />
+            <div class="card-body">
+              <h3 data-i18n="guideCard2Title">Mongolian Ger & Daily Life</h3>
+              <p class="muted" data-i18n="guideCard2Text">Introduce ger structure, etiquette, nomadic lifestyle and countryside hospitality.</p>
+              <a class="btn btn-primary" href="guide/mongolian-ger-daily-life.html" data-i18n="readMoreBtn">Read More</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="video-section">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="videoTitle">Watch Mongolia in Motion</h2>
+        <p data-i18n="videoText">Embed your best YouTube travel video here: reindeer, Altai, Gobi, Naadam or nomadic life.</p>
+      </div>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Mongolia Travel Video" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-wrap">
+        <div class="about-photo"></div>
+        <div>
+          <div class="section-head" style="margin-bottom:16px;">
+            <h2 data-i18n="aboutTitle">About Your Local Mongolia Travel Expert</h2>
+          </div>
+          <p data-i18n="aboutText1">I have traveled across many parts of Mongolia and worked with international travelers in real field conditions. I also worked as a tour cook, which gave me practical experience with traveler comfort, food, routes and countryside logistics.</p>
+          <p data-i18n="aboutText2">This platform is designed to help visitors understand Mongolia honestly: its beauty, vast distances, transport realities, nomadic life and the best way to experience the country safely and meaningfully.</p>
+
+          <div class="feature-list">
+            <div class="feature-item" data-i18n="aboutPoint1">Local destination knowledge across Mongolia</div>
+            <div class="feature-item" data-i18n="aboutPoint2">Experience with real travelers and countryside routes</div>
+            <div class="feature-item" data-i18n="aboutPoint3">Food and hospitality insight from working on tour</div>
+            <div class="feature-item" data-i18n="aboutPoint4">Flexible support for tours, transport and local planning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="reviewTitle">Traveler Reviews</h2>
+        <p data-i18n="reviewText">Add real guest reviews, country names and photos whenever possible.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card review-card">
+          <div class="stars">★★★★★</div>
+          <p data-i18n="review1">Our Mongolia trip felt authentic and well organized. The local knowledge made a huge difference.</p>
+          <strong>Kenji, Japan</strong>
+        </article>
+
+        <article class="card review-card">
+          <div class="stars">★★★★★</div>
+          <p data-i18n="review2">The nomadic family stay and horse riding experience were unforgettable. Highly recommended.</p>
+          <strong>Minseo, Korea</strong>
+        </article>
+
+        <article class="card review-card">
+          <div class="stars">★★★★★</div>
+          <p data-i18n="review3">Very helpful planning support for a large country where transport is not easy. Excellent local advice.</p>
+          <strong>Anna, Germany</strong>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="esim">
+        <div>
+          <h2 data-i18n="esimTitle">Stay Connected in Mongolia</h2>
+          <p data-i18n="esimText">You can guide travelers on local Unitel data SIM options in Mongolia, and also offer international eSIM before arrival through your eSIM Mongolia website.</p>
+          <div class="cta-row" style="margin-top:18px; margin-bottom:0;">
+            <a class="btn btn-primary" href="https://esimmongolia.com" target="_blank" rel="noopener" data-i18n="esimBtn1">Visit eSIM Mongolia</a>
+            <a class="btn btn-outline" href="#guide" data-i18n="esimBtn2">Read Internet Guide</a>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="background:rgba(255,255,255,0.12); color:#fff; box-shadow:none; border:1px solid rgba(255,255,255,0.12);">
+            <div class="card-body">
+              <h3 data-i18n="esimCardTitle">Internet in Mongolia</h3>
+              <p data-i18n="esimCardText">In cities and major tourist areas, mobile service is usually available. In remote taiga, deep Gobi or mountain regions, coverage can be limited.</p>
+              <p style="margin-bottom:0;" data-i18n="esimCardText2">For practical travelers: explain coverage honestly and recommend the best option for each route.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="contactTitle">Plan Your Mongolia Trip</h2>
+        <p data-i18n="contactText">Use this form for VIP tours, custom routes, transport requests or travel planning support.</p>
+      </div>
+
+      <div class="booking-wrap">
+        <div class="contact-card">
+          <h3 data-i18n="contactCardTitle">Quick Contact</h3>
+          <p class="muted" data-i18n="contactCardText">Replace these with your final business contact details, WhatsApp, email and social pages.</p>
+          <ul>
+            <li><strong>WhatsApp:</strong> +976 90283039</li>
+            <li><strong>Email:</strong> hello@discovermongoliatours.com</li>
+            <li><strong>Facebook:</strong> Discover Mongolia Tours</li>
+            <li><strong data-i18n="contactCardLine4">Support:</strong> <span data-i18n="contactCardLine4Text">English, Japanese and Korean inquiry support</span></li>
+          </ul>
+        </div>
+
+        <form>
+          <div class="form-grid">
+            <div>
+              <label for="name" data-i18n="fName">Full Name</label>
+              <input id="name" type="text" placeholder="Your name" />
+            </div>
+            <div>
+              <label for="country" data-i18n="fCountry">Country</label>
+              <input id="country" type="text" placeholder="Japan / Korea / USA" />
+            </div>
+            <div>
+              <label for="email" data-i18n="fEmail">Email</label>
+              <input id="email" type="email" placeholder="you@example.com" />
+            </div>
+            <div>
+              <label for="dates" data-i18n="fDates">Travel Dates</label>
+              <input id="dates" type="text" placeholder="July 10 - July 18" />
+            </div>
+            <div>
+              <label for="travelers" data-i18n="fTravelers">Travelers</label>
+              <select id="travelers">
+                <option>1</option>
+                <option>2</option>
+                <option>3-4</option>
+                <option>5+</option>
+              </select>
+            </div>
+            <div>
+              <label for="service" data-i18n="fService">Interested In</label>
+              <select id="service">
+                <option data-i18n="opt1">VIP Tour</option>
+                <option data-i18n="opt2">4×4 Transport</option>
+                <option data-i18n="opt3">Car Rental</option>
+                <option data-i18n="opt4">Bus / Train Help</option>
+                <option data-i18n="opt5">Custom Travel Plan</option>
+              </select>
+            </div>
+            <div class="full">
+              <label for="message" data-i18n="fMessage">Message</label>
+              <textarea id="message" placeholder="Tell us where you want to go in Mongolia..."></textarea>
+            </div>
+            <div class="full">
+              <button type="submit" class="btn btn-primary" data-i18n="fBtn">Send Inquiry</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-wrap">
+      <div>© 2026 Discover Mongolia Tours</div>
+      <div data-i18n="footerText">Local travel guide, VIP tours, transport support and Mongolia trip planning.</div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        topbarLeft: 'Local Mongolia Travel Expert • Private Tours • Transport Help',
+        topbarRight: 'WhatsApp: +976 90283039 • English / 日本語 / 한국어',
+        navExperiences: 'Experiences',
+        navDestinations: 'Destinations',
+        navTours: 'VIP Tours',
+        navServices: 'Services',
+        navGuide: 'Travel Guide',
+        navAbout: 'About',
+        navContact: 'Contact',
+        heroEyebrow: 'Authentic Mongolia Tours • Nomadic Life • Adventure • Festivals',
+        heroTitle: 'Discover the Real Mongolia with Local Experts',
+        heroText: 'Explore nomadic culture, reindeer families, Altai Tavan Bogd, Gobi Desert, Naadam Festival, winter adventures, and private 4×4 journeys across Mongolia.',
+        heroBtn1: 'Book VIP Tour',
+        heroBtn2: 'Explore Destinations',
+        stat1: 'Province guides and destination ideas',
+        stat2: 'Private transport for remote areas',
+        stat3: 'Custom private tours and local support',
+        stat4: 'Culture, food, transport and travel tips',
+        expTitle: 'Top Mongolia Experiences',
+        expText: 'Feature the experiences international travelers search for most: reindeer, Altai, Gobi, nomadic life, winter and festivals.',
+        tagNorth: 'Northern Mongolia', tagWest: 'Western Mongolia', tagSouth: 'Southern Mongolia', tagCentral: 'Central Mongolia', tagWinter: 'Winter Mongolia', tagFestival: 'Festival Season',
+        exp1Title: 'Reindeer Experience', exp1Text: "Meet Tsaatan reindeer families in the taiga and discover one of Mongolia's most unique living cultures.",
+        exp2Title: 'Altai Tavan Bogd Adventure', exp2Text: 'Explore glaciers, high mountains, Kazakh culture and the dramatic landscapes of western Mongolia.',
+        exp3Title: 'Gobi Desert Expedition', exp3Text: 'Discover sand dunes, flaming cliffs, camels, dinosaur fossil sites and vast desert landscapes.',
+        exp4Title: 'Nomadic Life Experience', exp4Text: 'Stay with local families, ride horses, taste Mongolian food and experience daily nomadic life.',
+        exp5Title: 'Ice Festival & Winter Tours', exp5Text: 'Experience frozen lakes, winter landscapes, ice games and unique cold-season adventures.',
+        exp6Title: 'Naadam Festival', exp6Text: "See traditional wrestling, horse racing and archery during Mongolia's most famous festival.",
+        destTitle: 'Explore Mongolia by Destination',
+        destText: 'Build destination pages for each province with places to visit, transport info, where to stay and how to travel.',
+        dest1: 'Lake, taiga, reindeer culture and northern adventures.', dest2: 'Altai Tavan Bogd, glaciers, eagle hunters and trekking.', dest3: 'Khongor sand dunes, Yol Valley and Flaming Cliffs.', dest4: 'Terelj, Hustai, Chinggis statue and short trips from UB.',
+        tourTitle: 'Featured VIP Tours',
+        tourText: 'Use this section for your main bookable tours with price, route, duration and inquiry button.',
+        tourTag1: 'Short Tour', tourTag2: 'Cultural Tour', tourTag3: 'Northern Adventure', tourTag4: 'Western Adventure',
+        tour1Title: '3 Day Terelj & Hustai Tour', tour1Text: 'Ideal for first-time visitors who want nature, horses, ger stay and easy access from Ulaanbaatar.', tour1Price: 'From $280 per person',
+        tour2Title: '5 Day Central Mongolia Nomadic Tour', tour2Text: 'Experience Kharkhorin, Orkhon Valley, nomadic family life, horse riding and Mongolian food.', tour2Price: 'From $650 per person',
+        tour3Title: '7 Day Reindeer Taiga Experience', tour3Text: 'Travel north to meet reindeer herders, explore forest landscapes and remote mountain life.', tour3Price: 'From $1,180 per person',
+        tour4Title: '10 Day Altai Tavan Bogd Expedition', tour4Text: 'A premium journey through western Mongolia with mountains, glaciers and unforgettable views.', tour4Price: 'From $1,650 per person',
+        serviceTitle: 'Travel Services & Booking Support',
+        serviceText: 'Offer private transport, car rental and booking help for travelers who want flexibility or independent travel support.',
+        service1Title: '4×4 Private Transport', service1Text: 'Private jeep with driver for remote destinations like Gobi, Altai and taiga regions.', service1a: 'Land Cruiser / 4WD options', service1b: 'Driver included', service1c: 'Fuel and route planning',
+        service2Title: 'Bus & Train Help', service2Text: 'Help travelers understand routes, schedules and realistic travel times from Ulaanbaatar.', service2a: 'Terelj bus information', service2b: 'Khustain route help', service2c: 'Train info to key towns',
+        service3Title: 'Domestic Flight Support', service3Text: 'Useful for long-distance travel to Murun, Dalanzadgad or Ulgii when time matters most.', service3a: 'Route suggestions', service3b: 'Time-saving planning', service3c: 'Airport pickup add-on',
+        service4Title: 'Car Rental & Pickup', service4Text: 'Add rental vehicles, airport transfers and custom local arrangements for independent travelers.', service4a: 'SUV rental options', service4b: 'Airport pickup', service4c: 'Flexible travel support',
+        guideTitle: 'Mongolia Travel Guide', guideText: 'Use this section to educate travelers, build trust and naturally move them toward your tours or booking services.',
+        guideMainTitle: 'What Travelers Need to Know Before Visiting Mongolia', guideMainText: 'Mongolia is a very large country with long travel distances, limited public transport in rural areas and huge seasonal differences. This guide helps travelers understand transport, weather, nomadic culture, food, festivals and practical travel realities.',
+        gm1Title: 'Nomadic Culture', gm1Text: 'Daily life, ger culture, livestock, hospitality and movement across seasons.',
+        gm2Title: 'Religion & Traditions', gm2Text: 'Buddhism, shamanic roots, ovoo worship and local customs for travelers.',
+        gm3Title: 'Food & Local Taste', gm3Text: 'Buuz, khuushuur, tsuivan, dairy foods and what to expect on tours.',
+        gm4Title: 'Weather & Seasons', gm4Text: 'Summer travel, winter conditions, road reality and what to pack.',
+        gm5Title: 'Money & Currency', gm5Text: 'MNT, card use in cities, cash for countryside and estimated travel budgets.',
+        gm6Title: 'Transport Reality', gm6Text: 'How far provinces are, why group tours help and where public transport is limited.',
+        guideCard1Title: 'Transport in Mongolia', guideCard1Text: 'Explain buses, domestic flights, trains, road conditions and why remote travel often needs private transport.',
+        guideCard2Title: 'Mongolian Ger & Daily Life', guideCard2Text: 'Introduce ger structure, etiquette, nomadic lifestyle and countryside hospitality.',
+        videoTitle: 'Watch Mongolia in Motion', videoText: 'Embed your best YouTube travel video here: reindeer, Altai, Gobi, Naadam or nomadic life.',
+        aboutTitle: 'About Your Local Mongolia Travel Expert', aboutText1: 'I have traveled across many parts of Mongolia and worked with international travelers in real field conditions. I also worked as a tour cook, which gave me practical experience with traveler comfort, food, routes and countryside logistics.', aboutText2: 'This platform is designed to help visitors understand Mongolia honestly: its beauty, vast distances, transport realities, nomadic life and the best way to experience the country safely and meaningfully.',
+        aboutPoint1: 'Local destination knowledge across Mongolia', aboutPoint2: 'Experience with real travelers and countryside routes', aboutPoint3: 'Food and hospitality insight from working on tour', aboutPoint4: 'Flexible support for tours, transport and local planning',
+        reviewTitle: 'Traveler Reviews', reviewText: 'Add real guest reviews, country names and photos whenever possible.', review1: 'Our Mongolia trip felt authentic and well organized. The local knowledge made a huge difference.', review2: 'The nomadic family stay and horse riding experience were unforgettable. Highly recommended.', review3: 'Very helpful planning support for a large country where transport is not easy. Excellent local advice.',
+        esimTitle: 'Stay Connected in Mongolia', esimText: 'You can guide travelers on local Unitel data SIM options in Mongolia, and also offer international eSIM before arrival through your eSIM Mongolia website.', esimBtn1: 'Visit eSIM Mongolia', esimBtn2: 'Read Internet Guide', esimCardTitle: 'Internet in Mongolia', esimCardText: 'In cities and major tourist areas, mobile service is usually available. In remote taiga, deep Gobi or mountain regions, coverage can be limited.', esimCardText2: 'For practical travelers: explain coverage honestly and recommend the best option for each route.',
+        contactTitle: 'Plan Your Mongolia Trip', contactText: 'Use this form for VIP tours, custom routes, transport requests or travel planning support.', contactCardTitle: 'Quick Contact', contactCardText: 'Replace these with your final business contact details, WhatsApp, email and social pages.', contactCardLine4: 'Support:', contactCardLine4Text: 'English, Japanese and Korean inquiry support',
+        fName: 'Full Name', fCountry: 'Country', fEmail: 'Email', fDates: 'Travel Dates', fTravelers: 'Travelers', fService: 'Interested In', fMessage: 'Message', fBtn: 'Send Inquiry',
+        opt1: 'VIP Tour', opt2: '4×4 Transport', opt3: 'Car Rental', opt4: 'Bus / Train Help', opt5: 'Custom Travel Plan', readMoreBtn: 'Read More', footerText: 'Local travel guide, VIP tours, transport support and Mongolia trip planning.'
+      },
+      jp: {
+        topbarLeft: 'モンゴル現地旅行エキスパート • プライベートツアー • 移動サポート',
+        topbarRight: 'WhatsApp: +976 90283039 • English / 日本語 / 한국어',
+        navExperiences: '体験', navDestinations: '地域', navTours: 'VIPツアー', navServices: 'サービス', navGuide: '旅行ガイド', navAbout: '私たちについて', navContact: 'お問い合わせ',
+        heroEyebrow: '本格的なモンゴル旅行 • 遊牧民文化 • 冒険 • 祭り',
+        heroTitle: '現地エキスパートと本当のモンゴルを発見',
+        heroText: '遊牧民文化、トナカイ家族、アルタイ山脈、ゴビ砂漠、ナーダム祭、冬の旅、4WDのプライベート旅行を体験しましょう。',
+        heroBtn1: 'VIPツアーを予約', heroBtn2: '目的地を見る',
+        stat1: '県別ガイドと旅のアイデア', stat2: '遠隔地向けプライベート移動', stat3: 'オーダーメイドツアーと現地サポート', stat4: '文化・食・交通・旅行情報',
+        expTitle: '人気のモンゴル体験', expText: '海外旅行者に人気の高い体験を紹介します。トナカイ、アルタイ、ゴビ、遊牧生活、冬、祭り。',
+        tagNorth: '北モンゴル', tagWest: '西モンゴル', tagSouth: '南モンゴル', tagCentral: '中央モンゴル', tagWinter: '冬のモンゴル', tagFestival: '祭りの季節',
+        exp1Title: 'トナカイ体験', exp1Text: 'タイガでツァータンのトナカイ家族と出会い、モンゴルならではの文化を体験します。',
+        exp2Title: 'アルタイ・タワンボグド冒険', exp2Text: '氷河、高山、カザフ文化、西モンゴルの壮大な景色を楽しめます。',
+        exp3Title: 'ゴビ砂漠遠征', exp3Text: '砂丘、炎の崖、ラクダ、恐竜化石の地など広大な砂漠を巡ります。',
+        exp4Title: '遊牧生活体験', exp4Text: '現地家族と滞在し、乗馬やモンゴル料理を通して日常の遊牧生活を感じます。',
+        exp5Title: '氷祭りと冬ツアー', exp5Text: '凍った湖、冬景色、氷の遊びなど特別な冬の旅を体験できます。',
+        exp6Title: 'ナーダム祭', exp6Text: '相撲、競馬、弓術を楽しめるモンゴル最大の祭りです。',
+        destTitle: '目的地からモンゴルを探す', destText: '各県ページに見どころ、行き方、宿泊、交通情報を掲載できます。',
+        dest1: '湖、タイガ、トナカイ文化、北部の冒険。', dest2: 'タワンボグド、氷河、鷹匠、トレッキング。', dest3: 'ホンゴル砂丘、ヨリーンアム、炎の崖。', dest4: 'テレルジ、ホスタイ、チンギス像、ウランバートル近郊。',
+        tourTitle: 'おすすめVIPツアー', tourText: '主力商品となるツアーを価格・期間・内容つきで掲載します。',
+        tourTag1: '短期ツアー', tourTag2: '文化ツアー', tourTag3: '北部アドベンチャー', tourTag4: '西部アドベンチャー',
+        tour1Title: '3日間 テレルジ＆ホスタイ', tour1Text: '初めての旅行者にぴったり。自然、馬、ゲル滞在を手軽に楽しめます。', tour1Price: '1名 $280〜',
+        tour2Title: '5日間 中央モンゴル遊牧民ツアー', tour2Text: 'ハルホリン、オルホン渓谷、遊牧民家庭、乗馬、モンゴル料理を体験。', tour2Price: '1名 $650〜',
+        tour3Title: '7日間 トナカイ・タイガ体験', tour3Text: '北へ旅し、トナカイ遊牧民と森・山の暮らしに出会います。', tour3Price: '1名 $1,180〜',
+        tour4Title: '10日間 アルタイ・タワンボグド遠征', tour4Text: '山岳、氷河、雄大な景色を楽しむ西モンゴルの特別な旅。', tour4Price: '1名 $1,650〜',
+        serviceTitle: '旅行サービスと予約サポート', serviceText: '柔軟な旅行者向けに専用車、レンタカー、移動相談を提供できます。',
+        service1Title: '4WD専用送迎', service1Text: 'ゴビ、アルタイ、タイガなど遠隔地向けの専用車とドライバー。', service1a: 'ランドクルーザー / 4WD', service1b: 'ドライバー込み', service1c: '燃料・ルート相談',
+        service2Title: 'バス・鉄道サポート', service2Text: 'ウランバートル発の移動時間や路線をわかりやすく案内します。', service2a: 'テレルジ方面バス情報', service2b: 'ホスタイ方面サポート', service2c: '主要都市への列車案内',
+        service3Title: '国内線サポート', service3Text: 'ムルン、ダランザドガド、ウルギーなど長距離移動に便利です。', service3a: '路線提案', service3b: '時間短縮プラン', service3c: '空港送迎追加可',
+        service4Title: 'レンタカーと送迎', service4Text: '独立旅行者向けにレンタカー、空港送迎、現地手配を提供。', service4a: 'SUVレンタル', service4b: '空港送迎', service4c: '柔軟なサポート',
+        guideTitle: 'モンゴル旅行ガイド', guideText: '旅行者を教育し、信頼を作り、自然にツアーや予約へつなげるセクションです。',
+        guideMainTitle: 'モンゴル旅行前に知っておきたいこと', guideMainText: 'モンゴルは非常に広く、地方では公共交通が限られ、季節差も大きい国です。交通、天気、遊牧文化、食、祭り、実際の旅の条件を案内します。',
+        gm1Title: '遊牧文化', gm1Text: 'ゲル、家畜、季節移動、おもてなしなど。',
+        gm2Title: '宗教と伝統', gm2Text: '仏教、シャーマニズム、オボー信仰、旅行者向けの習慣。',
+        gm3Title: '食文化', gm3Text: 'ボーズ、ホーショール、ツイワン、乳製品など。',
+        gm4Title: '天気と季節', gm4Text: '夏旅、冬の条件、道路状況、持ち物。',
+        gm5Title: 'お金と通貨', gm5Text: 'トゥグルグ、都市でのカード、地方での現金。',
+        gm6Title: '移動の現実', gm6Text: '県間距離、ツアーが便利な理由、公共交通の限界。',
+        guideCard1Title: 'モンゴルの交通', guideCard1Text: 'バス、国内線、鉄道、道路事情、専用車が必要な理由。',
+        guideCard2Title: 'ゲルと日常生活', guideCard2Text: 'ゲルの構造、作法、遊牧生活、地方のもてなし。',
+        videoTitle: '動画で見るモンゴル', videoText: 'トナカイ、アルタイ、ゴビ、ナーダム、遊牧生活の動画を埋め込めます。',
+        aboutTitle: '現地モンゴル旅行エキスパートについて', aboutText1: '私はモンゴル各地を旅し、海外旅行者と現場で関わってきました。ツアーの料理人として働いた経験もあり、食、ルート、快適さ、地方の実情を理解しています。', aboutText2: 'このサイトは、モンゴルの美しさだけでなく、距離、交通事情、遊牧生活を正直に伝え、より良い旅をサポートするために作られています。',
+        aboutPoint1: 'モンゴル各地の現地知識', aboutPoint2: '旅行者と地方ルートの実務経験', aboutPoint3: 'ツアー料理人としての食とおもてなしの視点', aboutPoint4: 'ツアー・移動・旅程づくりの柔軟な支援',
+        reviewTitle: '旅行者の声', reviewText: '実際のレビュー、国名、写真を追加するとさらに信頼が高まります。', review1: '本物のモンゴルを感じられるよく整理された旅でした。現地知識が本当に役立ちました。', review2: '遊牧民家庭滞在と乗馬体験は忘れられません。とてもおすすめです。', review3: '移動が難しい大きな国で、とても実用的なアドバイスをもらえました。',
+        esimTitle: 'モンゴルでもネット接続を', esimText: '現地のUnitelデータSIM案内に加えて、到着前にeSIM Mongolia経由で国際eSIMも案内できます。', esimBtn1: 'eSIM Mongoliaを見る', esimBtn2: '通信ガイドを読む', esimCardTitle: 'モンゴルのインターネット', esimCardText: '都市部や主要観光地では通信可能なことが多いですが、タイガ、深いゴビ、山岳地帯では圏外もあります。', esimCardText2: 'ルートに応じて最適な方法を正直に案内すると信頼につながります。',
+        contactTitle: 'モンゴル旅行を相談する', contactText: 'VIPツアー、専用ルート、移動相談、旅程作成サポートに使えるフォームです。', contactCardTitle: 'クイック連絡先', contactCardText: 'ここを最終的な連絡先、WhatsApp、メール、SNSに変更してください。', contactCardLine4: '対応言語:', contactCardLine4Text: '英語・日本語・韓国語のお問い合わせ対応',
+        fName: '氏名', fCountry: '国', fEmail: 'メール', fDates: '旅行日程', fTravelers: '人数', fService: '希望サービス', fMessage: 'メッセージ', fBtn: '送信',
+        opt1: 'VIPツアー', opt2: '4WD送迎', opt3: 'レンタカー', opt4: 'バス / 列車相談', opt5: 'カスタム旅程', readMoreBtn: '詳しく見る', footerText: '現地旅行ガイド、VIPツアー、移動サポート、モンゴル旅行計画。'
+      },
+      kr: {
+        topbarLeft: '몽골 현지 여행 전문가 • 프라이빗 투어 • 이동 지원',
+        topbarRight: 'WhatsApp: +976 90283039 • English / 日本語 / 한국어',
+        navExperiences: '체험', navDestinations: '지역', navTours: 'VIP 투어', navServices: '서비스', navGuide: '여행 가이드', navAbout: '소개', navContact: '문의',
+        heroEyebrow: '진짜 몽골 여행 • 유목 문화 • 모험 • 축제',
+        heroTitle: '현지 전문가와 함께 진짜 몽골을 만나보세요',
+        heroText: '유목 문화, 순록 가족, 알타이 타반 복드, 고비 사막, 나담 축제, 겨울 여행, 4WD 프라이빗 여정을 경험해보세요.',
+        heroBtn1: 'VIP 투어 예약', heroBtn2: '여행지 보기',
+        stat1: '도별 가이드와 여행 아이디어', stat2: '오지 지역 프라이빗 이동', stat3: '맞춤형 투어와 현지 지원', stat4: '문화, 음식, 교통, 여행 정보',
+        expTitle: '대표 몽골 체험', expText: '해외 여행자들이 많이 찾는 몽골 체험을 소개합니다: 순록, 알타이, 고비, 유목 생활, 겨울, 축제.',
+        tagNorth: '북부 몽골', tagWest: '서부 몽골', tagSouth: '남부 몽골', tagCentral: '중부 몽골', tagWinter: '겨울 몽골', tagFestival: '축제 시즌',
+        exp1Title: '순록 체험', exp1Text: '타이가 숲에서 차탄 순록 가족을 만나며 몽골의 독특한 문화를 경험합니다.',
+        exp2Title: '알타이 타반 복드 어드벤처', exp2Text: '빙하, 고산지대, 카자흐 문화와 서부 몽골의 장대한 풍경을 만납니다.',
+        exp3Title: '고비 사막 탐험', exp3Text: '사막 모래언덕, 불타는 절벽, 낙타, 공룡 화석지 등 거대한 사막을 여행합니다.',
+        exp4Title: '유목 생활 체험', exp4Text: '현지 가족과 머물며 승마, 몽골 음식, 유목민의 일상을 직접 경험합니다.',
+        exp5Title: '얼음 축제와 겨울 투어', exp5Text: '얼어붙은 호수, 겨울 풍경, 얼음놀이 등 특별한 계절 여행을 즐길 수 있습니다.',
+        exp6Title: '나담 축제', exp6Text: '몽골의 대표 축제에서 씨름, 말경주, 활쏘기를 볼 수 있습니다.',
+        destTitle: '지역별로 몽골 탐험하기', destText: '각 도 페이지에 볼거리, 이동 방법, 숙소, 여행 팁을 넣을 수 있습니다.',
+        dest1: '호수, 타이가, 순록 문화, 북부 모험.', dest2: '타반 복드, 빙하, 독수리 사냥꾼, 트레킹.', dest3: '홍고르 사막, 욜 계곡, 불타는 절벽.', dest4: '테를지, 허스타이, 칭기스 동상, 울란바토르 근교.',
+        tourTitle: '추천 VIP 투어', tourText: '주요 판매 상품을 가격, 기간, 문의 버튼과 함께 배치하세요.',
+        tourTag1: '단기 투어', tourTag2: '문화 투어', tourTag3: '북부 어드벤처', tourTag4: '서부 어드벤처',
+        tour1Title: '3일 테를지 & 허스타이 투어', tour1Text: '첫 몽골 여행자에게 좋은 일정으로 자연, 말, 게르 체험을 담았습니다.', tour1Price: '1인 $280부터',
+        tour2Title: '5일 중부 몽골 유목 투어', tour2Text: '하르허린, 오르혼 계곡, 유목민 가족, 승마, 몽골 음식을 경험합니다.', tour2Price: '1인 $650부터',
+        tour3Title: '7일 순록 타이가 체험', tour3Text: '북쪽으로 이동해 순록 유목민과 숲, 산속 삶을 만나는 여정입니다.', tour3Price: '1인 $1,180부터',
+        tour4Title: '10일 알타이 타반 복드 원정', tour4Text: '산, 빙하, 압도적인 풍경을 만나는 서부 몽골의 프리미엄 여행입니다.', tour4Price: '1인 $1,650부터',
+        serviceTitle: '여행 서비스 및 예약 지원', serviceText: '자유 여행자와 유연한 여행자를 위한 차량, 렌트, 교통 상담을 제공합니다.',
+        service1Title: '4×4 전용 차량', service1Text: '고비, 알타이, 타이가 등 오지 지역을 위한 전용 지프와 기사.', service1a: '랜드크루저 / 4WD', service1b: '기사 포함', service1c: '연료 및 경로 지원',
+        service2Title: '버스 & 기차 안내', service2Text: '울란바토르 출발 기준 실제 이동 시간과 노선을 이해하기 쉽게 안내합니다.', service2a: '테를지 버스 정보', service2b: '허스타이 이동 안내', service2c: '주요 도시 열차 정보',
+        service3Title: '국내선 지원', service3Text: '무릉, 달란자드가드, 울기 등 장거리 이동 시 시간을 아끼는 방법입니다.', service3a: '노선 제안', service3b: '시간 절약 계획', service3c: '공항 픽업 추가 가능',
+        service4Title: '렌터카 & 픽업', service4Text: '독립 여행자를 위한 SUV 렌트, 공항 픽업, 맞춤 현지 지원.', service4a: 'SUV 렌트 옵션', service4b: '공항 픽업', service4c: '유연한 여행 지원',
+        guideTitle: '몽골 여행 가이드', guideText: '여행자를 교육하고 신뢰를 만들며 자연스럽게 투어나 서비스로 연결하는 섹션입니다.',
+        guideMainTitle: '몽골 여행 전에 꼭 알아야 할 것', guideMainText: '몽골은 매우 넓고 지방의 대중교통이 제한적이며 계절 차이가 큰 나라입니다. 교통, 날씨, 유목 문화, 음식, 축제, 실제 여행 조건을 이해하도록 돕습니다.',
+        gm1Title: '유목 문화', gm1Text: '게르, 가축, 계절 이동, 환대의 문화.',
+        gm2Title: '종교와 전통', gm2Text: '불교, 샤머니즘 전통, 오보 신앙과 여행자 예절.',
+        gm3Title: '음식과 맛', gm3Text: '부즈, 호쇼르, 츠이왕, 유제품과 투어 식사.',
+        gm4Title: '날씨와 계절', gm4Text: '여름 여행, 겨울 조건, 도로 현실, 준비물.',
+        gm5Title: '화폐와 환전', gm5Text: '투그릭, 도시 카드 사용, 지방 현금 필요, 예산 정보.',
+        gm6Title: '교통 현실', gm6Text: '도 간 거리, 왜 투어가 편한지, 대중교통 한계.',
+        guideCard1Title: '몽골의 교통', guideCard1Text: '버스, 국내선, 기차, 도로 상황, 프라이빗 차량이 필요한 이유를 설명합니다.',
+        guideCard2Title: '몽골 게르와 일상', guideCard2Text: '게르 구조, 예절, 유목 생활, 시골 환대를 소개합니다.',
+        videoTitle: '영상으로 보는 몽골', videoText: '순록, 알타이, 고비, 나담, 유목 생활 영상을 넣어보세요.',
+        aboutTitle: '현지 몽골 여행 전문가 소개', aboutText1: '저는 몽골 여러 지역을 다니며 국제 여행자들과 실제 현장에서 함께했습니다. 투어 요리사로 일한 경험도 있어 음식, 동선, 편안함, 시골 이동 현실을 잘 알고 있습니다.', aboutText2: '이 플랫폼은 몽골의 아름다움뿐 아니라 넓은 거리, 교통 현실, 유목 생활을 솔직하게 알려 더 나은 여행을 돕기 위해 만들어졌습니다.',
+        aboutPoint1: '몽골 각 지역에 대한 현지 지식', aboutPoint2: '실제 여행자와 시골 루트 운영 경험', aboutPoint3: '투어 요리 경험을 통한 음식과 환대 이해', aboutPoint4: '투어, 이동, 일정 구성을 위한 유연한 지원',
+        reviewTitle: '여행자 후기', reviewText: '실제 후기, 국가명, 사진을 추가하면 신뢰도가 더 올라갑니다.', review1: '진짜 몽골을 느낄 수 있었고 현지 지식 덕분에 훨씬 좋았습니다.', review2: '유목민 가족 체험과 승마가 정말 인상적이었습니다. 강력 추천합니다.', review3: '이동이 쉽지 않은 큰 나라에서 정말 실용적인 조언을 받을 수 있었습니다.',
+        esimTitle: '몽골에서도 연결을 유지하세요', esimText: '몽골 현지 Unitel 데이터 SIM 안내와 함께, 도착 전 eSIM Mongolia를 통한 국제 eSIM도 연결할 수 있습니다.', esimBtn1: 'eSIM Mongolia 방문', esimBtn2: '인터넷 가이드 보기', esimCardTitle: '몽골의 인터넷', esimCardText: '도시와 주요 관광지에서는 보통 통신이 가능하지만, 타이가, 깊은 고비, 산악 지역은 제한될 수 있습니다.', esimCardText2: '여행 루트별로 가장 현실적인 옵션을 솔직하게 안내하는 것이 중요합니다.',
+        contactTitle: '몽골 여행 문의하기', contactText: 'VIP 투어, 맞춤 루트, 교통 요청, 여행 계획 지원에 사용할 수 있는 폼입니다.', contactCardTitle: '빠른 연락', contactCardText: '여기를 최종 연락처, WhatsApp, 이메일, SNS로 바꾸세요.', contactCardLine4: '지원 언어:', contactCardLine4Text: '영어, 일본어, 한국어 문의 지원',
+        fName: '이름', fCountry: '국가', fEmail: '이메일', fDates: '여행 날짜', fTravelers: '인원', fService: '관심 서비스', fMessage: '메시지', fBtn: '문의 보내기',
+        opt1: 'VIP 투어', opt2: '4×4 차량', opt3: '렌터카', opt4: '버스 / 기차 도움', opt5: '맞춤 여행 계획', readMoreBtn: '자세히 보기', footerText: '현지 여행 가이드, VIP 투어, 이동 지원, 몽골 여행 계획.'
+      }
+    };
+
+    function setLanguage(lang, btn) {
+      document.documentElement.lang = lang === 'jp' ? 'ja' : lang;
+      document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    }
+  </script>
+</body>
+</html>
