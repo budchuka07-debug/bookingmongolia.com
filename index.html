@@ -1016,8 +1016,8 @@ gtag('config', 'G-XDG8KZWZCM');
             <input type="text" id="hotel_phone">
           </div>
           <div>
-            <label>Main Image URL</label>
-            <input type="url" id="hotel_image" placeholder="https://...">
+            <label>Hotel Image</label>
+            <input type="file" id="hotel_image_file" accept="image/*" required>
           </div>
           <div class="full">
             <label>Short Description</label>
@@ -1086,7 +1086,7 @@ gtag('config', 'G-XDG8KZWZCM');
           </div>
           <div>
             <label>Car Image</label>
-            <input type="file" id="carImageFile" accept="image/*" required>
+            <input type="file" id="car_image_file" accept="image/*" required>
           </div>
           <div class="full">
             <label>Description</label>
@@ -1264,6 +1264,37 @@ gtag('config', 'G-XDG8KZWZCM');
   const fallbackImage = 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80';
   const fallbackCarImage = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80';
   const fallbackReviewImage = 'https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80';
+  const HOTEL_IMAGE_BUCKET = 'hotel-images';
+  const CAR_IMAGE_BUCKET = 'driver-images';
+
+  function sanitizeFileName(name) {
+    return String(name || 'image')
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  async function uploadImageToBucket(bucketName, file, folder = 'uploads') {
+    if (!file) return '';
+
+    const cleanName = sanitizeFileName(file.name);
+    const filePath = `${folder}/${Date.now()}-${cleanName}`;
+
+    const { error: uploadError } = await supabaseClient.storage
+      .from(bucketName)
+      .upload(filePath, file, { upsert: false });
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    const { data } = supabaseClient.storage
+      .from(bucketName)
+      .getPublicUrl(filePath);
+
+    return data?.publicUrl || '';
+  }
 
   function showNotice(id, message, type = 'success') {
     const el = document.getElementById(id);
@@ -1380,92 +1411,82 @@ gtag('config', 'G-XDG8KZWZCM');
   async function insertHotelSubmission(e) {
     e.preventDefault();
 
-    const payload = {
-      name: document.getElementById('hotel_name').value.trim(),
-      property_type: document.getElementById('hotel_type').value,
-      location: document.getElementById('hotel_location').value.trim(),
-      price: document.getElementById('hotel_price').value.trim(),
-      email: document.getElementById('hotel_email').value.trim(),
-      phone: document.getElementById('hotel_phone').value.trim(),
-      image_url: document.getElementById('hotel_image').value.trim(),
-      description: document.getElementById('hotel_description').value.trim(),
-      status: 'pending'
-    };
+    try {
+      const imageFile = document.getElementById('hotel_image_file')?.files?.[0];
 
-    const { error } = await supabaseClient.from('property_submissions').insert([payload]);
+      if (!imageFile) {
+        showNotice('hotel-notice', 'Please choose a hotel image.', 'error');
+        return;
+      }
 
-    if (error) {
+      showNotice('hotel-notice', 'Uploading image...', 'success');
+      const imageUrl = await uploadImageToBucket(HOTEL_IMAGE_BUCKET, imageFile, 'hotels');
+
+      const payload = {
+        name: document.getElementById('hotel_name').value.trim(),
+        property_type: document.getElementById('hotel_type').value,
+        location: document.getElementById('hotel_location').value.trim(),
+        price: document.getElementById('hotel_price').value.trim(),
+        email: document.getElementById('hotel_email').value.trim(),
+        phone: document.getElementById('hotel_phone').value.trim(),
+        image_url: imageUrl,
+        description: document.getElementById('hotel_description').value.trim(),
+        status: 'pending'
+      };
+
+      const { error } = await supabaseClient.from('property_submissions').insert([payload]);
+
+      if (error) {
+        throw error;
+      }
+
+      document.getElementById('hotel-form').reset();
+      showNotice('hotel-notice', 'Hotel or camp submitted successfully. We will review it before publishing.');
+    } catch (error) {
       console.error('hotel insert error:', error);
-      showNotice('hotel-notice', error.message, 'error');
-      return;
+      showNotice('hotel-notice', error.message || 'Hotel submission failed.', 'error');
     }
-
-    document.getElementById('hotel-form').reset();
-    showNotice('hotel-notice', 'Hotel or camp submitted successfully. We will review it before publishing.');
-  }
-
-
-  async function uploadCarImage(file) {
-    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-
-    const { error: uploadError } = await supabaseClient.storage
-      .from('car-images')
-      .upload(fileName, file);
-
-    if (uploadError) {
-      console.error('car image upload error:', uploadError);
-      return { error: uploadError, publicUrl: null };
-    }
-
-    const { data } = supabaseClient.storage
-      .from('car-images')
-      .getPublicUrl(fileName);
-
-    return { error: null, publicUrl: data.publicUrl };
   }
 
   async function insertCarSubmission(e) {
     e.preventDefault();
 
-    const file = document.getElementById('carImageFile')?.files?.[0];
+    try {
+      const imageFile = document.getElementById('car_image_file')?.files?.[0];
 
-    if (!file) {
-      showNotice('car-notice', 'Please select a car image.', 'error');
-      return;
-    }
+      if (!imageFile) {
+        showNotice('car-notice', 'Please choose a car image.', 'error');
+        return;
+      }
 
-    showNotice('car-notice', 'Uploading image...', 'success');
+      showNotice('car-notice', 'Uploading image...', 'success');
+      const imageUrl = await uploadImageToBucket(CAR_IMAGE_BUCKET, imageFile, 'cars');
 
-    const { error: imageError, publicUrl } = await uploadCarImage(file);
+      const payload = {
+        title: document.getElementById('car_title').value.trim(),
+        vehicle_type: document.getElementById('car_type').value,
+        seats: document.getElementById('car_seats').value.trim(),
+        daily_rate: document.getElementById('car_rate').value.trim(),
+        contact_name: document.getElementById('car_contact_name').value.trim(),
+        phone: document.getElementById('car_phone').value.trim(),
+        email: document.getElementById('car_email').value.trim(),
+        image_url: imageUrl,
+        description: document.getElementById('car_description').value.trim(),
+        status: 'pending'
+      };
 
-    if (imageError || !publicUrl) {
-      showNotice('car-notice', 'Image upload failed. Please try again.', 'error');
-      return;
-    }
+      const { error } = await supabaseClient.from('vehicle_submissions').insert([payload]);
 
-    const payload = {
-      title: document.getElementById('car_title').value.trim(),
-      vehicle_type: document.getElementById('car_type').value,
-      seats: document.getElementById('car_seats').value.trim(),
-      daily_rate: document.getElementById('car_rate').value.trim(),
-      contact_name: document.getElementById('car_contact_name').value.trim(),
-      phone: document.getElementById('car_phone').value.trim(),
-      email: document.getElementById('car_email').value.trim(),
-      image_url: publicUrl,
-      description: document.getElementById('car_description').value.trim(),
-      status: 'pending'
-    };
+      if (error) {
+        throw error;
+      }
 
-    const { error } = await supabaseClient.from('vehicle_submissions').insert([payload]);
-
-    if (error) {
+      document.getElementById('car-form').reset();
+      showNotice('car-notice', 'Transport service submitted successfully. We will review it before publishing.');
+    } catch (error) {
       console.error('car insert error:', error);
-      showNotice('car-notice', error.message, 'error');
-      return;
+      showNotice('car-notice', error.message || 'Transport submission failed.', 'error');
     }
-
-    document.getElementById('car-form').reset();
-    showNotice('car-notice', 'Transport service submitted successfully. We will review it before publishing.');
   }
 
   async function insertReviewSubmission(e) {
@@ -1916,7 +1937,8 @@ gtag('config', 'G-XDG8KZWZCM');
 </form>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-
+const supabase = window.supabase.createClient("PROJECT_URL", "ANON_KEY");
+</script>
 
 <script>
 /* hotel submit code */
