@@ -1722,7 +1722,7 @@ async function insertGuideSubmission(e) {
 }
 
       showNotice('car-notice', 'Uploading image...', 'success');
-      const imageUrl = await uploadImageToBucket(CAR_IMAGE_BUCKET, imageFile, 'cars');
+      const imageUrls = await uploadMultipleImages(DRIVER_IMAGE_BUCKET, imageFiles, 'cars');
 
       const payload = {
         title: document.getElementById('car_title').value.trim(),
