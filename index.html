@@ -1470,7 +1470,52 @@ gtag('config', 'G-XDG8KZWZCM');
       `).join('')
       : '<p class="muted">No hotel listings published yet.</p>';
   }
+async function loadGuides() {
+  const { data, error } = await supabaseClient
+    .from('guide_submissions')
+    .select('*')
+    .eq('status', 'approved')
+    .order('created_at', { ascending: false })
+    .limit(12);
 
+  if (error) {
+    console.error('loadGuides error:', error);
+    return;
+  }
+
+  const wrap = document.getElementById('guide-list');
+  if (!wrap) return;
+
+  wrap.innerHTML = data.length
+    ? data.map(item => `
+      <article class="card listing-card">
+        <img src="${item.profile_image_url || fallbackImage}" alt="${item.full_name || 'Guide'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+        <div class="card-body">
+          <span class="tag">${item.guide_type || 'Local Guide'}</span>
+          <h3>${item.full_name || ''}</h3>
+          <p class="muted">
+            ${item.age ? item.age + ' yrs' : ''}${item.gender ? ' • ' + item.gender : ''}
+          </p>
+
+          <div class="listing-meta">
+            ${item.experience_years ? `<span class="pill">${item.experience_years}</span>` : ''}
+            ${item.languages ? `<span class="pill">${item.languages}</span>` : ''}
+            ${item.special_regions ? `<span class="pill">${item.special_regions}</span>` : ''}
+          </div>
+
+          ${item.special_interests ? `<p class="muted"><strong>Expertise:</strong> ${item.special_interests}</p>` : ''}
+          ${item.price ? `<p class="price">${item.price}</p>` : ''}
+          <p class="muted">${item.bio || ''}</p>
+
+          <div class="listing-meta">
+            ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
+            ${item.email ? `<span class="pill">✉️ ${item.email}</span>` : ''}
+          </div>
+        </div>
+      </article>
+    `).join('')
+    : '<p class="muted">No guide profiles published yet.</p>';
+}
 async function loadCars() {
   const { data, error } = await supabaseClient
     .from('vehicle_submissions')
