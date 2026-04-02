@@ -1343,39 +1343,28 @@ gtag('config', 'G-XDG8KZWZCM');
       : '<p class="muted">No hotel listings published yet.</p>';
   }
 
-  async function loadCars() {
-    const { data, error } = await supabaseClient
-      .from('vehicle_submissions')
-      .select('*')
-      .eq('status', 'approved')
-      .order('created_at', { ascending: false })
-      .limit(6);
+ async function loadCars() {
+  const { data, error } = await supabaseClient
+    .from('vehicle_submissions')
+    .select('*')
+    .eq('status', 'approved');
 
-    if (error) {
-      console.error('loadCars error:', error);
-      return;
-    }
+  const container = document.getElementById('cars-container');
 
-    const wrap = document.getElementById('car-list');
-    if (!wrap) return;
+  container.innerHTML = '';
 
-    wrap.innerHTML = data.length
-      ? data.map(item => `
-        <article class="card listing-card">
-          <img src="${item.image_url || fallbackCarImage}" alt="${item.title || 'Vehicle'}" onerror="this.onerror=null;this.src='${fallbackCarImage}'">
-          <div class="card-body">
-            <span class="tag">${item.vehicle_type || 'Transport'}</span>
-            <h3>${item.title || ''}</h3>
-            <div class="listing-meta">
-              ${item.seats ? `<span class="pill">Seats: ${item.seats}</span>` : ''}
-              ${item.daily_rate ? `<span class="pill">${item.daily_rate}</span>` : ''}
-            </div>
-            <p class="muted">${item.description || ''}</p>
-          </div>
-        </article>
-      `).join('')
-      : '<p class="muted">No transport services published yet.</p>';
-  }
+  data.forEach(item => {
+    container.innerHTML += `
+      <div style="border:1px solid #ddd; padding:10px; margin-bottom:15px;">
+        <img src="${item.image_url}" 
+             style="width:100%; height:220px; object-fit:cover; border-radius:8px;" />
+        <h3>${item.title || ''}</h3>
+        <p>${item.description || ''}</p>
+        <p>📞 ${item.phone || ''}</p>
+      </div>
+    `;
+  });
+}
 
   async function loadReviews() {
     const { data, error } = await supabaseClient
