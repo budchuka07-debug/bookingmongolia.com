@@ -1349,7 +1349,7 @@ async function loadCars() {
     .select('*')
     .eq('status', 'approved');
 
-  const container = document.getElementById('cars-container');
+ const container = document.getElementById('car-list');
   if (!container) return;
 
   if (error) {
