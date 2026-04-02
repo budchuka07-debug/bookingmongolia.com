@@ -1446,7 +1446,7 @@ gtag('config', 'G-XDG8KZWZCM');
     wrap.innerHTML = data.length
       ? data.map(item => `
         <article class="card listing-card">
-          <img src="${item.image_url || fallbackImage}" alt="${item.name || 'Hotel'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+          <img src="${item.main_image_url || item.image_url || fallbackImage}" alt="${item.name || 'Hotel'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
           <div class="card-body">
             <span class="tag">${item.property_type || 'Property'}</span>
             <h3>${item.name || ''}</h3>
