@@ -453,6 +453,16 @@ gtag('config', 'G-XDG8KZWZCM');
       margin-top:8px;
     }
 
+    .listing-gallery{display:flex;flex-direction:column;gap:10px}
+    .listing-main-image{width:100%;height:240px;object-fit:cover;border-radius:16px;cursor:pointer;background:#f3f4f6}
+    .listing-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+    .listing-thumbs img{width:70px;height:70px;object-fit:cover;border-radius:10px;cursor:pointer;border:2px solid transparent;background:#f3f4f6;flex:0 0 auto}
+    .listing-thumbs img.active{border-color:var(--primary)}
+    .image-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:9999;padding:24px}
+    .image-lightbox.open{display:flex}
+    .image-lightbox img{max-width:92vw;max-height:88vh;border-radius:18px;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+    .image-lightbox-close{position:absolute;top:16px;right:24px;color:#fff;font-size:42px;line-height:1;cursor:pointer}
+
     footer{
       background:#0d1b2a;
       color:rgba(255,255,255,.88);
@@ -1039,7 +1049,7 @@ gtag('config', 'G-XDG8KZWZCM');
           </div>
           <div>
             <label>Hotel Image</label>
-           <input type="file" id="hotel_image_file" accept="image/*" multiple required>
+            <input type="file" id="hotel_image_file" accept="image/*" multiple required>
           </div>
           <div class="full">
             <label>Short Description</label>
@@ -1059,14 +1069,14 @@ gtag('config', 'G-XDG8KZWZCM');
   <div class="container">
     <div class="section-head">
       <h2>Meet the Guides</h2>
-      <p>Professional local guides across Mongolia. Each guide profile is reviewed before publishing.</p>
+      <p>Professional local guides across Mongolia.</p>
     </div>
 
     <div class="grid grid-3" id="guide-list"></div>
 
     <div class="section-head" style="margin-top:42px">
       <h3>Apply as a Guide</h3>
-      <p>Guides can submit their profile for review and approval.</p>
+      <p>Guides can submit their profile for review.</p>
     </div>
 
     <form id="guide-form">
@@ -1079,11 +1089,10 @@ gtag('config', 'G-XDG8KZWZCM');
           <label>Age</label>
           <input type="number" id="guide_age" min="18" max="80">
         </div>
-
         <div>
           <label>Gender</label>
           <select id="guide_gender">
-            <option value="">Select gender</option>
+            <option value="">Select</option>
             <option>Male</option>
             <option>Female</option>
           </select>
@@ -1092,16 +1101,14 @@ gtag('config', 'G-XDG8KZWZCM');
           <label>Phone / WhatsApp</label>
           <input type="text" id="guide_phone">
         </div>
-
         <div>
           <label>Email</label>
           <input type="email" id="guide_email">
         </div>
         <div>
-          <label>Profile Photo</label>
+          <label>Profile Image</label>
           <input type="file" id="guide_image_file" accept="image/*" required>
         </div>
-
         <div>
           <label>Years of Experience</label>
           <input type="text" id="guide_experience" placeholder="e.g. 8 years">
@@ -1110,18 +1117,16 @@ gtag('config', 'G-XDG8KZWZCM');
           <label>Languages & Level</label>
           <input type="text" id="guide_languages" placeholder="English - Advanced, Korean - Intermediate">
         </div>
-
         <div>
           <label>Tour Regions</label>
           <input type="text" id="guide_regions" placeholder="Gobi, Khangai, Khuvsgul, Terelj">
         </div>
         <div>
-          <label>Special Interests / Expertise</label>
+          <label>Specialties</label>
           <input type="text" id="guide_specialties" placeholder="Culture, photography, adventure, nomadic life">
         </div>
-
         <div>
-          <label>Day Rate / Price</label>
+          <label>Price / Day Rate</label>
           <input type="text" id="guide_price" placeholder="From $80 per day">
         </div>
         <div>
@@ -1132,15 +1137,12 @@ gtag('config', 'G-XDG8KZWZCM');
             <option>Driver Guide</option>
             <option>Cultural Guide</option>
             <option>Adventure Guide</option>
-            <option>Photography Guide</option>
           </select>
         </div>
-
         <div class="full">
           <label>Short Bio</label>
-          <textarea id="guide_bio" placeholder="Tell travelers about your experience, personality and guide style."></textarea>
+          <textarea id="guide_bio" placeholder="Tell travelers about your guide style, experience and strengths."></textarea>
         </div>
-
         <div class="full submit-actions">
           <button class="btn btn-primary" type="submit">Submit Guide</button>
         </div>
@@ -1363,6 +1365,11 @@ gtag('config', 'G-XDG8KZWZCM');
     </div>
   </section>
 
+  <div id="image-lightbox" class="image-lightbox" onclick="closeImageLightbox()">
+    <span class="image-lightbox-close">&times;</span>
+    <img id="image-lightbox-img" src="" alt="Large image">
+  </div>
+
   <footer>
     <div class="container footer-wrap">
       <div>© 2026 Discover Mongolia Tours</div>
@@ -1392,6 +1399,90 @@ gtag('config', 'G-XDG8KZWZCM');
       .replace(/[^a-z0-9._-]+/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '');
+  }
+
+
+  async function uploadMultipleImages(bucketName, files, folder = 'uploads') {
+    const urls = [];
+
+    for (const file of files) {
+      const cleanName = sanitizeFileName(file.name);
+      const filePath = `${folder}/${Date.now()}-${cleanName}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from(bucketName)
+        .upload(filePath, file, { upsert: false });
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabaseClient.storage
+        .from(bucketName)
+        .getPublicUrl(filePath);
+
+      if (data?.publicUrl) urls.push(data.publicUrl);
+    }
+
+    return urls;
+  }
+
+  function normalizeGalleryUrls(value, fallback = '') {
+    if (Array.isArray(value)) return value.filter(Boolean);
+    if (typeof value === 'string' && value.trim()) {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+      } catch (e) {}
+      return [value];
+    }
+    return fallback ? [fallback] : [];
+  }
+
+  function openImageLightbox(src) {
+    const modal = document.getElementById('image-lightbox');
+    const img = document.getElementById('image-lightbox-img');
+    if (!modal || !img || !src) return;
+    img.src = src;
+    modal.classList.add('open');
+  }
+
+  function closeImageLightbox() {
+    const modal = document.getElementById('image-lightbox');
+    if (!modal) return;
+    modal.classList.remove('open');
+  }
+
+  function changeGalleryImage(cardId, imageUrl, thumb) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    const mainImage = card.querySelector('.listing-main-image');
+    if (mainImage) {
+      mainImage.src = imageUrl;
+      mainImage.setAttribute('onclick', `openImageLightbox('${String(imageUrl).replace(/'/g, "\'")}')`);
+    }
+    card.querySelectorAll('.listing-thumbs img').forEach(img => img.classList.remove('active'));
+    if (thumb) thumb.classList.add('active');
+  }
+
+  function renderGalleryBlock(prefix, index, urls, fallback, alt) {
+    const gallery = normalizeGalleryUrls(urls, fallback);
+    const safeGallery = gallery.length ? gallery : [fallback];
+    const cardId = `${prefix}-gallery-${index}`;
+    const mainImg = safeGallery[0] || fallback;
+
+    return `
+      <div class="listing-gallery" id="${cardId}">
+        <img src="${mainImg}" alt="${alt}" class="listing-main-image" onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\'")}')" onerror="this.onerror=null;this.src='${fallback}'">
+        ${safeGallery.length > 1 ? `
+          <div class="listing-thumbs">
+            ${safeGallery.map((img, imgIndex) => `
+              <img src="${img}" alt="${alt} thumbnail ${imgIndex + 1}" class="${imgIndex === 0 ? 'active' : ''}" onclick="changeGalleryImage('${cardId}', '${String(img).replace(/'/g, "\'")}', this)" onerror="this.onerror=null;this.src='${fallback}'">
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `;
   }
 
   async function uploadImageToBucket(bucketName, file, folder = 'uploads') {
@@ -1444,9 +1535,11 @@ gtag('config', 'G-XDG8KZWZCM');
     if (!wrap) return;
 
     wrap.innerHTML = data.length
-      ? data.map(item => `
+      ? data.map((item, index) => {
+          const galleryUrls = normalizeGalleryUrls(item.gallery_urls, item.main_image_url || item.image_url || fallbackImage);
+          return `
         <article class="card listing-card">
-          <img src="${item.main_image_url || item.image_url || fallbackImage}" alt="${item.name || 'Hotel'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+          ${renderGalleryBlock('hotel', index, galleryUrls, fallbackImage, item.name || 'Hotel')}
           <div class="card-body">
             <span class="tag">${item.property_type || 'Property'}</span>
             <h3>${item.name || ''}</h3>
@@ -1458,7 +1551,7 @@ gtag('config', 'G-XDG8KZWZCM');
             <p class="muted">${item.description || ''}</p>
           </div>
         </article>
-      `).join('')
+      `}).join('')
       : '<p class="muted">No hotel listings published yet.</p>';
   }
 async function loadGuides() {
@@ -1527,73 +1620,24 @@ async function loadCars() {
     return;
   }
 
-  container.innerHTML = '';
-
-  data.forEach(item => {
-    const imageSrc = item.image_url && item.image_url.trim() !== ''
-      ? item.image_url
-      : 'https://via.placeholder.com/800x500?text=No+Image';
-
-    container.innerHTML += `
-      <div style="
-        background:#fff;
-        border:1px solid #e5e7eb;
-        border-radius:16px;
-        overflow:hidden;
-        box-shadow:0 6px 18px rgba(0,0,0,0.08);
-        margin-bottom:24px;
-      ">
-        <div style="width:100%; height:240px; overflow:hidden; background:#f3f4f6;">
-          <img
-            src="${imageSrc}"
-            alt="${item.title || 'Car rental'}"
-            style="width:100%; height:100%; object-fit:cover; display:block;"
-            onerror="this.src='https://via.placeholder.com/800x500?text=No+Image';"
-          />
-        </div>
-
-        <div style="padding:18px;">
-          <h3 style="
-            margin:0 0 10px;
-            font-size:22px;
-            font-weight:700;
-            color:#111827;
-          ">
-            ${item.title || 'Car rental with driver'}
-          </h3>
-
-          <p style="
-            margin:0 0 12px;
-            color:#4b5563;
-            line-height:1.6;
-            font-size:15px;
-          ">
-            ${item.description || ''}
-          </p>
-
-          <div style="
-            display:flex;
-            flex-wrap:wrap;
-            gap:10px;
-            align-items:center;
-            margin-top:10px;
-          ">
-            <span style="
-              display:inline-block;
-              background:#f3f4f6;
-              color:#111827;
-              padding:8px 12px;
-              border-radius:999px;
-              font-size:14px;
-              font-weight:600;
-            ">
-              📞 ${item.phone || 'No phone'}
-            </span>
+  container.innerHTML = data.map((item, index) => {
+    const galleryUrls = normalizeGalleryUrls(item.gallery_urls, item.main_image_url || item.image_url || fallbackCarImage);
+    return `
+      <article class="card listing-card">
+        ${renderGalleryBlock('car', index, galleryUrls, fallbackCarImage, item.title || 'Car rental')}
+        <div class="card-body">
+          <span class="tag">${item.vehicle_type || 'Car Rental'}</span>
+          <h3>${item.title || 'Car rental with driver'}</h3>
+          <div class="listing-meta">
+            ${item.daily_rate ? `<span class="pill">${item.daily_rate}</span>` : ''}
+            ${item.seats ? `<span class="pill">${item.seats} seats</span>` : ''}
+            ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
           </div>
+          <p class="muted">${item.description || ''}</p>
         </div>
-      </div>
+      </article>
     `;
-  });
+  }).join('');
 }
 
   async function loadReviews() {
@@ -1631,15 +1675,15 @@ async function loadCars() {
     e.preventDefault();
 
     try {
-      const imageFile = document.getElementById('hotel_image_file')?.files?.[0];
+      const imageFiles = Array.from(document.getElementById('hotel_image_file')?.files || []);
 
-      if (!imageFile) {
-        showNotice('hotel-notice', 'Please choose a hotel image.', 'error');
+      if (!imageFiles.length) {
+        showNotice('hotel-notice', 'Please choose hotel images.', 'error');
         return;
       }
 
-      showNotice('hotel-notice', 'Uploading image...', 'success');
-      const imageUrl = await uploadImageToBucket(HOTEL_IMAGE_BUCKET, imageFile, 'hotels');
+      showNotice('hotel-notice', 'Uploading images...', 'success');
+      const imageUrls = await uploadMultipleImages(HOTEL_IMAGE_BUCKET, imageFiles, 'hotels');
 
       const payload = {
         name: document.getElementById('hotel_name').value.trim(),
@@ -1649,8 +1693,8 @@ async function loadCars() {
         email: document.getElementById('hotel_email').value.trim(),
         phone: document.getElementById('hotel_phone').value.trim(),
         image_url: imageUrls[0] || '',
-main_image_url: imageUrls[0] || '',
-gallery_urls: imageUrls,
+        main_image_url: imageUrls[0] || '',
+        gallery_urls: imageUrls,
         description: document.getElementById('hotel_description').value.trim(),
         status: 'pending'
       };
@@ -1718,13 +1762,13 @@ async function insertGuideSubmission(e) {
     try {
       const imageFiles = Array.from(document.getElementById('car_image_file')?.files || []);
 
-     if (!imageFiles.length) {
-  showNotice('car-notice', 'Please choose images.', 'error');
-  return;
-}
+      if (!imageFiles.length) {
+        showNotice('car-notice', 'Please choose car images.', 'error');
+        return;
+      }
 
-      showNotice('car-notice', 'Uploading image...', 'success');
-      const imageUrls = await uploadMultipleImages(DRIVER_IMAGE_BUCKET, imageFiles, 'cars');
+      showNotice('car-notice', 'Uploading images...', 'success');
+      const imageUrls = await uploadMultipleImages(CAR_IMAGE_BUCKET, imageFiles, 'cars');
 
       const payload = {
         title: document.getElementById('car_title').value.trim(),
@@ -1734,7 +1778,9 @@ async function insertGuideSubmission(e) {
         contact_name: document.getElementById('car_contact_name').value.trim(),
         phone: document.getElementById('car_phone').value.trim(),
         email: document.getElementById('car_email').value.trim(),
-        image_url: imageUrl,
+        image_url: imageUrls[0] || '',
+        main_image_url: imageUrls[0] || '',
+        gallery_urls: imageUrls,
         description: document.getElementById('car_description').value.trim(),
         status: 'pending'
       };
