@@ -5,7 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script>
-if (window.location.hostname === "visitmongoliatours.com") {
+if (
+  window.location.hostname === "visitmongoliatours.com" ||
+  window.location.hostname === "www.visitmongoliatours.com"
+) {
   window.location.replace("https://bookingmongolia.com/#tours");
 }
 </script>
@@ -139,42 +142,7 @@ if (window.location.hostname === "visitmongoliatours.com") {
         display: none;
       }
     }
-  </style>
-</head>
-
-<body>
-
-  <div class="topbar">
-    Book tours, hotels, cars and guides across Mongolia
-  </div>
-
-  <header class="site-header">
-    <div class="nav-wrap">
-      <a href="#home" class="logo">Booking<span>Mongolia</span></a>
-
-      <button class="menu-toggle" onclick="toggleMenu()">Menu</button>
-
-      <nav class="nav-links" id="mobileNav">
-        <a href="#experiences">Experiences</a>
-        <a href="#destinations">Destinations</a>
-        <a href="#tours">Tours</a>
-        <a href="#hotels">Hotels</a>
-        <a href="#guides">Guides</a>
-        <a href="#cars">Car Rental</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <a href="#contact" class="header-btn">Plan My Trip</a>
-    </div>
-  </header>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('mobileNav').classList.toggle('show');
-    }
-  </script>
-    .hero{
+  .hero{
       position:relative;
       min-height:88vh;
       display:flex;
