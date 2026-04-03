@@ -12,11 +12,7 @@ gtag('config', 'G-XDG8KZWZCM');
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    if (window.location.hostname === "visitmongoliatours.com" || window.location.hostname === "www.visitmongoliatours.com") {
-      window.location.replace("https://bookingmongolia.com/#tours");
-    }
-  </script>
+  <meta name="theme-color" content="#0d3b66" />
   <title>Booking Mongolia - Tours, Hotels, Car Rental & Travel Guide</title>
   <meta name="description" content="Discover Mongolia with local travel experts. Private tours, nomadic experiences, travel guide, transport help, and Mongolia travel videos." />
   <link rel="canonical" href="https://bookingmongolia.com" />
@@ -503,6 +499,21 @@ gtag('config', 'G-XDG8KZWZCM');
     .guide-service-item{display:flex;gap:14px;padding:16px;border:1px solid #e5e7eb;border-radius:16px;background:#fff}
     .guide-service-icon{width:44px;height:44px;border-radius:14px;background:#eef4ff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex:0 0 44px}
 
+    body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at top left,rgba(201,139,47,.10),transparent 28%),radial-gradient(circle at top right,rgba(13,59,102,.10),transparent 30%),linear-gradient(180deg,#faf7f1 0%,#f7f5ef 50%,#fbfaf6 100%);pointer-events:none;z-index:-1}
+    .logo{text-shadow:0 1px 0 rgba(255,255,255,.35)}
+    .section-head h2{margin-bottom:10px;color:var(--primary-dark)}
+    .card{border:1px solid rgba(13,59,102,.06)}
+    .tour-link{display:block;color:inherit}
+    .tour-link .card{height:100%}
+    .tour-link .price{color:var(--primary)}
+    .quick-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    .quick-link{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:14px;backdrop-filter:blur(4px)}
+    .quick-link:hover{background:rgba(255,255,255,.22)}
+    .section-accent{display:inline-block;padding:8px 14px;border-radius:999px;background:#eef4ff;color:var(--primary);font-size:13px;font-weight:700;margin-bottom:10px}
+    .sticky-book-bar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;background:rgba(13,27,42,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 40px rgba(0,0,0,.18);border-radius:999px;padding:10px;display:flex;gap:10px;align-items:center;max-width:calc(100vw - 24px)}
+    .sticky-book-bar .btn{padding:12px 18px}
+    .sticky-book-bar .mini-note{color:#fff;font-size:13px;padding:0 8px 0 12px;white-space:nowrap}
+
     @media (max-width:1024px){
       .grid-4,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
       .guide-wrap,.about-wrap,.booking-wrap,.local-guide-wrap{grid-template-columns:1fr}
@@ -510,6 +521,8 @@ gtag('config', 'G-XDG8KZWZCM');
       .video-small{grid-template-columns:1fr 1fr}
     }
     @media (max-width:720px){
+      .sticky-book-bar{left:12px;right:12px;transform:none;border-radius:22px;justify-content:center;flex-wrap:wrap;padding:12px}
+      .sticky-book-bar .mini-note{width:100%;text-align:center;padding:0}
       .nav-links{display:none}
       .grid-4,.grid-3,.grid-2,.guide-grid,.feature-list,.hero-stats,.form-grid,.video-small,.guide-highlight-grid{
         grid-template-columns:1fr;
@@ -575,6 +588,12 @@ gtag('config', 'G-XDG8KZWZCM');
         <div class="cta-row">
           <a class="btn btn-primary" href="#tours" data-i18n="hero_btn_1">View Tours</a>
           <a class="btn btn-outline" href="#guide" data-i18n="hero_btn_2">Travel Guide</a>
+        </div>
+        <div class="quick-links">
+          <a class="quick-link" href="#hotels">🏨 Hotels</a>
+          <a class="quick-link" href="#cars">🚙 Car Rental</a>
+          <a class="quick-link" href="#guides">🧭 Guides</a>
+          <a class="quick-link" href="#contact">✉️ Contact</a>
         </div>
 <section style="padding:60px 20px; text-align:center;">
   <h2 style="font-size:32px; margin-bottom:10px;">VIP Helicopter Expedition</h2>
@@ -1390,6 +1409,12 @@ gtag('config', 'G-XDG8KZWZCM');
   <div id="image-lightbox" class="image-lightbox" onclick="closeImageLightbox()">
     <span class="image-lightbox-close">&times;</span>
     <img id="image-lightbox-img" src="" alt="Large image">
+  </div>
+
+  <div class="sticky-book-bar">
+    <div class="mini-note">Plan your Mongolia trip with a local expert</div>
+    <a class="btn btn-primary" href="#contact">Send Inquiry</a>
+    <a class="btn btn-outline" style="border-color:rgba(255,255,255,.35);color:#fff" href="#tours">View Tours</a>
   </div>
 
   <footer>
