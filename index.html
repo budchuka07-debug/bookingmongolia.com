@@ -1458,10 +1458,13 @@ gtag('config', 'G-XDG8KZWZCM');
 
   async function uploadMultipleImages(bucketName, files, folder = 'uploads') {
     const urls = [];
+    const batchStamp = Date.now();
 
-    for (const file of files) {
+    for (let i = 0; i < files.length; i += 1) {
+      const file = files[i];
       const cleanName = sanitizeFileName(file.name);
-      const filePath = `${folder}/${Date.now()}-${cleanName}`;
+      const randomPart = Math.random().toString(36).slice(2, 8);
+      const filePath = `${folder}/${batchStamp}-${i}-${randomPart}-${cleanName}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(bucketName)
@@ -1488,6 +1491,12 @@ gtag('config', 'G-XDG8KZWZCM');
         const parsed = JSON.parse(value);
         if (Array.isArray(parsed)) return parsed.filter(Boolean);
       } catch (e) {}
+
+      if (value.includes(',')) {
+        const splitValues = value.split(',').map(item => item.trim()).filter(Boolean);
+        if (splitValues.length) return splitValues;
+      }
+
       return [value];
     }
     return fallback ? [fallback] : [];
