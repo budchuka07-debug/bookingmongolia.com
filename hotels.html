@@ -1,261 +1,284 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotels | Booking Mongolia</title>
-
+  <title>Hotel Details | Booking Mongolia</title>
+  <meta name="description" content="Hotel details, photos, map and contact information on Booking Mongolia." />
+  <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      color: #222;
+    :root{
+      --primary:#0d3b66;
+      --accent:#c98b2f;
+      --bg:#f7f5ef;
+      --white:#fff;
+      --muted:#6b7280;
+      --dark:#1f2937;
+      --shadow:0 14px 34px rgba(0,0,0,.10);
+      --radius:20px;
+      --max:1200px;
     }
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--dark);
+      line-height:1.6;
     }
-    h1 {
-      margin-bottom: 16px;
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
+    .container{width:min(92%,var(--max));margin:0 auto}
+    .topbar{background:var(--primary);color:#fff;padding:10px 0;font-size:14px}
+    .topbar .container,.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)}
+    .nav{min-height:78px}
+    .logo{font-size:26px;font-weight:800;color:var(--primary)}
+    .logo span{color:var(--accent)}
+    .back-link{font-weight:700;color:var(--primary)}
+    .page{padding:28px 0 60px}
+    .breadcrumbs{font-size:14px;color:var(--muted);margin-bottom:16px}
+    .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:start}
+    .hero-card,.side-card,.info-card{
+      background:var(--white);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-    .filters {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
+    .hero-main-image{
+      width:100%;height:520px;object-fit:cover;background:#e5e7eb;cursor:pointer;
     }
-    .filters select, .filters input {
-      padding: 10px 12px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      min-width: 200px;
+    .thumbs{display:flex;gap:10px;padding:14px;overflow-x:auto}
+    .thumbs img{
+      width:88px;height:88px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid transparent;background:#f3f4f6;flex:0 0 auto;
     }
-    .layout {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 20px;
+    .thumbs img.active{border-color:var(--primary)}
+    .summary{padding:24px}
+    .tag{display:inline-block;padding:7px 12px;border-radius:999px;background:#eef4ff;color:var(--primary);font-size:12px;font-weight:700;margin-bottom:10px}
+    h1{font-size:clamp(30px,4vw,44px);line-height:1.15;margin:0 0 10px}
+    h2{font-size:28px;line-height:1.2;margin:0 0 14px}
+    .location{color:var(--muted);margin-bottom:18px}
+    .price-box{font-size:30px;font-weight:800;color:#15803d}
+    .price-box small{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+    .contact-stack{display:grid;gap:12px;margin-top:18px}
+    .cta{
+      display:inline-flex;align-items:center;justify-content:center;width:100%;padding:14px 18px;border-radius:14px;font-weight:700;border:1px solid transparent;
     }
-    .hotel-list {
-      display: grid;
-      gap: 16px;
-    }
-    .hotel-card {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      background: #fff;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    .hotel-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      min-height: 220px;
-    }
-    .hotel-info {
-      padding: 18px;
-    }
-    .hotel-info h3 {
-      margin: 0 0 8px;
-    }
-    .meta {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-    }
-    .price {
-      font-weight: bold;
-      margin: 12px 0;
-      color: #0a7a3d;
-    }
-    .btn {
-      display: inline-block;
-      padding: 10px 16px;
-      border-radius: 10px;
-      background: #111;
-      color: white;
-      text-decoration: none;
-    }
-    #map {
-      width: 100%;
-      height: 760px;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    .empty {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      text-align: center;
-    }
-    @media (max-width: 980px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-      #map {
-        height: 420px;
-      }
-      .hotel-card {
-        grid-template-columns: 1fr;
-      }
+    .cta.primary{background:var(--accent);color:#fff}
+    .cta.secondary{border-color:#d1d5db;color:var(--primary);background:#fff}
+    .meta-list{display:grid;gap:10px;margin-top:18px}
+    .meta-item{padding:12px 14px;border-radius:14px;background:#f8fafc;border:1px solid #e5e7eb}
+    .content-grid{display:grid;grid-template-columns:1fr .9fr;gap:24px;margin-top:24px}
+    .info-card{padding:24px}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{display:inline-flex;padding:8px 12px;border-radius:999px;background:#f3f4f6;font-size:13px;font-weight:700}
+    #hotel-map{height:360px;border-radius:18px;overflow:hidden}
+    .empty{padding:40px 22px;background:#fff;border-radius:20px;box-shadow:var(--shadow)}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:92vw;max-height:88vh;border-radius:18px}
+    .lightbox-close{position:absolute;top:14px;right:20px;color:#fff;font-size:40px;cursor:pointer}
+    @media(max-width:980px){
+      .hero-grid,.content-grid{grid-template-columns:1fr}
+      .hero-main-image{height:380px}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Зочид буудал</h1>
-
-    <div class="filters">
-      <input type="text" id="searchInput" placeholder="Буудлын нэр хайх..." />
-      <select id="cityFilter">
-        <option value="">Бүх байршил</option>
-      </select>
-      <select id="regionFilter">
-        <option value="">Бүх бүс</option>
-      </select>
+  <div class="topbar">
+    <div class="container">
+      <div>Booking Mongolia • Local travel support</div>
+      <div>WhatsApp: +976 90283039</div>
     </div>
+  </div>
 
-    <div class="layout">
-      <div id="hotelList" class="hotel-list"></div>
-      <div id="map"></div>
+  <header>
+    <div class="container nav">
+      <a href="index.html#home" class="logo">Booking<span>Mongolia</span></a>
+      <a href="index.html#hotels" class="back-link">← Back to hotels</a>
     </div>
+  </header>
+
+  <main class="page">
+    <div class="container" id="hotel-detail-root">
+      <div class="empty">Loading hotel details...</div>
+    </div>
+  </main>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Hotel photo">
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const hotelList = document.getElementById("hotelList");
-    const cityFilter = document.getElementById("cityFilter");
-    const regionFilter = document.getElementById("regionFilter");
-    const searchInput = document.getElementById("searchInput");
+    const fallbackImage = 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80';
+    const fallbackCoords = {
+      'Ulaanbaatar':[47.9184,106.9177],
+      'Terelj':[47.9975,107.4208],
+      'Gobi':[43.5705,104.4293],
+      'Khuvsgul':[50.4364,100.1545],
+      'Kharkhorin':[47.1968,102.8263]
+    };
 
-    let hotels = [];
-    let filteredHotels = [];
-    let map;
-    let markersLayer;
-
-    function formatPrice(price) {
-      if (!price) return "";
-      return new Intl.NumberFormat("mn-MN").format(price) + "₮";
+    function getParam(name){
+      return new URLSearchParams(window.location.search).get(name);
     }
 
-    function renderFilters() {
-      const cities = [...new Set(hotels.map(h => h.city).filter(Boolean))];
-      const regions = [...new Set(hotels.map(h => h.region).filter(Boolean))];
-
-      cityFilter.innerHTML = `<option value="">Бүх байршил</option>` +
-        cities.map(city => `<option value="${city}">${city}</option>`).join("");
-
-      regionFilter.innerHTML = `<option value="">Бүх бүс</option>` +
-        regions.map(region => `<option value="${region}">${region}</option>`).join("");
-    }
-
-    function renderHotels(data) {
-      if (!data.length) {
-        hotelList.innerHTML = `<div class="empty">Илэрц олдсонгүй.</div>`;
-        return;
+    function normalizeGalleryUrls(value, fallback = '') {
+      if (Array.isArray(value)) return value.filter(Boolean);
+      if (typeof value === 'string' && value.trim()) {
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) return parsed.filter(Boolean);
+        } catch (e) {}
+        return [value];
       }
-
-      hotelList.innerHTML = data.map(hotel => `
-        <div class="hotel-card">
-          <img src="${hotel.main_image || 'https://via.placeholder.com/800x600?text=No+Image'}" alt="${hotel.name}">
-          <div class="hotel-info">
-            <h3>${hotel.name}</h3>
-            <div class="meta">${hotel.city || ''} ${hotel.region ? '• ' + hotel.region : ''}</div>
-            <div>${hotel.short_description || ''}</div>
-            <div class="price">Үнэ: ${formatPrice(hotel.price_from)}-с</div>
-            <a class="btn" href="hotel-detail.html?id=${hotel.id}">Дэлгэрэнгүй</a>
-          </div>
-        </div>
-      `).join("");
+      return fallback ? [fallback] : [];
     }
 
-    function initMap() {
-      map = L.map('map').setView([47.9184, 106.9177], 12);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-
-      markersLayer = L.layerGroup().addTo(map);
+    function normalizePhone(phone){
+      return String(phone || '').replace(/[^0-9]/g,'');
     }
 
-    function renderMap(data) {
-      markersLayer.clearLayers();
+    function getHotelCoordinates(item){
+      const lat = parseFloat(item.latitude);
+      const lng = parseFloat(item.longitude);
+      if (!Number.isNaN(lat) && !Number.isNaN(lng)) return [lat,lng];
+      const key = Object.keys(fallbackCoords).find(name => (item.location || '').toLowerCase().includes(name.toLowerCase()));
+      return key ? fallbackCoords[key] : [47.9184,106.9177];
+    }
 
-      if (!data.length) return;
+    function openLightbox(src){
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src || fallbackImage;
+      lightbox.classList.add('open');
+    }
+    function closeLightbox(){
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    window.closeLightbox = closeLightbox;
 
-      const bounds = [];
+    function renderHotel(item){
+      const root = document.getElementById('hotel-detail-root');
+      const gallery = normalizeGalleryUrls(item.gallery_urls, item.main_image_url || item.image_url || fallbackImage);
+      const images = gallery.length ? gallery : [fallbackImage];
+      const mainImage = images[0];
+      const coords = getHotelCoordinates(item);
+      const wa = item.phone ? `https://wa.me/${normalizePhone(item.phone)}` : '';
+      const email = item.email ? `mailto:${item.email}` : '';
+      const description = item.description || 'Comfortable stay option reviewed by the Booking Mongolia team.';
+      const propertyType = item.property_type || 'Hotel';
+      root.innerHTML = `
+        <div class="breadcrumbs"><a href="index.html">Home</a> / <a href="index.html#hotels">Hotels</a> / ${item.name || 'Hotel details'}</div>
 
-      data.forEach(hotel => {
-        if (hotel.latitude && hotel.longitude) {
-          const marker = L.marker([hotel.latitude, hotel.longitude]).addTo(markersLayer);
-          marker.bindPopup(`
-            <div style="width:220px">
-              <img src="${hotel.main_image || 'https://via.placeholder.com/400x250?text=No+Image'}" 
-                   style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
-              <strong>${hotel.name}</strong><br>
-              <small>${hotel.city || ''} ${hotel.region ? '• ' + hotel.region : ''}</small><br><br>
-              <a href="hotel-detail.html?id=${hotel.id}">Дэлгэрэнгүй</a>
+        <div class="hero-grid">
+          <div class="hero-card">
+            <img src="${mainImage}" alt="${item.name || 'Hotel'}" class="hero-main-image" id="main-image" onclick="openLightbox('${String(mainImage).replace(/'/g, "\\'")}')" onerror="this.onerror=null;this.src='${fallbackImage}'">
+            <div class="thumbs">
+              ${images.map((img, idx) => `<img src="${img}" alt="${item.name || 'Hotel'} photo ${idx+1}" class="${idx===0?'active':''}" onclick="switchImage('${String(img).replace(/'/g, "\\'")}', this)" onerror="this.onerror=null;this.src='${fallbackImage}'">`).join('')}
             </div>
-          `);
-          bounds.push([hotel.latitude, hotel.longitude]);
-        }
-      });
+          </div>
 
-      if (bounds.length) {
-        map.fitBounds(bounds, { padding: [40, 40] });
-      }
+          <aside class="side-card">
+            <div class="summary">
+              <div class="tag">${propertyType}</div>
+              <h1>${item.name || 'Hotel'}</h1>
+              <div class="location">📍 ${item.location || 'Mongolia'} ${item.contact_person ? '• Host: ' + item.contact_person : ''}</div>
+              <div class="price-box">${item.price || 'Ask for price'}<small>${item.price ? 'per night / package' : 'Contact for latest available rate'}</small></div>
+
+              <div class="contact-stack">
+                ${wa ? `<a class="cta primary" href="${wa}" target="_blank" rel="noopener">WhatsApp / Book now</a>` : ''}
+                ${email ? `<a class="cta secondary" href="${email}">Email property</a>` : ''}
+                <a class="cta secondary" href="index.html#contact">Send inquiry</a>
+              </div>
+
+              <div class="meta-list">
+                <div class="meta-item"><strong>Location</strong><br>${item.location || 'Mongolia'}</div>
+                <div class="meta-item"><strong>Property type</strong><br>${propertyType}</div>
+                <div class="meta-item"><strong>Contact</strong><br>${item.phone || item.email || 'Available on request'}</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="content-grid">
+          <section class="info-card">
+            <h2>Overview</h2>
+            <p>${description}</p>
+
+            <h2 style="margin-top:26px;">Highlights</h2>
+            <div class="chips">
+              <span class="chip">${propertyType}</span>
+              ${item.location ? `<span class="chip">${item.location}</span>` : ''}
+              ${item.price ? `<span class="chip">${item.price}</span>` : ''}
+              ${images.length > 1 ? `<span class="chip">${images.length} photos</span>` : ''}
+            </div>
+
+            <h2 style="margin-top:26px;">Photo gallery</h2>
+            <div class="thumbs" style="padding:0;gap:12px;flex-wrap:wrap;overflow:visible;">
+              ${images.map((img, idx) => `<img src="${img}" alt="${item.name || 'Hotel'} gallery ${idx+1}" style="width:160px;height:120px;" onclick="openLightbox('${String(img).replace(/'/g, "\\'")}')" onerror="this.onerror=null;this.src='${fallbackImage}'">`).join('')}
+            </div>
+          </section>
+
+          <aside class="info-card">
+            <h2>Map</h2>
+            <div id="hotel-map"></div>
+            <div class="meta-list" style="margin-top:18px;">
+              <div class="meta-item"><strong>Area</strong><br>${item.location || 'Mongolia'}</div>
+              <div class="meta-item"><strong>Booking Mongolia note</strong><br>Public listings are reviewed first, then published.</div>
+            </div>
+          </aside>
+        </div>
+      `;
+
+      const map = L.map('hotel-map').setView(coords, 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        attribution:'© OpenStreetMap'
+      }).addTo(map);
+      L.marker(coords).addTo(map).bindPopup(`<strong>${item.name || 'Hotel'}</strong><br>${item.location || 'Mongolia'}`).openPopup();
     }
 
-    function applyFilters() {
-      const city = cityFilter.value.toLowerCase();
-      const region = regionFilter.value.toLowerCase();
-      const keyword = searchInput.value.toLowerCase().trim();
-
-      filteredHotels = hotels.filter(hotel => {
-        const matchCity = !city || (hotel.city || "").toLowerCase() === city;
-        const matchRegion = !region || (hotel.region || "").toLowerCase() === region;
-        const matchKeyword = !keyword || (hotel.name || "").toLowerCase().includes(keyword);
-        return matchCity && matchRegion && matchKeyword;
-      });
-
-      renderHotels(filteredHotels);
-      renderMap(filteredHotels);
+    window.switchImage = function(src, thumb){
+      const main = document.getElementById('main-image');
+      main.src = src;
+      main.setAttribute('onclick', `openLightbox('${String(src).replace(/'/g, "\\'")}')`);
+      document.querySelectorAll('.thumbs img').forEach(el => el.classList.remove('active'));
+      if (thumb) thumb.classList.add('active');
     }
 
-    async function loadHotels() {
-      const { data, error } = await supabaseClient
-        .from("hotels")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        hotelList.innerHTML = `<div class="empty">Алдаа гарлаа: ${error.message}</div>`;
+    async function loadHotelDetail(){
+      const id = getParam('id');
+      const root = document.getElementById('hotel-detail-root');
+      if (!id) {
+        root.innerHTML = '<div class="empty">Hotel ID not found.</div>';
         return;
       }
 
-      hotels = data || [];
-      renderFilters();
-      applyFilters();
+      const { data, error } = await supabaseClient
+        .from('property_submissions')
+        .select('*')
+        .eq('status','approved')
+        .eq('id', id)
+        .single();
+
+      if (error || !data) {
+        root.innerHTML = '<div class="empty">This hotel could not be found.</div>';
+        return;
+      }
+
+      document.title = `${data.name || 'Hotel'} | Booking Mongolia`;
+      renderHotel(data);
     }
 
-    cityFilter.addEventListener("change", applyFilters);
-    regionFilter.addEventListener("change", applyFilters);
-    searchInput.addEventListener("input", applyFilters);
-
-    initMap();
-    loadHotels();
+    loadHotelDetail();
   </script>
 </body>
 </html>
