@@ -79,6 +79,46 @@
     .lightbox.open{display:flex}
     .lightbox img{max-width:92vw;max-height:88vh;border-radius:18px}
     .lightbox-close{position:absolute;top:14px;right:20px;color:#fff;font-size:40px;cursor:pointer}
+    
+    .policy-box{
+      margin-top:18px;
+      padding:16px 18px;
+      border-radius:16px;
+      background:#fff8e8;
+      border:1px solid #f4d39b;
+      color:#7c4a03;
+      font-size:14px;
+    }
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9998;padding:18px;background:rgba(15,23,42,.68);
+    }
+    .modal.open{display:flex}
+    .modal-dialog{
+      background:#fff;width:min(96%,720px);max-height:92vh;overflow:auto;border-radius:22px;box-shadow:0 18px 40px rgba(0,0,0,.22);position:relative;
+    }
+    .modal-head{padding:22px 24px 10px}
+    .modal-body{padding:0 24px 24px}
+    .modal-close{
+      position:absolute;top:12px;right:16px;border:none;background:transparent;font-size:34px;cursor:pointer;line-height:1;color:#334155;
+    }
+    .booking-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .booking-form-grid .full{grid-column:1/-1}
+    .booking-form-grid label{display:block;font-weight:700;margin:0 0 6px}
+    .booking-form-grid input,.booking-form-grid textarea,.booking-form-grid select{
+      width:100%;padding:13px 14px;border:1px solid #d1d5db;border-radius:12px;font:inherit;
+    }
+    .booking-form-grid textarea{min-height:110px;resize:vertical}
+    .booking-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .mini-note{font-size:13px;color:var(--muted)}
+    .notice{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;font-size:14px}
+    .notice.show{display:block}
+    .notice.success{background:#ecfdf5;color:#166534;border:1px solid #bbf7d0}
+    .notice.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+    .paypal-box{
+      margin-top:18px;padding:16px;border-radius:16px;background:#f8fafc;border:1px solid #e5e7eb;
+    }
+    .paypal-box .cta{width:auto}
+
     @media(max-width:980px){
       .hero-grid,.content-grid{grid-template-columns:1fr}
       .hero-main-image{height:380px}
@@ -106,6 +146,73 @@
     </div>
   </main>
 
+
+  <div class="modal" id="booking-modal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
+      <button type="button" class="modal-close" onclick="closeBookingModal()">&times;</button>
+      <div class="modal-head">
+        <h2 id="booking-modal-title">Book this property</h2>
+        <p class="mini-note">Fill in your stay details, then continue to PayPal. Your booking request is also prepared for WhatsApp confirmation.</p>
+      </div>
+      <div class="modal-body">
+        <form id="booking-form">
+          <div class="booking-form-grid">
+            <div>
+              <label>Full name</label>
+              <input type="text" id="booking_name" required>
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="email" id="booking_email">
+            </div>
+            <div>
+              <label>Phone / WhatsApp</label>
+              <input type="text" id="booking_phone" required>
+            </div>
+            <div>
+              <label>Guests</label>
+              <select id="booking_guests">
+                <option value="1">1 guest</option>
+                <option value="2">2 guests</option>
+                <option value="3">3 guests</option>
+                <option value="4">4 guests</option>
+                <option value="5+">5+ guests</option>
+              </select>
+            </div>
+            <div>
+              <label>Check-in</label>
+              <input type="date" id="booking_checkin" required>
+            </div>
+            <div>
+              <label>Check-out</label>
+              <input type="date" id="booking_checkout" required>
+            </div>
+            <div class="full">
+              <label>Message</label>
+              <textarea id="booking_note" placeholder="Flight arrival, room type, child bed, airport pickup, late check-in, etc."></textarea>
+            </div>
+          </div>
+
+          <div class="policy-box" style="margin-top:18px;">
+            <strong>Date change & refund policy</strong><br>
+            If you request a date change <strong>7 or more days before check-in</strong>, it can usually be handled without an extra change fee, subject to room availability. If you request a date change <strong>less than 7 days before check-in</strong>, an additional charge may apply.
+          </div>
+
+          <div class="paypal-box">
+            <strong>Payment</strong>
+            <p class="mini-note" style="margin-top:6px;">When you click continue, we save your booking request in your browser and open the PayPal payment page in a new tab. Replace the PayPal link constant in this file with your own checkout link once.</p>
+            <div class="booking-actions">
+              <button class="cta primary" type="submit">Continue to PayPal</button>
+              <button class="cta secondary" type="button" onclick="sendBookingToWhatsApp()">Send by WhatsApp</button>
+            </div>
+          </div>
+          <div id="booking-notice" class="notice"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <span class="lightbox-close">&times;</span>
     <img id="lightbox-img" src="" alt="Hotel photo">
@@ -119,6 +226,8 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const fallbackImage = 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80';
+    const PAYPAL_CHECKOUT_URL = 'YOUR_PAYPAL_LINK_HERE';
+    let currentHotel = null;
     const fallbackCoords = {
       'Ulaanbaatar':[47.9184,106.9177],
       'Terelj':[47.9975,107.4208],
@@ -167,6 +276,7 @@
     window.closeLightbox = closeLightbox;
 
     function renderHotel(item){
+      currentHotel = item;
       const root = document.getElementById('hotel-detail-root');
       const gallery = normalizeGalleryUrls(item.gallery_urls, item.main_image_url || item.image_url || fallbackImage);
       const images = gallery.length ? gallery : [fallbackImage];
@@ -204,6 +314,10 @@
                 <div class="meta-item"><strong>Location</strong><br>${item.location || 'Mongolia'}</div>
                 <div class="meta-item"><strong>Property type</strong><br>${propertyType}</div>
                 <div class="meta-item"><strong>Contact</strong><br>${item.phone || item.email || 'Available on request'}</div>
+                            </div>
+              <div class="policy-box">
+                <strong>Date change & refund policy</strong><br>
+                Date changes requested <strong>7 or more days before check-in</strong> can usually be processed without an extra change fee, subject to availability. Date changes requested <strong>less than 7 days before check-in</strong> may require an additional charge. No-show or same-day cancellation may be non-refundable.
               </div>
             </div>
           </aside>
