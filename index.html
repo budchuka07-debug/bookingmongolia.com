@@ -550,13 +550,24 @@ gtag('config', 'G-XDG8KZWZCM');
     .register-panel.active{display:block}
     .register-note{margin:0 0 18px;color:var(--muted)}
 
-    .sticky-book-bar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;background:rgba(13,27,42,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 40px rgba(0,0,0,.18);border-radius:999px;padding:10px;display:flex;gap:10px;align-items:center;max-width:calc(100vw - 24px)}
+    .register-cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .register-open-btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:999px;background:var(--primary);color:#fff;font-weight:700;border:none;cursor:pointer;box-shadow:var(--shadow)}
+    .register-open-btn.secondary{background:#fff;color:var(--primary);border:1px solid #d9e2ec;box-shadow:none}
+    .register-service-shell{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:26px}
+    .register-service-shell.is-hidden .register-service-body{display:none}
+    .register-service-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    .register-service-top p{margin:0;color:var(--muted);max-width:780px}
+    .register-service-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .register-close-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;background:#eef4ff;color:var(--primary);font-weight:700;border:none;cursor:pointer}
+    .register-service-body{margin-top:22px}
+    .sticky-book-bar{display:none}
     .sticky-book-bar .btn{padding:12px 18px}
     .sticky-book-bar .mini-note{color:#fff;font-size:13px;padding:0 8px 0 12px;white-space:nowrap}
 
     @media (max-width:1024px){
       .grid-4,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
       .guide-wrap,.about-wrap,.booking-wrap,.local-guide-wrap,.hotel-booking-layout{grid-template-columns:1fr}
+      .register-service-top{align-items:flex-start}
       .hero-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
       .video-small{grid-template-columns:1fr 1fr}
       #hotel-map{height:420px}
@@ -1115,7 +1126,10 @@ gtag('config', 'G-XDG8KZWZCM');
 
       <div class="section-head" style="margin-top:42px">
         <h3>Want to list your property?</h3>
-        <p>Use the registration service below to submit your hotel, guesthouse, ger camp or lodge for review.</p>
+        <p>Accommodation owners can register privately. The form opens only when the button is clicked.</p>
+        <div class="register-cta-row">
+          <button type="button" class="register-open-btn" onclick="openRegisterService('hotel')">🏨 Register accommodation</button>
+        </div>
       </div>
     </div>
   </section>
@@ -1132,7 +1146,10 @@ gtag('config', 'G-XDG8KZWZCM');
 
     <div class="section-head" style="margin-top:42px">
       <h3>Want to work with us as a guide?</h3>
-      <p>Use the registration service below and submit your guide profile for approval.</p>
+      <p>Guide profile form is hidden by default. Open it only when you want to submit.</p>
+      <div class="register-cta-row">
+        <button type="button" class="register-open-btn" onclick="openRegisterService('guide')">🧭 Register as guide</button>
+      </div>
     </div>
   </div>
 </section>
@@ -1147,7 +1164,10 @@ gtag('config', 'G-XDG8KZWZCM');
 
       <div class="section-head" style="margin-top:42px">
         <h3>Offer transport service</h3>
-        <p>Use the registration service below to submit your driver or vehicle service for review.</p>
+        <p>Driver and vehicle registration form is hidden by default. Open it only when needed.</p>
+        <div class="register-cta-row">
+          <button type="button" class="register-open-btn" onclick="openRegisterService('car')">🚙 Register transport</button>
+        </div>
       </div>
     </div>
   </section>
@@ -1158,217 +1178,230 @@ gtag('config', 'G-XDG8KZWZCM');
     <div class="container">
       <div class="section-head">
         <h2>Register Your Service</h2>
-        <p>Hotels, guesthouses, ger camps, guides and drivers can submit details here. We review first, then approve before publishing.</p>
+        <p>This form is hidden from normal visitors. Open it only when you want to submit a hotel, guide or driver service for approval.</p>
       </div>
 
-      <div class="register-shell">
-        <div class="register-tabs">
-          <button type="button" class="register-tab active" data-register-tab="hotel">🏨 Hotel / Camp</button>
-          <button type="button" class="register-tab" data-register-tab="guide">🧭 Guide</button>
-          <button type="button" class="register-tab" data-register-tab="car">🚙 Driver / Car</button>
+      <div class="register-service-shell is-hidden" id="register-service-shell">
+        <div class="register-service-top">
+          <div>
+            <h3 style="margin-bottom:8px">Private registration form</h3>
+            <p>Hotels, guesthouses, ger camps, guides and drivers can submit details here. We review first, then approve before publishing.</p>
+          </div>
+          <div class="register-service-actions">
+            <button type="button" class="register-open-btn" id="register-service-open" onclick="openRegisterService('hotel')">Open registration form</button>
+            <button type="button" class="register-close-btn" id="register-service-close" onclick="closeRegisterService()" style="display:none;">Close form</button>
+          </div>
         </div>
 
-        <div class="register-panel active" id="register-panel-hotel">
-          <p class="register-note">Choose the right accommodation type and submit your place for review.</p>
-          <form id="hotel-form">
-            <div class="form-grid">
-              <div>
-                <label>Property Name</label>
-                <input type="text" id="hotel_name" required>
-              </div>
-              <div>
-                <label>Property Type</label>
-                <select id="hotel_type" required>
-                  <option value="">Select type</option>
-                  <option>Hotel</option>
-                  <option>Guesthouse</option>
-                  <option>Ger Camp</option>
-                  <option>Tourist Camp</option>
-                  <option>Lodge</option>
-                  <option>Resort</option>
-                  <option>Hostel</option>
-                  <option>Homestay</option>
-                  <option>Apartment</option>
-                </select>
-              </div>
-              <div>
-                <label>Location</label>
-                <input type="text" id="hotel_location" placeholder="Terelj / Gobi / Ulaanbaatar" required>
-              </div>
-              <div>
-                <label>Price From</label>
-                <input type="text" id="hotel_price" placeholder="From $80 per night">
-              </div>
-              <div>
-                <label>Contact Person</label>
-                <input type="text" id="hotel_contact_person">
-              </div>
-              <div>
-                <label>Email</label>
-                <input type="email" id="hotel_email">
-              </div>
-              <div>
-                <label>Phone / WhatsApp</label>
-                <input type="text" id="hotel_phone">
-              </div>
-              <div>
-                <label>Latitude</label>
-                <input type="text" id="hotel_latitude" placeholder="47.9184">
-              </div>
-              <div>
-                <label>Longitude</label>
-                <input type="text" id="hotel_longitude" placeholder="106.9177">
-              </div>
-              <div>
-                <label>Hotel Image</label>
-                <input type="file" id="hotel_image_file" accept="image/*" multiple required>
-              </div>
-              <div class="full">
-                <label>Short Description</label>
-                <textarea id="hotel_description" placeholder="Tell travelers about your property, room style, view and key facilities."></textarea>
-              </div>
-              <div class="full submit-actions">
-                <button class="btn btn-primary" type="submit">Submit Hotel / Camp</button>
-              </div>
-              <div class="full"><div id="hotel-notice" class="notice"></div></div>
-            </div>
-          </form>
-        </div>
+        <div class="register-service-body" id="register-service-body">
+          <div class="register-tabs">
+            <button type="button" class="register-tab active" data-register-tab="hotel">🏨 Hotel / Camp</button>
+            <button type="button" class="register-tab" data-register-tab="guide">🧭 Guide</button>
+            <button type="button" class="register-tab" data-register-tab="car">🚙 Driver / Car</button>
+          </div>
 
-        <div class="register-panel" id="register-panel-guide">
-          <p class="register-note">Guides can submit language skills, regions and specialties for approval.</p>
-          <form id="guide-form">
-            <div class="form-grid">
-              <div>
-                <label>Full Name</label>
-                <input type="text" id="guide_name" required>
+          <div class="register-panel active" id="register-panel-hotel">
+            <p class="register-note">Choose the right accommodation type and submit your place for review.</p>
+            <form id="hotel-form">
+              <div class="form-grid">
+                <div>
+                  <label>Property Name</label>
+                  <input type="text" id="hotel_name" required>
+                </div>
+                <div>
+                  <label>Property Type</label>
+                  <select id="hotel_type" required>
+                    <option value="">Select type</option>
+                    <option>Hotel</option>
+                    <option>Guesthouse</option>
+                    <option>Ger Camp</option>
+                    <option>Tourist Camp</option>
+                    <option>Lodge</option>
+                    <option>Resort</option>
+                    <option>Hostel</option>
+                    <option>Homestay</option>
+                    <option>Apartment</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Location</label>
+                  <input type="text" id="hotel_location" placeholder="Terelj / Gobi / Ulaanbaatar" required>
+                </div>
+                <div>
+                  <label>Price From</label>
+                  <input type="text" id="hotel_price" placeholder="From $80 per night">
+                </div>
+                <div>
+                  <label>Contact Person</label>
+                  <input type="text" id="hotel_contact_person">
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input type="email" id="hotel_email">
+                </div>
+                <div>
+                  <label>Phone / WhatsApp</label>
+                  <input type="text" id="hotel_phone">
+                </div>
+                <div>
+                  <label>Latitude</label>
+                  <input type="text" id="hotel_latitude" placeholder="47.9184">
+                </div>
+                <div>
+                  <label>Longitude</label>
+                  <input type="text" id="hotel_longitude" placeholder="106.9177">
+                </div>
+                <div>
+                  <label>Hotel Image</label>
+                  <input type="file" id="hotel_image_file" accept="image/*" multiple required>
+                </div>
+                <div class="full">
+                  <label>Short Description</label>
+                  <textarea id="hotel_description" placeholder="Tell travelers about your property, room style, view and key facilities."></textarea>
+                </div>
+                <div class="full submit-actions">
+                  <button class="btn btn-primary" type="submit">Submit Hotel / Camp</button>
+                </div>
+                <div class="full"><div id="hotel-notice" class="notice"></div></div>
               </div>
-              <div>
-                <label>Age</label>
-                <input type="number" id="guide_age" min="18" max="80">
-              </div>
-              <div>
-                <label>Gender</label>
-                <select id="guide_gender">
-                  <option value="">Select</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>
-              </div>
-              <div>
-                <label>Phone / WhatsApp</label>
-                <input type="text" id="guide_phone">
-              </div>
-              <div>
-                <label>Email</label>
-                <input type="email" id="guide_email">
-              </div>
-              <div>
-                <label>Profile Image</label>
-                <input type="file" id="guide_image_file" accept="image/*" required>
-              </div>
-              <div>
-                <label>Years of Experience</label>
-                <input type="text" id="guide_experience" placeholder="e.g. 8 years">
-              </div>
-              <div>
-                <label>Languages & Level</label>
-                <input type="text" id="guide_languages" placeholder="English - Advanced, Korean - Intermediate">
-              </div>
-              <div>
-                <label>Tour Regions</label>
-                <input type="text" id="guide_regions" placeholder="Gobi, Khangai, Khuvsgul, Terelj">
-              </div>
-              <div>
-                <label>Specialties</label>
-                <input type="text" id="guide_specialties" placeholder="Culture, photography, adventure, nomadic life">
-              </div>
-              <div>
-                <label>Price / Day Rate</label>
-                <input type="text" id="guide_price" placeholder="From $80 per day">
-              </div>
-              <div>
-                <label>Guide Type</label>
-                <select id="guide_type">
-                  <option value="">Select type</option>
-                  <option>Local Guide</option>
-                  <option>Driver Guide</option>
-                  <option>Cultural Guide</option>
-                  <option>Adventure Guide</option>
-                </select>
-              </div>
-              <div class="full">
-                <label>Short Bio</label>
-                <textarea id="guide_bio" placeholder="Tell travelers about your guide style, experience and strengths."></textarea>
-              </div>
-              <div class="full submit-actions">
-                <button class="btn btn-primary" type="submit">Submit Guide</button>
-              </div>
-              <div class="full"><div id="guide-notice" class="notice"></div></div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
 
-        <div class="register-panel" id="register-panel-car">
-          <p class="register-note">Drivers and transport providers can submit airport transfer, 4x4, van and private driver services.</p>
-          <form id="car-form">
-            <div class="form-grid">
-              <div>
-                <label>Service Title</label>
-                <input type="text" id="car_title" placeholder="Airport Transfer / 4x4 with Driver" required>
+          <div class="register-panel" id="register-panel-guide">
+            <p class="register-note">Guides can submit language skills, regions and specialties for approval.</p>
+            <form id="guide-form">
+              <div class="form-grid">
+                <div>
+                  <label>Full Name</label>
+                  <input type="text" id="guide_name" required>
+                </div>
+                <div>
+                  <label>Age</label>
+                  <input type="number" id="guide_age" min="18" max="80">
+                </div>
+                <div>
+                  <label>Gender</label>
+                  <select id="guide_gender">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Phone / WhatsApp</label>
+                  <input type="text" id="guide_phone">
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input type="email" id="guide_email">
+                </div>
+                <div>
+                  <label>Profile Image</label>
+                  <input type="file" id="guide_image_file" accept="image/*" required>
+                </div>
+                <div>
+                  <label>Years of Experience</label>
+                  <input type="text" id="guide_experience" placeholder="e.g. 8 years">
+                </div>
+                <div>
+                  <label>Languages & Level</label>
+                  <input type="text" id="guide_languages" placeholder="English - Advanced, Korean - Intermediate">
+                </div>
+                <div>
+                  <label>Tour Regions</label>
+                  <input type="text" id="guide_regions" placeholder="Gobi, Khangai, Khuvsgul, Terelj">
+                </div>
+                <div>
+                  <label>Specialties</label>
+                  <input type="text" id="guide_specialties" placeholder="Culture, photography, adventure, nomadic life">
+                </div>
+                <div>
+                  <label>Price / Day Rate</label>
+                  <input type="text" id="guide_price" placeholder="From $80 per day">
+                </div>
+                <div>
+                  <label>Guide Type</label>
+                  <select id="guide_type">
+                    <option value="">Select type</option>
+                    <option>Local Guide</option>
+                    <option>Driver Guide</option>
+                    <option>Cultural Guide</option>
+                    <option>Adventure Guide</option>
+                  </select>
+                </div>
+                <div class="full">
+                  <label>Short Bio</label>
+                  <textarea id="guide_bio" placeholder="Tell travelers about your guide style, experience and strengths."></textarea>
+                </div>
+                <div class="full submit-actions">
+                  <button class="btn btn-primary" type="submit">Submit Guide</button>
+                </div>
+                <div class="full"><div id="guide-notice" class="notice"></div></div>
               </div>
-              <div>
-                <label>Vehicle Type</label>
-                <select id="car_type" required>
-                  <option value="">Select type</option>
-                  <option>Airport Transfer</option>
-                  <option>Private Driver</option>
-                  <option>4x4 with Driver</option>
-                  <option>Starex / Van</option>
-                  <option>Alphard</option>
-                  <option>SUV</option>
-                </select>
+            </form>
+          </div>
+
+          <div class="register-panel" id="register-panel-car">
+            <p class="register-note">Drivers and transport providers can submit airport transfer, 4x4, van and private driver services.</p>
+            <form id="car-form">
+              <div class="form-grid">
+                <div>
+                  <label>Service Title</label>
+                  <input type="text" id="car_title" placeholder="Airport Transfer / 4x4 with Driver" required>
+                </div>
+                <div>
+                  <label>Vehicle Type</label>
+                  <select id="car_type" required>
+                    <option value="">Select type</option>
+                    <option>Airport Transfer</option>
+                    <option>Private Driver</option>
+                    <option>4x4 with Driver</option>
+                    <option>Starex / Van</option>
+                    <option>Alphard</option>
+                    <option>SUV</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Seats</label>
+                  <input type="text" id="car_seats" placeholder="4 / 6 / 10">
+                </div>
+                <div>
+                  <label>Daily Rate</label>
+                  <input type="text" id="car_rate" placeholder="From $120 per day">
+                </div>
+                <div>
+                  <label>Contact Name</label>
+                  <input type="text" id="car_contact_name">
+                </div>
+                <div>
+                  <label>Phone / WhatsApp</label>
+                  <input type="text" id="car_phone">
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input type="email" id="car_email">
+                </div>
+                <div>
+                  <label>Car Image</label>
+                  <input type="file" id="car_image_file" accept="image/*" multiple required>
+                </div>
+                <div class="full">
+                  <label>Description</label>
+                  <textarea id="car_description" placeholder="Describe service area, driver, luggage, road type and any special features."></textarea>
+                </div>
+                <div class="full submit-actions">
+                  <button class="btn btn-primary" type="submit">Submit Transport Service</button>
+                </div>
+                <div class="full"><div id="car-notice" class="notice"></div></div>
               </div>
-              <div>
-                <label>Seats</label>
-                <input type="text" id="car_seats" placeholder="4 / 6 / 10">
-              </div>
-              <div>
-                <label>Daily Rate</label>
-                <input type="text" id="car_rate" placeholder="From $120 per day">
-              </div>
-              <div>
-                <label>Contact Name</label>
-                <input type="text" id="car_contact_name">
-              </div>
-              <div>
-                <label>Phone / WhatsApp</label>
-                <input type="text" id="car_phone">
-              </div>
-              <div>
-                <label>Email</label>
-                <input type="email" id="car_email">
-              </div>
-              <div>
-                <label>Car Image</label>
-                <input type="file" id="car_image_file" accept="image/*" multiple required>
-              </div>
-              <div class="full">
-                <label>Description</label>
-                <textarea id="car_description" placeholder="Describe service area, driver, luggage, road type and any special features."></textarea>
-              </div>
-              <div class="full submit-actions">
-                <button class="btn btn-primary" type="submit">Submit Transport Service</button>
-              </div>
-              <div class="full"><div id="car-notice" class="notice"></div></div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="reviews" class="soft-section">
+<section id="reviews" class="soft-section">
     <div class="container">
       <div class="section-head">
         <h2>Traveler Reviews</h2>
@@ -1516,12 +1549,6 @@ gtag('config', 'G-XDG8KZWZCM');
   <div id="image-lightbox" class="image-lightbox" onclick="closeImageLightbox()">
     <span class="image-lightbox-close">&times;</span>
     <img id="image-lightbox-img" src="" alt="Large image">
-  </div>
-
-  <div class="sticky-book-bar">
-    <div class="mini-note">Plan your Mongolia trip with a local expert</div>
-    <a class="btn btn-primary" href="#contact">Send Inquiry</a>
-    <a class="btn btn-outline" style="border-color:rgba(255,255,255,.35);color:#fff" href="#tours">View Tours</a>
   </div>
 
   <footer>
@@ -1754,6 +1781,7 @@ gtag('config', 'G-XDG8KZWZCM');
           <div>${item.location || ''}</div>
           ${item.price ? `<div style="margin-top:4px;color:#15803d;font-weight:700;">${item.price}</div>` : ''}
           ${item.phone ? `<div style="margin-top:4px;">📞 ${item.phone}</div>` : ''}
+          <div style="margin-top:8px;"><a href="hotel-detail.html?id=${item.id}" style="color:#0d3b66;font-weight:700;">View details</a></div>
         </div>
       `);
       bounds.push(coords);
@@ -1809,7 +1837,8 @@ gtag('config', 'G-XDG8KZWZCM');
             <p class="hotel-booking-desc">${desc}</p>
 
             <div class="hotel-booking-actions">
-              ${phoneLink ? `<a class="hotel-mini-btn primary" href="${phoneLink}" target="_blank" rel="noopener">Book / Contact</a>` : ''}
+              <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${item.id}">View details</a>
+              ${phoneLink ? `<a class="hotel-mini-btn" href="${phoneLink}" target="_blank" rel="noopener">Book / Contact</a>` : ''}
               ${galleryUrls.length ? `<button class="hotel-mini-btn" type="button" onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\'")}')">View photo</button>` : ''}
               <button class="hotel-mini-btn" type="button" onclick="focusHotelOnMap(${index})">Show on map</button>
             </div>
