@@ -110,6 +110,14 @@ gtag('config', 'G-XDG8KZWZCM');
       color:#fff;
     }
 
+    .header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .header-register-link{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 16px;border-radius:999px;background:var(--accent);color:#fff;
+      font-weight:800;font-size:14px;box-shadow:var(--shadow);transition:.25s ease;
+    }
+    .header-register-link:hover{background:var(--accent-dark);color:#fff}
+
     .hero{
       position:relative;
       min-height:88vh;
@@ -708,6 +716,8 @@ gtag('config', 'G-XDG8KZWZCM');
       .sticky-book-bar{left:12px;right:12px;transform:none;border-radius:22px;justify-content:center;flex-wrap:wrap;padding:12px}
       .sticky-book-bar .mini-note{width:100%;text-align:center;padding:0}
       .nav-links{display:none}
+      .header-actions{width:100%;justify-content:flex-end}
+      .header-register-link{padding:9px 14px;font-size:13px}
       .grid-4,.grid-3,.grid-2,.guide-grid,.feature-list,.hero-stats,.form-grid,.video-small,.guide-highlight-grid{
         grid-template-columns:1fr;
       }
@@ -764,10 +774,13 @@ gtag('config', 'G-XDG8KZWZCM');
         <a href="#contact" data-i18n="nav_contact">Contact</a>
       </nav>
 
-      <div class="lang-switch">
-        <button class="active" data-lang="en">EN</button>
-        <button data-lang="ja">日本語</button>
-        <button data-lang="ko">한국어</button>
+      <div class="header-actions">
+        <a class="header-register-link" href="#service-registration">Register Service</a>
+        <div class="lang-switch">
+          <button class="active" data-lang="en">EN</button>
+          <button data-lang="ja">日本語</button>
+          <button data-lang="ko">한국어</button>
+        </div>
       </div>
     </div>
   </header>
@@ -794,7 +807,7 @@ gtag('config', 'G-XDG8KZWZCM');
           <a class="quick-link" href="#hotels">🏨 Hotels</a>
           <a class="quick-link" href="#cars">🚙 Car Rental</a>
           <a class="quick-link" href="#guides">🧭 Guides</a>
-          <a class="quick-link" href="#register-service">📝 Register Service</a>
+          <a class="quick-link" href="#service-registration">📝 Register Service</a>
           <a class="quick-link" href="#contact">✉️ Contact</a>
         </div>
 <section style="padding:60px 20px; text-align:center;">
