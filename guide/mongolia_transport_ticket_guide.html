@@ -1,196 +1,512 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mongolia Transport & Ticket Guide</title>
+  <title>Transport in Mongolia | Getting Around Between Ulaanbaatar and the Countryside</title>
+  <meta name="description" content="Learn how transport works in Mongolia, including domestic flights, long-distance buses, private drivers, real travel times, and what travelers should know before going between provinces." />
+  <link rel="stylesheet" href="../css/style.css" />
+
   <style>
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f5ef;color:#1f2937;line-height:1.65}
-    .wrap{max-width:1150px;margin:0 auto;padding:40px 20px}
-    .hero{
-      background:linear-gradient(rgba(8,20,33,.45),rgba(8,20,33,.55)),url('../images/transport-guide.jpg') center/cover no-repeat;
-      min-height:280px;border-radius:24px;color:#fff;display:flex;align-items:center;padding:40px
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      color: #222;
+      background: #fff;
     }
-    .hero h1{font-size:44px;margin:0 0 12px}
-    .hero p{max-width:760px;margin:0;font-size:17px}
-    .card{background:#fff;border-radius:20px;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:24px;margin-top:24px}
-    h2,h3{margin-top:0}
-    .muted{color:#6b7280}
-    .btn{display:inline-flex;align-items:center;justify-content:center;background:#0f3557;color:#fff;border:none;border-radius:999px;padding:12px 18px;font-weight:700;text-decoration:none;margin:8px 10px 0 0}
-    .btn.secondary{background:#c98b2f}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
-    th,td{border:1px solid #e5e7eb;padding:12px;text-align:left;vertical-align:top}
-    th{background:#f8fafc}
-    .note{background:#fff8e8;border:1px solid #f1d38a;border-radius:14px;padding:14px 16px;margin-top:16px}
-    .tip{background:#eef6ff;border:1px solid #cfe2ff;border-radius:14px;padding:14px 16px;margin-top:16px}
-    ul{padding-left:18px}
-    @media (max-width: 900px){
-      .grid{grid-template-columns:1fr}
-      .hero h1{font-size:34px}
-      table{display:block;overflow-x:auto;white-space:nowrap}
+
+    .hero {
+      position: relative;
+      min-height: 62vh;
+      background: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)),
+        url('../images/mongolia-transport-hero.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      color: #fff;
+    }
+
+    .hero-content {
+      max-width: 920px;
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .intro {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 34px;
+    }
+
+    .content-section {
+      margin-bottom: 48px;
+    }
+
+    .content-section h2 {
+      font-size: 30px;
+      margin-bottom: 18px;
+      color: #111;
+    }
+
+    .content-section h3 {
+      font-size: 22px;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .content-section p {
+      margin-bottom: 16px;
+      font-size: 17px;
+      color: #333;
+    }
+
+    .content-section ul {
+      padding-left: 22px;
+      margin: 14px 0;
+    }
+
+    .content-section li {
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+
+    .highlight-box {
+      background: #f7f4ee;
+      border-left: 5px solid #b8894f;
+      padding: 22px;
+      border-radius: 8px;
+      margin: 26px 0;
+    }
+
+    .highlight-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .note-box {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 16px;
+    }
+
+    .image-block {
+      margin: 30px 0 10px;
+    }
+
+    .image-block img {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .image-caption {
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .transport-table-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #eaeaea;
+      text-align: left;
+      font-size: 15px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 700;
+    }
+
+    tr:hover td {
+      background: #fafafa;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #1f4f46;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-secondary {
+      background: #f2f2f2;
+      color: #222;
+    }
+
+    .btn-secondary:hover {
+      background: #eaeaea;
+    }
+
+    .cta-box {
+      background: #f2f6f7;
+      padding: 28px;
+      border-radius: 14px;
+      margin-top: 50px;
+    }
+
+    .cta-box h3 {
+      margin-top: 0;
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 50vh;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+
+      .container {
+        padding: 40px 18px;
+      }
+
+      .content-section h2 {
+        font-size: 25px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div>
-        <h1>Mongolia Transport & Ticket Guide</h1>
-        <p>Use this page to help travelers understand distances from Ulaanbaatar, estimated fares, departure terminals, official booking links, and why guided tours are often easier in Mongolia.</p>
-      </div>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Transport in Mongolia</h1>
+      <p>
+        What travelers should really know about buses, domestic flights, private drivers,
+        long distances, and moving between Ulaanbaatar and the countryside.
+      </p>
+    </div>
+  </section>
+
+  <main class="container">
+    <p class="intro">
+      Traveling in Mongolia is exciting, but it is very different from traveling in countries with dense rail networks or highly connected public transport systems. Distances are long, road conditions vary, and many routes are not as simple as they look on a map. For travelers, understanding the real transport situation in Mongolia can save time, stress, and unrealistic planning.
+    </p>
+
+    <section class="content-section">
+      <h2>Why Transport in Mongolia Is Different</h2>
+      <p>
+        Mongolia is a vast country with a relatively small population spread across very large distances. Outside Ulaanbaatar, transport infrastructure becomes more limited, especially for travelers going into rural areas, national parks, desert regions, or multi-province routes.
+      </p>
+      <p>
+        A route that looks manageable on a map may still take many hours because of road conditions, weather, breaks, detours, or the simple reality of long overland travel. This is one of the most important things visitors should understand before planning an itinerary.
+      </p>
     </section>
 
-    <section class="card">
-      <h2>Official Ticket & Service Links</h2>
-      <p class="muted">Put trusted links here so travelers can check the latest schedules, event tickets and booking information.</p>
-      <a class="btn" href="https://www.ticket.mn/" target="_blank" rel="noopener">Ticket.mn</a>
-      <a class="btn secondary" href="https://eticket.transdep.mn/" target="_blank" rel="noopener">Intercity Bus eTicket</a>
+    <section class="content-section">
+      <h2>Main Ways to Travel Around Mongolia</h2>
 
-      <div class="note">
-        <strong>Important:</strong> Departure times, fares and terminals may change. Always tell travelers to verify the latest information using the official booking links before departure.
-      </div>
+      <h3>Domestic Flights</h3>
+      <p>
+        Domestic flights are the fastest option for reaching some distant provinces, especially in western and northern Mongolia. They are useful when you have limited time, but they do not serve every destination and may not match every travel route.
+      </p>
+
+      <h3>Long-Distance Buses</h3>
+      <p>
+        Long-distance buses connect Ulaanbaatar with many provincial centers and some towns. This is one of the more affordable ways to travel, but it requires patience, flexible planning, and realistic expectations about travel time.
+      </p>
+
+      <h3>Private Driver or 4x4 Vehicle</h3>
+      <p>
+        For many travelers, especially those visiting multiple destinations, remote areas, or national parks, hiring a driver is the most practical choice. This is often the best solution for routes that do not work well by public transport.
+      </p>
+
+      <h3>Organized Tours</h3>
+      <p>
+        Organized tours are often the easiest option for first-time visitors who want to combine transport, accommodation, and guiding. This is especially useful for the Gobi, Khuvsgul, western Mongolia, and steppe routes.
+      </p>
+
+      <h3>Train</h3>
+      <p>
+        Train travel exists on certain routes, but it is not the main solution for most tourism itineraries across Mongolia. For many destinations, bus or private transport is still more relevant.
+      </p>
     </section>
 
-    <div class="grid">
-      <section class="card">
-        <h2>How Transport Works in Mongolia</h2>
-        <ul>
-          <li>Ulaanbaatar is the main starting point for most long-distance travel.</li>
-          <li>Buses are available to many provinces, but remote tourist spots usually still require private transport.</li>
-          <li>Domestic flights save time for long routes like Khuvsgul, Umnugovi and Bayan-Ulgii.</li>
-          <li>Train routes are limited, but useful for selected towns and northbound journeys.</li>
-          <li>For multi-destination trips, a private 4×4 or guided tour is often more practical.</li>
-        </ul>
-      </section>
-
-      <section class="card">
-        <h2>Terminal & Travel Notes</h2>
-        <ul>
-          <li>Some routes depart from different terminals depending on direction and operator.</li>
-          <li>Travelers should arrive early, especially during summer and festival season.</li>
-          <li>English information can be limited at terminals, so route guidance helps a lot.</li>
-          <li>Long-distance travel in Mongolia can take much longer than expected due to road conditions.</li>
-        </ul>
-
-        <div class="tip">
-          <strong>Good conversion strategy:</strong> after giving honest transport info, offer a related private tour, airport pickup or 4×4 transport option on the same page.
-        </div>
-      </section>
+    <div class="highlight-box">
+      <h3>The Real Situation Between Provinces</h3>
+      <p>
+        One of the biggest misunderstandings travelers have is assuming they can easily move from one province to another by direct public bus. In reality, Mongolia does not have one simple, fully connected, easy-to-use interprovincial bus network for every route. In many cases, travelers may need to return to Ulaanbaatar first before continuing to another province.
+      </p>
     </div>
 
-    <section class="card">
-      <h2>Intercity Distance, Fare & Terminal Guide</h2>
-      <p class="muted">These are example rows for your website. You can refine them later with your own route notes and local knowledge.</p>
+    <section class="content-section">
+      <h2>Inter-Province Transport Reality</h2>
+      <p>
+        This is where transport planning in Mongolia becomes important. Public transport does exist, but direct connections between provinces are limited. Some routes are available, some are seasonal, and some are practical mainly for locals rather than international travelers with luggage and tight schedules.
+      </p>
+      <p>
+        If you are planning to visit several regions such as the Gobi, central Mongolia, Khuvsgul, and western Mongolia in one trip, you should not assume there is a simple direct bus between each one. A private vehicle, domestic flight, or organized route may be much more realistic.
+      </p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Destination</th>
-            <th>Distance from UB</th>
-            <th>Approx Travel Time</th>
-            <th>Transport Type</th>
-            <th>Estimated Fare</th>
-            <th>Suggested Terminal / Departure</th>
-            <th>Booking / Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Khuvsgul / Murun</td>
-            <td>~690–760 km</td>
-            <td>14–16 hrs by bus / 1.5 hrs flight</td>
-            <td>Bus / Domestic flight</td>
-            <td>Estimated, check official site</td>
-            <td>Check official intercity bus system or airport</td>
-            <td><a href="https://eticket.transdep.mn/" target="_blank" rel="noopener">Official bus check</a></td>
-          </tr>
-          <tr>
-            <td>Umnugovi / Dalanzadgad</td>
-            <td>~540–600 km</td>
-            <td>9–11 hrs by road / short domestic flight</td>
-            <td>Bus / Flight / Private 4×4</td>
-            <td>Estimated, check official site</td>
-            <td>Official bus system or airport</td>
-            <td>Useful for Gobi travelers</td>
-          </tr>
-          <tr>
-            <td>Arkhangai / Tsetserleg</td>
-            <td>~470–500 km</td>
-            <td>8–10 hrs</td>
-            <td>Bus / Private vehicle</td>
-            <td>Estimated, check official site</td>
-            <td>Check current terminal by route</td>
-            <td>Road route often combined with Central Mongolia tours</td>
-          </tr>
-          <tr>
-            <td>Bayan-Ulgii / Ulgii</td>
-            <td>~1,600+ km by road</td>
-            <td>Very long by road / domestic flight preferred</td>
-            <td>Flight / Expedition vehicle</td>
-            <td>Estimated, check airline</td>
-            <td>Airport</td>
-            <td>Best for Altai trips</td>
-          </tr>
-          <tr>
-            <td>Terelj</td>
-            <td>~65–80 km</td>
-            <td>1.5–2.5 hrs</td>
-            <td>Bus / Car / Day tour</td>
-            <td>Low local fare or private car fee</td>
-            <td>Local route guidance needed</td>
-            <td>Popular short trip from UB</td>
-          </tr>
-          <tr>
-            <td>Khustain Nuruu</td>
-            <td>~95–110 km</td>
-            <td>2–3 hrs</td>
-            <td>Bus + local transfer / Car / Tour</td>
-            <td>Varies by route</td>
-            <td>Route planning recommended</td>
-            <td>Often easier with day tour or private driver</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="note">
-        <strong>Recommended wording on your website:</strong><br>
-        “Schedules, terminals and fares may change. Please confirm using the official booking links before departure. For remote areas or multi-stop routes, private transport or a guided tour is usually easier.”
+      <div class="note-box">
+        <p>
+          In short: traveling from Ulaanbaatar to a province is usually easier than traveling directly from one distant province to another by public bus.
+        </p>
       </div>
     </section>
 
-    <section class="card">
-      <h2>Suggested Add-On Services</h2>
-      <div class="grid">
+    <section class="content-section">
+      <h2>Official Bus Ticket Information</h2>
+      <p>
+        Mongolia’s National Center for Road Transport provides official passenger transport information and an online bus ticket booking system. Travelers can check routes, dates, and seat availability online.
+      </p>
+
+      <div class="button-row">
+        <a class="btn btn-primary" href="https://eticket.transdep.mn/?language=en" target="_blank" rel="noopener noreferrer">Official Online Ticket System</a>
+        <a class="btn btn-secondary" href="https://www.transdep.mn/" target="_blank" rel="noopener noreferrer">National Center for Road Transport</a>
+      </div>
+
+      <p style="margin-top:16px;">
+        Information line: <strong>1900-1234</strong>
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>Approximate Distances from Ulaanbaatar</h2>
+      <p>
+        The table below is meant to help travelers understand scale. These are approximate distances and rough overland travel expectations, not guaranteed door-to-door timings. Actual time depends on road conditions, weather, stops, vehicle type, and the exact route.
+      </p>
+
+      <div class="transport-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Province</th>
+              <th>Provincial Center</th>
+              <th>Approx. Distance from Ulaanbaatar</th>
+              <th>Approx. Overland Time</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Arkhangai</td>
+              <td>Tsetserleg</td>
+              <td>~470 km</td>
+              <td>~8–10 hours</td>
+              <td>Popular for central Mongolia routes</td>
+            </tr>
+            <tr>
+              <td>Uvurkhangai</td>
+              <td>Arvaikheer</td>
+              <td>~430 km</td>
+              <td>~7–9 hours</td>
+              <td>Common stop for central itineraries</td>
+            </tr>
+            <tr>
+              <td>Dundgovi</td>
+              <td>Mandalgovi</td>
+              <td>~270 km</td>
+              <td>~4–6 hours</td>
+              <td>Shorter southern overland route</td>
+            </tr>
+            <tr>
+              <td>Dornogovi</td>
+              <td>Sainshand</td>
+              <td>~460 km</td>
+              <td>~7–9 hours</td>
+              <td>Important southeastern route</td>
+            </tr>
+            <tr>
+              <td>Umnugovi</td>
+              <td>Dalanzadgad</td>
+              <td>~540 km</td>
+              <td>~8–10 hours</td>
+              <td>Main gateway to the Gobi region</td>
+            </tr>
+            <tr>
+              <td>Khuvsgul</td>
+              <td>Murun</td>
+              <td>~670 km</td>
+              <td>~11–14 hours</td>
+              <td>Long but very popular northern route</td>
+            </tr>
+            <tr>
+              <td>Bulgan</td>
+              <td>Bulgan</td>
+              <td>~320 km</td>
+              <td>~5–7 hours</td>
+              <td>Central-northern access</td>
+            </tr>
+            <tr>
+              <td>Khentii</td>
+              <td>Chinggis City</td>
+              <td>~330 km</td>
+              <td>~5–7 hours</td>
+              <td>Eastern steppe direction</td>
+            </tr>
+            <tr>
+              <td>Dornod</td>
+              <td>Choibalsan</td>
+              <td>~650 km</td>
+              <td>~10–13 hours</td>
+              <td>Far eastern overland route</td>
+            </tr>
+            <tr>
+              <td>Uvs</td>
+              <td>Ulaangom</td>
+              <td>~1,300+ km</td>
+              <td>Very long overland journey</td>
+              <td>Better considered with flights or longer planning</td>
+            </tr>
+            <tr>
+              <td>Bayan-Ulgii</td>
+              <td>Ulgii</td>
+              <td>~1,700+ km</td>
+              <td>Very long overland journey</td>
+              <td>Often combined with domestic flights</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>Should You Take a Bus or Hire a Driver?</h2>
+
+      <div class="two-col">
         <div>
-          <h3>For Independent Travelers</h3>
+          <h3>Bus is a good option if:</h3>
           <ul>
-            <li>Airport pickup</li>
-            <li>Bus / train route help</li>
-            <li>Private 4×4 for final leg</li>
-            <li>Hotel or ger camp suggestion</li>
-            <li>Mongolia eSIM or local SIM guide</li>
+            <li>You are traveling on a budget</li>
+            <li>You are going mainly from Ulaanbaatar to one province</li>
+            <li>You are flexible with time</li>
+            <li>You do not mind a longer, simpler local-style journey</li>
           </ul>
         </div>
+
         <div>
-          <h3>For Tour Conversion</h3>
+          <h3>Private transport is better if:</h3>
           <ul>
-            <li>Join our Khuvsgul tour</li>
-            <li>Book Gobi private jeep</li>
-            <li>Need help planning multiple provinces?</li>
-            <li>Custom route support available</li>
-            <li>English / Japanese / Korean support</li>
+            <li>You want to visit multiple places in one region</li>
+            <li>You are traveling with luggage, family, or photography gear</li>
+            <li>You are going to national parks or remote camps</li>
+            <li>You do not want to lose time returning to Ulaanbaatar between routes</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="card">
-      <h2>Plan Your Mongolia Route</h2>
-      <p>If travelers want help choosing the best route, transport and destination order, send them to your booking page.</p>
-      <a class="btn" href="../booking.html">Go to Booking Page</a>
+    <div class="image-block">
+      <img src="../images/mongolia-road-travel.jpg" alt="Road travel in Mongolia" />
+      <div class="image-caption">Overland travel in Mongolia can be beautiful, long, and very different from city-to-city travel in more densely connected countries.</div>
+    </div>
+
+    <section class="content-section">
+      <h2>Things Travelers Often Underestimate</h2>
+      <ul>
+        <li>Distances in Mongolia are much bigger than they appear on a map</li>
+        <li>Road quality varies depending on the region</li>
+        <li>Bus connections do not cover every travel idea tourists imagine</li>
+        <li>Direct province-to-province travel is not always simple</li>
+        <li>Weather can affect travel comfort and timing</li>
+        <li>Rural travel requires more flexibility than city travel</li>
+      </ul>
     </section>
-  </div>
+
+    <section class="content-section">
+      <h2>Practical Advice Before Booking Transport</h2>
+      <ul>
+        <li>Check your route in advance rather than assuming a connection exists</li>
+        <li>Use official ticket sources when possible</li>
+        <li>Allow buffer time between major travel legs</li>
+        <li>For remote itineraries, compare bus vs. driver vs. flight before deciding</li>
+        <li>Carry water, snacks, and a power bank for long road journeys</li>
+        <li>Dress in layers, especially for early morning or overnight travel</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>Best Planning Strategy for Most Visitors</h2>
+      <p>
+        For many visitors, the best strategy is simple: use Ulaanbaatar as the main transport hub, then build each regional trip from there. This works much better than assuming every province is directly and easily connected to every other province by public bus.
+      </p>
+      <p>
+        If your itinerary includes only one major region, public transport may be enough. If it includes several distant regions, combining flights, local drivers, and selected road segments is usually more realistic.
+      </p>
+    </section>
+
+    <div class="cta-box">
+      <h3>Plan Transport Realistically, Travel More Comfortably</h3>
+      <p>
+        Mongolia rewards flexible travelers. If you understand the real distances, public transport limits, and regional travel patterns, your journey will be much smoother and much more enjoyable.
+      </p>
+    </div>
+  </main>
+
 </body>
 </html>
