@@ -52,6 +52,7 @@
 
   <div class="modal" id="bookingModal" aria-hidden="true"><div class="modal-backdrop" id="modalBackdrop"></div><div class="modal-dialog"><button class="modal-close" id="modalClose" type="button">&times;</button><h3>Book This Tour</h3><p class="muted">Simple request only. Choose your date and traveler count, then send request or pay deposit.</p><form class="modal-grid" id="bookingForm"><div><label>Selected Tour</label><input id="selectedTour" type="text" readonly></div><div><label>Preferred Date</label><input id="selectedDate" type="text" placeholder="Example: Sep 18, 2026" required></div><div><label>Travelers</label><select id="selectedPeople"><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option></select></div><div><label>Shown Price</label><input id="selectedPrice" type="text" readonly></div><div><label>Your Name</label><input id="guestName" type="text" placeholder="Full name"></div><div><label>WhatsApp / Email</label><input id="guestContact" type="text" placeholder="WhatsApp or email"></div><div class="full"><label>Extra Request</label><textarea id="guestMessage" placeholder="Custom route, nomadic family stay, airport pickup, domestic flight, horse riding, etc."></textarea></div><div class="full quote-box" id="quoteOnlyBox" style="display:none;"><strong>Ask for quote</strong>This tour is priced on request. Send your preferred date and group size, and we will reply with a custom price.</div><div class="full modal-actions"><button class="btn btn-primary" type="submit">Send Request</button><a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a><a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/yourpage">Messenger</a></div><div class="full" id="paypal-button-wrap" style="display:none;"><label>Pay deposit online</label><div id="paypal-button-container"></div></div></form></div></div>
 
+  <script src="https://www.paypal.com/sdk/js?client-id=ARbPVkSlqYY-svWFmOkYdQZzd7FAl_sMDyruwryRo-jNHhIBBLelzjCjTf2PkuscRukq8C_H1eq66cPq&currency=USD"></script>
   <script>
     const tours = [
       {id:'gobi-highlights-5d',name:'Gobi Highlights 5 Days',region:'gobi',style:'adventure',days:5,status:'guaranteed',image:'images/destinations/khongor-dunes.jpg',highlights:['Khongor Dunes','Bayanzag','Yol Valley','Tsagaan Suvarga'],prices:{1:1180,2:820,3:720,4:650},fromUB:'Flight or 4x4',season:'May–Oct'},
@@ -76,10 +77,8 @@
       {id:'vip-grand-5d',name:'VIP Mongolia Signature 5 Days',region:'special',style:'luxury',days:5,status:'request',image:'images/hero/hero-khuvsgul-lake.jpg',highlights:['Luxury Camps','Private Guide','Flexible Route'],prices:{1:3200,2:2100,3:1850,4:1700},fromUB:'Private setup',season:'May–Oct'}
     ];
 
-    const PAYPAL_CLIENT_ID = 'ARbPVkSlqYY-svWFmOkYdQZzd7FAl_sMDyruwryRo-jNHhIBBLelzjCjTf2PkuscRukq8C_H1eq66cPq';
     let selectedPeople = '1';
     let currentTour = null;
-    let paypalButtonsRendered = false;
 
     function formatPrice(value){ return '$' + Number(value).toLocaleString(); }
     function formatPerPersonPrice(value){ return formatPrice(value) + ' / person'; }
@@ -225,7 +224,6 @@
           alert('PayPal button error. Please check your Client ID and Netlify functions.');
         }
       }).render('#paypal-button-container');
-      paypalButtonsRendered = true;
     }
 
     document.querySelectorAll('[data-people]').forEach(btn => btn.addEventListener('click', function(){
@@ -263,20 +261,6 @@
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('bookingForm').addEventListener('submit', submitRequest);
     renderTours();
-      if(currentTour){ document.getElementById('selectedPeople').value = selectedPeople; updateSelectedPrice(); updateLinks(); }
-    }));
-
-    ['selectedDate','selectedPeople','guestName','guestContact','guestMessage'].forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener('input', function(){ if(id==='selectedPeople'){ updateSelectedPrice(); } updateLinks(); });
-      el.addEventListener('change', function(){ if(id==='selectedPeople'){ updateSelectedPrice(); } updateLinks(); });
-    });
-
-    document.getElementById('modalBackdrop').addEventListener('click', closeModal);
-    document.getElementById('modalClose').addEventListener('click', closeModal);
-    document.getElementById('bookingForm').addEventListener('submit', submitRequest);
-    renderTours();
   </script>
-<script src="https://www.paypal.com/sdk/js?client-id=ARbPVkSlqYY-svWFmOkYdQZzd7FAl_sMDyruwryRo-jNHhIBBLelzjCjTf2PkuscRukq8C_H1eq66cPq&currency=USD"></script>
 </body>
 </html>
