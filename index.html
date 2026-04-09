@@ -2132,199 +2132,299 @@ gtag('config', 'G-XDG8KZWZCM');
     murun: [49.6342, 100.1625]
   };
 
-  function getHotelCoordinates(item) {
-    const lat = Number(item.latitude ?? item.lat);
-    const lng = Number(item.longitude ?? item.lng);
+ // =========================
+// HOTEL SECTION - CLEAN VERSION
+// =========================
 
-    if (!Number.isNaN(lat) && !Number.isNaN(lng) && lat && lng) {
-      return [lat, lng];
-    }
+let hotelMap;
+let hotelMarkersLayer;
+let approvedHotels = [];
+window.currentRenderedHotels = [];
 
-    const locationKey = String(item.location || '')
-      .toLowerCase()
-      .trim()
-      .split(',')[0]
-      .trim();
+const fallbackImage = 'images/placeholder.jpg';
 
-    return HOTEL_LOCATION_COORDS[locationKey] || null;
-  }
+function getHotelCoordinates(item) {
+  const lat = Number(item?.latitude);
+  const lng = Number(item?.longitude);
+  if (Number.isFinite(lat) && Number.isFinite(lng)) return [lat, lng];
+  return null;
+}
 
-  function ensureHotelMap() {
-    if (hotelMap || !document.getElementById('hotel-map')) return;
+function ensureHotelMap() {
+  const mapEl = document.getElementById('hotel-map');
+  if (!mapEl) return null;
 
-    hotelMap = L.map('hotel-map', { scrollWheelZoom: true }).setView([47.9184, 106.9177], 5);
+  if (!hotelMap) {
+    hotelMap = L.map('hotel-map').setView([47.9184, 106.9177], 5);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(hotelMap);
+
     hotelMarkersLayer = L.layerGroup().addTo(hotelMap);
   }
 
-  function populateHotelFilters(items) {
-    const cityFilter = document.getElementById('hotel-city-filter');
-    const typeFilter = document.getElementById('hotel-type-filter');
-    if (!cityFilter || !typeFilter) return;
+  return hotelMap;
+}
 
-    const cities = [...new Set(items.map(item => (item.location || '').trim()).filter(Boolean))].sort();
-    const types = [...new Set(items.map(item => (item.property_type || '').trim()).filter(Boolean))].sort();
+function renderHotelMap(items = []) {
+  const map = ensureHotelMap();
+  if (!map || !hotelMarkersLayer) return;
 
-    cityFilter.innerHTML = '<option value="">All locations</option>' + cities.map(city => `<option value="${city}">${city}</option>`).join('');
-    typeFilter.innerHTML = '<option value="">All property types</option>' + types.map(type => `<option value="${type}">${type}</option>`).join('');
+  hotelMarkersLayer.clearLayers();
+
+  const validItems = items.filter(item => getHotelCoordinates(item));
+  if (!validItems.length) {
+    map.setView([47.9184, 106.9177], 5);
+    return;
   }
 
-  function renderHotelMap(items) {
-    ensureHotelMap();
-    if (!hotelMarkersLayer || !hotelMap) return;
+  const bounds = [];
 
-    hotelMarkersLayer.clearLayers();
-    const bounds = [];
+  validItems.forEach((item, index) => {
+    const coords = getHotelCoordinates(item);
+    if (!coords) return;
 
-    items.forEach((item, index) => {
-      const coords = getHotelCoordinates(item);
-      if (!coords) return;
+    const galleryUrls = normalizeGalleryUrls(
+      item.gallery_urls,
+      item.main_image_url || item.image_url || fallbackImage
+    );
+    const mainImg = galleryUrls[0] || fallbackImage;
 
-      const image = item.main_image_url || item.image_url || fallbackImage;
-      const marker = L.marker(coords).addTo(hotelMarkersLayer);
-      marker.bindPopup(`
-        <div class="hotel-popup">
-          <img src="${image}" alt="${item.name || 'Hotel'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
-          <strong>${item.name || 'Hotel'}</strong>
-          <div>${item.location || ''}</div>
-          ${item.price ? `<div style="margin-top:4px;color:#15803d;font-weight:700;">${item.price}</div>` : ''}
-          ${item.phone ? `<div style="margin-top:4px;">📞 ${item.phone}</div>` : ''}
-          <div style="margin-top:8px;"><a href="hotel-detail.html?id=${item.id}" style="color:#0d3b66;font-weight:700;">View details</a></div>
+    const popupHtml = `
+      <div class="hotel-popup">
+        <img src="${mainImg}" alt="${item.name || 'Hotel'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+        <strong>${item.name || 'Hotel'}</strong>
+        <div>${item.location || ''}</div>
+        <div>${item.price || 'Ask for price'}</div>
+        <div style="margin-top:8px;">
+          <a href="hotel-detail.html?id=${item.id}">View details</a>
         </div>
-      `);
-      bounds.push(coords);
-    });
+      </div>
+    `;
 
-    if (bounds.length) {
-      hotelMap.fitBounds(bounds, { padding: [30, 30] });
-    } else {
-      hotelMap.setView([47.9184, 106.9177], 5);
-    }
+    const marker = L.marker(coords).bindPopup(popupHtml);
+    hotelMarkersLayer.addLayer(marker);
+    bounds.push(coords);
+  });
+
+  if (bounds.length === 1) {
+    map.setView(bounds[0], 11);
+  } else {
+    map.fitBounds(bounds, { padding: [30, 30] });
+  }
+}
+
+function populateHotelFilters(items = []) {
+  const citySelect = document.getElementById('hotel-city-filter');
+  const typeSelect = document.getElementById('hotel-type-filter');
+  if (!citySelect || !typeSelect) return;
+
+  const currentCity = citySelect.value;
+  const currentType = typeSelect.value;
+
+  const cities = [...new Set(items.map(item => item.location).filter(Boolean))].sort();
+  const types = [...new Set(items.map(item => item.property_type).filter(Boolean))].sort();
+
+  citySelect.innerHTML = `<option value="">All locations</option>` +
+    cities.map(city => `<option value="${city}">${city}</option>`).join('');
+
+  typeSelect.innerHTML = `<option value="">All property types</option>` +
+    types.map(type => `<option value="${type}">${type}</option>`).join('');
+
+  citySelect.value = cities.includes(currentCity) ? currentCity : '';
+  typeSelect.value = types.includes(currentType) ? currentType : '';
+}
+
+function renderHotelCards(items = []) {
+  const wrap = document.getElementById('hotel-list');
+  const counter = document.getElementById('hotel-result-count');
+  if (!wrap) return;
+
+  if (counter) {
+    counter.textContent = items.length
+      ? `${items.length} stay option${items.length > 1 ? 's' : ''} found`
+      : 'No matching hotels found';
   }
 
-  function renderHotelCards(items) {
-    const wrap = document.getElementById('hotel-list');
-    const counter = document.getElementById('hotel-result-count');
-    if (!wrap) return;
+  if (!items.length) {
+    wrap.innerHTML = `<div class="hotel-empty-state">No approved hotel matches this filter yet.</div>`;
+    renderHotelMap([]);
+    return;
+  }
 
-    if (counter) {
-      counter.textContent = items.length ? `${items.length} stay option${items.length > 1 ? 's' : ''} found` : 'No matching hotels found';
+  wrap.innerHTML = items.map((item, index) => {
+    const galleryUrls = normalizeGalleryUrls(
+      item.gallery_urls,
+      item.main_image_url || item.image_url || fallbackImage
+    );
+
+    const mainImg = galleryUrls[0] || fallbackImage;
+    const typeTag = item.property_type || 'Property';
+    const desc = item.description || 'Comfortable stay option reviewed by our team.';
+    const phoneLink = item.phone
+      ? `https://wa.me/${String(item.phone).replace(/[^0-9]/g, '')}`
+      : '';
+
+    return `
+      <article class="hotel-booking-card">
+        <img
+          class="hotel-cover"
+          src="${mainImg}"
+          alt="${item.name || 'Hotel'}"
+          onerror="this.onerror=null;this.src='${fallbackImage}'"
+        >
+
+        <div class="hotel-booking-body">
+          <div class="hotel-booking-top">
+            <div>
+              <div class="tag">${typeTag}</div>
+              <h3 class="hotel-booking-title">${item.name || ''}</h3>
+              <div class="hotel-booking-location">📍 ${item.location || ''}</div>
+            </div>
+
+            <div class="hotel-booking-price">
+              ${item.price || 'Ask for price'}
+              <small>${item.price ? 'per night / package' : 'contact for latest rate'}</small>
+            </div>
+          </div>
+
+          <div class="hotel-booking-tags">
+            ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
+            ${item.email ? `<span class="pill">✉️ ${item.email}</span>` : ''}
+            ${galleryUrls.length > 1 ? `<span class="pill">${galleryUrls.length} photos</span>` : ''}
+          </div>
+
+          <p class="hotel-booking-desc">${desc}</p>
+
+          <div class="hotel-booking-actions">
+            <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${item.id}">View details</a>
+            ${phoneLink ? `<a class="hotel-mini-btn" href="${phoneLink}" target="_blank" rel="noopener">Book / Contact</a>` : ''}
+            ${galleryUrls.length ? `<button class="hotel-mini-btn" type="button" onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\\'")}')">View photo</button>` : ''}
+            <button class="hotel-mini-btn" type="button" onclick="focusHotelOnMap(${index})">Show on map</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  renderHotelMap(items);
+}
+
+function applyHotelFilters() {
+  const searchTerm = (document.getElementById('hotel-search')?.value || '').toLowerCase().trim();
+  const cityValue = document.getElementById('hotel-city-filter')?.value || '';
+  const typeValue = document.getElementById('hotel-type-filter')?.value || '';
+
+  const filtered = approvedHotels.filter(item => {
+    const haystack = `${item.name || ''} ${item.location || ''} ${item.property_type || ''} ${item.description || ''}`.toLowerCase();
+
+    const matchesSearch = !searchTerm || haystack.includes(searchTerm);
+    const matchesCity = !cityValue || (item.location || '') === cityValue;
+    const matchesType = !typeValue || (item.property_type || '') === typeValue;
+
+    return matchesSearch && matchesCity && matchesType;
+  });
+
+  window.currentRenderedHotels = filtered;
+  renderHotelCards(filtered);
+}
+
+window.focusHotelOnMap = function(index) {
+  const items = window.currentRenderedHotels || [];
+  const item = items[index];
+  if (!item) return;
+
+  const coords = getHotelCoordinates(item);
+  if (!coords) return;
+
+  ensureHotelMap();
+  hotelMap.setView(coords, 11, { animate: true });
+
+  hotelMarkersLayer.eachLayer(layer => {
+    if (layer.getLatLng) {
+      const latLng = layer.getLatLng();
+      if (latLng.lat === coords[0] && latLng.lng === coords[1]) {
+        layer.openPopup();
+      }
     }
+  });
+};
 
-    if (!items.length) {
-      wrap.innerHTML = '<div class="hotel-empty-state">No approved hotel matches this filter yet.</div>';
-      renderHotelMap([]);
+async function loadHotels() {
+  const { data, error } = await supabaseClient
+    .from('property_submissions')
+    .select('*')
+    .eq('status', 'approved')
+    .order('created_at', { ascending: false })
+    .limit(24);
+
+  if (error) {
+    console.error('loadHotels error:', error);
+    const wrap = document.getElementById('hotel-list');
+    if (wrap) {
+      wrap.innerHTML = `<div class="hotel-empty-state">Could not load hotels right now.</div>`;
+    }
+    return;
+  }
+
+  approvedHotels = data || [];
+  populateHotelFilters(approvedHotels);
+  applyHotelFilters();
+}
+
+async function insertHotelSubmission(e) {
+  e.preventDefault();
+
+  try {
+    const imageFiles = pendingUploadFiles.hotel.length
+      ? [...pendingUploadFiles.hotel]
+      : Array.from(document.getElementById('hotel_image_file')?.files || []);
+
+    if (!imageFiles.length) {
+      showNotice('hotel-notice', 'Please choose hotel images.', 'error');
       return;
     }
 
-    wrap.innerHTML = items.map((item, index) => {
-      const galleryUrls = normalizeGalleryUrls(item.gallery_urls, item.main_image_url || item.image_url || fallbackImage);
-      const images = galleryUrls.length ? galleryUrls : [fallbackImage];
-      const mainImg = images[0];
-      const typeTag = item.property_type || 'Property';
-      const desc = item.description || 'Comfortable stay option reviewed by our team.';
-      return `
-        <article class="hotel-booking-card">
-          <div class="listing-gallery">
-            <img
-              id="hotel-main-${item.id}"
-              class="listing-main-image"
-              src="${mainImg}"
-              alt="${item.name || 'Hotel'}"
-              onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\'")}')"
-              onerror="this.onerror=null;this.src='${fallbackImage}'"
-            >
-            <div class="listing-thumbs">
-              ${images.map((img, idx) => `
-                <img
-                  src="${img}"
-                  alt="${item.name || 'Hotel'} photo ${idx + 1}"
-                  class="${idx === 0 ? 'active' : ''}"
-                  onclick="switchHotelCardImage('${item.id}', '${String(img).replace(/'/g, "\'")}', this)"
-                  onerror="this.onerror=null;this.src='${fallbackImage}'"
-                >
-              `).join('')}
-            </div>
-          </div>
+    showNotice('hotel-notice', 'Uploading images...', 'success');
+    const imageUrls = await uploadMultipleImages(HOTEL_IMAGE_BUCKET, imageFiles, 'hotels');
 
-          <div class="hotel-booking-body">
-            <div class="hotel-booking-top">
-              <div>
-                <div class="tag">${typeTag}</div>
-                <h3 class="hotel-booking-title">${item.name || ''}</h3>
-                <div class="hotel-booking-location">📍 ${item.location || ''}</div>
-              </div>
-              <div class="hotel-booking-price">${item.price || 'Ask for price'}<small>${item.price ? 'per night / package' : 'contact for latest rate'}</small></div>
-            </div>
+    const payload = {
+      name: document.getElementById('hotel_name').value.trim(),
+      property_type: document.getElementById('hotel_type').value,
+      location: document.getElementById('hotel_location').value.trim(),
+      price: document.getElementById('hotel_price').value.trim(),
+      email: document.getElementById('hotel_email').value.trim(),
+      phone: document.getElementById('hotel_phone').value.trim(),
+      latitude: document.getElementById('hotel_latitude').value.trim() || null,
+      longitude: document.getElementById('hotel_longitude').value.trim() || null,
+      image_url: imageUrls[0] || '',
+      main_image_url: imageUrls[0] || '',
+      gallery_urls: imageUrls,
+      description: document.getElementById('hotel_description').value.trim(),
+      status: 'pending'
+    };
 
-            <div class="hotel-booking-tags">
-              ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
-              ${item.email ? `<span class="pill">✉️ ${item.email}</span>` : ''}
-              ${images.length > 1 ? `<span class="pill">${images.length} photos</span>` : ''}
-            </div>
+    const { error } = await supabaseClient
+      .from('property_submissions')
+      .insert([payload]);
 
-            <p class="hotel-booking-desc">${desc}</p>
+    if (error) throw error;
 
-            <div class="hotel-booking-actions">
-              <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${item.id}">View details</a>
-              <a class="hotel-mini-btn" href="${TOUR_BOOKING_URL}">Book hotel / Pay $100</a>
-              <button class="hotel-mini-btn" type="button" onclick="openImageLightbox(document.getElementById('hotel-main-${item.id}').src)">View photo</button>
-              <button class="hotel-mini-btn" type="button" onclick="focusHotelOnMap(${index})">Show on map</button>
-            </div>
-          </div>
-        </article>
-      `;
-    }).join('');
+    document.getElementById('hotel-form').reset();
+    pendingUploadFiles.hotel = [];
+    renderSelectedImages('hotel');
 
-    renderHotelMap(items);
+    showNotice(
+      'hotel-notice',
+      'Hotel or camp submitted successfully. We will review it before publishing.',
+      'success'
+    );
+  } catch (error) {
+    console.error('hotel insert error:', error);
+    showNotice('hotel-notice', error.message || 'Hotel submission failed.', 'error');
   }
-
-
-  window.switchHotelCardImage = function(id, src, thumbEl) {
-    const main = document.getElementById(`hotel-main-${id}`);
-    if (!main) return;
-    main.src = src;
-    main.setAttribute('onclick', `openImageLightbox('${String(src).replace(/'/g, "\'")}')`);
-    const thumbsWrap = thumbEl?.parentElement;
-    if (thumbsWrap) thumbsWrap.querySelectorAll('img').forEach(img => img.classList.remove('active'));
-    if (thumbEl) thumbEl.classList.add('active');
-  };
-
-  function applyHotelFilters() {
-    const searchTerm = (document.getElementById('hotel-search')?.value || '').toLowerCase().trim();
-    const cityValue = document.getElementById('hotel-city-filter')?.value || '';
-    const typeValue = document.getElementById('hotel-type-filter')?.value || '';
-
-    const filtered = approvedHotels.filter(item => {
-      const haystack = `${item.name || ''} ${item.location || ''} ${item.property_type || ''} ${item.description || ''}`.toLowerCase();
-      const matchesSearch = !searchTerm || haystack.includes(searchTerm);
-      const matchesCity = !cityValue || (item.location || '') === cityValue;
-      const matchesType = !typeValue || (item.property_type || '') === typeValue;
-      return matchesSearch && matchesCity && matchesType;
-    });
-
-    window.currentRenderedHotels = filtered;
-    renderHotelCards(filtered);
-  }
-
-  window.focusHotelOnMap = function(index) {
-    const items = window.currentRenderedHotels || [];
-    const item = items[index];
-    if (!item) return;
-    const coords = getHotelCoordinates(item);
-    if (!coords) return;
-    ensureHotelMap();
-    hotelMap.setView(coords, 11, { animate: true });
-
-    hotelMarkersLayer.eachLayer(layer => {
-      if (layer.getLatLng && layer.getLatLng().lat === coords[0] && layer.getLatLng().lng === coords[1]) {
-        layer.openPopup();
-      }
-    });
-  };
-
+}
   async function loadHotels() {
     const { data, error } = await supabaseClient
       .from('property_submissions')
