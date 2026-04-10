@@ -80,25 +80,25 @@
     .summary-box strong{display:block;color:var(--primary);font-size:20px;margin-bottom:6px}
     .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;margin-top:26px}
     .result-count{font-size:14px;color:var(--muted)}
-    .tour-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .tour-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
     .tour-card{background:#fff;border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(13,59,102,.08);display:flex;flex-direction:column}
-    .tour-cover{height:170px;background:#e8edf3 center/cover no-repeat}
-    .tour-body{padding:16px;display:flex;flex-direction:column;gap:10px;height:100%}
+    .tour-cover{height:145px;background:#e8edf3 center/cover no-repeat}
+    .tour-body{padding:14px;display:flex;flex-direction:column;gap:9px;height:100%}
     .tour-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
     .tour-badge{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:#eef4ff;color:var(--primary);font-size:12px;font-weight:800;margin-bottom:8px}
-    .tour-title{font-size:21px;color:var(--primary-dark);margin:0}
-    .tour-duration{white-space:nowrap;font-weight:800;color:#15803d;font-size:14px}
+    .tour-title{font-size:18px;color:var(--primary-dark);margin:0}
+    .tour-duration{white-space:nowrap;font-weight:800;color:#15803d;font-size:13px}
     .tour-highlights{display:flex;gap:8px;flex-wrap:wrap}
     .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#f3f4f6;color:var(--dark);font-size:12px;font-weight:700}
     .date-row{display:flex;gap:8px;flex-wrap:wrap}
     .date-chip{display:inline-flex;align-items:center;padding:8px 10px;border-radius:999px;background:#fff8eb;color:#7c4a03;border:1px solid #f6d9a8;font-weight:700;font-size:12px}
     .price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .price-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:12px}
-    .price-box strong{display:block;color:var(--primary-dark);font-size:15px;margin-bottom:4px}
+    .price-box strong{display:block;color:var(--primary-dark);font-size:14px;margin-bottom:4px}
     .price-box.ask-only{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .price-box.ask-only strong{margin:0}
     .tour-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-    .tour-meta div{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:12px;font-size:14px}
+    .tour-meta div{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:10px;font-size:13px}
     .status-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .status{display:inline-flex;align-items:center;padding:9px 12px;border-radius:999px;font-weight:800;font-size:12px}
     .status.guaranteed{background:#ecfdf5;color:#166534;border:1px solid #bbf7d0}
@@ -162,18 +162,22 @@
     .detail-section{margin-top:16px}
     .detail-section h4{margin-bottom:10px;color:var(--primary-dark)}
     .detail-price{font-size:15px;font-weight:700;color:#14532d}
-    .tour-actions .tour-btn{padding:10px 14px;font-size:14px}
+    .tour-actions .tour-btn{padding:9px 12px;font-size:13px}
 
+    @media (max-width:1200px){
+      .tour-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
     @media (max-width:1024px){
       .summary-strip,.hero-stats,.story-facts,.quick-services,.simple-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .tour-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .story-grid,.planner-grid{grid-template-columns:1fr}
-      .tour-meta{grid-template-columns:1fr 1fr 1fr}
+      .tour-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tour-meta{grid-template-columns:1fr 1fr 1fr}
     }
     @media (max-width:720px){
       .nav-links{display:none}
       .summary-strip,.price-grid,.story-facts,.modal-grid,.tour-meta,.quick-services,.simple-steps,.tier-grid{grid-template-columns:1fr}
       .hero .container{padding:80px 0 60px}
-      .tour-title{font-size:20px}
+      .tour-title{font-size:18px}
       .floating-book{left:12px;right:12px;bottom:12px}
     }
   </style>
@@ -222,8 +226,8 @@
   <section id="services" style="padding-top:0;">
     <div class="container">
       <div class="section-head">
-        <h2>Travel services guests can book separately or combine</h2>
-        <p>Guests do not need to buy only a full package. They can choose a fixed tour, ask for a custom route, rent a vehicle with driver, hire a guide only, add a nomadic stay, or travel with children and request extra support.</p>
+        <h2>Booking Mongolia travel services guests can book separately or combine</h2>
+        <p>Guests do not need to buy only a full package. They can choose a fixed tour, ask for a custom route, rent a vehicle with driver, hire a guide only, add a nomadic stay, request a trip helper or babysitter, and send food preferences for a more personal Booking Mongolia plan.</p>
       </div>
       <div class="service-grid-6">
         <article class="service-card">
@@ -233,6 +237,7 @@
           <ul>
             <li>Choose exact destinations</li>
             <li>Flexible dates and duration</li>
+            <li>Food style and pace can match the guest</li>
             <li>Good for private groups and photographers</li>
           </ul>
           <div class="route-examples">
@@ -251,7 +256,7 @@
           <ul>
             <li>Airport pickup and city transfer</li>
             <li>Short trips or full expedition support</li>
-            <li>Best for custom routes and families</li>
+            <li>Best for custom routes, seniors and families</li>
           </ul>
           <div class="service-actions">
             <button class="service-btn primary" onclick="openServiceRequest('Car rental with driver')">Book Vehicle</button>
@@ -266,6 +271,7 @@
             <li>Guide-only service possible</li>
             <li>Culture, nature or photography focus</li>
             <li>Can be added to self-planned routes</li>
+            <li>Translator or travel helper can also be requested</li>
           </ul>
           <div class="service-actions">
             <button class="service-btn primary" onclick="openServiceRequest('Private guide service')">Request Guide</button>
@@ -294,9 +300,24 @@
             <li>Child-friendly routing</li>
             <li>Hotel + ger camp mix available</li>
             <li>Optional childcare support</li>
+            <li>Extra helper / assistant can be requested</li>
           </ul>
           <div class="service-actions">
             <button class="service-btn primary" onclick="openServiceRequest('Family travel with childcare option')">Plan Family Trip</button>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <span class="tag">Travel Helper</span>
+          <h3>Ask for a private helper or assistant</h3>
+          <p>Guests who need childcare help, translation help, elder support or extra hands on the road can request a travel assistant.</p>
+          <ul>
+            <li>Childcare or babysitter support</li>
+            <li>Translation / local help</li>
+            <li>Useful for family and premium trips</li>
+          </ul>
+          <div class="service-actions">
+            <button class="service-btn primary" onclick="openServiceRequest('Travel helper / assistant service')">Request Helper</button>
           </div>
         </article>
 
@@ -331,6 +352,7 @@
             <div class="mini-box"><strong>Route-first planning</strong><span>Example: Ulaanbaatar → Kharkhorum → Orkhon → Tsenkher → Khorgo → Khuvsgul.</span></div>
             <div class="mini-box"><strong>Stand-alone vehicle</strong><span>Car + driver service can be booked without full package purchase.</span></div>
             <div class="mini-box"><strong>Guide-only option</strong><span>Guests can book a guide separately for selected dates or destinations.</span></div>
+            <div class="mini-box"><strong>Food preference matching</strong><span>Vegetarian, child-friendly and lighter meal requests can be added before the route is confirmed.</span></div>
           </div>
         </div>
         <div class="family-card soft">
@@ -338,8 +360,10 @@
           <p>Families with children can request slower pacing, more rest stops, easier walking days, hotel + ger camp mix, and an extra childcare helper when needed.</p>
           <ul>
             <li>Optional babysitter / nanny support on request</li>
+            <li>Extra helper or assistant support can be added</li>
             <li>Better pacing for children and grandparents</li>
             <li>Family rooms, private camp or city hotel combinations</li>
+            <li>Food preferences can be planned in advance</li>
             <li>Suggested low-stress routes between May and October</li>
           </ul>
           <div class="season-note"><strong>Season note:</strong> summer and autumn trips are open from <strong>May to October</strong>. Families can still request shoulder-season trips, but this page is focused on the main warm-weather season.</div>
@@ -368,16 +392,16 @@
     <div class="container">
       <div class="section-head">
         <h2>2026 Mongolia Tour Calendar</h2>
-        <p>All tours below are shown through the main season from May to October. Fixed departures can be reserved with a 20% PayPal deposit, while custom routes, transport-only, guide-only and family requests can be sent through the same booking form.</p>
+        <p>All tours below are shown through the main season from May to October. Fixed departures can be reserved with a $100 PayPal deposit, while custom routes, transport-only, guide-only and family requests can be sent through the same booking form.</p>
       </div>
 
       <div class="deposit-banner">
-        <strong>Booking update:</strong> the filter section has been removed for a cleaner page. Guests can now open any tour and continue with a <strong>20% deposit payment via PayPal</strong> to reserve their seats. Custom routes, nomadic stays and helicopter requests can still be sent as inquiries first.
+        <strong>Booking update:</strong> the filter section has been removed for a cleaner page. Guests can now open any tour and continue with a <strong>fixed $100 PayPal deposit</strong> to reserve their seats. Custom routes, nomadic stays and helicopter requests can still be sent as inquiries first.
       </div>
 
       <div class="summary-strip">
         <div class="summary-box"><strong id="tourCount">20</strong><span>Tours currently shown</span></div>
-        <div class="summary-box"><strong>20% Deposit</strong><span>Reserve a fixed tour with PayPal deposit</span></div>
+        <div class="summary-box"><strong>$100 Deposit</strong><span>Reserve a fixed tour with a fixed PayPal deposit</span></div>
         <div class="summary-box"><strong>May–Oct</strong><span>Summer and autumn season open</span></div>
         <div class="summary-box"><strong>Flexible</strong><span>Custom route, car, guide and family requests</span></div>
       </div>
@@ -393,7 +417,7 @@
     <div class="container">
       <div class="section-head">
         <h2>How the upgraded planner works</h2>
-        <p>One form now supports fixed tours, custom routes, vehicle booking, guide-only service, nomadic stays, helicopter requests and family travel with childcare option.</p>
+        <p>One form now supports fixed tours, custom routes, vehicle booking, guide-only service, nomadic stays, helicopter requests, travel helpers, food preferences and family travel with childcare option.</p>
       </div>
       <div class="planner-grid">
         <div class="planner-card">
@@ -411,7 +435,9 @@
             <div class="planner-item"><div>✓</div><div><strong>Car rental with driver</strong><span>Useful for guests who want only transport support.</span></div></div>
             <div class="planner-item"><div>✓</div><div><strong>Guide-only booking</strong><span>Perfect for city touring, cultural interpretation and flexible private travel.</span></div></div>
             <div class="planner-item"><div>✓</div><div><strong>Family travel + nanny option</strong><span>Offer a calmer pace and optional childcare support for families.</span></div></div>
-            <div class="planner-item"><div>✓</div><div><strong>20% deposit for fixed tours</strong><span>Reserve a departure online, then confirm the remaining balance later.</span></div></div>
+            <div class="planner-item"><div>✓</div><div><strong>Travel helper or assistant</strong><span>Add support for children, seniors or guests who want extra help.</span></div></div>
+            <div class="planner-item"><div>✓</div><div><strong>Food preference planning</strong><span>Vegetarian, child-friendly or lighter meal preferences can be sent in advance.</span></div></div>
+            <div class="planner-item"><div>✓</div><div><strong>$100 deposit for fixed tours</strong><span>Reserve a departure online, then confirm the remaining balance later.</span></div></div>
           </div>
           <div class="service-actions">
             <button class="service-btn primary" onclick="openServiceRequest('Custom trip request')">Open Request Form</button>
@@ -428,19 +454,19 @@
     </div>
   </footer>
 
-  <a href="#calendar-list" class="floating-book" onclick="openServiceRequest('General booking inquiry');return false;">Quick Request</a>
+  <a href="#calendar-list" class="floating-book" onclick="openServiceRequest('General booking inquiry');return false;">Book or Request</a>
 
   <div class="modal" id="bookingModal" aria-hidden="true">
     <div class="modal-backdrop" onclick="closeModal()"></div>
     <div class="modal-dialog">
       <button class="modal-close" onclick="closeModal()">&times;</button>
-      <h3>Send your travel request or pay deposit</h3>
+      <h3>Send your travel request or pay a $100 deposit</h3>
       <p class="muted">This form is intentionally shorter and easier. Guests can choose the service, dates, group size and contact. It now also supports custom routes, car rental, guide-only booking and family travel with optional childcare support.</p>
 
       <div class="simple-steps">
-        <div class="step-box"><strong>1. Choose service</strong><span>Tour, custom route, car, guide, family trip or helicopter quote.</span></div>
+        <div class="step-box"><strong>1. Choose service</strong><span>Tour, custom route, car, guide, helper service, family trip or helicopter quote.</span></div>
         <div class="step-box"><strong>2. Add dates</strong><span>Exact dates, preferred month and route details.</span></div>
-        <div class="step-box"><strong>3. Continue</strong><span>Pay 20% deposit or send the request by WhatsApp / Messenger.</span></div>
+        <div class="step-box"><strong>3. Continue</strong><span>Pay the fixed $100 deposit or send the request by WhatsApp / Messenger.</span></div>
       </div>
 
       <form class="modal-grid" onsubmit="event.preventDefault();submitInquiry();">
@@ -452,6 +478,7 @@
             <option value="vehicle">Car rental with driver</option>
             <option value="guide">Guide only</option>
             <option value="family">Family travel with childcare option</option>
+            <option value="assistant">Travel helper / assistant</option>
             <option value="nomad">Nomadic family stay</option>
             <option value="heli">Helicopter / fly-in quote</option>
             <option value="general">General inquiry</option>
@@ -487,7 +514,7 @@
         </div>
 
         <div id="depositWrap">
-          <label>PayPal Deposit (20%)</label>
+          <label>PayPal Deposit</label>
           <input id="depositAmount" type="text" placeholder="Calculated deposit" readonly>
         </div>
 
@@ -526,6 +553,11 @@
           <input id="guestFamilyInfo" type="text" placeholder="Example: 2 adults, 1 child">
         </div>
 
+        <div>
+          <label>Food Preference</label>
+          <input id="foodPreference" type="text" placeholder="Example: vegetarian, child-friendly meals, no spicy food">
+        </div>
+
         <div id="childcareWrap" class="hidden">
           <label>Need babysitter / nanny support?</label>
           <select id="childcareOption" onchange="updateWhatsAppLink();">
@@ -547,17 +579,17 @@
 
         <div class="full">
           <label>Message / Notes</label>
-          <textarea id="guestMessage" placeholder="Special requests, children, hotel level, language guide, food, budget, etc."></textarea>
+          <textarea id="guestMessage" placeholder="Special requests, children, helper, hotel level, language guide, food preference, budget, etc."></textarea>
         </div>
 
         <div class="full" style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button class="btn btn-primary" type="submit">Prepare Request</button>
-          <a class="btn" style="background:#0070ba;color:#fff;" target="_blank" id="paypalLink" href="https://www.paypal.com/ncp/payment/WEXA5TUWBLCVY">Pay 20% Deposit</a>
+          <button class="btn btn-primary" type="submit">Prepare Request + Open PayPal</button>
+          <a class="btn" style="background:#0070ba;color:#fff;" target="_blank" id="paypalLink" href="https://www.paypal.com/ncp/payment/WEXA5TUWBLCVY">Pay $100 Deposit</a>
           <a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a>
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/yourpage">Messenger</a>
         </div>
       </form>
-      <div class="help-note" id="submitNote">Tip: replace the Messenger link with your real page link. The PayPal button currently uses your payment link and the form shows a 20% deposit amount for fixed tours. If you later want an exact dynamic PayPal amount per tour, that would need a PayPal button or backend integration.</div>
+      <div class="help-note" id="submitNote">Tip: replace the Messenger link with your real page link. The PayPal button now uses your fixed $100 payment link for bookable tours. Custom routes and quote-only services can still be sent first by WhatsApp or Messenger.</div>
     </div>
   </div>
 
@@ -637,7 +669,6 @@
     const tourGrid = document.getElementById('tourGrid');
     const resultCount = document.getElementById('resultCount');
     const tourCount = document.getElementById('tourCount');
-    const PAYPAL_LINK = 'https://www.paypal.com/ncp/payment/WEXA5TUWBLCVY';
 
     function durationBucket(days){
       if(days <= 3) return '1-3';
@@ -712,7 +743,7 @@
             <div class="small-note">Group price is lower when 2–4 travelers join together.</div>
             <div class="tour-actions">
               <button class="tour-btn" onclick="openDetailModal('${t.id}')">View Details</button>
-              <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Ask Quote' : 'Book / Pay Deposit'}</button>
+              <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Ask Quote' : 'Book / Pay $100'}</button>
             </div>
           </div>
         </article>
@@ -775,7 +806,7 @@
         </div>
 
         <div class="tour-actions" style="margin-top:18px;">
-          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? 'Ask Quote' : 'Book / Pay Deposit'}</button>
+          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? 'Ask Quote' : 'Book / Pay $100'}</button>
           <button class="tour-btn" onclick="closeDetailModal()">Close</button>
         </div>
       `;
@@ -819,6 +850,7 @@
         : `Hello, I want to book ${tour.name}.`;
       document.getElementById('guestFamilyInfo').value = '';
       document.getElementById('childcareOption').value = '';
+      const fp = document.getElementById('foodPreference'); if(fp) fp.value = '';
       updatePriceField();
       toggleRequestFields();
       updateWhatsAppLink();
@@ -858,18 +890,19 @@
       const depositInput = document.getElementById('depositAmount');
       const paypalBtn = document.getElementById('paypalLink');
       const type = document.getElementById('requestType').value;
-      if(type === 'tour' && activeTour && activeTour.priceMode !== 'ask' && activeTour.prices){
-        const peopleValue = document.getElementById('selectedPeople').value;
-        const numericPeople = ['1','2','3','4'].includes(peopleValue) ? peopleValue : '4';
-        const val = activeTour.prices[numericPeople];
-        const deposit = Math.round(val * 0.20);
-        depositInput.value = numericPeople === '1' ? `${formatPrice(deposit)}` : `${formatPrice(deposit)} / person`;
+
+      if(type === 'tour' && activeTour && activeTour.priceMode !== 'ask'){
+        depositInput.value = '$100 fixed deposit';
+        paypalBtn.href = PAYPAL_LINK;
+        paypalBtn.classList.remove('hidden');
+      } else if(type === 'heli') {
+        depositInput.value = 'Quote first';
         paypalBtn.href = PAYPAL_LINK;
         paypalBtn.classList.remove('hidden');
       } else {
-        depositInput.value = 'Quote first';
+        depositInput.value = 'Request first';
         paypalBtn.href = PAYPAL_LINK;
-        paypalBtn.classList.toggle('hidden', !(type === 'tour' || type === 'heli'));
+        paypalBtn.classList.add('hidden');
       }
     }
 
@@ -892,7 +925,7 @@
       const showNights = type === 'nomad';
       const showPrice = type === 'tour' || type === 'heli';
       const showDeparture = type === 'tour' || type === 'heli';
-      const showChildcare = type === 'family';
+      const showChildcare = type === 'family' || type === 'assistant';
       document.getElementById('routeWrap').classList.toggle('hidden', !showRoute);
       document.getElementById('nightsWrap').classList.toggle('hidden', !showNights);
       document.getElementById('priceWrap').classList.toggle('hidden', !showPrice);
@@ -904,6 +937,7 @@
       if(type === 'vehicle' && !document.getElementById('selectedTour').value) document.getElementById('selectedTour').value = 'Car rental with driver';
       if(type === 'guide' && !document.getElementById('selectedTour').value) document.getElementById('selectedTour').value = 'Private guide service';
       if(type === 'family' && !document.getElementById('selectedTour').value) document.getElementById('selectedTour').value = 'Family travel with childcare option';
+      if(type === 'assistant' && !document.getElementById('selectedTour').value) document.getElementById('selectedTour').value = 'Travel helper / assistant service';
       if(type === 'heli') document.getElementById('selectedPrice').value = 'Ask for quote';
       updateDepositField();
     }
@@ -916,6 +950,7 @@
         vehicle:'Car rental with driver',
         guide:'Guide-only service',
         family:'Family travel with childcare option',
+        assistant:'Travel helper / assistant service',
         nomad:'Nomadic family stay',
         heli:'Helicopter / fly-in quote',
         general:'General inquiry'
@@ -928,9 +963,10 @@
         `Preferred Month: ${document.getElementById('travelMonth').value || '-'}`,
         `Travelers: ${document.getElementById('selectedPeople').value || '-'}`,
         `Adults / Children: ${document.getElementById('guestFamilyInfo').value || '-'}`,
+        `Food Preference: ${document.getElementById('foodPreference').value || '-'}`,
         `Childcare Option: ${document.getElementById('childcareOption').value || '-'}`,
         `Shown Price: ${document.getElementById('selectedPrice').value || 'Ask for quote'}`,
-        `PayPal Deposit (20%): ${document.getElementById('depositAmount').value || '-'}`,
+        `PayPal Deposit: ${document.getElementById('depositAmount').value || '-'}`,
         `Nomadic Stay Nights: ${document.getElementById('nomadNights').value || '-'}`,
         `Places to visit: ${document.getElementById('routeRequest').value || '-'}`,
         `Name: ${document.getElementById('guestName').value || '-'}`,
@@ -946,10 +982,15 @@
 
     function submitInquiry(){
       updateWhatsAppLink();
-      document.getElementById('submitNote').innerHTML = 'Your request is ready. Continue with <strong>PayPal</strong> for the 20% deposit, or send the same details by <strong>WhatsApp</strong> / <strong>Messenger</strong>.';
+      const paypalBtn = document.getElementById('paypalLink');
+      const type = document.getElementById('requestType').value;
+      document.getElementById('submitNote').innerHTML = 'Your request is ready. Opening <strong>PayPal</strong> now. If PayPal does not open, click the blue <strong>Pay $100 Deposit</strong> button.';
+      if(type === 'tour' || type === 'heli') {
+        window.open(paypalBtn.href, '_blank', 'noopener');
+      }
     }
 
-    ['guestName','guestContact','guestMessage','selectedPeople','selectedTour','selectedDate','travelMonth','nomadNights','routeRequest','guestFamilyInfo','childcareOption'].forEach(id => {
+    ['guestName','guestContact','guestMessage','selectedPeople','selectedTour','selectedDate','travelMonth','nomadNights','routeRequest','guestFamilyInfo','foodPreference','childcareOption'].forEach(id => {
       const el = document.getElementById(id);
       el.addEventListener('input', updateWhatsAppLink);
       el.addEventListener('change', updateWhatsAppLink);
