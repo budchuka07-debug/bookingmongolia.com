@@ -469,7 +469,7 @@
         <div class="step-box"><strong>3. Continue</strong><span>Pay the fixed $100 deposit or send the request by WhatsApp / Messenger.</span></div>
       </div>
 
-      <form class="modal-grid" onsubmit="event.preventDefault();submitInquiry();">
+      <form class="modal-grid" id="bookingRequestForm" onsubmit="event.preventDefault();submitInquiry();">
         <div>
           <label>Service Type</label>
           <select id="requestType" onchange="toggleRequestFields(); updateWhatsAppLink();">
@@ -589,7 +589,7 @@
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/yourpage">Messenger</a>
         </div>
       </form>
-      <div class="help-note" id="submitNote">Tip: replace the Messenger link with your real page link. The PayPal button now uses your fixed $100 payment link for bookable tours. Custom routes and quote-only services can still be sent first by WhatsApp or Messenger.</div>
+      <div class="help-note" id="submitNote">This form now sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. The PayPal button still uses your fixed <strong>$100 deposit</strong> link, and WhatsApp/Messenger stay available as backup.</div>
     </div>
   </div>
 
@@ -604,6 +604,7 @@
 
   <script>
     const PAYPAL_LINK = 'https://www.paypal.com/ncp/payment/WEXA5TUWBLCVY';
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvwywob';
     const seasonDates = {
       weekly: ['May 10','May 17','May 24','May 31','June 7','June 14','June 21','June 28','July 5','July 12','July 19','July 26','August 2','August 9','August 16','August 23','September 6','September 20','October 4'],
       weeklyLate: ['May 12','May 19','May 26','June 2','June 9','June 16','June 23','June 30','July 7','July 14','July 21','July 28','August 4','August 11','August 18','August 25','September 8','September 22','October 6'],
@@ -980,13 +981,56 @@
       document.getElementById('waLink').href = `https://wa.me/97690283039?text=${text}`;
     }
 
-    function submitInquiry(){
+    async function submitInquiry(){
       updateWhatsAppLink();
       const paypalBtn = document.getElementById('paypalLink');
       const type = document.getElementById('requestType').value;
-      document.getElementById('submitNote').innerHTML = 'Your request is ready. Opening <strong>PayPal</strong> now. If PayPal does not open, click the blue <strong>Pay $100 Deposit</strong> button.';
-      if(type === 'tour' || type === 'heli') {
-        window.open(paypalBtn.href, '_blank', 'noopener');
+      const submitNote = document.getElementById('submitNote');
+
+      const payload = {
+        serviceType: document.getElementById('requestType').value || '',
+        selectedTour: document.getElementById('selectedTour').value || '',
+        preferredDate: document.getElementById('selectedDate').value || '',
+        preferredMonth: document.getElementById('travelMonth').value || '',
+        travelers: document.getElementById('selectedPeople').value || '',
+        shownPrice: document.getElementById('selectedPrice').value || '',
+        paypalDeposit: document.getElementById('depositAmount').value || '',
+        nomadicStayNights: document.getElementById('nomadNights').value || '',
+        placesToVisit: document.getElementById('routeRequest').value || '',
+        adultsChildren: document.getElementById('guestFamilyInfo').value || '',
+        foodPreference: document.getElementById('foodPreference').value || '',
+        childcareOption: document.getElementById('childcareOption').value || '',
+        name: document.getElementById('guestName').value || '',
+        contact: document.getElementById('guestContact').value || '',
+        notes: document.getElementById('guestMessage').value || '',
+        message: buildMessageText(),
+        _subject: `Booking Mongolia request: ${document.getElementById('selectedTour').value || document.getElementById('requestType').value || 'Tour inquiry'}`
+      };
+
+      submitNote.innerHTML = 'Sending your request...';
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('Formspree request failed');
+        }
+
+        submitNote.innerHTML = 'Your request was sent to your email via <strong>Formspree</strong>.';
+
+        if(type === 'tour' || type === 'heli') {
+          submitNote.innerHTML += ' Opening <strong>PayPal</strong> now. If PayPal does not open, click the blue <strong>Pay $100 Deposit</strong> button.';
+          window.open(paypalBtn.href, '_blank', 'noopener');
+        }
+      } catch (error) {
+        submitNote.innerHTML = 'Your request could not be sent automatically. Please use the green <strong>WhatsApp</strong> button or the blue <strong>Pay $100 Deposit</strong> button.';
       }
     }
 
