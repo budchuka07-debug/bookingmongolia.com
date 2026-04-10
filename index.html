@@ -749,6 +749,7 @@ gtag('config', 'G-XDG8KZWZCM');
       }
       .hotel-booking-card{grid-template-columns:1fr}
       .hotel-booking-card .hotel-cover{min-height:220px}
+      .hotel-card-main-image{height:220px}
       .hotel-booking-top{flex-direction:column}
       .hero{min-height:auto}
       .hero-content{padding:80px 0 70px}
@@ -2259,6 +2260,52 @@ gtag('config', 'G-XDG8KZWZCM');
     }
   }
 
+ function renderHotelGallery(index, item, fallbackImage) {
+  const galleryUrls = normalizeGalleryUrls(
+    item.gallery_urls,
+    item.main_image_url || item.image_url || fallbackImage
+  );
+  const mainImg = galleryUrls[0] || fallbackImage;
+  const cardId = `hotel-card-gallery-${index}`;
+
+  return `
+    <div class="hotel-card-gallery" id="${cardId}">
+      <img
+        src="${mainImg}"
+        alt="${item.name || 'Hotel'}"
+        class="hotel-card-main-image"
+        onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\\'")}')"
+        onerror="this.onerror=null;this.src='${fallbackImage}'"
+      >
+      ${galleryUrls.length > 1 ? `
+        <div class="hotel-card-thumbs">
+          ${galleryUrls.map((img, imgIndex) => `
+            <img
+              src="${img}"
+              alt="${item.name || 'Hotel'} thumbnail ${imgIndex + 1}"
+              class="${imgIndex === 0 ? 'active' : ''}"
+              onclick="changeHotelCardImage('${cardId}', '${String(img).replace(/'/g, "\\'")}', this)"
+              onerror="this.onerror=null;this.src='${fallbackImage}'"
+            >
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+window.changeHotelCardImage = function(cardId, imageUrl, thumb) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  const mainImage = card.querySelector('.hotel-card-main-image');
+  if (mainImage) {
+    mainImage.src = imageUrl;
+    mainImage.setAttribute('onclick', `openImageLightbox('${String(imageUrl).replace(/'/g, "\\'")}')`);
+  }
+  card.querySelectorAll('.hotel-card-thumbs img').forEach(img => img.classList.remove('active'));
+  if (thumb) thumb.classList.add('active');
+};
+
  function renderHotelCards(items = []) {
   const wrap = document.getElementById('hotel-list');
   const counter = document.getElementById('hotel-result-count');
@@ -2281,7 +2328,6 @@ gtag('config', 'G-XDG8KZWZCM');
       item.gallery_urls,
       item.main_image_url || item.image_url || fallbackImage
     );
-
     const mainImg = galleryUrls[0] || fallbackImage;
     const typeTag = item.property_type || 'Property';
     const desc = item.description || 'Comfortable stay option reviewed by our team.';
@@ -2292,13 +2338,7 @@ gtag('config', 'G-XDG8KZWZCM');
     return `
       <article class="hotel-booking-card">
         <div class="hotel-cover-wrap">
-          ${renderGalleryBlock(
-            "hotel",
-            index,
-            item.gallery_urls || item.main_image_url || item.image_url,
-            item.main_image_url || item.image_url || fallbackImage,
-            item.name || "Hotel"
-          )}
+          ${renderHotelGallery(index, item, fallbackImage)}
         </div>
 
         <div class="hotel-booking-body">
@@ -2326,7 +2366,7 @@ gtag('config', 'G-XDG8KZWZCM');
           <div class="hotel-booking-actions">
             <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${item.id}">View details</a>
             ${phoneLink ? `<a class="hotel-mini-btn" href="${phoneLink}" target="_blank" rel="noopener">Book / Contact</a>` : ''}
-            ${galleryUrls.length ? `<button class="hotel-mini-btn" type="button" onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\\'")}')">View photo</button>` : ''}
+            ${galleryUrls.length ? `<button class="hotel-mini-btn" type="button" onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\'")}')">View photo</button>` : ''}
             <button class="hotel-mini-btn" type="button" onclick="focusHotelOnMap(${index})">Show on map</button>
           </div>
         </div>
