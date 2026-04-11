@@ -1,76 +1,501 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Altai Tavan Bogd Expedition</title>
-<style>
-body{font-family:Arial;margin:0;background:#f5f5f5;line-height:1.6}
-header{background:#0f3557;color:white;padding:20px}
-.container{max-width:1000px;margin:auto;padding:20px}
-.hero{height:320px;background:url('../images/tour.jpg') center/cover;display:flex;align-items:center;justify-content:center;color:white;font-size:36px;font-weight:bold}
-.box{background:white;padding:20px;border-radius:8px;margin-top:20px}
-button{background:#0f3557;color:white;padding:12px 20px;border:none;border-radius:6px;cursor:pointer}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Altai Tavan Bogd Tour Mongolia | 3 Route Options</title>
+  <meta name="description" content="Explore Altai Tavan Bogd in western Mongolia with three route options: direct flight, full overland expedition, or mixed fly-and-drive itinerary." />
+  <style>
+    :root{
+      --primary:#163a63;
+      --accent:#c78b2a;
+      --bg:#f6f8fb;
+      --text:#243447;
+      --muted:#66768a;
+      --white:#ffffff;
+      --border:#e6ebf2;
+      --shadow:0 10px 28px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.75;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .hero{
+      position:relative;
+      background:
+        linear-gradient(rgba(15,38,68,.72), rgba(15,38,68,.72)),
+        url("/images/altai-tavan-bogd.jpg") center/cover no-repeat;
+      color:#fff;
+      padding:90px 20px 70px;
+    }
+
+    .hero-inner{
+      max-width:1150px;
+      margin:0 auto;
+    }
+
+    .hero h1{
+      font-size:clamp(2rem, 4vw, 3.4rem);
+      margin:0 0 18px;
+      line-height:1.15;
+    }
+
+    .hero p{
+      max-width:820px;
+      margin:0 0 24px;
+      font-size:1.05rem;
+      color:rgba(255,255,255,.94);
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:24px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:14px 24px;
+      border-radius:10px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:#fff;
+      color:var(--primary);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,.14);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.28);
+    }
+
+    .page{
+      max-width:1150px;
+      margin:0 auto;
+      padding:34px 20px 60px;
+    }
+
+    .card{
+      background:var(--white);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      padding:30px 24px;
+      margin-bottom:24px;
+    }
+
+    h2{
+      margin:0 0 14px;
+      color:var(--primary);
+      font-size:1.7rem;
+    }
+
+    h3{
+      margin:0 0 10px;
+      color:var(--primary);
+      font-size:1.1rem;
+    }
+
+    p{
+      margin:0 0 16px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .facts{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:16px;
+      margin-top:18px;
+    }
+
+    .fact{
+      background:#f8fafc;
+      border:1px solid #edf2f7;
+      border-radius:14px;
+      padding:16px;
+    }
+
+    .fact strong{
+      display:block;
+      color:var(--primary);
+      margin-bottom:6px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:18px;
+    }
+
+    .mini-card{
+      background:#f8fafc;
+      border:1px solid #edf2f7;
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .mini-card img{
+      height:190px;
+      width:100%;
+      object-fit:cover;
+    }
+
+    .mini-card-content{
+      padding:16px;
+    }
+
+    .route-option{
+      border:1px solid #e7edf5;
+      background:#fbfcfe;
+      border-radius:16px;
+      padding:22px 18px;
+      margin-bottom:18px;
+    }
+
+    .route-option ul{
+      padding-left:18px;
+      margin:12px 0 0;
+    }
+
+    .route-option li{
+      margin-bottom:8px;
+    }
+
+    .note{
+      background:#fff6e7;
+      border-left:5px solid var(--accent);
+      padding:16px 18px;
+      border-radius:12px;
+      margin-top:18px;
+    }
+
+    .cta{
+      text-align:center;
+      padding:34px 24px;
+    }
+
+    .cta p{
+      max-width:720px;
+      margin:0 auto 18px;
+    }
+
+    @media (max-width:768px){
+      .hero{
+        padding:70px 18px 54px;
+      }
+
+      .card{
+        padding:24px 18px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-<h1>Discover Mongolia Tours</h1>
-</header>
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>Altai Tavan Bogd Tour</h1>
+      <p>
+        Discover one of the most remote and spectacular regions of Mongolia through glaciers,
+        alpine valleys, Kazakh eagle hunter culture, tent camp stays, and true western Mongolia adventure.
+        This page includes three different route options so travelers can choose between speed, comfort,
+        and a full overland expedition.
+      </p>
 
-<div class="hero">Altai Tavan Bogd Expedition</div>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary">Check Dates &amp; Book</a>
+        <a href="#route-options" class="btn btn-secondary">View Route Options</a>
+      </div>
+    </div>
+  </header>
 
-<div class="container">
+  <main class="page">
 
-<div class="box">
-<h2>Altai Tavan Bogd Expedition</h2>
-<p>Explore glaciers, mountains and Kazakh eagle hunter culture in western Mongolia.</p>
+    <section class="card">
+      <h2>Tour Overview</h2>
+      <p>
+        Altai Tavan Bogd is one of Mongolia’s most dramatic adventure destinations. Located in far western
+        Mongolia, this region is known for snow-capped mountains, glaciers, rivers, broad valleys, and the
+        strong cultural identity of the Kazakh communities of Bayan-Ulgii.
+      </p>
+      <p>
+        This tour is ideal for travelers who want more than a standard sightseeing route. It combines
+        remote landscapes, simple but authentic accommodation, and the feeling of traveling through one of
+        the least urbanized and most visually powerful parts of the country.
+      </p>
 
-<button onclick="location.href='/tours-dates.html'">Check Dates &amp; Book</button>
-</div>
+      <div class="facts">
+        <div class="fact">
+          <strong>Best Season</strong>
+          June to September
+        </div>
+        <div class="fact">
+          <strong>Travel Style</strong>
+          Adventure, nature, culture
+        </div>
+        <div class="fact">
+          <strong>Transport</strong>
+          Flight + 4x4 / Overland 4x4 / Horse access
+        </div>
+        <div class="fact">
+          <strong>Accommodation</strong>
+          Hotel, tent camp, local family stay
+        </div>
+      </div>
+    </section>
 
-<div class="box">
-<h2>Highlights</h2>
-<ul>
-<li>Beautiful landscapes</li>
-<li>Nomadic culture</li>
-<li>Local experiences</li>
-</ul>
-</div>
+    <section class="card">
+      <h2>Places You Will Experience</h2>
 
-<div class="box">
-<h2>Typical Itinerary</h2>
-<p>Day 1 – Departure from Ulaanbaatar<br>
-Day 2 – Travel and explore<br>
-Day 3 – Continue adventure<br>
-Final day – Return to Ulaanbaatar</p>
-</div>
+      <div class="grid">
 
-</div>
+        <div class="mini-card">
+          <img src="/images/altai-tavan-bogd.jpg" alt="Altai Tavan Bogd peaks">
+          <div class="mini-card-content">
+            <h3>Altai Tavan Bogd Peaks</h3>
+            <p>
+              The Tavan Bogd massif includes Mongolia’s highest mountains, with powerful alpine scenery,
+              rocky ridges, snow fields, and wide highland valleys.
+            </p>
+          </div>
+        </div>
 
+        <div class="mini-card">
+          <img src="/images/potanin-glacier.jpg" alt="Potanin Glacier">
+          <div class="mini-card-content">
+            <h3>Potanin Glacier</h3>
+            <p>
+              Potanin Glacier is the largest glacier in Mongolia and one of the most memorable sights of the
+              region, surrounded by cold streams and dramatic mountain terrain.
+            </p>
+          </div>
+        </div>
 
-<!-- SEO CONTENT START -->
-<section class="container" style="max-width:1100px;margin:40px auto;padding:32px 24px;background:#fff;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.08);">
-  <h2>About This Tour</h2>
-  <p>This Mongolia tour is designed for travelers who want to experience the country’s landscapes, culture, and local way of life in a more meaningful way. Each itinerary combines nature, authentic experiences, and practical travel planning to help visitors enjoy Mongolia comfortably and with confidence.</p>
+        <div class="mini-card">
+          <img src="/images/tsagaan-gol.jpg" alt="Tsagaan Gol valley">
+          <div class="mini-card-content">
+            <h3>Tsagaan Gol Valley</h3>
+            <p>
+              A vast mountain valley shaped by glacial rivers and wide open views, giving travelers a strong
+              sense of western Mongolia’s scale and remoteness.
+            </p>
+          </div>
+        </div>
 
-  <h2>Why Choose This Tour</h2>
-  <p>This route is suitable for travelers looking for a balance of sightseeing, cultural discovery, and memorable outdoor experiences. Depending on the destination, guests may explore mountains, lakes, desert scenery, nomadic camps, wildlife areas, and important historical sites.</p>
+        <div class="mini-card">
+          <img src="/images/kazakh-eagle-hunter.jpg" alt="Kazakh eagle hunter">
+          <div class="mini-card-content">
+            <h3>Kazakh Eagle Hunter Culture</h3>
+            <p>
+              Bayan-Ulgii is home to Mongolia’s Kazakh community, where travelers can learn more about local
+              customs, hospitality, and the famous eagle hunting tradition.
+            </p>
+          </div>
+        </div>
 
-  <h2>Travel Tips</h2>
-  <ul>
-    <li>Bring comfortable walking shoes and layered clothing.</li>
-    <li>Morning and evening temperatures can be cooler than daytime, even in summer.</li>
-    <li>Weather conditions may vary between cities, steppe, mountains, and desert areas.</li>
-    <li>Booking in advance is recommended during peak travel season.</li>
-  </ul>
+        <div class="mini-card">
+          <img src="/images/altai-lakes.jpg" alt="Altai mountain lakes">
+          <div class="mini-card-content">
+            <h3>Alpine Lakes and Valleys</h3>
+            <p>
+              Depending on the route, the journey may include beautiful mountain lakes, grazing areas, summer
+              camps, and panoramic highland landscapes.
+            </p>
+          </div>
+        </div>
 
-  <h2>Plan Your Mongolia Journey</h2>
-  <p>If you would like a longer itinerary or a private version of this route, you can also explore our other Mongolia tours and travel guides to plan a trip that fits your interests and season of travel.</p>
-</section>
-<!-- SEO CONTENT END -->
+        <div class="mini-card">
+          <img src="/images/tsengel-nomad-camp.jpg" alt="Tsengel camp area">
+          <div class="mini-card-content">
+            <h3>Tsengel Area and Camp Life</h3>
+            <p>
+              The Tsengel area offers a more authentic mountain atmosphere where nature, camp life, and nomadic
+              movement shape the rhythm of the trip.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Accommodation and Transport</h2>
+      <p>
+        In the Altai region, infrastructure is much more basic than in central Mongolia. In remote protected
+        zones, permanent resort-style buildings are restricted, so accommodation is mainly in <strong>tent camps</strong>.
+        This keeps the experience close to nature and aligned with environmental protection rules.
+      </p>
+      <p>
+        All road travel in the region is done using <strong>4x4 jeeps</strong>, which are essential for rough mountain
+        roads, open valleys, river crossings, and remote access areas.
+      </p>
+
+      <div class="note">
+        <strong>Important:</strong> This is an adventure-style journey. Comfort is simple, but the mountain scenery,
+        cultural depth, and remoteness are exactly what make this tour special.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Two Ways to Reach the Camp Area</h2>
+      <p>
+        Inside the Altai region, the final approach to the camp area can be done in two different ways depending on
+        route choice, weather, and traveler preference.
+      </p>
+
+      <div class="facts">
+        <div class="fact">
+          <strong>4x4 Vehicle Access</strong>
+          One route allows direct access by off-road vehicle to the camp area.
+        </div>
+        <div class="fact">
+          <strong>Horseback Access</strong>
+          Another route continues by horse for over 20 km through mountain trails where vehicles cannot go.
+        </div>
+      </div>
+
+      <p class="muted">
+        The exact local district used for vehicle access or horse access can be confirmed in the final itinerary.
+      </p>
+    </section>
+
+    <section class="card" id="route-options">
+      <h2>Three Route Options</h2>
+      <p>
+        Because Bayan-Ulgii is one of the farthest regions from Ulaanbaatar, this tour can be organized in
+        three different ways. Travelers can choose the option that best fits their time, comfort level, and
+        interest in a larger Mongolia expedition.
+      </p>
+
+      <div class="route-option">
+        <h3>Option 1: Fly In / Fly Out</h3>
+        <p>
+          This is the fastest and most comfortable version of the Altai tour. Travelers fly directly from
+          Ulaanbaatar to Bayan-Ulgii, begin the western Mongolia experience immediately, and return by air.
+        </p>
+        <ul>
+          <li>Best for shorter travel time</li>
+          <li>Focuses directly on Bayan-Ulgii and Altai highlights</li>
+          <li>Ideal for travelers who want maximum experience with less overland driving</li>
+        </ul>
+      </div>
+
+      <div class="route-option">
+        <h3>Option 2: Full Overland Expedition</h3>
+        <p>
+          This is the most adventurous version. Travelers go overland from Ulaanbaatar to Bayan-Ulgii by 4x4,
+          crossing major regions of Mongolia before reaching the Altai.
+        </p>
+        <ul>
+          <li>Possible highlights include Hustai National Park, Elsen Tasarkhai, Erdene Zuu, Terkhiin Tsagaan Lake, Zavkhan, Uvs, and Bayan-Ulgii</li>
+          <li>Long-distance expedition with changing scenery and cultural regions</li>
+          <li>Best for travelers who want a true Mongolia road journey</li>
+        </ul>
+      </div>
+
+      <div class="route-option">
+        <h3>Option 3: Fly One Way, Return by Road</h3>
+        <p>
+          This version offers the best balance between comfort and exploration. Travelers can fly to Bayan-Ulgii,
+          enjoy the Altai experience, and then return overland through scenic regions of western and central Mongolia.
+        </p>
+        <ul>
+          <li>Saves time on one side of the trip</li>
+          <li>Still includes road-based exploration across multiple landscapes</li>
+          <li>Strong option for travelers who want both efficiency and adventure</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Possible Extended Route Variations</h2>
+      <p>
+        This tour can also be customized beyond the standard Altai route. Depending on available time and road
+        conditions, travelers may connect Bayan-Ulgii with other major regions of Mongolia.
+      </p>
+
+      <div class="grid">
+        <div class="mini-card">
+          <div class="mini-card-content">
+            <h3>Khuvsgul + Bayan-Ulgii Combination</h3>
+            <p>
+              Northern forests and lake scenery can be combined with western Mongolia for a longer cross-country expedition.
+            </p>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-card-content">
+            <h3>Zavkhan and Uvs Route</h3>
+            <p>
+              A western overland route may pass through remote steppe, mountain zones, and less-visited provincial landscapes.
+            </p>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-card-content">
+            <h3>Central Mongolia Return</h3>
+            <p>
+              Travelers returning eastward can include monastery sites, dunes, volcanic lake areas, and wildlife parks.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Flexible itinerary:</strong> Route details can be adjusted based on season, available days, driving pace,
+        and whether the traveler prefers more cultural stops or more natural landscapes.
+      </div>
+    </section>
+
+    <section class="card cta">
+      <h2>Check Dates &amp; Book</h2>
+      <p>
+        The exact departure dates, overnight plan, route version, and final travel structure for Altai Tavan Bogd
+        will be listed on the Tours &amp; Dates page.
+      </p>
+      <a href="#" class="btn btn-primary">Check Dates &amp; Book</a>
+    </section>
+
+</main>
+
+<footer>
+  <div class="container">© 2026 Booking Mongolia</div>
+</footer>
+
+<a href="/tours-dates.html" class="floating-book-btn">
+  Check Dates & Book
+</a>
 
 </body>
 </html>
