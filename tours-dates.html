@@ -590,7 +590,7 @@
 
         <div class="full" style="display:flex;gap:12px;flex-wrap:wrap;">
           <button class="btn btn-primary" type="submit">Send Request</button>
-          <a class="btn" style="background:#111;color:#fff;" target="_blank" id="paymentInfoLink" href="#">Agreement & Payment Info</a>
+          <a class="btn" style="background:#111;color:#fff;" href="javascript:void(0)" id="paymentInfoLink" onclick="openAgreementInfo()">Agreement & Payment Info</a>
           <a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a>
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/yourpage">Messenger</a>
         </div>
@@ -605,6 +605,38 @@
     <div class="modal-dialog">
       <button class="modal-close" onclick="closeDetailModal()">&times;</button>
       <div id="detailContent"></div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="agreementModal" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeAgreementModal()"></div>
+    <div class="modal-dialog">
+      <button class="modal-close" onclick="closeAgreementModal()">&times;</button>
+      <h3>Travel Agreement & Payment Information</h3>
+      <div class="detail-section">
+        <h4>How booking works</h4>
+        <ul class="detail-list">
+          <li>First, we confirm your travel dates, itinerary, number of travelers, and availability.</li>
+          <li>After that, we share the travel agreement for your review.</li>
+          <li>Only after both sides confirm the agreement do we send payment details.</li>
+        </ul>
+      </div>
+      <div class="detail-section">
+        <h4>Payment methods</h4>
+        <ul class="detail-list">
+          <li>Wise transfer</li>
+          <li>SWIFT bank transfer</li>
+        </ul>
+        <p class="small-note">PayPal and QPay are not available for this booking flow.</p>
+      </div>
+      <div class="detail-section">
+        <h4>Important note</h4>
+        <p>The travel agreement is shared only when the traveler is ready to confirm the booking. Payment details are not shown publicly on the page before confirmation.</p>
+      </div>
+      <div class="service-actions" style="margin-top:18px;">
+        <button class="service-btn primary" onclick="closeAgreementModal()">Close</button>
+      </div>
     </div>
   </div>
 
@@ -898,12 +930,19 @@
       document.getElementById('bookingModal').classList.remove('open');
     }
 
+    function openAgreementInfo(){
+      document.getElementById('agreementModal').classList.add('open');
+    }
+
+    function closeAgreementModal(){
+      document.getElementById('agreementModal').classList.remove('open');
+    }
+
     function updateDepositField(){
       const depositInput = document.getElementById('depositAmount');
       const paymentBtn = document.getElementById('paymentInfoLink');
       const type = document.getElementById('requestType').value;
 
-      paymentBtn.href = '#';
       paymentBtn.classList.remove('hidden');
 
       if(type === 'tour' && activeTour && activeTour.priceMode !== 'ask'){
