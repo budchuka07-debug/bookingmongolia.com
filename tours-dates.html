@@ -392,22 +392,22 @@
     <div class="container">
       <div class="section-head">
         <h2>2026 Mongolia Tour Calendar</h2>
-        <p>All tours below are shown through the main season from May to October. Fixed departures can be reserved with a $100 PayPal deposit, while custom routes, transport-only, guide-only and family requests can be sent through the same booking form.</p>
+        <p>All tours below are shown through the main season from May to October. We currently accept Wise transfer and SWIFT bank transfer only. Final dates are confirmed before payment, and the travel agreement is shared only when the traveler is ready to confirm the booking.</p>
       </div>
 
       <div class="deposit-banner">
-        <strong>Booking update:</strong> the filter section has been removed for a cleaner page. Guests can now open any tour and continue with a <strong>fixed $100 PayPal deposit</strong> to reserve their seats. Custom routes, nomadic stays and helicopter requests can still be sent as inquiries first.
+        <strong>Booking update:</strong> We currently accept <strong>Wise transfer</strong> and <strong>SWIFT bank transfer</strong> only. Before any payment is made, we first confirm the travel dates and itinerary, then share the travel agreement, and after both sides confirm, payment details are sent.
       </div>
 
       <div class="summary-strip">
         <div class="summary-box"><strong id="tourCount">20</strong><span>Tours currently shown</span></div>
-        <div class="summary-box"><strong>$100 Deposit</strong><span>Reserve a fixed tour with a fixed PayPal deposit</span></div>
+        <div class="summary-box"><strong>Agreement First</strong><span>Dates and itinerary are confirmed before payment</span></div>
         <div class="summary-box"><strong>May–Oct</strong><span>Summer and autumn season open</span></div>
         <div class="summary-box"><strong>Flexible</strong><span>Custom route, car, guide and family requests</span></div>
       </div>
 
       <div class="calendar-layout">
-        <div class="result-count" id="resultCount">Showing all 20 tours.</div>
+        <div class="result-count" id="resultCount">Showing all tours.</div>
         <div class="tour-grid" id="tourGrid"></div>
       </div>
     </div>
@@ -460,13 +460,13 @@
     <div class="modal-backdrop" onclick="closeModal()"></div>
     <div class="modal-dialog">
       <button class="modal-close" onclick="closeModal()">&times;</button>
-      <h3>Send your travel request or pay a $100 deposit</h3>
-      <p class="muted">This form is intentionally shorter and easier. Guests can choose the service, dates, group size and contact. It now also supports custom routes, car rental, guide-only booking and family travel with optional childcare support.</p>
+      <h3>Send your travel request or confirm dates</h3>
+      <p class="muted">This form is intentionally shorter and easier. Guests can choose the service, dates, group size and contact. It now also supports custom routes, car rental, guide-only booking and family travel with optional childcare support. Travel agreement is shared only when the traveler is ready to confirm the booking.</p>
 
       <div class="simple-steps">
         <div class="step-box"><strong>1. Choose service</strong><span>Tour, custom route, car, guide, helper service, family trip or helicopter quote.</span></div>
         <div class="step-box"><strong>2. Add dates</strong><span>Exact dates, preferred month and route details.</span></div>
-        <div class="step-box"><strong>3. Continue</strong><span>Pay the fixed $100 deposit or send the request by WhatsApp / Messenger.</span></div>
+        <div class="step-box"><strong>3. Continue</strong><span>We confirm dates first, then send the agreement and payment details.</span></div>
       </div>
 
       <form class="modal-grid" id="bookingRequestForm" onsubmit="event.preventDefault();submitInquiry();">
@@ -483,6 +483,7 @@
             <option value="heli">Helicopter / fly-in quote</option>
             <option value="general">General inquiry</option>
           </select>
+          <p class="small-note">Final tour dates will be confirmed with you before payment.</p>
         </div>
 
         <div>
@@ -495,6 +496,7 @@
           <select id="selectedDate" onchange="updateWhatsAppLink();">
             <option value="">Choose a departure</option>
           </select>
+          <p class="small-note">Final tour dates will be confirmed with you before payment.</p>
         </div>
 
         <div>
@@ -506,6 +508,7 @@
             <option value="4">4 people</option>
             <option value="5+">5+ people</option>
           </select>
+          <p class="small-note">Final tour dates will be confirmed with you before payment.</p>
         </div>
 
         <div id="priceWrap">
@@ -514,7 +517,7 @@
         </div>
 
         <div id="depositWrap">
-          <label>PayPal Deposit</label>
+          <label>Payment Status</label>
           <input id="depositAmount" type="text" placeholder="Calculated deposit" readonly>
         </div>
 
@@ -529,6 +532,7 @@
             <option>September 2026</option>
             <option>October 2026</option>
           </select>
+          <p class="small-note">Final tour dates will be confirmed with you before payment.</p>
         </div>
 
         <div id="nightsWrap" class="hidden">
@@ -541,6 +545,7 @@
             <option>4 nights</option>
             <option>5+ nights</option>
           </select>
+          <p class="small-note">Final tour dates will be confirmed with you before payment.</p>
         </div>
 
         <div id="routeWrap" class="full hidden">
@@ -565,6 +570,7 @@
             <option>Yes, please include childcare option</option>
             <option>Maybe, show price option</option>
           </select>
+          <p class="small-note">Final tour dates will be confirmed with you before payment.</p>
         </div>
 
         <div>
@@ -583,13 +589,13 @@
         </div>
 
         <div class="full" style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button class="btn btn-primary" type="submit">Prepare Request + Open PayPal</button>
-          <a class="btn" style="background:#0070ba;color:#fff;" target="_blank" id="paypalLink" href="https://www.paypal.com/ncp/payment/WEXA5TUWBLCVY">Pay $100 Deposit</a>
+          <button class="btn btn-primary" type="submit">Send Request</button>
+          <a class="btn" style="background:#111;color:#fff;" target="_blank" id="paymentInfoLink" href="#">Agreement & Payment Info</a>
           <a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a>
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/yourpage">Messenger</a>
         </div>
       </form>
-      <div class="help-note" id="submitNote">This form now sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. The PayPal button still uses your fixed <strong>$100 deposit</strong> link, and WhatsApp/Messenger stay available as backup.</div>
+      <div class="help-note" id="submitNote">This form sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. After dates and itinerary are confirmed, the travel agreement is shared and payment details are sent by Wise transfer or SWIFT bank transfer. WhatsApp and Messenger remain available as backup.</div>
     </div>
   </div>
 
@@ -603,8 +609,7 @@
   </div>
 
   <script>
-    const PAYPAL_LINK = 'https://www.paypal.com/ncp/payment/WEXA5TUWBLCVY';
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvwywob';
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvwywob';
     const seasonDates = {
       weekly: ['May 10','May 17','May 24','May 31','June 7','June 14','June 21','June 28','July 5','July 12','July 19','July 26','August 2','August 9','August 16','August 23','September 6','September 20','October 4'],
       weeklyLate: ['May 12','May 19','May 26','June 2','June 9','June 16','June 23','June 30','July 7','July 14','July 21','July 28','August 4','August 11','August 18','August 25','September 8','September 22','October 6'],
@@ -639,7 +644,10 @@
       {id:'altai-tavan-bogd-7d',name:'Altai Tavan Bogd 7 Days',region:'west',style:'adventure',days:7,status:'limited',image:'images/destinations/altai-tavan-bogd.jpg',highlights:['Altai Peaks','Glacier Views','Eagle Hunter Culture'],dates:seasonDates.west,prices:{1:1890,2:1360,3:1240,4:1160},fromUB:'Domestic flight',season:'Jun–Sep',group:'6–7'},
       {id:'western-ultimates-9d',name:'Western Mongolia Ultimate 9 Days',region:'west',style:'adventure',days:9,status:'request',image:'images/destinations/altai-tavan-bogd.jpg',highlights:['Altai','Eagle Hunter','Lakes','Peaks'],dates:seasonDates.westLong,prices:{1:2390,2:1690,3:1540,4:1460},fromUB:'Flight + road',season:'Jun–Sep',group:'8+'},
       {id:'helicopter-expedition-1d',name:'VIP Helicopter Expedition',region:'special',style:'luxury',days:1,status:'request',image:'images/hero/hero-1-mongolia.jpg',highlights:['Private Helicopter','Remote Access','Luxury Day Plan'],dates:seasonDates.requestOnly,prices:null,fromUB:'Private heli',season:'May–Oct',group:'1-3',priceMode:'ask'},
-      {id:'vip-grand-5d',name:'VIP Mongolia Signature 5 Days',region:'special',style:'luxury',days:5,status:'request',image:'images/hero/hero-khuvsgul-lake.jpg',highlights:['Luxury Camps','Private Guide','Flexible Route'],dates:seasonDates.vip,prices:{1:3200,2:2100,3:1850,4:1700},fromUB:'Private setup',season:'May–Oct',group:'4–5'}
+      {id:'vip-grand-5d',name:'VIP Mongolia Signature 5 Days',region:'special',style:'luxury',days:5,status:'request',image:'images/hero/hero-khuvsgul-lake.jpg',highlights:['Luxury Camps','Private Guide','Flexible Route'],dates:seasonDates.vip,prices:{1:3200,2:2100,3:1850,4:1700},fromUB:'Private setup',season:'May–Oct',group:'4–5'},
+      {id:'gobi-khuvsgul-loop-14d',name:'Ultimate Mongolia Loop 14 Days (Gobi + Khuvsgul)',region:'combined',style:'adventure',days:14,status:'limited',image:'images/destinations/khuvsgul-lake.jpg',highlights:['Khuvsgul Lake','Orkhon Valley','Karakorum','Yol Valley','Bayanzag','Khongor Dunes'],dates:['June 5','June 19','July 3','July 17','July 31','August 14','August 28','September 11'],prices:{1:2650,2:1950,3:1750,4:1600},fromUB:'Flight + overland loop',season:'June–September',group:'10-14'},
+      {id:'gobi-khuvsgul-comfort-14d',name:'Ultimate Mongolia Comfort Loop 14 Days',region:'combined',style:'comfort',days:14,status:'request',image:'images/hero/hero-khuvsgul-lake.jpg',highlights:['Flight to Murun','Khuvsgul Lake','Tsenkher / Khorgo','Orkhon Valley','Bayanzag','Khongor Dunes'],dates:['June 8','June 22','July 6','July 20','August 3','August 17','August 31','September 14'],prices:{1:3290,2:2450,3:2180,4:1980},fromUB:'Flight + upgraded overland',season:'June–September',group:'10-14'},
+      {id:'central-gobi-classic-10d',name:'Central + Gobi Classic 10 Days',region:'gobi',style:'culture',days:10,status:'guaranteed',image:'images/destinations/khongor-dunes.jpg',highlights:['Karakorum','Orkhon Valley','Elsen Tasarkhai','Yol Valley','Bayanzag','Khongor Dunes'],dates:['May 15','May 29','June 12','June 26','July 10','July 24','August 7','August 21','September 4','September 18','October 2'],prices:{1:1750,2:1350,3:1200,4:1100},fromUB:'Overland route',season:'May–October',group:'10'}
     ];
 
     const tourDetails = {
@@ -662,7 +670,10 @@
       'altai-tavan-bogd-7d': {route:'Ulaanbaatar → Olgii → Tavan Bogd area → glacier / national park → return', itinerary:['Day 1: Domestic flight to western Mongolia.','Day 2: Drive into national park region.','Day 3–5: Glacier, peaks and eagle hunter cultural days.','Day 6: Return toward Olgii.','Day 7: Flight back to Ulaanbaatar.'], standard:'Standard western local hotel / ger camp mix.', budget:'Simpler local guesthouse and camp option.', premium:'Upgraded transport, better hotel in Olgii and stronger private support.'},
       'western-ultimates-9d': {route:'Ulaanbaatar → western lakes / mountains / eagle hunter route → return', itinerary:['Day 1: Fly west.','Day 2–7: Multi-stop route through western highlights with mountain and cultural areas.','Day 8: Return toward Olgii.','Day 9: Fly back to Ulaanbaatar.'], standard:'Standard local hotels, camps and expedition overnights.', budget:'Simpler guesthouse/camp combination.', premium:'Better hotels, more private support and stronger comfort level.'},
       'helicopter-expedition-1d': {route:'Private helicopter access route based on request', itinerary:['Day plan is built around your chosen location, landing time and sightseeing goals.','Suitable for VIP travelers, photographers or special occasions.'], standard:'Quote only after route and landing requirements are confirmed.', budget:'Not usually offered as a budget-style trip.', premium:'Premium by nature with private helicopter and custom planning.'},
-      'vip-grand-5d': {route:'Custom luxury Mongolia signature route', itinerary:['Day 1: Meet and greet with upgraded private service.','Day 2–4: Flexible luxury route based on your chosen region and comfort level.','Day 5: Return with private transfer support.'], standard:'This product is already positioned above standard level.', budget:'Budget version not recommended for this route.', premium:'Luxury hotels / top camps, private guide and tailored pacing.'}
+      'vip-grand-5d': {route:'Custom luxury Mongolia signature route', itinerary:['Day 1: Meet and greet with upgraded private service.','Day 2–4: Flexible luxury route based on your chosen region and comfort level.','Day 5: Return with private transfer support.'], standard:'This product is already positioned above standard level.', budget:'Budget version not recommended for this route.', premium:'Luxury hotels / top camps, private guide and tailored pacing.'},
+      'gobi-khuvsgul-loop-14d': {route:'Ulaanbaatar → Flight to Murun → Khuvsgul Lake → Terkhiin Tsagaan / Khorgo → Orkhon Valley → Kharkhorum → Elsen Tasarkhai → Baga Gazriin Chuluu → Yol Valley → Bayanzag → Khongor → Ulaanbaatar', itinerary:['Day 1: Arrival in Ulaanbaatar and trip briefing.','Day 2: Flight to Murun, drive to Khuvsgul Lake and overnight at the lakeshore.','Day 3: Explore Khuvsgul Lake, forest edge and local family life.','Day 4: Start the scenic road south toward Arkhangai region.','Day 5: Visit Terkhiin Tsagaan Lake and Khorgo volcano area.','Day 6: Continue through central Mongolia with countryside stops.','Day 7: Reach Orkhon Valley and experience nomadic life.','Day 8: Orkhon Waterfall and horse-riding / hiking options.','Day 9: Kharkhorum and Erdene Zuu Monastery.','Day 10: Elsen Tasarkhai sand dunes and camel riding.','Day 11: Baga Gazriin Chuluu granite formations.','Day 12: Yol Valley hike in Gobi Gurvansaikhan.','Day 13: Bayanzag and Khongor Sand Dunes with sunset on the dunes.','Day 14: Return to Ulaanbaatar.'], standard:'Ger camps + standard local hotels / guesthouses on selected transit nights.', budget:'Guesthouse-focused option where possible to reduce cost.', premium:'Private room priority, upgraded camps and stronger comfort level.'},
+      'gobi-khuvsgul-comfort-14d': {route:'Ulaanbaatar → Flight to Murun → Khuvsgul Lake → Arkhangai / Tsenkher / Khorgo → Orkhon Valley → Kharkhorum → Gobi highlights → Ulaanbaatar', itinerary:['Day 1: Arrival in Ulaanbaatar and hotel check-in.','Day 2: Flight to Murun and drive to Khuvsgul Lake comfort stay.','Day 3: Full lakeside day with optional boat, horse ride or hiking.','Day 4: Travel south toward Arkhangai with improved comfort pacing.','Day 5: Tsenkher hot spring or Khorgo volcano / lake area depending on road and pace.','Day 6: Continue through central scenic landscapes.','Day 7: Orkhon Valley with nomadic family visit.','Day 8: Waterfall and flexible activity day.','Day 9: Kharkhorum and Erdene Zuu.','Day 10: Elsen Tasarkhai and central dune landscape.','Day 11: Baga Gazriin Chuluu or scenic transit stop.','Day 12: Yol Valley in the Gobi.','Day 13: Bayanzag and Khongor Sand Dunes.','Day 14: Return to Ulaanbaatar or city hotel connection.'], standard:'This tour is positioned above standard level and uses better camps / hotels where available.', budget:'Budget version not recommended for this comfort route.', premium:'Top available comfort setup with stronger vehicle and private room preference.'},
+      'central-gobi-classic-10d': {route:'Ulaanbaatar → Kharkhorum → Orkhon Valley → Elsen Tasarkhai → Baga Gazriin Chuluu → Yol Valley → Bayanzag → Khongor Sand Dunes → Ulaanbaatar', itinerary:['Day 1: Drive to Kharkhorum.','Day 2: Erdene Zuu and historical museum.','Day 3: Continue into Orkhon Valley.','Day 4: Waterfall area and nomadic family experience.','Day 5: Elsen Tasarkhai and central steppe dunes.','Day 6: Drive south through Baga Gazriin Chuluu.','Day 7: Yol Valley hike.','Day 8: Bayanzag Flaming Cliffs.','Day 9: Khongor Sand Dunes with camel riding and sunset.','Day 10: Return to Ulaanbaatar.'], standard:'Standard ger camps and selected local guesthouses / hotels.', budget:'Simpler guesthouse or shared-camp option to reduce total cost.', premium:'Upgraded rooms and stronger private comfort service.'}
     };
 
     let selectedPeople = '2';
@@ -717,7 +728,7 @@
     function getPriceFrom(t){
       if(t.priceMode === 'ask') return 'Ask for quote';
       const start = t.prices && t.prices[4] ? t.prices[4] : (t.prices && t.prices[1]);
-      return start ? `From ${formatPrice(start)} / person` : 'Ask for quote';
+      return start ? `From ${formatPrice(start)} / person (group)` : 'Ask for quote';
     }
 
     function renderTours(){
@@ -741,10 +752,10 @@
             </div>
             <div class="detail-price">${getPriceFrom(t)}</div>
             <div class="small-note">Standard package shown. Budget and Premium options available.</div>
-            <div class="small-note">Group price is lower when 2–4 travelers join together.</div>
+            <div class="small-note">Private or group joining possible • Dates confirmed before payment.</div>
             <div class="tour-actions">
               <button class="tour-btn" onclick="openDetailModal('${t.id}')">View Details</button>
-              <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Ask Quote' : 'Book / Pay $100'}</button>
+              <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Ask Quote' : 'Confirm Dates'}</button>
             </div>
           </div>
         </article>
@@ -807,7 +818,7 @@
         </div>
 
         <div class="tour-actions" style="margin-top:18px;">
-          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? 'Ask Quote' : 'Book / Pay $100'}</button>
+          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? 'Ask Quote' : 'Confirm Dates'}</button>
           <button class="tour-btn" onclick="closeDetailModal()">Close</button>
         </div>
       `;
@@ -824,7 +835,7 @@
       dateSelect.innerHTML = '';
       const first = document.createElement('option');
       first.value = '';
-      first.textContent = 'Choose a departure';
+      first.textContent = 'Select preferred travel date';
       dateSelect.appendChild(first);
       dates.forEach(d => {
         const opt = document.createElement('option');
@@ -848,7 +859,7 @@
       document.getElementById('routeRequest').value = '';
       document.getElementById('guestMessage').value = tour.priceMode === 'ask'
         ? `Hello, I want to request a private quote for ${tour.name}.`
-        : `Hello, I want to book ${tour.name}.`;
+        : `Hello, I want to confirm dates for ${tour.name}.`;
       document.getElementById('guestFamilyInfo').value = '';
       document.getElementById('childcareOption').value = '';
       const fp = document.getElementById('foodPreference'); if(fp) fp.value = '';
@@ -889,21 +900,18 @@
 
     function updateDepositField(){
       const depositInput = document.getElementById('depositAmount');
-      const paypalBtn = document.getElementById('paypalLink');
+      const paymentBtn = document.getElementById('paymentInfoLink');
       const type = document.getElementById('requestType').value;
 
+      paymentBtn.href = '#';
+      paymentBtn.classList.remove('hidden');
+
       if(type === 'tour' && activeTour && activeTour.priceMode !== 'ask'){
-        depositInput.value = '$100 fixed deposit';
-        paypalBtn.href = PAYPAL_LINK;
-        paypalBtn.classList.remove('hidden');
+        depositInput.value = 'Agreement first • Wise / SWIFT after confirmation';
       } else if(type === 'heli') {
-        depositInput.value = 'Quote first';
-        paypalBtn.href = PAYPAL_LINK;
-        paypalBtn.classList.remove('hidden');
+        depositInput.value = 'Quote first • Agreement required before payment';
       } else {
-        depositInput.value = 'Request first';
-        paypalBtn.href = PAYPAL_LINK;
-        paypalBtn.classList.add('hidden');
+        depositInput.value = 'Request first • Payment details sent after confirmation';
       }
     }
 
@@ -967,7 +975,7 @@
         `Food Preference: ${document.getElementById('foodPreference').value || '-'}`,
         `Childcare Option: ${document.getElementById('childcareOption').value || '-'}`,
         `Shown Price: ${document.getElementById('selectedPrice').value || 'Ask for quote'}`,
-        `PayPal Deposit: ${document.getElementById('depositAmount').value || '-'}`,
+        `Payment Flow: ${document.getElementById('depositAmount').value || '-'}`,
         `Nomadic Stay Nights: ${document.getElementById('nomadNights').value || '-'}`,
         `Places to visit: ${document.getElementById('routeRequest').value || '-'}`,
         `Name: ${document.getElementById('guestName').value || '-'}`,
@@ -983,7 +991,7 @@
 
     async function submitInquiry(){
       updateWhatsAppLink();
-      const paypalBtn = document.getElementById('paypalLink');
+      const paymentBtn = document.getElementById('paymentInfoLink');
       const type = document.getElementById('requestType').value;
       const submitNote = document.getElementById('submitNote');
 
@@ -994,7 +1002,7 @@
         preferredMonth: document.getElementById('travelMonth').value || '',
         travelers: document.getElementById('selectedPeople').value || '',
         shownPrice: document.getElementById('selectedPrice').value || '',
-        paypalDeposit: document.getElementById('depositAmount').value || '',
+        paymentFlow: document.getElementById('depositAmount').value || '',
         nomadicStayNights: document.getElementById('nomadNights').value || '',
         placesToVisit: document.getElementById('routeRequest').value || '',
         adultsChildren: document.getElementById('guestFamilyInfo').value || '',
@@ -1023,14 +1031,9 @@
           throw new Error('Formspree request failed');
         }
 
-        submitNote.innerHTML = 'Your request was sent to your email via <strong>Formspree</strong>.';
-
-        if(type === 'tour' || type === 'heli') {
-          submitNote.innerHTML += ' Opening <strong>PayPal</strong> now. If PayPal does not open, click the blue <strong>Pay $100 Deposit</strong> button.';
-          window.open(paypalBtn.href, '_blank', 'noopener');
-        }
+        submitNote.innerHTML = 'Your request was sent successfully. We will confirm dates first, then share the travel agreement and Wise / SWIFT payment details.';
       } catch (error) {
-        submitNote.innerHTML = 'Your request could not be sent automatically. Please use the green <strong>WhatsApp</strong> button or the blue <strong>Pay $100 Deposit</strong> button.';
+        submitNote.innerHTML = 'Your request could not be sent automatically. Please use the green <strong>WhatsApp</strong> button or <strong>Messenger</strong> and we will continue manually.';
       }
     }
 
