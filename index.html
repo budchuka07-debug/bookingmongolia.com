@@ -95,6 +95,23 @@ gtag('config', 'G-XDG8KZWZCM');
       font-size:15px;
     }
     .nav-links a:hover{color:var(--accent)}
+
+    .menu-toggle{
+      display:none;
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      font-size:24px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(0,0,0,.12);
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+    }
     .lang-switch{
       display:flex;
       gap:8px;
@@ -723,7 +740,7 @@ gtag('config', 'G-XDG8KZWZCM');
     .mongolia-story-card h3{color:var(--primary-dark);margin-bottom:8px}
     .mongolia-story-card p{margin:0;color:#475569}
     .story-cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .book-now-float{position:fixed;right:20px;bottom:22px;z-index:9998;display:inline-flex;align-items:center;gap:10px;padding:14px 18px;border-radius:999px;background:linear-gradient(135deg,#c98b2f,#e7ad4a);color:#fff;font-weight:800;box-shadow:0 18px 32px rgba(0,0,0,.18);text-decoration:none}
+    .book-now-float{position:fixed;right:96px;bottom:20px;z-index:9998;display:inline-flex;align-items:center;gap:10px;padding:14px 18px;border-radius:999px;background:linear-gradient(135deg,#c98b2f,#e7ad4a);color:#fff;font-weight:800;box-shadow:0 18px 32px rgba(0,0,0,.18);text-decoration:none}
     .book-now-float small{display:block;font-size:11px;font-weight:700;opacity:.9;line-height:1.1}
     .book-now-float:hover{transform:translateY(-2px)}
 
@@ -740,11 +757,70 @@ gtag('config', 'G-XDG8KZWZCM');
       .mongolia-story-box{grid-template-columns:1fr}
     }
     @media (max-width:720px){
+      .topbar{
+        font-size:12px;
+        padding:8px 0;
+      }
+      .topbar .container{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+      }
+      .nav{
+        position:relative;
+        min-height:72px;
+        align-items:center;
+      }
+      .logo{
+        font-size:22px;
+      }
+      .menu-toggle{
+        display:inline-flex;
+      }
+      .nav-links{
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:#fff;
+        box-shadow:0 18px 32px rgba(0,0,0,.12);
+        border-top:1px solid rgba(0,0,0,.05);
+        border-bottom-left-radius:18px;
+        border-bottom-right-radius:18px;
+        padding:14px 16px 18px;
+        display:none;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+        max-height:70vh;
+        overflow:auto;
+        z-index:120;
+      }
+      .nav-links.active{
+        display:flex;
+      }
+      .nav-links a{
+        width:100%;
+        padding:8px 0;
+      }
+      .header-actions{
+        margin-left:auto;
+        width:auto;
+        justify-content:flex-end;
+        gap:8px;
+      }
+      .header-register-link{
+        display:none;
+      }
+      .lang-switch{
+        gap:6px;
+      }
+      .lang-switch button{
+        padding:7px 10px;
+        font-size:12px;
+      }
       .sticky-book-bar{left:12px;right:12px;transform:none;border-radius:22px;justify-content:center;flex-wrap:wrap;padding:12px}
       .sticky-book-bar .mini-note{width:100%;text-align:center;padding:0}
-      .nav-links{display:none}
-      .header-actions{width:100%;justify-content:flex-end}
-      .header-register-link{padding:9px 14px;font-size:13px}
       .grid-4,.grid-3,.grid-2,.guide-grid,.feature-list,.hero-stats,.form-grid,.video-small,.guide-highlight-grid{
         grid-template-columns:1fr;
       }
@@ -758,7 +834,13 @@ gtag('config', 'G-XDG8KZWZCM');
       .video-small iframe{height:220px}
       .about-photo{min-height:300px}
       .destination-province-list,.destination-meta,.destination-attractions-list,.featured-places-grid,.mongolia-story-facts{grid-template-columns:1fr}
-      .book-now-float{left:12px;right:12px;bottom:12px;justify-content:center}
+      .book-now-float{
+        right:84px;
+        left:12px;
+        bottom:12px;
+        justify-content:center;
+        padding:13px 16px;
+      }
     }
   
     .multi-upload-box{display:flex;flex-direction:column;gap:10px}
@@ -878,10 +960,11 @@ gtag('config', 'G-XDG8KZWZCM');
   <header>
     <div class="container nav">
       <a href="#home" class="logo">Booking<span>Mongolia</span></a>
+      <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">☰</button>
 
-      <nav class="nav-links">
+      <nav class="nav-links" id="siteNav">
         <a href="#experiences" data-i18n="nav_experiences">Experiences</a>
-        <li><a href="visa-requirements.html">Visa Information</a></li>
+        <a href="visa-requirements.html">Visa Information</a>
         <a href="#destinations" data-i18n="nav_destinations">Destinations</a>
         <a href="#hotels" data-i18n="nav_hotels">Hotels</a>
         <a href="#guides">Guides</a>
@@ -3376,69 +3459,140 @@ window.addEventListener('click', function(e){
 </div>
   <!-- FLOATING CHAT MENU -->
 <div class="chat-container">
-  <div class="chat-main-btn" onclick="toggleChat()">💬</div>
-
   <div class="chat-menu" id="chatMenu">
-    <a href="https://wa.me/97690283039" target="_blank">WhatsApp</a>
-    <a href="https://m.me/bud.chuka" target="_blank">Facebook</a>
-    <a href="tel:+97690283039">Call</a>
-    <a href="javascript:void(0)" onclick="openTawk()">Live Chat</a>
+    <a class="chat-link whatsapp-link" href="https://wa.me/97690283039" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="chat-link messenger-link" href="https://m.me/bud.chuka" target="_blank" rel="noopener">Facebook</a>
+    <a class="chat-link call-link" href="tel:+97690283039">Call</a>
+    <a class="chat-link livechat-link" href="javascript:void(0)" onclick="openTawk()">Live Chat</a>
   </div>
+  <button class="chat-main-btn" type="button" onclick="toggleChat()" aria-label="Open chat options" aria-expanded="false">💬</button>
 </div>
 
 <style>
-.chat-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
+.chat-container{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:10px;
 }
-
-.chat-main-btn {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #d79a2b, #ffb347);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+.chat-main-btn{
+  width:60px;
+  height:60px;
+  background:linear-gradient(135deg,#d79a2b,#ffb347);
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:26px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.3);
 }
-
-.chat-menu {
-  display: none;
-  flex-direction: column;
-  margin-bottom: 10px;
+.chat-menu{
+  display:none;
+  flex-direction:column;
+  align-items:stretch;
+  gap:8px;
+  min-width:170px;
 }
-
-.chat-menu a {
-  background: white;
-  padding: 10px 15px;
-  margin: 5px 0;
-  border-radius: 8px;
-  text-decoration: none;
-  color: black;
-  font-family: Arial;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+.chat-menu.open{
+  display:flex;
+}
+.chat-link{
+  padding:11px 14px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  font-weight:700;
+  box-shadow:0 8px 18px rgba(0,0,0,.16);
+  text-align:center;
+}
+.whatsapp-link{background:#25D366;}
+.messenger-link{background:#0084FF;}
+.call-link{background:#334155;}
+.livechat-link{background:#c98b2f;}
+.chat-link:hover{opacity:.96;transform:translateY(-1px);}
+@media (max-width:720px){
+  .chat-container{
+    right:12px;
+    bottom:12px;
+  }
+  .chat-main-btn{
+    width:58px;
+    height:58px;
+  }
+  .chat-menu{
+    min-width:150px;
+  }
 }
 </style>
 
 <script>
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+Tawk_API.onLoad = function() {
+  if (Tawk_API.hideWidget) {
+    Tawk_API.hideWidget();
+  }
+};
+
+(function(){
+  var s1 = document.createElement("script"),
+      s0 = document.getElementsByTagName("script")[0];
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/69d61028db6d6c1c35dcb053/1jlm2u7uk';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  s0.parentNode.insertBefore(s1, s0);
+})();
+
+function toggleMenu(){
+  var nav = document.getElementById('siteNav');
+  var btn = document.querySelector('.menu-toggle');
+  if(!nav || !btn) return;
+  var isOpen = nav.classList.toggle('active');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
 function toggleChat() {
   var menu = document.getElementById("chatMenu");
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+  var btn = document.querySelector(".chat-main-btn");
+  if (!menu || !btn) return;
+  var isOpen = menu.classList.toggle("open");
+  btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
 }
 
 function openTawk() {
-  if (typeof Tawk_API !== "undefined") {
+  if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget && Tawk_API.maximize) {
+    Tawk_API.showWidget();
     Tawk_API.maximize();
+    var menu = document.getElementById("chatMenu");
+    if (menu) menu.classList.remove("open");
   } else {
-    alert("Chat loading...");
+    alert("Chat is loading...");
   }
 }
+
+document.addEventListener('click', function(e){
+  var nav = document.getElementById('siteNav');
+  var menuBtn = document.querySelector('.menu-toggle');
+  if (nav && menuBtn && nav.classList.contains('active') && !nav.contains(e.target) && !menuBtn.contains(e.target)) {
+    nav.classList.remove('active');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  var chatMenu = document.getElementById('chatMenu');
+  var chatBtn = document.querySelector('.chat-main-btn');
+  if (chatMenu && chatBtn && chatMenu.classList.contains('open') && !chatMenu.contains(e.target) && !chatBtn.contains(e.target)) {
+    chatMenu.classList.remove('open');
+    chatBtn.setAttribute('aria-expanded', 'false');
+  }
+});
 </script>
 </body>
 </html>
