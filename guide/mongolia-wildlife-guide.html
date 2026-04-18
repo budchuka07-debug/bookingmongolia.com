@@ -218,10 +218,30 @@
     .chat-option.call{color:#15803d}
     .chat-option.live{color:#c98b2f}
 
+
+    .floating-tour-btn{
+      position:fixed;
+      right:92px;
+      bottom:24px;
+      z-index:9998;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px 20px;
+      border-radius:999px;
+      background:#c98b2f;
+      color:#fff;
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 12px 28px rgba(0,0,0,.18);
+    }
+    .floating-tour-btn:hover{background:#a56f1f}
+
     @media (max-width:768px){
       .hero h1{font-size:30px}
       .two-col{grid-template-columns:1fr}
       .chat-container{right:14px;bottom:14px}
+      .floating-tour-btn{left:14px;right:84px;bottom:14px;padding:13px 16px}
       .top-link{padding:16px 16px 0}
     }
   </style>
@@ -229,7 +249,7 @@
 <body>
   <div class="page">
     <div class="top-link">
-      <a href="index.html" class="back-home">← Back to Home</a>
+      <a href="/index.html" class="back-home">← Back to Home</a>
     </div>
 
     <section class="hero">
@@ -238,10 +258,6 @@
         Mongolia is a land of vast steppes, high mountains, taiga forests, and desert landscapes,
         home to some of Asia’s most remarkable wildlife and one of the last truly wild environments on Earth.
       </p>
-      <div class="cta-row">
-        <a href="tours-dates.html" class="btn btn-primary">Book Now</a>
-        <a href="javascript:void(0)" class="btn btn-outline" onclick="toggleChatMenu()">Ask a Question</a>
-      </div>
     </section>
 
     <section class="content">
@@ -295,10 +311,6 @@
       <div class="section-cta">
         <h3>Interested in Mongolia’s remote nature?</h3>
         <p>Compare available routes, dates, and private trip options, or ask us directly if you need help choosing the right journey.</p>
-        <div class="cta-row">
-          <a href="tours-dates.html" class="btn btn-primary">Book Now</a>
-          <a href="javascript:void(0)" class="btn btn-outline" onclick="toggleChatMenu()">Ask a Question</a>
-        </div>
       </div>
 
       <h2>Fur-Bearing and Smaller Mammals</h2>
@@ -360,10 +372,6 @@
       <div class="section-cta">
         <h3>Ready to plan your Mongolia trip?</h3>
         <p>You can go to the tours and dates page to compare options, or stay on this page and ask your question directly.</p>
-        <div class="cta-row">
-          <a href="tours-dates.html" class="btn btn-primary">Book Now</a>
-          <a href="javascript:void(0)" class="btn btn-outline" onclick="toggleChatMenu()">Ask a Question</a>
-        </div>
       </div>
 
       <h2>General Information on Seasons and Permits</h2>
@@ -391,13 +399,11 @@
       <div class="cta">
         <h3>Explore Mongolia with local guidance</h3>
         <p>View available trip dates and routes, or ask us directly if you want help choosing the right destination for your travel style.</p>
-        <div class="cta-row">
-          <a href="tours-dates.html" class="btn btn-primary">Book Now</a>
-          <a href="javascript:void(0)" class="btn btn-outline" onclick="toggleChatMenu()">Ask a Question</a>
-        </div>
       </div>
     </section>
   </div>
+
+  <a href="/tours-dates.html" class="floating-tour-btn">Tour Dates</a>
 
   <div class="chat-container">
     <div id="chatOptions" class="chat-options">
@@ -418,13 +424,11 @@
       if(window.Tawk_API && typeof window.Tawk_API.maximize === 'function'){
         window.Tawk_API.maximize();
       }else{
-        alert('Live chat will open here when your chat script is installed on this page.');
+        window.location.href='https://m.me/esimmongolia';
       }
     }
   </script>
 
-  <!-- Optional: keep this only if you want the same live chat on this page -->
-  <!--
   <script type="text/javascript">
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
   (function(){
@@ -436,6 +440,5 @@
     s0.parentNode.insertBefore(s1,s0);
   })();
   </script>
-  -->
 </body>
 </html>
