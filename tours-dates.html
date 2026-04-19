@@ -119,7 +119,7 @@
     .planner-item strong{display:block;margin-bottom:4px}
     footer{background:#0d1b2a;color:rgba(255,255,255,.88);padding:24px 0;font-size:14px}
     .footer-wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-    .floating-book{position:fixed;right:18px;bottom:18px;z-index:120;display:inline-flex;align-items:center;justify-content:center;padding:15px 20px;border-radius:999px;background:var(--accent);color:#fff;font-weight:800;box-shadow:0 18px 30px rgba(0,0,0,.2)}
+    .floating-book{position:fixed;right:20px;bottom:96px;z-index:120;display:inline-flex;align-items:center;justify-content:center;padding:15px 20px;border-radius:999px;background:var(--accent);color:#fff;font-weight:800;box-shadow:0 18px 30px rgba(0,0,0,.2)}
     .floating-book:hover{background:var(--accent-dark)}
     .modal{position:fixed;inset:0;display:none;z-index:200}
     .modal.open{display:block}
@@ -163,6 +163,12 @@
     .detail-section h4{margin-bottom:10px;color:var(--primary-dark)}
     .detail-price{font-size:15px;font-weight:700;color:#14532d}
     .tour-actions .tour-btn{padding:9px 12px;font-size:13px}
+
+    .modal-dialog.detail-wide{width:min(1100px,94vw)}
+    .detail-hero-map{margin:18px 0 20px}
+    .detail-hero-map img{width:100%;display:block;border-radius:20px;box-shadow:var(--shadow-soft);background:#eef2f7;min-height:260px;object-fit:cover}
+    .detail-map-caption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+    .route-code{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:#eef4ff;color:var(--primary);font-weight:800;font-size:12px}
 
     @media (max-width:1200px){
       .tour-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -302,7 +308,7 @@
         <a class="btn btn-outline" href="#services">All Services</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><strong>20+</strong><span>Routes prepared</span></div>
+        <div class="stat"><strong>25+</strong><span>Routes prepared</span></div>
         <div class="stat"><strong>May–Oct</strong><span>Main summer season open</span></div>
         <div class="stat"><strong>Custom</strong><span>Build your own itinerary</span></div>
         <div class="stat"><strong>Family Ready</strong><span>Child-friendly planning available</span></div>
@@ -487,7 +493,7 @@
       </div>
 
       <div class="summary-strip">
-        <div class="summary-box"><strong id="tourCount">20</strong><span>Tours currently shown</span></div>
+        <div class="summary-box"><strong id="tourCount">25+</strong><span>Tours currently shown</span></div>
         <div class="summary-box"><strong>Agreement First</strong><span>Dates and itinerary are confirmed before payment</span></div>
         <div class="summary-box"><strong>May–Oct</strong><span>Summer and autumn season open</span></div>
         <div class="summary-box"><strong>Flexible</strong><span>Custom route, car, guide and family requests</span></div>
@@ -679,7 +685,7 @@
           <button class="btn btn-primary" type="submit">Send Request</button>
           <a class="btn" style="background:#111;color:#fff;" href="javascript:void(0)" id="paymentInfoLink" onclick="openAgreementInfo()">Agreement & Payment Info</a>
           <a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a>
-          <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/yourpage">Messenger</a>
+          <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/esimmongolia">Messenger</a>
         </div>
       </form>
       <div class="help-note" id="submitNote">This form sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. After dates and itinerary are confirmed, the travel agreement is shared and payment details are sent by Wise transfer or SWIFT bank transfer. WhatsApp and Messenger remain available as backup.</div>
@@ -689,7 +695,7 @@
 
   <div class="modal" id="detailModal" aria-hidden="true">
     <div class="modal-backdrop" onclick="closeDetailModal()"></div>
-    <div class="modal-dialog">
+    <div class="modal-dialog detail-wide">
       <button class="modal-close" onclick="closeDetailModal()">&times;</button>
       <div id="detailContent"></div>
     </div>
@@ -743,6 +749,11 @@
       requestOnly: ['Ask for available date']
     };
 
+    function normalizeRegionCode(region){
+      const map = {combined:'combo', festival:'festival', special:'special', terelj:'terelj', central:'central', north:'khuvsgul', west:'west', khangai:'khangai', gobi:'gobi'};
+      return map[region] || String(region || 'route').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+    }
+
     const tours = [
       {id:'gobi-highlights-5d',name:'Gobi Highlights 5 Days',region:'gobi',style:'adventure',days:5,status:'guaranteed',image:'images/destinations/khongor-dunes.jpg',highlights:['Khongor Dunes','Bayanzag','Yol Valley','Tsagaan Suvarga'],dates:seasonDates.weekly,prices:{1:1180,2:820,3:720,4:650},fromUB:'Flight or 4x4',season:'May–Oct',group:'4–5'},
       {id:'gobi-classic-7d',name:'Gobi Classic 7 Days',region:'gobi',style:'adventure',days:7,status:'guaranteed',image:'images/destinations/bayanzag.jpg',highlights:['Khongor Dunes','Bayanzag','Yol Valley','Flaming Cliffs'],dates:seasonDates.weeklyLate,prices:{1:1450,2:990,3:860,4:780},fromUB:'4x4 classic route',season:'May–Oct',group:'6–7'},
@@ -767,7 +778,24 @@
       {id:'gobi-khuvsgul-loop-14d',name:'Ultimate Mongolia Loop 14 Days (Gobi + Khuvsgul)',region:'combined',style:'adventure',days:14,status:'limited',image:'images/destinations/khuvsgul-lake.jpg',highlights:['Khuvsgul Lake','Orkhon Valley','Karakorum','Yol Valley','Bayanzag','Khongor Dunes'],dates:['June 5','June 19','July 3','July 17','July 31','August 14','August 28','September 11'],prices:{1:2650,2:1950,3:1750,4:1600},fromUB:'Flight + overland loop',season:'June–September',group:'10-14'},
       {id:'gobi-khuvsgul-comfort-14d',name:'Ultimate Mongolia Comfort Loop 14 Days',region:'combined',style:'comfort',days:14,status:'request',image:'images/hero/hero-khuvsgul-lake.jpg',highlights:['Flight to Murun','Khuvsgul Lake','Tsenkher / Khorgo','Orkhon Valley','Bayanzag','Khongor Dunes'],dates:['June 8','June 22','July 6','July 20','August 3','August 17','August 31','September 14'],prices:{1:3290,2:2450,3:2180,4:1980},fromUB:'Flight + upgraded overland',season:'June–September',group:'10-14'},
       {id:'central-gobi-classic-10d',name:'Central + Gobi Classic 10 Days',region:'gobi',style:'culture',days:10,status:'guaranteed',image:'images/destinations/khongor-dunes.jpg',highlights:['Karakorum','Orkhon Valley','Elsen Tasarkhai','Yol Valley','Bayanzag','Khongor Dunes'],dates:['May 15','May 29','June 12','June 26','July 10','July 24','August 7','August 21','September 4','September 18','October 2'],prices:{1:1750,2:1350,3:1200,4:1100},fromUB:'Overland route',season:'May–October',group:'10'}
+      ,{id:'terelj-horse-nature-2d',name:'Terelj Horse Riding & Nature 2 Days',region:'terelj',style:'horse',days:2,status:'guaranteed',image:'images/destinations/terelj.jpg',highlights:['Chinggis Statue','Turtle Rock','Aryabal Temple','Full Day Horse Riding'],dates:['May 16','May 23','May 30','June 6','June 13','June 20','June 27','July 4','July 18','July 25','August 1','August 8','August 15','August 22','September 5','September 12','September 19'],prices:{1:140,2:110,3:99,4:95},fromUB:'Short drive from UB',season:'May–September',group:'2–6'}
+      ,{id:'hustai-nomad-elsen-4d',name:'Authentic Nomadic Life 4 Days (Hustai + Elsen Tasarkhai)',region:'central',style:'culture',days:4,status:'limited',image:'images/destinations/elsen-tasarhai.jpg',highlights:['Hustai Wild Horses','Nomadic Family','Horse & Camel Riding','Elsen Tasarkhai'],dates:['May 18','June 1','June 15','June 29','July 13','July 27','August 10','August 24','September 7','September 21'],prices:{1:380,2:290,3:260,4:240},fromUB:'Road trip + family stay',season:'May–September',group:'2–6'}
+      ,{id:'naadam-terelj-3d',name:'Naadam Festival + Terelj 3 Days',region:'festival',style:'culture',days:3,status:'limited',image:'images/destinations/terelj.jpg',highlights:['Opening Ceremony','Horse Racing','Terelj','Statue Complex'],dates:['July 10','July 11','July 12'],prices:{1:520,2:390,3:360,4:330},fromUB:'City + countryside',season:'July only',group:'2–6'}
+      ,{id:'naadam-gobi-7d',name:'Naadam Festival + Gobi 7 Days',region:'festival',style:'adventure',days:7,status:'limited',image:'images/destinations/bayanzag.jpg',highlights:['Naadam Festival','Yol Valley','Bayanzag','Khongor Dunes'],dates:['July 10','July 12','July 14'],prices:{1:1680,2:1220,3:1110,4:1020},fromUB:'Festival + overland Gobi',season:'July only',group:'2–6'}
+      ,{id:'naadam-khuvsgul-8d',name:'Naadam Festival + Khuvsgul 8 Days',region:'festival',style:'nature',days:8,status:'request',image:'images/destinations/khuvsgul-lake.jpg',highlights:['Naadam Opening','Murun Flight','Khuvsgul Lake','Forest Shore'],dates:['July 10','July 12'],prices:{1:1980,2:1480,3:1360,4:1280},fromUB:'Festival + flight north',season:'July only',group:'2–6'}
+      ,{id:'gobi-flight-5d',name:'Gobi by Flight 5 Days',region:'gobi',style:'comfort',days:5,status:'guaranteed',image:'images/destinations/khongor-dunes.jpg',highlights:['Flight to Dalanzadgad','Yol Valley','Bayanzag','Khongor Dunes'],dates:['May 12','May 26','June 9','June 23','July 7','July 21','August 4','August 18','September 1','September 15'],prices:{1:1650,2:1220,3:1110,4:1040},fromUB:'Flight + private 4x4',season:'May–September',group:'2–6'}
+      ,{id:'khuvsgul-flight-5d',name:'Khuvsgul by Flight 5 Days',region:'north',style:'comfort',days:5,status:'guaranteed',image:'images/destinations/khuvsgul-lake.jpg',highlights:['Flight to Murun','Lakeside Stay','Boat Option','Forest Walk'],dates:['June 5','June 19','July 3','July 17','July 31','August 14','August 28','September 11'],prices:{1:1720,2:1290,3:1180,4:1090},fromUB:'Flight + lake transfer',season:'June–September',group:'2–6'}
+      ,{id:'gobi-khuvsgul-flight-10d',name:'Gobi + Khuvsgul Flight Combo 10 Days',region:'combined',style:'comfort',days:10,status:'limited',image:'images/hero/hero-khuvsgul-lake.jpg',highlights:['Dalanzadgad Flight','Khongor Dunes','Murun Flight','Khuvsgul Lake'],dates:['June 10','June 24','July 8','July 22','August 5','August 19','September 2'],prices:{1:2980,2:2280,3:2090,4:1920},fromUB:'Two domestic flights',season:'June–September',group:'2–6'}
+
     ];
+
+    const regionCounters = {};
+    tours.forEach(t => {
+      const regionCode = normalizeRegionCode(t.region);
+      regionCounters[regionCode] = (regionCounters[regionCode] || 0) + 1;
+      t.code = t.code || `BM-${regionCode}-${regionCounters[regionCode]}`;
+      t.routeImage = t.routeImage || `images/tours/marshrut/${t.code}.jpg`;
+    });
 
     const tourDetails = {
       'gobi-highlights-5d': {route:'Ulaanbaatar → Tsagaan Suvarga → Yol Valley → Bayanzag → Khongor → Ulaanbaatar', itinerary:['Day 1: Drive south to Tsagaan Suvarga and overnight in tourist ger camp.','Day 2: Continue to Yol Valley, short hike, then move toward Bayanzag.','Day 3: Explore Flaming Cliffs area and continue to Khongor Sand Dunes.','Day 4: Camel riding, dune walk and sunset in Khongor region.','Day 5: Return drive toward Ulaanbaatar or connect onward.'], standard:'Tourist ger camp and standard local lodge where available.', budget:'Simple guesthouse or shared camp option to reduce total price.', premium:'Better vehicle, private room where possible, upgraded camp or hotel in city sections.'},
@@ -793,6 +821,15 @@
       'gobi-khuvsgul-loop-14d': {route:'Ulaanbaatar → Flight to Murun → Khuvsgul Lake → Terkhiin Tsagaan / Khorgo → Orkhon Valley → Kharkhorum → Elsen Tasarkhai → Baga Gazriin Chuluu → Yol Valley → Bayanzag → Khongor → Ulaanbaatar', itinerary:['Day 1: Arrival in Ulaanbaatar and trip briefing.','Day 2: Flight to Murun, drive to Khuvsgul Lake and overnight at the lakeshore.','Day 3: Explore Khuvsgul Lake, forest edge and local family life.','Day 4: Start the scenic road south toward Arkhangai region.','Day 5: Visit Terkhiin Tsagaan Lake and Khorgo volcano area.','Day 6: Continue through central Mongolia with countryside stops.','Day 7: Reach Orkhon Valley and experience nomadic life.','Day 8: Orkhon Waterfall and horse-riding / hiking options.','Day 9: Kharkhorum and Erdene Zuu Monastery.','Day 10: Elsen Tasarkhai sand dunes and camel riding.','Day 11: Baga Gazriin Chuluu granite formations.','Day 12: Yol Valley hike in Gobi Gurvansaikhan.','Day 13: Bayanzag and Khongor Sand Dunes with sunset on the dunes.','Day 14: Return to Ulaanbaatar.'], standard:'Ger camps + standard local hotels / guesthouses on selected transit nights.', budget:'Guesthouse-focused option where possible to reduce cost.', premium:'Private room priority, upgraded camps and stronger comfort level.'},
       'gobi-khuvsgul-comfort-14d': {route:'Ulaanbaatar → Flight to Murun → Khuvsgul Lake → Arkhangai / Tsenkher / Khorgo → Orkhon Valley → Kharkhorum → Gobi highlights → Ulaanbaatar', itinerary:['Day 1: Arrival in Ulaanbaatar and hotel check-in.','Day 2: Flight to Murun and drive to Khuvsgul Lake comfort stay.','Day 3: Full lakeside day with optional boat, horse ride or hiking.','Day 4: Travel south toward Arkhangai with improved comfort pacing.','Day 5: Tsenkher hot spring or Khorgo volcano / lake area depending on road and pace.','Day 6: Continue through central scenic landscapes.','Day 7: Orkhon Valley with nomadic family visit.','Day 8: Waterfall and flexible activity day.','Day 9: Kharkhorum and Erdene Zuu.','Day 10: Elsen Tasarkhai and central dune landscape.','Day 11: Baga Gazriin Chuluu or scenic transit stop.','Day 12: Yol Valley in the Gobi.','Day 13: Bayanzag and Khongor Sand Dunes.','Day 14: Return to Ulaanbaatar or city hotel connection.'], standard:'This tour is positioned above standard level and uses better camps / hotels where available.', budget:'Budget version not recommended for this comfort route.', premium:'Top available comfort setup with stronger vehicle and private room preference.'},
       'central-gobi-classic-10d': {route:'Ulaanbaatar → Kharkhorum → Orkhon Valley → Elsen Tasarkhai → Baga Gazriin Chuluu → Yol Valley → Bayanzag → Khongor Sand Dunes → Ulaanbaatar', itinerary:['Day 1: Drive to Kharkhorum.','Day 2: Erdene Zuu and historical museum.','Day 3: Continue into Orkhon Valley.','Day 4: Waterfall area and nomadic family experience.','Day 5: Elsen Tasarkhai and central steppe dunes.','Day 6: Drive south through Baga Gazriin Chuluu.','Day 7: Yol Valley hike.','Day 8: Bayanzag Flaming Cliffs.','Day 9: Khongor Sand Dunes with camel riding and sunset.','Day 10: Return to Ulaanbaatar.'], standard:'Standard ger camps and selected local guesthouses / hotels.', budget:'Simpler guesthouse or shared-camp option to reduce total cost.', premium:'Upgraded rooms and stronger private comfort service.'}
+      ,'terelj-horse-nature-2d': {route:'Ulaanbaatar → Chinggis Khaan Statue Complex → Turtle Rock → Aryabal Temple → Terelj riding area → Ulaanbaatar', itinerary:['Day 1: 09:00 pickup in Ulaanbaatar, visit Chinggis Khaan Statue Complex at Tsonjin Boldog, continue to Turtle Rock and enjoy lunch in Terelj.','Day 1: Afternoon hike to Aryabal Meditation Temple, check in to ger camp, dinner and overnight in Terelj.','Day 2: Full-day horse riding through valleys, open hills and nomadic land with lunch break in nature.','Day 2: Late afternoon return to camp and drive back to Ulaanbaatar in the evening.'], standard:'Standard ger camp in Terelj with guide, horse support and simple private room or twin setup where available.', budget:'Shared camp or simpler room setup with shorter ride support and basic meals.', premium:'Better ger camp, private guide pacing, upgraded meals and stronger riding support.', includes:['Transport from and back to Ulaanbaatar','1 night ger camp stay','1 breakfast, 2 lunches, 1 dinner','Horse riding with local horse guide','Terelj sightseeing stops'], notIncluded:['Personal riding equipment','Alcohol and extra snacks','Travel insurance'], note:'Great short trip near Ulaanbaatar. Beginner-friendly and easy to sell to first-time visitors.'}
+      ,'hustai-nomad-elsen-4d': {route:'Ulaanbaatar → Hustai National Park → Nomadic Family Stay → Elsen Tasarkhai → Ulaanbaatar', itinerary:['Day 1: Drive from Ulaanbaatar to Hustai National Park, see the wild Takhi horses, then continue around 100 km to a nomadic family camp for dinner and overnight.','Day 2: Full day authentic nomadic experience with horse riding, camel riding, milking cow or yak, dairy making and traditional countryside life. Overnight with the family.','Day 3: Drive to Elsen Tasarkhai, enjoy sand dunes walk, camel riding option and sunset. Overnight in ger camp.','Day 4: Breakfast and relaxed return to Ulaanbaatar, with optional Kharkhorum stop on request.'], standard:'Real nomadic family stay for 2 nights plus 1 tourist ger camp near Elsen Tasarkhai.', budget:'Simpler family and guesthouse version with fewer activity inclusions.', premium:'Upgraded private support, better camp room where possible and more flexible comfort pace.', includes:['Transport with driver','2 nights with nomadic family','1 night ger camp near Elsen Tasarkhai','Horse riding and camel riding','Selected nomadic activities and meals'], notIncluded:['Personal expenses','Alcohol and extra snacks','Premium private room upgrade unless requested'], note:'This is not a luxury tour. It is a real Mongolian countryside experience and works especially well for guests who want culture, not just sightseeing.'}
+      ,'naadam-terelj-3d': {route:'Ulaanbaatar Naadam Stadium → Horse Racing Area → Terelj National Park → Ulaanbaatar', itinerary:['Day 1: Attend Naadam opening ceremony or stadium event in Ulaanbaatar and enjoy the festival atmosphere.','Day 2: Early departure to countryside horse racing area, then continue to Terelj for dinner and overnight in ger camp.','Day 3: Visit Chinggis Khaan Statue Complex, Turtle Rock or Aryabal Temple before returning to Ulaanbaatar.'], standard:'City hotel or guesthouse night can be added on request, plus 1 countryside ger camp stay.', budget:'Simpler festival entry setup with standard transfers and basic countryside stay.', premium:'Better festival seat support, stronger vehicle setup and upgraded stay option.', includes:['Festival transport planning','Terelj transfer and sightseeing','1 countryside overnight stay','Driver and local assistance'], notIncluded:['Premium or VIP Naadam tickets unless requested','Hotel in Ulaanbaatar unless added','Personal expenses'], note:'Ideal for travelers who want Naadam plus a short countryside taste instead of only staying in the city.'}
+      ,'naadam-gobi-7d': {route:'Ulaanbaatar Naadam → Dalanzadgad / Yol Valley → Bayanzag → Khongor Dunes → Ulaanbaatar', itinerary:['Day 1: Naadam festival experience in Ulaanbaatar.','Day 2: Begin southbound Gobi route or connect by flight depending on final plan.','Day 3: Explore Yol Valley and continue deeper into the Gobi.','Day 4: Visit Bayanzag / Flaming Cliffs and continue to Khongor Sand Dunes.','Day 5: Reach Khongor Sand Dunes with camel riding and sunset.','Day 6: Desert morning and return route north.','Day 7: Arrive in Ulaanbaatar.'], standard:'Festival support plus classic ger camp overland Gobi route.', budget:'Basic guesthouse / camp setup with standard shared-style comfort.', premium:'Better vehicle, upgraded city stay and more flexible desert pacing.', includes:['Naadam festival day','Gobi transport and driver','Ger camp stays','Main Gobi highlights'], notIncluded:['Special ticket class upgrades','Travel insurance','Extra horse or camel ride time not listed'], note:'One of the easiest high-conversion July products because it combines Mongolia’s biggest festival with the country’s most famous landscape.'}
+      ,'naadam-khuvsgul-8d': {route:'Ulaanbaatar Naadam → Murun Flight → Khatgal → Khuvsgul Lake → Ulaanbaatar', itinerary:['Day 1: Naadam opening ceremony and city festival experience.','Day 2: Flight north to Murun and transfer to Khatgal / lakeside stay.','Day 3: Khuvsgul shore exploration and forest walk.','Day 4: Boat option, lakeside free time and nomadic family interaction if requested.','Day 5: More north lake experience at a relaxed pace.','Day 6: Flexible day for horse riding, hiking or just rest by the lake.','Day 7: Return toward Murun and overnight if needed.','Day 8: Flight back to Ulaanbaatar.'], standard:'Festival support plus domestic flight and lakeside lodge / ger camp mix.', budget:'Simpler lakeside guesthouse and standard flight timing dependent on availability.', premium:'Better lakeside lodge, private support and stronger comfort package.', includes:['Naadam day assistance','Domestic flights','Lake transfer and stay','Khuvsgul sightseeing'], notIncluded:['Boat charter unless included in final quote','Premium Naadam seat upgrade','Personal expenses'], note:'Best for travelers who want July festival energy first, then cool northern nature afterward.'}
+      ,'gobi-flight-5d': {route:'Ulaanbaatar → flight to Dalanzadgad → Yol Valley → Bayanzag → Khongor Dunes → return to Ulaanbaatar', itinerary:['Day 1: Flight to Dalanzadgad and transfer to Yol Valley area.','Day 2: Explore Yol Valley and continue toward Bayanzag.','Day 3: Visit Flaming Cliffs and continue to Khongor Sand Dunes.','Day 4: Camel riding, dune walk and sunset.','Day 5: Return to Dalanzadgad and fly or drive back to Ulaanbaatar depending on final air plan.'], standard:'Domestic flight plus classic Gobi ger camp route for guests who want less driving from Ulaanbaatar.', budget:'Some air departures may use simpler local stay standards to keep the package lower.', premium:'Better seats, stronger private support and upgraded camp / hotel combination.', includes:['Domestic flight','Private driver in the Gobi','Ger camp stays','Main Gobi highlights'], notIncluded:['Excess baggage charges if applicable','Premium hotel upgrades unless requested','Insurance'], note:'Good product for higher-end clients, shorter itineraries and guests who dislike long overland driving.'}
+      ,'khuvsgul-flight-5d': {route:'Ulaanbaatar → flight to Murun → Khatgal → Khuvsgul Lake → Murun → Ulaanbaatar', itinerary:['Day 1: Flight to Murun and transfer to Khatgal or lakeside camp.','Day 2: Relaxed Khuvsgul shore day with forest and water views.','Day 3: Optional boat ride, horse riding or easy hiking.','Day 4: Free day by the lake or nomadic interaction.','Day 5: Transfer back to Murun and flight to Ulaanbaatar.'], standard:'Flight north with standard lakeside lodge or ger camp stay.', budget:'Simple guesthouse version for travelers who want the flight convenience but lower stay cost.', premium:'Better lake lodge, private transport and more comfort-focused pacing.', includes:['Domestic round-trip flight','Murun / Khatgal transfer','Lakeside stay','Guide or local support on request'], notIncluded:['Optional private boat charter','Extra horse ride or activity fee not listed','Personal expenses'], note:'Short northern product that feels premium because of the flight and lake setting.'}
+      ,'gobi-khuvsgul-flight-10d': {route:'Ulaanbaatar → flight to Dalanzadgad → Gobi highlights → Ulaanbaatar → flight to Murun → Khuvsgul Lake → Ulaanbaatar', itinerary:['Day 1: Flight to Dalanzadgad and start Gobi section.','Day 2: Yol Valley and Bayanzag.','Day 3: Continue to Khongor Dunes.','Day 4: Full dune day and desert experience.','Day 5: Return to Ulaanbaatar.','Day 6: Flight to Murun and transfer to Khuvsgul.','Day 7: Lakeside exploration and rest.','Day 8: Boat, forest or horse riding options.','Day 9: Flexible lake day.','Day 10: Return flight to Ulaanbaatar.'], standard:'Two domestic flight product combining Mongolia’s biggest desert and northern lake without one long overland loop.', budget:'Standard flight package with simpler stay class and activity limits.', premium:'Higher-comfort hotels and lodges, more private support and smoother timing.', includes:['Two domestic flights','Gobi private driver','Khuvsgul lake transfer','Ger camp / lodge stays'], notIncluded:['Special upgraded seat fees','Personal expenses','Optional private charter add-ons'], note:'Excellent premium itinerary for guests who want the biggest contrasts in Mongolia within 10 days.'}
+
     };
 
     let selectedPeople = '2';
@@ -853,7 +890,7 @@
     function renderTours(){
       const filtered = tours;
       resultCount.textContent = `Showing ${filtered.length} tours.`;
-      tourCount.textContent = filtered.length;
+      tourCount.textContent = filtered.length + '+';
 
       tourGrid.innerHTML = filtered.map(t => `
         <article class="tour-card">
@@ -872,6 +909,7 @@
             <div class="detail-price">${getPriceFrom(t)}</div>
             <div class="small-note">Standard package shown. Budget and Premium options available.</div>
             <div class="small-note">Private or group joining possible • Dates confirmed before payment.</div>
+            <div class="small-note">Limited seats • Ask for final room and vehicle availability.</div>
             <div class="tour-actions">
               <button class="tour-btn" onclick="openDetailModal('${t.id}')">View Details</button>
               <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Ask Quote' : 'Confirm Dates'}</button>
@@ -886,16 +924,26 @@
       const detail = tourDetails[id];
       if(!tour || !detail) return;
       const perDay = (tour.priceMode === 'ask' || !tour.prices) ? 'Quote first' : `${formatPrice(Math.round(tour.prices[1] / tour.days))} approx / day for 1 traveler`;
+      const routeImage = tour.routeImage || `images/tours/marshrut/${tour.code}.jpg`;
       const modalHtml = `
         <div class="detail-topline">
           <span class="tour-badge">${tour.region.toUpperCase()} • ${tour.style.toUpperCase()}</span>
           <span class="pill">${tour.days} Days</span>
           <span class="pill">${tour.season}</span>
           <span class="pill">May–October open</span>
+          <span class="route-code">${tour.code}</span>
         </div>
         <h3>${tour.name}</h3>
         <p><strong>Route:</strong> ${detail.route}</p>
         <p class="small-note">${tour.priceMode === 'ask' ? 'Private quote product.' : 'Most departures are private journeys for up to 4 travelers in one vehicle. Larger groups are possible on request.'}</p>
+
+        <div class="detail-hero-map">
+          <img src="${routeImage}" alt="${tour.name} route map" loading="lazy" onerror="this.onerror=null;this.src='${tour.image}';">
+          <div class="detail-map-caption">
+            <span>Route image path: <strong>${routeImage}</strong></span>
+            <span>Save future route maps using code: <strong>${tour.code}.jpg</strong></span>
+          </div>
+        </div>
 
         <div class="detail-section">
           <h4>Sample itinerary</h4>
@@ -926,6 +974,24 @@
             <p class="small-note">${perDay}</p>
           `}
         </div>
+
+        ${detail.includes ? `
+        <div class="detail-section">
+          <h4>Includes</h4>
+          <ul class="detail-list">
+            ${detail.includes.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>` : ''}
+
+        ${detail.notIncluded ? `
+        <div class="detail-section">
+          <h4>Not included</h4>
+          <ul class="detail-list">
+            ${detail.notIncluded.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>` : ''}
+
+        ${detail.note ? `<div class="tour-note-box"><p><strong>Why this tour works:</strong> ${detail.note}</p></div>` : ''}
 
         <div class="detail-section">
           <h4>Possible add-ons</h4>
