@@ -924,7 +924,7 @@
       const detail = tourDetails[id];
       if(!tour || !detail) return;
       const perDay = (tour.priceMode === 'ask' || !tour.prices) ? 'Quote first' : `${formatPrice(Math.round(tour.prices[1] / tour.days))} approx / day for 1 traveler`;
-      const routeImage = tour.routeImage || `images/tours/marshrut/${tour.code}.jpg`;
+      const routeImage = tour.routeImage || `images/tour/marshrut/${tour.code}.jpg`;
       const modalHtml = `
         <div class="detail-topline">
           <span class="tour-badge">${tour.region.toUpperCase()} • ${tour.style.toUpperCase()}</span>
