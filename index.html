@@ -23,6 +23,7 @@ gtag('config', 'G-XDG8KZWZCM');
 <meta property="og:type" content="website"><meta name="description" content="Discover Mongolia with local travel experts. Private tours, nomadic experiences, travel guide, transport help, and Mongolia travel videos." />
   <link rel="canonical" href="https://bookingmongolia.com" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root{
       --primary:#0d3b66;
@@ -946,6 +947,40 @@ gtag('config', 'G-XDG8KZWZCM');
     text-align:center;
   }
 }
+    /* Traveler Community / Blog + Group Tour Sharing */
+    .community-section{background:linear-gradient(135deg,#f8fbff 0%,#fffaf0 100%)}
+    .community-shell{background:#fff;border-radius:24px;box-shadow:var(--shadow);border:1px solid rgba(13,59,102,.08);overflow:hidden}
+    .community-tabs{display:flex;gap:10px;flex-wrap:wrap;padding:18px 18px 0}
+    .community-tab{border:1px solid #dbe3ef;background:#f5f8fc;color:var(--primary);padding:12px 18px;border-radius:999px;font-weight:800;cursor:pointer;transition:.25s ease}
+    .community-tab.active,.community-tab:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .community-panel{display:none;padding:22px}
+    .community-panel.active{display:block}
+    .community-layout{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(0,1.18fr);gap:22px;align-items:start}
+    .community-form-card{background:#f8fafc;border:1px solid #e5e7eb;border-radius:20px;padding:20px}
+    .community-feed{display:grid;gap:14px}
+    .community-card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.05)}
+    .community-card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}
+    .community-user{display:flex;gap:10px;align-items:center}
+    .community-flag{width:30px;height:22px;object-fit:cover;border-radius:5px;background:#eef2f7;border:1px solid #e5e7eb}
+    .community-type-pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#eef4ff;color:var(--primary);font-size:12px;font-weight:800;white-space:nowrap}
+    .community-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+    .community-empty{background:#fff;border:1px dashed #cbd5e1;border-radius:18px;padding:24px;color:var(--muted);text-align:center}
+    .community-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    .community-engagement{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px;border-top:1px solid #eef2f7;padding-top:12px}
+    .community-like-btn,.community-comment-toggle{border:1px solid #dbe3ef;background:#fff;color:var(--primary);border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer}
+    .community-like-btn.active{background:#fff1dc;border-color:#f3c77a;color:#8a520d}
+    .community-comments{margin-top:12px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:12px}
+    .community-comment-item{padding:10px 0;border-bottom:1px solid #e5e7eb}
+    .community-comment-item:last-child{border-bottom:none}
+    .community-comment-form{display:grid;grid-template-columns:140px 1fr auto;gap:8px;margin-top:10px}
+    .community-comment-form input{padding:10px 12px;border-radius:10px}
+    .community-comment-form button{border:none;background:var(--primary);color:#fff;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
+    @media (max-width:720px){.community-comment-form{grid-template-columns:1fr}.community-comment-form button{width:100%}}
+    .community-small{font-size:13px;color:var(--muted)}
+    .cf-turnstile{margin:10px 0 6px;min-height:65px}
+    @media (max-width:900px){.community-layout{grid-template-columns:1fr}.community-panel{padding:16px}.community-tabs{padding:16px 16px 0}}
+
   </style>
 </head>
 <body>
@@ -969,7 +1004,7 @@ gtag('config', 'G-XDG8KZWZCM');
         <a href="#hotels" data-i18n="nav_hotels">Hotels</a>
         <a href="#guides">Guides</a>
         <a href="#cars" data-i18n="nav_cars">Car Rental</a>
-        <a href="#reviews" data-i18n="nav_reviews">Reviews</a>
+        <a href="#community">Traveler Hub</a>
         <a href="#contact" data-i18n="nav_contact">Contact</a>
         <a href="/vip-helicopter-expedition.html">Helicopter Tour</a>
         <a href="#tours" data-i18n="nav_tours">VIP Tours</a>
@@ -1853,57 +1888,127 @@ gtag('config', 'G-XDG8KZWZCM');
     </div>
   </div>
 
-<section id="reviews" class="soft-section">
-    <div class="container">
-      <div class="section-head">
-        <h2>Traveler Reviews</h2>
-        <p>Real travel feedback reviewed by our team before it appears on the website.</p>
-      </div>
 
-      <div class="grid grid-3" id="review-list"></div>
-
-      <div class="section-head" style="margin-top:42px">
-        <h3>Share Your Experience</h3>
-        <p>Travelers can submit a review and photo from their Mongolia trip.</p>
-      </div>
-
-      <form id="review-form">
-        <div class="form-grid">
-          <div>
-            <label>Traveler Name</label>
-            <input type="text" id="review_name" required>
-          </div>
-          <div>
-            <label>Country</label>
-            <input type="text" id="review_country" placeholder="Japan / Korea / USA" required>
-          </div>
-          <div>
-            <label>Rating</label>
-            <select id="review_rating" required>
-              <option value="">Select rating</option>
-              <option value="5">5 Stars</option>
-              <option value="4">4 Stars</option>
-              <option value="3">3 Stars</option>
-              <option value="2">2 Stars</option>
-              <option value="1">1 Star</option>
-            </select>
-          </div>
-          <div>
-            <label>Image URL</label>
-            <input type="url" id="review_image" placeholder="https://...">
-          </div>
-          <div class="full">
-            <label>Review</label>
-            <textarea id="review_text" placeholder="Tell future travelers about your tour, driver, stay or overall experience." required></textarea>
-          </div>
-          <div class="full submit-actions">
-            <button class="btn btn-primary" type="submit">Submit Review</button>
-          </div>
-          <div class="full"><div id="review-notice" class="notice"></div></div>
-        </div>
-      </form>
+<section id="community" class="community-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-accent">Traveler Community</span>
+      <h2>Traveler Blog & Group Tour Sharing</h2>
+      <p>A public community board for Mongolia travelers. Share a travel story, ask for route advice, or find other travelers to join a group tour and reduce costs.</p>
     </div>
-  </section>
+
+    <div class="community-shell">
+      <div class="community-tabs">
+        <button class="community-tab active" type="button" data-community-tab="blog" onclick="switchCommunityTab('blog')">Traveler Blog</button>
+        <button class="community-tab" type="button" data-community-tab="sharing" onclick="switchCommunityTab('sharing')">Join Group Tour</button>
+      </div>
+
+      <div id="communityBlogPanel" class="community-panel active">
+        <div class="community-layout">
+          <form id="community-blog-form" class="community-form-card">
+            <h3>Share Your Mongolia Travel Story</h3>
+            <p class="community-small">Your post appears publicly after submission. Spam or incorrect posts may be removed by BookingMongolia.</p>
+            <div class="form-grid">
+              <div><label>Your Name</label><input type="text" id="blog_name" placeholder="Anna" required></div>
+              <div><label>Country</label><select id="blog_country_code" required>
+                  <option value="">Select country</option>
+                  <option value="fr">🇫🇷 France</option>
+                  <option value="de">🇩🇪 Germany</option>
+                  <option value="us">🇺🇸 USA</option>
+                  <option value="gb">🇬🇧 United Kingdom</option>
+                  <option value="au">🇦🇺 Australia</option>
+                  <option value="ca">🇨🇦 Canada</option>
+                  <option value="jp">🇯🇵 Japan</option>
+                  <option value="kr">🇰🇷 South Korea</option>
+                  <option value="cn">🇨🇳 China</option>
+                  <option value="sg">🇸🇬 Singapore</option>
+                  <option value="my">🇲🇾 Malaysia</option>
+                  <option value="th">🇹🇭 Thailand</option>
+                  <option value="vn">🇻🇳 Vietnam</option>
+                  <option value="in">🇮🇳 India</option>
+                  <option value="nl">🇳🇱 Netherlands</option>
+                  <option value="es">🇪🇸 Spain</option>
+                  <option value="it">🇮🇹 Italy</option>
+                  <option value="ch">🇨🇭 Switzerland</option>
+                  <option value="se">🇸🇪 Sweden</option>
+                  <option value="other">🌍 Other</option>
+                </select></div>
+              <div><label>Destination</label><input type="text" id="blog_destination" placeholder="Gobi / Khuvsgul / Ulaanbaatar"></div>
+              <div><label>Photo URL optional</label><input type="url" id="blog_image_url" placeholder="https://..."></div>
+              <div class="full"><label>Title</label><input type="text" id="blog_title" placeholder="My first Gobi Desert trip" required></div>
+              <div class="full"><label>Story</label><textarea id="blog_content" placeholder="Write your experience, route tips, costs, transport, border tips or useful advice for future travelers." required></textarea></div>
+              <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCIL9DBolKEsXsq"></div></div>
+              <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Story</button></div>
+              <div class="full"><div id="community-blog-notice" class="notice"></div></div>
+            </div>
+          </form>
+
+          <div>
+            <div class="community-card" style="margin-bottom:14px">
+              <strong>Latest Traveler Stories</strong>
+              <p class="community-small" style="margin:6px 0 0">Real traveler posts will appear here automatically from Supabase.</p>
+            </div>
+            <div id="community-blog-list" class="community-feed"><div class="community-empty">No traveler stories yet. Be the first to share one.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="communitySharingPanel" class="community-panel">
+        <div class="community-layout">
+          <form id="community-sharing-form" class="community-form-card">
+            <h3>Find People to Join Your Tour</h3>
+            <p class="community-small">For solo travelers or small groups who want to share transport, guide or tour costs in Mongolia.</p>
+            <div class="form-grid">
+              <div><label>Your Name</label><input type="text" id="share_name" placeholder="Lucas" required></div>
+              <div><label>Country</label><select id="share_country_code" required>
+                  <option value="">Select country</option>
+                  <option value="fr">🇫🇷 France</option>
+                  <option value="de">🇩🇪 Germany</option>
+                  <option value="us">🇺🇸 USA</option>
+                  <option value="gb">🇬🇧 United Kingdom</option>
+                  <option value="au">🇦🇺 Australia</option>
+                  <option value="ca">🇨🇦 Canada</option>
+                  <option value="jp">🇯🇵 Japan</option>
+                  <option value="kr">🇰🇷 South Korea</option>
+                  <option value="cn">🇨🇳 China</option>
+                  <option value="sg">🇸🇬 Singapore</option>
+                  <option value="my">🇲🇾 Malaysia</option>
+                  <option value="th">🇹🇭 Thailand</option>
+                  <option value="vn">🇻🇳 Vietnam</option>
+                  <option value="in">🇮🇳 India</option>
+                  <option value="nl">🇳🇱 Netherlands</option>
+                  <option value="es">🇪🇸 Spain</option>
+                  <option value="it">🇮🇹 Italy</option>
+                  <option value="ch">🇨🇭 Switzerland</option>
+                  <option value="se">🇸🇪 Sweden</option>
+                  <option value="other">🌍 Other</option>
+                </select></div>
+              <div><label>Destination / Route</label><input type="text" id="share_destination" placeholder="Gobi 6 days / Orkhon Valley / Khuvsgul" required></div>
+              <div><label>Travel Dates</label><input type="text" id="share_dates" placeholder="May 10–15 / Flexible"></div>
+              <div><label>People</label><input type="number" min="1" max="20" id="share_people_count" placeholder="1"></div>
+              <div><label>Budget</label><select id="share_budget"><option value="">Select budget</option><option>Low budget</option><option>Mid range</option><option>Comfort</option><option>Flexible</option></select></div>
+              <div class="full"><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
+              <div class="full"><label>Message</label><textarea id="share_content" placeholder="Tell others what kind of group tour you want to join or share." required></textarea></div>
+              <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCIL9DBolKEsXsq"></div></div>
+              <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Sharing Post</button></div>
+              <div class="full"><div id="community-sharing-notice" class="notice"></div></div>
+            </div>
+          </form>
+
+          <div>
+            <div class="community-card" style="margin-bottom:14px">
+              <strong>Open Group Tour Sharing Posts</strong>
+              <p class="community-small" style="margin:6px 0 0">Travelers looking for people to share a Mongolia tour will appear here.</p>
+            </div>
+            <div id="community-sharing-list" class="community-feed"><div class="community-empty">No group tour sharing posts yet.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>.</p>
+  </div>
+</section>
+
 
   <section class="about" id="about">
     <div class="container">
@@ -2083,28 +2188,35 @@ gtag('config', 'G-XDG8KZWZCM');
   }
 
 
-async function uploadImageToCloudinary(file, folder = 'uploads') {
-  if (!file) return '';
+  async function uploadImageToCloudinary(file, folder = 'uploads') {
+    if (!file) return '';
 
-  const targetFolder = `${CLOUDINARY_BASE_FOLDER}/${folder}`;
+    const cleanName = sanitizeFileName(file.name || 'image');
+    const publicId = cleanName.replace(/\.[^.]+$/, '');
+    const targetFolder = `${CLOUDINARY_BASE_FOLDER}/${folder}`;
 
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  formData.append('folder', targetFolder);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    formData.append('folder', targetFolder);
+    formData.append('public_id', publicId);
+    formData.append('use_filename', 'true');
+    formData.append('unique_filename', 'true');
+    formData.append('overwrite', 'false');
+    formData.append('resource_type', 'image');
 
-  const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
-    method: 'POST',
-    body: formData
-  });
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+      method: 'POST',
+      body: formData
+    });
 
-  const result = await response.json();
+    const result = await response.json();
 
-  if (!response.ok || !result?.secure_url) {
-    throw new Error(result?.error?.message || 'Cloudinary image upload failed.');
-  }
+    if (!response.ok || !result?.secure_url) {
+      throw new Error(result?.error?.message || 'Cloudinary image upload failed.');
+    }
 
-  return result.secure_url;
+    return result.secure_url;
   }
 
   async function uploadMultipleImages(files, folder = 'uploads') {
@@ -2600,35 +2712,335 @@ async function loadCars() {
   }).join('');
 }
 
-  async function loadReviews() {
+  function getSelectedCountry(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return { code: 'other', name: 'Other' };
+    const code = select.value || 'other';
+    const label = select.options[select.selectedIndex]?.text || 'Other';
+    const name = label.replace(/^[^\wA-Za-zА-Яа-я]+/u, '').trim() || 'Other';
+    return { code, name };
+  }
+
+  function flagUrl(code) {
+    if (!code || code === 'other') return 'https://flagcdn.com/w40/un.png';
+    return `https://flagcdn.com/w40/${String(code).toLowerCase()}.png`;
+  }
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, (ch) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[ch]));
+  }
+
+  function getTurnstileToken() {
+    try {
+      if (window.turnstile && typeof window.turnstile.getResponse === 'function') {
+        return window.turnstile.getResponse() || '';
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function resetTurnstile() {
+    try {
+      if (window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
+    } catch (e) {}
+  }
+
+  const COMMUNITY_USER_KEY = localStorage.getItem('bm_community_user_key') || (() => {
+    const key = 'bm_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+    localStorage.setItem('bm_community_user_key', key);
+    return key;
+  })();
+
+  const communityState = {
+    likeCounts: {},
+    userLiked: {},
+    comments: {}
+  };
+
+  function escapeAttr(value) {
+    return escapeHtml(value).replace(/`/g, '&#096;');
+  }
+
+  function formatShortDate(value) {
+    if (!value) return '';
+    try { return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+    catch (e) { return ''; }
+  }
+
+  function switchCommunityTab(tab) {
+    const blogActive = tab === 'blog';
+    document.getElementById('communityBlogPanel')?.classList.toggle('active', blogActive);
+    document.getElementById('communitySharingPanel')?.classList.toggle('active', !blogActive);
+    document.querySelectorAll('.community-tab').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-community-tab') === tab);
+    });
+  }
+
+  function isBadCommunityText(text) {
+    const value = String(text || '').toLowerCase();
+    const blocked = ['casino', 'porn', 'sex', 'crypto giveaway', 'viagra'];
+    const links = (value.match(/https?:\/\//g) || []).length;
+    return links > 1 || blocked.some(word => value.includes(word));
+  }
+
+  async function loadCommunityPosts() {
+    const blogList = document.getElementById('community-blog-list');
+    const sharingList = document.getElementById('community-sharing-list');
+    if (!blogList && !sharingList) return;
+
     const { data, error } = await supabaseClient
-      .from('review_submissions')
+      .from('community_posts')
       .select('*')
-      .eq('status', 'approved')
+      .eq('status', 'published')
       .order('created_at', { ascending: false })
-      .limit(6);
+      .limit(80);
 
     if (error) {
-      console.error('loadReviews error:', error);
+      console.error('loadCommunityPosts error:', error);
+      if (blogList) blogList.innerHTML = '<div class="community-empty">Community posts could not be loaded yet. Please check Supabase table setup.</div>';
+      if (sharingList) sharingList.innerHTML = '<div class="community-empty">Sharing posts could not be loaded yet. Please check Supabase table setup.</div>';
       return;
     }
 
-    const wrap = document.getElementById('review-list');
-    if (!wrap) return;
+    const posts = data || [];
+    await loadCommunityEngagement(posts.map(item => item.id));
 
-    wrap.innerHTML = data.length
-      ? data.map(item => `
-        <article class="card review-card">
-          <img src="${item.image_url || fallbackReviewImage}" alt="${item.traveler_name || 'Traveler review'}" onerror="this.onerror=null;this.src='${fallbackReviewImage}'">
-          <div class="card-body">
-            <span class="tag">${stars(item.rating)}</span>
-            <h3>${item.traveler_name || ''}</h3>
-            <p class="muted">${item.country || ''}</p>
-            <p class="muted">${item.review_text || ''}</p>
+    const blogPosts = posts.filter(item => item.type === 'blog');
+    const sharingPosts = posts.filter(item => item.type === 'sharing');
+
+    if (blogList) {
+      blogList.innerHTML = blogPosts.length ? blogPosts.map(renderCommunityPost).join('') : '<div class="community-empty">No traveler stories yet. Be the first to share one.</div>';
+    }
+
+    if (sharingList) {
+      sharingList.innerHTML = sharingPosts.length ? sharingPosts.map(renderCommunityPost).join('') : '<div class="community-empty">No group tour sharing posts yet.</div>';
+    }
+  }
+
+  async function loadCommunityEngagement(postIds) {
+    communityState.likeCounts = {};
+    communityState.userLiked = {};
+    communityState.comments = {};
+    if (!postIds || !postIds.length) return;
+
+    const { data: likes, error: likesError } = await supabaseClient
+      .from('community_likes')
+      .select('post_id,user_key')
+      .in('post_id', postIds);
+
+    if (!likesError && Array.isArray(likes)) {
+      likes.forEach(item => {
+        communityState.likeCounts[item.post_id] = (communityState.likeCounts[item.post_id] || 0) + 1;
+        if (item.user_key === COMMUNITY_USER_KEY) communityState.userLiked[item.post_id] = true;
+      });
+    }
+
+    const { data: comments, error: commentsError } = await supabaseClient
+      .from('community_comments')
+      .select('*')
+      .in('post_id', postIds)
+      .eq('status', 'published')
+      .order('created_at', { ascending: true });
+
+    if (!commentsError && Array.isArray(comments)) {
+      comments.forEach(item => {
+        if (!communityState.comments[item.post_id]) communityState.comments[item.post_id] = [];
+        communityState.comments[item.post_id].push(item);
+      });
+    }
+  }
+
+  function renderCommunityPost(item) {
+    const typeLabel = item.type === 'sharing' ? 'Join Group Tour' : 'Traveler Blog';
+    const countryCode = item.country_code || 'other';
+    const title = escapeHtml(item.title || (item.type === 'sharing' ? 'Looking for travel partners' : 'Traveler story'));
+    const content = escapeHtml(item.content || '');
+    const destination = escapeHtml(item.destination || '');
+    const country = escapeHtml(item.country || 'Traveler');
+    const name = escapeHtml(item.name || 'Anonymous traveler');
+    const contact = escapeHtml(item.contact || '');
+    const dates = escapeHtml(item.travel_dates || '');
+    const budget = escapeHtml(item.budget || '');
+    const people = item.people_count ? escapeHtml(item.people_count) : '';
+    const image = escapeHtml(item.image_url || '');
+    const postId = escapeAttr(item.id);
+    const likeCount = communityState.likeCounts[item.id] || 0;
+    const liked = !!communityState.userLiked[item.id];
+    const comments = communityState.comments[item.id] || [];
+
+    return `
+      <article class="community-card" id="community-post-${postId}">
+        <div class="community-card-top">
+          <div class="community-user">
+            <img class="community-flag" src="${flagUrl(countryCode)}" alt="${country}" onerror="this.onerror=null;this.src='https://flagcdn.com/w40/un.png'">
+            <div><strong>${name}</strong><br><span class="community-small">${country} ${formatShortDate(item.created_at) ? '• ' + formatShortDate(item.created_at) : ''}</span></div>
           </div>
-        </article>
-      `).join('')
-      : '<p class="muted">No traveler reviews published yet.</p>';
+          <span class="community-type-pill">${typeLabel}</span>
+        </div>
+        ${image ? `<img src="${image}" alt="${title}" style="width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin:8px 0 12px" onerror="this.style.display='none'">` : ''}
+        <h3 style="margin-bottom:8px">${title}</h3>
+        <p class="muted">${content}</p>
+        <div class="community-meta">
+          ${destination ? `<span class="pill">📍 ${destination}</span>` : ''}
+          ${dates ? `<span class="pill">📅 ${dates}</span>` : ''}
+          ${people ? `<span class="pill">👥 ${people} traveler(s)</span>` : ''}
+          ${budget ? `<span class="pill">💵 ${budget}</span>` : ''}
+        </div>
+        ${contact ? `<div class="community-actions"><span class="pill">Contact: ${contact}</span></div>` : ''}
+
+        <div class="community-engagement">
+          <button type="button" class="community-like-btn ${liked ? 'active' : ''}" onclick="toggleCommunityLike('${postId}')">${liked ? '❤️ Liked' : '♡ Like'} <span>${likeCount}</span></button>
+          <button type="button" class="community-comment-toggle" onclick="toggleCommunityComments('${postId}')">💬 Comments <span>${comments.length}</span></button>
+        </div>
+
+        <div class="community-comments" id="comments-${postId}" style="display:none">
+          <div id="comment-list-${postId}">
+            ${comments.length ? comments.map(renderCommunityComment).join('') : '<div class="community-small">No comments yet. Ask a question or share useful travel advice.</div>'}
+          </div>
+          <div class="community-comment-form">
+            <input id="comment-name-${postId}" type="text" placeholder="Name">
+            <input id="comment-text-${postId}" type="text" placeholder="Write a comment...">
+            <button type="button" onclick="addCommunityComment('${postId}')">Post</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderCommunityComment(comment) {
+    const name = escapeHtml(comment.name || 'Traveler');
+    const content = escapeHtml(comment.content || '');
+    const date = formatShortDate(comment.created_at);
+    return `<div class="community-comment-item"><strong>${name}</strong> <span class="community-small">${date || ''}</span><br><span>${content}</span></div>`;
+  }
+
+  function toggleCommunityComments(postId) {
+    const box = document.getElementById(`comments-${postId}`);
+    if (!box) return;
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  }
+
+  async function toggleCommunityLike(postId) {
+    const liked = !!communityState.userLiked[postId];
+    if (liked) {
+      const { error } = await supabaseClient
+        .from('community_likes')
+        .delete()
+        .eq('post_id', postId)
+        .eq('user_key', COMMUNITY_USER_KEY);
+      if (error) { alert('Like update failed. Check community_likes RLS policy.'); return; }
+    } else {
+      const { error } = await supabaseClient
+        .from('community_likes')
+        .insert([{ post_id: postId, user_key: COMMUNITY_USER_KEY }]);
+      if (error && !String(error.message || '').toLowerCase().includes('duplicate')) { alert('Like failed. Check community_likes table.'); return; }
+    }
+    await loadCommunityPosts();
+  }
+
+  async function addCommunityComment(postId) {
+    const nameInput = document.getElementById(`comment-name-${postId}`);
+    const textInput = document.getElementById(`comment-text-${postId}`);
+    const name = (nameInput?.value || 'Traveler').trim() || 'Traveler';
+    const content = (textInput?.value || '').trim();
+
+    if (content.length < 3) { alert('Please write a comment.'); return; }
+    if (isBadCommunityText(content)) { alert('This comment looks like spam.'); return; }
+
+    const { error } = await supabaseClient
+      .from('community_comments')
+      .insert([{ post_id: postId, name, content, status: 'published' }]);
+
+    if (error) { alert('Comment failed. Check community_comments table and RLS policy.'); return; }
+    if (textInput) textInput.value = '';
+    await loadCommunityPosts();
+    setTimeout(() => {
+      const box = document.getElementById(`comments-${postId}`);
+      if (box) box.style.display = 'block';
+    }, 80);
+  }
+
+  async function insertCommunityPost(e) {
+    e.preventDefault();
+
+    const isBlog = e.target.id === 'community-blog-form';
+    const noticeId = isBlog ? 'community-blog-notice' : 'community-sharing-notice';
+    const countryInfo = getSelectedCountry(isBlog ? 'blog_country_code' : 'share_country_code');
+
+    const payload = isBlog ? {
+      type: 'blog',
+      name: document.getElementById('blog_name').value.trim(),
+      country: countryInfo.name,
+      country_code: countryInfo.code,
+      destination: document.getElementById('blog_destination').value.trim(),
+      title: document.getElementById('blog_title').value.trim(),
+      content: document.getElementById('blog_content').value.trim(),
+      image_url: document.getElementById('blog_image_url').value.trim(),
+      status: 'published'
+    } : {
+      type: 'sharing',
+      name: document.getElementById('share_name').value.trim(),
+      country: countryInfo.name,
+      country_code: countryInfo.code,
+      destination: document.getElementById('share_destination').value.trim(),
+      title: 'Looking for travelers to join',
+      content: document.getElementById('share_content').value.trim(),
+      travel_dates: document.getElementById('share_dates').value.trim(),
+      people_count: document.getElementById('share_people_count').value ? Number(document.getElementById('share_people_count').value) : null,
+      budget: document.getElementById('share_budget').value,
+      contact: document.getElementById('share_contact').value.trim(),
+      status: 'published'
+    };
+
+    if (!payload.name || !payload.country_code || !payload.content || payload.content.length < 20) {
+      showNotice(noticeId, 'Please complete the form and write at least 20 characters.', 'error');
+      return;
+    }
+
+    if (isBadCommunityText(payload.content)) {
+      showNotice(noticeId, 'This post looks like spam. Please remove links or inappropriate words.', 'error');
+      return;
+    }
+
+    const captchaToken = getTurnstileToken();
+    if (!captchaToken && document.querySelector('.cf-turnstile')) {
+      showNotice(noticeId, 'Please complete the CAPTCHA before publishing.', 'error');
+      return;
+    }
+
+    let postError = null;
+    try {
+      const secureResponse = await fetch('/.netlify/functions/postCommunity', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: captchaToken, data: payload })
+      });
+      if (!secureResponse.ok) {
+        const secureResult = await secureResponse.json().catch(() => ({}));
+        postError = { message: secureResult.error || 'Secure post failed. Check Netlify environment variables and function.' };
+      }
+    } catch (err) {
+      // Local preview fallback: direct Supabase insert. On production, Netlify function is recommended.
+      const { error } = await supabaseClient.from('community_posts').insert([payload]);
+      postError = error;
+    }
+
+    if (postError) {
+      console.error('community insert error:', postError);
+      showNotice(noticeId, postError.message || 'Post failed. Check Supabase table, RLS policy, and Netlify function.', 'error');
+      return;
+    }
+
+    e.target.reset();
+    resetTurnstile();
+    showNotice(noticeId, 'Published successfully. Your post is now visible on the community board.');
+    loadCommunityPosts();
   }
 
 
@@ -2823,30 +3235,6 @@ async function insertGuideSubmission(e) {
     }
   }
 
-  async function insertReviewSubmission(e) {
-    e.preventDefault();
-
-    const payload = {
-      traveler_name: document.getElementById('review_name').value.trim(),
-      country: document.getElementById('review_country').value.trim(),
-      rating: document.getElementById('review_rating').value,
-      image_url: document.getElementById('review_image').value.trim(),
-      review_text: document.getElementById('review_text').value.trim(),
-      status: 'pending'
-    };
-
-    const { error } = await supabaseClient.from('review_submissions').insert([payload]);
-
-    if (error) {
-      console.error('review insert error:', error);
-      showNotice('review-notice', error.message, 'error');
-      return;
-    }
-
-    document.getElementById('review-form').reset();
-    showNotice('review-notice', 'Review submitted successfully. We will review it before publishing.');
-  }
-
 document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('keydown', (event) => {
@@ -2868,7 +3256,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('hotel-form')?.addEventListener('submit', insertHotelSubmission);
   document.getElementById('car-form')?.addEventListener('submit', insertCarSubmission);
   document.getElementById('guide-form')?.addEventListener('submit', insertGuideSubmission);
-  document.getElementById('review-form')?.addEventListener('submit', insertReviewSubmission);
+  document.getElementById('community-blog-form')?.addEventListener('submit', insertCommunityPost);
+  document.getElementById('community-sharing-form')?.addEventListener('submit', insertCommunityPost);
   document.getElementById('hotel-search')?.addEventListener('input', applyHotelFilters);
   document.getElementById('hotel-city-filter')?.addEventListener('change', applyHotelFilters);
   document.getElementById('hotel-type-filter')?.addEventListener('change', applyHotelFilters);
@@ -2876,7 +3265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadHotels();
   loadCars();
   loadGuides();
-  loadReviews();
+  loadCommunityPosts();
 });
 </script>
 
