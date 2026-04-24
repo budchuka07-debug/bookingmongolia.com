@@ -976,6 +976,13 @@ gtag('config', 'G-XDG8KZWZCM');
     .community-comment-form{display:grid;grid-template-columns:140px 1fr auto;gap:8px;margin-top:10px}
     .community-comment-form input{padding:10px 12px;border-radius:10px}
     .community-comment-form button{border:none;background:var(--primary);color:#fff;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
+    .community-image-upload{border:1px dashed #cbd5e1;background:#fff;border-radius:14px;padding:14px}
+    .community-image-upload input{background:#fff}
+    .community-image-hint{font-size:13px;color:var(--muted);margin-top:6px}
+    .community-image-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:10px 0 14px}
+    .community-image-grid img{width:100%;height:150px;object-fit:cover;border-radius:14px;background:#eef2f7;border:1px solid #e5e7eb;cursor:pointer}
+    .community-image-grid.one{grid-template-columns:1fr}
+    .community-image-grid.one img{height:280px}
     @media (max-width:720px){.community-comment-form{grid-template-columns:1fr}.community-comment-form button{width:100%}}
     .community-small{font-size:13px;color:var(--muted)}
     .cf-turnstile{margin:10px 0 6px;min-height:65px}
@@ -1934,7 +1941,7 @@ gtag('config', 'G-XDG8KZWZCM');
                   <option value="other">🌍 Other</option>
                 </select></div>
               <div><label>Destination</label><input type="text" id="blog_destination" placeholder="Gobi / Khuvsgul / Ulaanbaatar"></div>
-              <div><label>Photo URL optional</label><input type="url" id="blog_image_url" placeholder="https://..."></div>
+              <div class="full community-image-upload"><label>Add Photos</label><input type="file" id="blog_images" accept="image/*" multiple><div class="community-image-hint">You can upload multiple photos. They will be stored in Cloudinary folder: bookingmongolia/community.</div></div>
               <div class="full"><label>Title</label><input type="text" id="blog_title" placeholder="My first Gobi Desert trip" required></div>
               <div class="full"><label>Story</label><textarea id="blog_content" placeholder="Write your experience, route tips, costs, transport, border tips or useful advice for future travelers." required></textarea></div>
               <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCIL9DBolKEsXsq"></div></div>
@@ -1988,6 +1995,7 @@ gtag('config', 'G-XDG8KZWZCM');
               <div><label>People</label><input type="number" min="1" max="20" id="share_people_count" placeholder="1"></div>
               <div><label>Budget</label><select id="share_budget"><option value="">Select budget</option><option>Low budget</option><option>Mid range</option><option>Comfort</option><option>Flexible</option></select></div>
               <div class="full"><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
+              <div class="full community-image-upload"><label>Add Photos</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Optional: add route, car, group or destination photos.</div></div>
               <div class="full"><label>Message</label><textarea id="share_content" placeholder="Tell others what kind of group tour you want to join or share." required></textarea></div>
               <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCIL9DBolKEsXsq"></div></div>
               <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Sharing Post</button></div>
@@ -2005,7 +2013,7 @@ gtag('config', 'G-XDG8KZWZCM');
         </div>
       </div>
     </div>
-    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>.</p>
+    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Photos are stored in Cloudinary and URLs are saved in <strong>image_urls</strong>.</p>
   </div>
 </section>
 
@@ -2176,7 +2184,7 @@ gtag('config', 'G-XDG8KZWZCM');
   const fallbackCarImage = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80';
   const fallbackReviewImage = 'https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80';
   const CLOUDINARY_CLOUD_NAME = 'dflwo8gmz';
-  const CLOUDINARY_UPLOAD_PRESET = 'unsigned_upload';
+  const CLOUDINARY_UPLOAD_PRESET = 'bookingmongolia';
   const CLOUDINARY_BASE_FOLDER = 'bookingmongolia';
 
   function sanitizeFileName(name) {
@@ -2856,6 +2864,26 @@ async function loadCars() {
     }
   }
 
+  function getCommunityImageUrls(item) {
+    if (Array.isArray(item.image_urls)) return item.image_urls.filter(Boolean);
+    if (typeof item.image_urls === 'string') {
+      try {
+        const parsed = JSON.parse(item.image_urls);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+      } catch (e) {}
+      return item.image_urls.split(',').map(x => x.trim()).filter(Boolean);
+    }
+    if (item.image_url) return [item.image_url].filter(Boolean);
+    return [];
+  }
+
+  function renderCommunityImages(item, title) {
+    const urls = getCommunityImageUrls(item);
+    if (!urls.length) return '';
+    const cls = urls.length === 1 ? 'community-image-grid one' : 'community-image-grid';
+    return `<div class="${cls}">${urls.map(url => `<img src="${escapeAttr(url)}" alt="${escapeAttr(title)}" onclick="openImageLightbox('${escapeAttr(url)}')" onerror="this.style.display='none'">`).join('')}</div>`;
+  }
+
   function renderCommunityPost(item) {
     const typeLabel = item.type === 'sharing' ? 'Join Group Tour' : 'Traveler Blog';
     const countryCode = item.country_code || 'other';
@@ -2868,7 +2896,7 @@ async function loadCars() {
     const dates = escapeHtml(item.travel_dates || '');
     const budget = escapeHtml(item.budget || '');
     const people = item.people_count ? escapeHtml(item.people_count) : '';
-    const image = escapeHtml(item.image_url || '');
+    const imageGallery = renderCommunityImages(item, title);
     const postId = escapeAttr(item.id);
     const likeCount = communityState.likeCounts[item.id] || 0;
     const liked = !!communityState.userLiked[item.id];
@@ -2883,7 +2911,7 @@ async function loadCars() {
           </div>
           <span class="community-type-pill">${typeLabel}</span>
         </div>
-        ${image ? `<img src="${image}" alt="${title}" style="width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin:8px 0 12px" onerror="this.style.display='none'">` : ''}
+        ${imageGallery}
         <h3 style="margin-bottom:8px">${title}</h3>
         <p class="muted">${content}</p>
         <div class="community-meta">
@@ -2972,6 +3000,20 @@ async function loadCars() {
     const isBlog = e.target.id === 'community-blog-form';
     const noticeId = isBlog ? 'community-blog-notice' : 'community-sharing-notice';
     const countryInfo = getSelectedCountry(isBlog ? 'blog_country_code' : 'share_country_code');
+    const imageInput = document.getElementById(isBlog ? 'blog_images' : 'share_images');
+    const imageFiles = Array.from(imageInput?.files || []);
+    let uploadedImageUrls = [];
+
+    if (imageFiles.length) {
+      showNotice(noticeId, 'Uploading photos to Cloudinary. Please wait...', 'success');
+      try {
+        uploadedImageUrls = await uploadMultipleImages(imageFiles, isBlog ? 'community/blog' : 'community/sharing');
+      } catch (uploadError) {
+        console.error('community image upload error:', uploadError);
+        showNotice(noticeId, uploadError.message || 'Image upload failed. Please try smaller photos.', 'error');
+        return;
+      }
+    }
 
     const payload = isBlog ? {
       type: 'blog',
@@ -2981,7 +3023,7 @@ async function loadCars() {
       destination: document.getElementById('blog_destination').value.trim(),
       title: document.getElementById('blog_title').value.trim(),
       content: document.getElementById('blog_content').value.trim(),
-      image_url: document.getElementById('blog_image_url').value.trim(),
+      image_urls: uploadedImageUrls,
       status: 'published'
     } : {
       type: 'sharing',
@@ -2995,6 +3037,7 @@ async function loadCars() {
       people_count: document.getElementById('share_people_count').value ? Number(document.getElementById('share_people_count').value) : null,
       budget: document.getElementById('share_budget').value,
       contact: document.getElementById('share_contact').value.trim(),
+      image_urls: uploadedImageUrls,
       status: 'published'
     };
 
