@@ -1941,7 +1941,7 @@ gtag('config', 'G-XDG8KZWZCM');
                   <option value="other">🌍 Other</option>
                 </select></div>
               <div><label>Destination</label><input type="text" id="blog_destination" placeholder="Gobi / Khuvsgul / Ulaanbaatar"></div>
-              <div class="full community-image-upload"><label>Add Photos</label><input type="file" id="blog_images" accept="image/*" multiple><div class="community-image-hint">You can upload multiple photos. They will be stored in Cloudinary folder: bookingmongolia/community.</div></div>
+              <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="blog_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. You can upload multiple photos.</div></div>
               <div class="full"><label>Title</label><input type="text" id="blog_title" placeholder="My first Gobi Desert trip" required></div>
               <div class="full"><label>Story</label><textarea id="blog_content" placeholder="Write your experience, route tips, costs, transport, border tips or useful advice for future travelers." required></textarea></div>
               <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCIL9DBolKEsXsq"></div></div>
@@ -1995,7 +1995,7 @@ gtag('config', 'G-XDG8KZWZCM');
               <div><label>People</label><input type="number" min="1" max="20" id="share_people_count" placeholder="1"></div>
               <div><label>Budget</label><select id="share_budget"><option value="">Select budget</option><option>Low budget</option><option>Mid range</option><option>Comfort</option><option>Flexible</option></select></div>
               <div class="full"><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
-              <div class="full community-image-upload"><label>Add Photos</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Optional: add route, car, group or destination photos.</div></div>
+              <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. Optional: route, car, group or destination photos.</div></div>
               <div class="full"><label>Message</label><textarea id="share_content" placeholder="Tell others what kind of group tour you want to join or share." required></textarea></div>
               <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCIL9DBolKEsXsq"></div></div>
               <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Sharing Post</button></div>
@@ -2013,7 +2013,7 @@ gtag('config', 'G-XDG8KZWZCM');
         </div>
       </div>
     </div>
-    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Photos are stored in Cloudinary and URLs are saved in <strong>image_urls</strong>.</p>
+    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Travelers upload photos directly from their device; Cloudinary stores the image files automatically.</p>
   </div>
 </section>
 
@@ -2184,7 +2184,7 @@ gtag('config', 'G-XDG8KZWZCM');
   const fallbackCarImage = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80';
   const fallbackReviewImage = 'https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80';
   const CLOUDINARY_CLOUD_NAME = 'dflwo8gmz';
-  const CLOUDINARY_UPLOAD_PRESET = 'unsigned_upload';
+  const CLOUDINARY_UPLOAD_PRESET = 'bookingmongolia';
   const CLOUDINARY_BASE_FOLDER = 'bookingmongolia';
 
   function sanitizeFileName(name) {
@@ -2232,6 +2232,44 @@ gtag('config', 'G-XDG8KZWZCM');
 
     for (const file of files) {
       const url = await uploadImageToCloudinary(file, folder);
+      if (url) urls.push(url);
+    }
+
+    return urls;
+  }
+
+
+  // Travel Hub uses a separate unsigned Cloudinary upload flow.
+  // Do not use public_id, overwrite, use_filename, or filename_override here,
+  // because unsigned presets can reject those parameters.
+  async function uploadTravelHubImage(file, folder = 'travelhub') {
+    if (!file) return '';
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'unsigned_upload');
+    formData.append('folder', `${CLOUDINARY_BASE_FOLDER}/${folder}`);
+    formData.append('resource_type', 'image');
+
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result?.secure_url) {
+      throw new Error(result?.error?.message || 'Travel Hub image upload failed.');
+    }
+
+    return result.secure_url;
+  }
+
+  async function uploadTravelHubImages(files, folder = 'travelhub') {
+    const urls = [];
+
+    for (const file of files) {
+      const url = await uploadTravelHubImage(file, folder);
       if (url) urls.push(url);
     }
 
@@ -3002,18 +3040,6 @@ async function loadCars() {
     const countryInfo = getSelectedCountry(isBlog ? 'blog_country_code' : 'share_country_code');
     const imageInput = document.getElementById(isBlog ? 'blog_images' : 'share_images');
     const imageFiles = Array.from(imageInput?.files || []);
-    let uploadedImageUrls = [];
-
-    if (imageFiles.length) {
-      showNotice(noticeId, 'Uploading photos to Cloudinary. Please wait...', 'success');
-      try {
-        uploadedImageUrls = await uploadMultipleImages(imageFiles, isBlog ? 'community/blog' : 'community/sharing');
-      } catch (uploadError) {
-        console.error('community image upload error:', uploadError);
-        showNotice(noticeId, uploadError.message || 'Image upload failed. Please try smaller photos.', 'error');
-        return;
-      }
-    }
 
     const payload = isBlog ? {
       type: 'blog',
@@ -3023,7 +3049,7 @@ async function loadCars() {
       destination: document.getElementById('blog_destination').value.trim(),
       title: document.getElementById('blog_title').value.trim(),
       content: document.getElementById('blog_content').value.trim(),
-      image_urls: uploadedImageUrls,
+      image_urls: [],
       status: 'published'
     } : {
       type: 'sharing',
@@ -3037,7 +3063,7 @@ async function loadCars() {
       people_count: document.getElementById('share_people_count').value ? Number(document.getElementById('share_people_count').value) : null,
       budget: document.getElementById('share_budget').value,
       contact: document.getElementById('share_contact').value.trim(),
-      image_urls: uploadedImageUrls,
+      image_urls: [],
       status: 'published'
     };
 
@@ -3055,6 +3081,17 @@ async function loadCars() {
     if (!captchaToken && document.querySelector('.cf-turnstile')) {
       showNotice(noticeId, 'Please complete the CAPTCHA before publishing.', 'error');
       return;
+    }
+
+    if (imageFiles.length) {
+      showNotice(noticeId, 'CAPTCHA confirmed. Uploading photos now...', 'success');
+      try {
+        payload.image_urls = await uploadTravelHubImages(imageFiles, isBlog ? 'travelhub/blog' : 'travelhub/sharing');
+      } catch (uploadError) {
+        console.error('Travel Hub image upload error:', uploadError);
+        showNotice(noticeId, uploadError.message || 'Image upload failed. Please try smaller photos.', 'error');
+        return;
+      }
     }
 
     let postError = null;
