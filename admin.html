@@ -1,88 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    button { padding: 5px 10px; margin: 5px; }
-    .card { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
-  </style>
+<meta charset="UTF-8">
+<title>Admin Panel - BookingMongolia</title>
+<style>
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+.hidden { display: none; }
+
+.card {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+button {
+  padding: 6px 12px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+</style>
 </head>
 <body>
 
-<h2>Pending Vehicles</h2>
-<div id="vehicles"></div>
+<h2>Admin Panel</h2>
 
-<h2>Pending Hotels</h2>
-<div id="hotels"></div>
+<!-- LOGIN -->
+<div id="login">
+  <input type="password" id="pin" placeholder="Enter PIN">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="hidden">
+  <h3>Community Posts</h3>
+  <div id="posts"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <script>
-const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
-const SUPABASE_KEY = "YOUR_ANON_KEY";
+const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
+const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function loadVehicles() {
-  const { data } = await supabase
-    .from('vehicle_submissions')
-    .select('*')
-    .eq('status', 'pending');
+// 🔐 PIN (өөрчилж болно)
+const ADMIN_PIN = "1234";
 
-  const container = document.getElementById('vehicles');
-  container.innerHTML = '';
+function login() {
+  const pin = document.getElementById("pin").value;
+  if (pin === ADMIN_PIN) {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("admin").classList.remove("hidden");
+    loadPosts();
+  } else {
+    alert("Wrong PIN");
+  }
+}
 
-  data.forEach(item => {
-    container.innerHTML += `
-      <div class="card">
-        <b>${item.title}</b><br>
-        ${item.description}<br>
-        <button onclick="approveVehicle(${item.id})">Approve</button>
-      </div>
+// 📦 LOAD POSTS
+async function loadPosts() {
+  const { data, error } = await supabase
+    .from("community_posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  const container = document.getElementById("posts");
+  container.innerHTML = "";
+
+  data.forEach(post => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <h4>${post.title || "No title"}</h4>
+      <p>${post.content || ""}</p>
+      <small>Status: ${post.status}</small><br><br>
+
+      <button onclick="approve('${post.id}')">Approve</button>
+      <button onclick="hidePost('${post.id}')">Hide</button>
+      <button onclick="deletePost('${post.id}')">Delete</button>
     `;
+
+    container.appendChild(div);
   });
 }
 
-async function approveVehicle(id) {
+// ✅ APPROVE
+async function approve(id) {
   await supabase
-    .from('vehicle_submissions')
-    .update({ status: 'approved' })
-    .eq('id', id);
+    .from("community_posts")
+    .update({ status: "published" })
+    .eq("id", id);
 
-  loadVehicles();
+  loadPosts();
 }
 
-async function loadHotels() {
-  const { data } = await supabase
-    .from('property_submissions')
-    .select('*')
-    .eq('status', 'pending');
-
-  const container = document.getElementById('hotels');
-  container.innerHTML = '';
-
-  data.forEach(item => {
-    container.innerHTML += `
-      <div class="card">
-        <b>${item.name}</b><br>
-        ${item.location}<br>
-        <button onclick="approveHotel(${item.id})">Approve</button>
-      </div>
-    `;
-  });
-}
-
-async function approveHotel(id) {
+// 🚫 HIDE
+async function hidePost(id) {
   await supabase
-    .from('property_submissions')
-    .update({ status: 'approved' })
-    .eq('id', id);
+    .from("community_posts")
+    .update({ status: "hidden" })
+    .eq("id", id);
 
-  loadHotels();
+  loadPosts();
 }
 
-loadVehicles();
-loadHotels();
+// ❌ DELETE
+async function deletePost(id) {
+  if (!confirm("Delete this post?")) return;
+
+  await supabase
+    .from("community_posts")
+    .delete()
+    .eq("id", id);
+
+  loadPosts();
+}
 </script>
 
 </body>
