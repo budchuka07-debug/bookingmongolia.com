@@ -23,7 +23,6 @@ gtag('config', 'G-XDG8KZWZCM');
 <meta property="og:type" content="website"><meta name="description" content="Discover Mongolia with local travel experts. Private tours, nomadic experiences, travel guide, transport help, and Mongolia travel videos." />
   <link rel="canonical" href="https://bookingmongolia.com" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root{
       --primary:#0d3b66;
@@ -1944,7 +1943,7 @@ gtag('config', 'G-XDG8KZWZCM');
               <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="blog_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. You can upload multiple photos.</div></div>
               <div class="full"><label>Title</label><input type="text" id="blog_title" placeholder="My first Gobi Desert trip" required></div>
               <div class="full"><label>Story</label><textarea id="blog_content" placeholder="Write your experience, route tips, costs, transport, border tips or useful advice for future travelers." required></textarea></div>
-              <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCTL9DBolKEsXsq"></div></div>
+              
               <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Story</button></div>
               <div class="full"><div id="community-blog-notice" class="notice"></div></div>
             </div>
@@ -1997,7 +1996,7 @@ gtag('config', 'G-XDG8KZWZCM');
               <div class="full"><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
               <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. Optional: route, car, group or destination photos.</div></div>
               <div class="full"><label>Message</label><textarea id="share_content" placeholder="Tell others what kind of group tour you want to join or share." required></textarea></div>
-              <div class="full"><div class="cf-turnstile" data-sitekey="0x4AAAAAADCTL9DBolKEsXsq"></div></div>
+              
               <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Sharing Post</button></div>
               <div class="full"><div id="community-sharing-notice" class="notice"></div></div>
             </div>
@@ -2174,7 +2173,7 @@ gtag('config', 'G-XDG8KZWZCM');
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
+  const SUPABASE_URL = "https://ebpjetcuabubihxzimbb.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
 
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -2211,8 +2210,6 @@ gtag('config', 'G-XDG8KZWZCM');
     formData.append('use_filename', 'true');
     formData.append('unique_filename', 'true');
     formData.append('overwrite', 'false');
-    formData.append('resource_type', 'image');
-
     const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
       method: 'POST',
       body: formData
@@ -2249,8 +2246,6 @@ gtag('config', 'G-XDG8KZWZCM');
     formData.append('file', file);
     formData.append('upload_preset', 'unsigned_upload');
     formData.append('folder', `${CLOUDINARY_BASE_FOLDER}/${folder}`);
-    formData.append('resource_type', 'image');
-
     const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
       method: 'POST',
       body: formData
@@ -2843,7 +2838,6 @@ async function loadCars() {
     const { data, error } = await supabaseClient
       .from('community_posts')
       .select('*')
-      .eq('status', 'published')
       .order('created_at', { ascending: false })
       .limit(80);
 
@@ -2854,7 +2848,7 @@ async function loadCars() {
       return;
     }
 
-    const posts = data || [];
+    const posts = (data || []).filter(item => item.status !== 'deleted');
     await loadCommunityEngagement(posts.map(item => item.id));
 
     const blogPosts = posts.filter(item => item.type === 'blog');
@@ -2891,11 +2885,10 @@ async function loadCars() {
       .from('community_comments')
       .select('*')
       .in('post_id', postIds)
-      .eq('status', 'published')
       .order('created_at', { ascending: true });
 
     if (!commentsError && Array.isArray(comments)) {
-      comments.forEach(item => {
+      comments.filter(item => item.status !== 'deleted').forEach(item => {
         if (!communityState.comments[item.post_id]) communityState.comments[item.post_id] = [];
         communityState.comments[item.post_id].push(item);
       });
@@ -3021,7 +3014,7 @@ async function loadCars() {
 
     const { error } = await supabaseClient
       .from('community_comments')
-      .insert([{ post_id: postId, name, content, status: 'published' }]);
+      .insert([{ post_id: postId, name, content }]);
 
     if (error) { alert('Comment failed. Check community_comments table and RLS policy.'); return; }
     if (textInput) textInput.value = '';
@@ -3077,14 +3070,8 @@ async function loadCars() {
       return;
     }
 
-    const captchaToken = getTurnstileToken();
-    if (!captchaToken && document.querySelector('.cf-turnstile')) {
-      showNotice(noticeId, 'Please complete the CAPTCHA before publishing.', 'error');
-      return;
-    }
-
     if (imageFiles.length) {
-      showNotice(noticeId, 'CAPTCHA confirmed. Uploading photos now...', 'success');
+      showNotice(noticeId, 'Uploading photos now...', 'success');
       try {
         payload.image_urls = await uploadTravelHubImages(imageFiles, isBlog ? 'travelhub/blog' : 'travelhub/sharing');
       } catch (uploadError) {
@@ -3094,31 +3081,15 @@ async function loadCars() {
       }
     }
 
-    let postError = null;
-    try {
-      const secureResponse = await fetch('/.netlify/functions/postCommunity', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: captchaToken, turnstileToken: captchaToken, data: payload, ...payload })
-      });
-      if (!secureResponse.ok) {
-        const secureResult = await secureResponse.json().catch(() => ({}));
-        postError = { message: secureResult.error || 'Secure post failed. Check Netlify environment variables and function.' };
-      }
-    } catch (err) {
-      // Local preview fallback: direct Supabase insert. On production, Netlify function is recommended.
-      const { error } = await supabaseClient.from('community_posts').insert([payload]);
-      postError = error;
-    }
+    const { error: postError } = await supabaseClient.from('community_posts').insert([payload]);
 
     if (postError) {
       console.error('community insert error:', postError);
-      showNotice(noticeId, postError.message || 'Post failed. Check Supabase table, RLS policy, and Netlify function.', 'error');
+      showNotice(noticeId, postError.message || 'Post failed. Check Supabase URL, table columns, and RLS policy.', 'error');
       return;
     }
 
     e.target.reset();
-    resetTurnstile();
     showNotice(noticeId, 'Published successfully. Your post is now visible on the community board.');
     loadCommunityPosts();
   }
