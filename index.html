@@ -987,6 +987,21 @@ gtag('config', 'G-XDG8KZWZCM');
     .cf-turnstile{margin:10px 0 6px;min-height:65px}
     @media (max-width:900px){.community-layout{grid-template-columns:1fr}.community-panel{padding:16px}.community-tabs{padding:16px 16px 0}}
 
+
+    /* Traveler Hub two-column final layout */
+    .community-two-column-shell{padding:20px;background:rgba(255,255,255,.92)}
+    .community-dual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+    .community-column{background:#fff;border:1px solid rgba(13,59,102,.08);border-radius:22px;padding:18px;box-shadow:0 10px 24px rgba(0,0,0,.06)}
+    .community-column-head{background:linear-gradient(135deg,#eef4ff 0%,#fff8eb 100%);border:1px solid #e5e7eb;border-radius:18px;padding:16px 18px;margin-bottom:16px}
+    .community-column-head h3{margin-bottom:6px;color:var(--primary-dark)}
+    .community-column .community-form-card{box-shadow:none;background:#f8fafc;margin-bottom:16px}
+    .community-feed-box{margin-top:16px}
+    .community-feed-title{margin-bottom:12px}
+    .community-feed{max-height:720px;overflow-y:auto;padding-right:8px;display:grid;gap:14px}
+    .community-feed::-webkit-scrollbar{width:8px}
+    .community-feed::-webkit-scrollbar-thumb{background:#c98b2f;border-radius:999px}
+    .community-feed::-webkit-scrollbar-track{background:#f1f5f9;border-radius:999px}
+    @media (max-width:1024px){.community-dual-grid{grid-template-columns:1fr}.community-feed{max-height:620px}}
   </style>
 </head>
 <body>
@@ -1900,17 +1915,18 @@ gtag('config', 'G-XDG8KZWZCM');
     <div class="section-head">
       <span class="section-accent">Traveler Community</span>
       <h2>Traveler Blog & Group Tour Sharing</h2>
-      <p>A public community board for Mongolia travelers. Share a travel story, ask for route advice, or find other travelers to join a group tour and reduce costs.</p>
+      <p>A public community board for Mongolia travelers. Share travel stories on the left, or find travelers to join and share a group tour on the right.</p>
     </div>
 
-    <div class="community-shell">
-      <div class="community-tabs">
-        <button class="community-tab active" type="button" data-community-tab="blog" onclick="switchCommunityTab('blog')">Traveler Blog</button>
-        <button class="community-tab" type="button" data-community-tab="sharing" onclick="switchCommunityTab('sharing')">Join Group Tour</button>
-      </div>
+    <div class="community-shell community-two-column-shell">
+      <div class="community-dual-grid">
 
-      <div id="communityBlogPanel" class="community-panel active">
-        <div class="community-layout">
+        <div class="community-column">
+          <div class="community-column-head">
+            <h3>🌍 Traveler Blog</h3>
+            <p class="community-small">Travelers can post Mongolia trip stories, tips, route advice and photos.</p>
+          </div>
+
           <form id="community-blog-form" class="community-form-card">
             <h3>Share Your Mongolia Travel Story</h3>
             <p class="community-small">Your post appears publicly after submission. Spam or incorrect posts may be removed by BookingMongolia.</p>
@@ -1918,49 +1934,32 @@ gtag('config', 'G-XDG8KZWZCM');
               <div><label>Your Name</label><input type="text" id="blog_name" placeholder="Anna" required></div>
               <div><label>Country</label><select id="blog_country_code" required>
                   <option value="">Select country</option>
-                  <option value="fr">🇫🇷 France</option>
-                  <option value="de">🇩🇪 Germany</option>
-                  <option value="us">🇺🇸 USA</option>
-                  <option value="gb">🇬🇧 United Kingdom</option>
-                  <option value="au">🇦🇺 Australia</option>
-                  <option value="ca">🇨🇦 Canada</option>
-                  <option value="jp">🇯🇵 Japan</option>
-                  <option value="kr">🇰🇷 South Korea</option>
-                  <option value="cn">🇨🇳 China</option>
-                  <option value="sg">🇸🇬 Singapore</option>
-                  <option value="my">🇲🇾 Malaysia</option>
-                  <option value="th">🇹🇭 Thailand</option>
-                  <option value="vn">🇻🇳 Vietnam</option>
-                  <option value="in">🇮🇳 India</option>
-                  <option value="nl">🇳🇱 Netherlands</option>
-                  <option value="es">🇪🇸 Spain</option>
-                  <option value="it">🇮🇹 Italy</option>
-                  <option value="ch">🇨🇭 Switzerland</option>
-                  <option value="se">🇸🇪 Sweden</option>
-                  <option value="other">🌍 Other</option>
+                  <option value="fr">🇫🇷 France</option><option value="de">🇩🇪 Germany</option><option value="us">🇺🇸 USA</option><option value="gb">🇬🇧 United Kingdom</option><option value="au">🇦🇺 Australia</option><option value="ca">🇨🇦 Canada</option><option value="jp">🇯🇵 Japan</option><option value="kr">🇰🇷 South Korea</option><option value="cn">🇨🇳 China</option><option value="sg">🇸🇬 Singapore</option><option value="my">🇲🇾 Malaysia</option><option value="th">🇹🇭 Thailand</option><option value="vn">🇻🇳 Vietnam</option><option value="in">🇮🇳 India</option><option value="nl">🇳🇱 Netherlands</option><option value="es">🇪🇸 Spain</option><option value="it">🇮🇹 Italy</option><option value="ch">🇨🇭 Switzerland</option><option value="se">🇸🇪 Sweden</option><option value="other">🌍 Other</option>
                 </select></div>
-              <div><label>Destination</label><input type="text" id="blog_destination" placeholder="Gobi / Khuvsgul / Ulaanbaatar"></div>
+              <div class="full"><label>Destination</label><input type="text" id="blog_destination" placeholder="Gobi / Khuvsgul / Ulaanbaatar"></div>
               <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="blog_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. You can upload multiple photos.</div></div>
               <div class="full"><label>Title</label><input type="text" id="blog_title" placeholder="My first Gobi Desert trip" required></div>
               <div class="full"><label>Story</label><textarea id="blog_content" placeholder="Write your experience, route tips, costs, transport, border tips or useful advice for future travelers." required></textarea></div>
-              
               <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Story</button></div>
               <div class="full"><div id="community-blog-notice" class="notice"></div></div>
             </div>
           </form>
 
-          <div>
-            <div class="community-card" style="margin-bottom:14px">
+          <div class="community-feed-box">
+            <div class="community-card community-feed-title">
               <strong>Latest Traveler Stories</strong>
-              <p class="community-small" style="margin:6px 0 0">Real traveler posts will appear here automatically from Supabase.</p>
+              <p class="community-small" style="margin:6px 0 0">Real traveler posts appear here automatically.</p>
             </div>
             <div id="community-blog-list" class="community-feed"><div class="community-empty">No traveler stories yet. Be the first to share one.</div></div>
           </div>
         </div>
-      </div>
 
-      <div id="communitySharingPanel" class="community-panel">
-        <div class="community-layout">
+        <div class="community-column">
+          <div class="community-column-head">
+            <h3>🤝 Join Group Tour</h3>
+            <p class="community-small">Solo travelers can find people to share transport, guide or tour costs.</p>
+          </div>
+
           <form id="community-sharing-form" class="community-form-card">
             <h3>Find People to Join Your Tour</h3>
             <p class="community-small">For solo travelers or small groups who want to share transport, guide or tour costs in Mongolia.</p>
@@ -1968,51 +1967,32 @@ gtag('config', 'G-XDG8KZWZCM');
               <div><label>Your Name</label><input type="text" id="share_name" placeholder="Lucas" required></div>
               <div><label>Country</label><select id="share_country_code" required>
                   <option value="">Select country</option>
-                  <option value="fr">🇫🇷 France</option>
-                  <option value="de">🇩🇪 Germany</option>
-                  <option value="us">🇺🇸 USA</option>
-                  <option value="gb">🇬🇧 United Kingdom</option>
-                  <option value="au">🇦🇺 Australia</option>
-                  <option value="ca">🇨🇦 Canada</option>
-                  <option value="jp">🇯🇵 Japan</option>
-                  <option value="kr">🇰🇷 South Korea</option>
-                  <option value="cn">🇨🇳 China</option>
-                  <option value="sg">🇸🇬 Singapore</option>
-                  <option value="my">🇲🇾 Malaysia</option>
-                  <option value="th">🇹🇭 Thailand</option>
-                  <option value="vn">🇻🇳 Vietnam</option>
-                  <option value="in">🇮🇳 India</option>
-                  <option value="nl">🇳🇱 Netherlands</option>
-                  <option value="es">🇪🇸 Spain</option>
-                  <option value="it">🇮🇹 Italy</option>
-                  <option value="ch">🇨🇭 Switzerland</option>
-                  <option value="se">🇸🇪 Sweden</option>
-                  <option value="other">🌍 Other</option>
+                  <option value="fr">🇫🇷 France</option><option value="de">🇩🇪 Germany</option><option value="us">🇺🇸 USA</option><option value="gb">🇬🇧 United Kingdom</option><option value="au">🇦🇺 Australia</option><option value="ca">🇨🇦 Canada</option><option value="jp">🇯🇵 Japan</option><option value="kr">🇰🇷 South Korea</option><option value="cn">🇨🇳 China</option><option value="sg">🇸🇬 Singapore</option><option value="my">🇲🇾 Malaysia</option><option value="th">🇹🇭 Thailand</option><option value="vn">🇻🇳 Vietnam</option><option value="in">🇮🇳 India</option><option value="nl">🇳🇱 Netherlands</option><option value="es">🇪🇸 Spain</option><option value="it">🇮🇹 Italy</option><option value="ch">🇨🇭 Switzerland</option><option value="se">🇸🇪 Sweden</option><option value="other">🌍 Other</option>
                 </select></div>
-              <div><label>Destination / Route</label><input type="text" id="share_destination" placeholder="Gobi 6 days / Orkhon Valley / Khuvsgul" required></div>
+              <div class="full"><label>Destination / Route</label><input type="text" id="share_destination" placeholder="Gobi 6 days / Orkhon Valley / Khuvsgul" required></div>
               <div><label>Travel Dates</label><input type="text" id="share_dates" placeholder="May 10–15 / Flexible"></div>
               <div><label>People</label><input type="number" min="1" max="20" id="share_people_count" placeholder="1"></div>
               <div><label>Budget</label><select id="share_budget"><option value="">Select budget</option><option>Low budget</option><option>Mid range</option><option>Comfort</option><option>Flexible</option></select></div>
-              <div class="full"><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
-              <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. Optional: route, car, group or destination photos.</div></div>
+              <div><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
+              <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Optional: route, car, group or destination photos.</div></div>
               <div class="full"><label>Message</label><textarea id="share_content" placeholder="Tell others what kind of group tour you want to join or share." required></textarea></div>
-              
               <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Sharing Post</button></div>
               <div class="full"><div id="community-sharing-notice" class="notice"></div></div>
             </div>
           </form>
 
-          <div>
-            <div class="community-card" style="margin-bottom:14px">
+          <div class="community-feed-box">
+            <div class="community-card community-feed-title">
               <strong>Open Group Tour Sharing Posts</strong>
-              <p class="community-small" style="margin:6px 0 0">Travelers looking for people to share a Mongolia tour will appear here.</p>
+              <p class="community-small" style="margin:6px 0 0">Travelers looking for people to share a Mongolia tour appear here.</p>
             </div>
             <div id="community-sharing-list" class="community-feed"><div class="community-empty">No group tour sharing posts yet.</div></div>
           </div>
         </div>
+
       </div>
     </div>
-    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Travelers upload photos directly from their device; Cloudinary stores the image files automatically.</p>
+    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Photos are stored in Cloudinary; Supabase stores the post information and image URLs.</p>
   </div>
 </section>
 
