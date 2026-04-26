@@ -1002,7 +1002,141 @@ gtag('config', 'G-XDG8KZWZCM');
     .community-feed::-webkit-scrollbar-thumb{background:#c98b2f;border-radius:999px}
     .community-feed::-webkit-scrollbar-track{background:#f1f5f9;border-radius:999px}
     @media (max-width:1024px){.community-dual-grid{grid-template-columns:1fr}.community-feed{max-height:620px}}
-  </style>
+  
+
+/* ================= MOBILE FINAL POLISH - BookingMongolia ================= */
+@media (max-width: 820px){
+  body{font-size:15px; overflow-x:hidden;}
+  .container{width:min(94%, var(--max));}
+
+  /* Header becomes compact + all menu items visible as horizontal chips */
+  header{position:sticky; top:0; z-index:1000;}
+  .nav{min-height:auto; padding:10px 0 8px; flex-wrap:wrap; align-items:center; gap:8px;}
+  .logo{font-size:21px; line-height:1.1;}
+  .menu-toggle{display:none !important;}
+  .header-actions{margin-left:auto; gap:6px;}
+  .header-register-link{display:none !important;}
+  .lang-switch{display:flex; gap:5px;}
+  .lang-switch button{font-size:12px; padding:6px 9px;}
+
+  .nav-links{
+    position:static !important;
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    order:3;
+    width:100%;
+    max-height:none !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    gap:8px !important;
+    padding:8px 2px 4px !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    border:0 !important;
+    border-radius:0 !important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-links a{
+    flex:0 0 auto;
+    width:auto !important;
+    padding:8px 12px !important;
+    border-radius:999px;
+    background:#eef4ff;
+    color:var(--primary) !important;
+    font-size:13px;
+    font-weight:800;
+    border:1px solid #dbe7ff;
+    white-space:nowrap;
+  }
+  .nav-links a:hover{background:var(--primary); color:#fff !important;}
+
+  .topbar{font-size:12px; padding:7px 0;}
+  .topbar .container{gap:3px;}
+
+  /* Hero */
+  .hero{min-height:auto;}
+  .hero-content{padding:56px 0 48px;}
+  h1{font-size:34px;}
+  h2{font-size:27px;}
+  h3{font-size:21px;}
+  .hero p{font-size:16px;}
+  .cta-row .btn,.btn{width:100%; padding:13px 16px;}
+  .quick-links{display:flex; overflow-x:auto; flex-wrap:nowrap; padding-bottom:5px; -webkit-overflow-scrolling:touch;}
+  .quick-link{flex:0 0 auto;}
+  .hero-stats{grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;}
+  .stat{padding:14px;}
+
+  section{padding:54px 0;}
+  .section-head{margin-bottom:22px;}
+
+  /* General cards/grids */
+  .grid-4,.grid-3,.grid-2,
+  .featured-places-grid,
+  .guide-grid,.feature-list,.form-grid,.video-small,.guide-highlight-grid,
+  .destination-province-list,.destination-meta,.destination-attractions-list,.mongolia-story-facts{
+    grid-template-columns:1fr !important;
+  }
+  .card,.service-card,.community-card,.hotel-booking-card{border-radius:18px;}
+  .exp-card img,.tour-card img,.dest-card img,.guide-card img,.featured-place-card img{height:210px;}
+
+  /* Traveler Hub: two sections stack cleanly on mobile */
+  .community-layout,
+  .community-two-column,
+  .community-feed-layout,
+  .travelhub-two-column{
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+  }
+  .community-shell{border-radius:20px;}
+  .community-panel{padding:15px !important;}
+  .community-form-card{padding:16px;}
+  .community-feed,
+  #blogFeed,
+  #sharingFeed{
+    max-height:560px;
+    overflow-y:auto;
+    padding-right:6px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .community-card-top{flex-direction:column; align-items:flex-start;}
+  .community-image-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .community-image-grid img{height:135px;}
+  .community-comment-form{grid-template-columns:1fr !important;}
+  .community-comment-form button{width:100%;}
+
+  /* Hotel / map/listing sections */
+  .hotel-booking-layout{grid-template-columns:1fr !important;}
+  .hotel-map-panel{position:relative !important; top:auto !important;}
+  #hotel-map{height:360px !important;}
+  .hotel-booking-card{grid-template-columns:1fr !important;}
+  .hotel-booking-card .listing-main-image,.hotel-booking-card .hotel-cover{height:220px !important; min-height:220px !important;}
+  .hotel-filter-bar input,.hotel-filter-bar select{min-width:100%;}
+
+  /* Floating buttons should not cover content */
+  .book-now-float,.floating-book-btn{
+    left:12px !important;
+    right:12px !important;
+    bottom:12px !important;
+    justify-content:center;
+    text-align:center;
+  }
+
+  .booking-box{margin:24px 12px; max-width:none;}
+}
+
+@media (max-width: 420px){
+  h1{font-size:30px;}
+  .logo{font-size:19px;}
+  .nav-links a{font-size:12px; padding:7px 10px !important;}
+  .lang-switch button{font-size:11px; padding:5px 7px;}
+  .hero-stats{grid-template-columns:1fr;}
+  .community-image-grid{grid-template-columns:1fr;}
+  .community-image-grid img{height:210px;}
+}
+</style>
 </head>
 <body>
 
