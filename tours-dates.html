@@ -174,6 +174,28 @@
     .detail-map-caption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
     .route-code{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:#eef4ff;color:var(--primary);font-weight:800;font-size:12px}
 
+
+    /* One Day Tours section */
+    .one-day-section{background:linear-gradient(135deg,#fbfaf6 0%,#eef4ff 100%)}
+    .one-day-intro{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 26px}
+    .one-day-note{background:#fff;border:1px solid rgba(13,59,102,.08);border-radius:20px;padding:18px 20px;box-shadow:var(--shadow-soft)}
+    .one-day-note strong{display:block;color:var(--primary-dark);margin-bottom:6px}
+    .one-day-card .tour-cover{height:190px}
+    .one-day-card .tour-title{font-size:20px}
+    .one-day-route-map{margin:10px 0;border-radius:18px;overflow:hidden;background:#eef2f7;border:1px solid #e5e7eb}
+    .one-day-route-map img{width:100%;height:210px;object-fit:cover;display:block}
+    .one-day-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+    .one-day-gallery img{width:100%;height:74px;object-fit:cover;border-radius:12px;background:#eef2f7;border:1px solid #e5e7eb}
+    .one-day-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
+    .one-day-meta div{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:10px;font-size:12px}
+    .one-day-meta strong{display:block;color:var(--primary-dark);font-size:13px;margin-bottom:2px}
+    .itinerary-timeline{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+    .itinerary-timeline li{display:grid;grid-template-columns:74px 1fr;gap:8px;align-items:flex-start;background:#fff;border:1px solid #e8edf3;border-radius:14px;padding:9px 10px;font-size:13px}
+    .itinerary-timeline time{font-weight:900;color:var(--accent-dark);white-space:nowrap}
+    .traffic-note{margin-top:10px;padding:10px 12px;border-radius:14px;background:#fff8eb;border:1px solid #f6d9a8;color:#7c4a03;font-size:13px}
+    .included-box{margin-top:10px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:10px 12px;font-size:13px;color:#374151}
+    @media (max-width:720px){.one-day-intro,.one-day-meta{grid-template-columns:1fr}.itinerary-timeline li{grid-template-columns:68px 1fr}.one-day-gallery img{height:66px}}
+
     @media (max-width:1200px){
       .tour-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     }
@@ -295,6 +317,7 @@
         <a href="/index.html#tours">Featured Tours</a>
         <a href="#services">Services</a>
         <a href="#family-travel">Family Travel</a>
+        <a href="#one-day-tours">1 Day Tours</a>
         <a href="#calendar-list">Tour Calendar</a>
         <a href="#planner">Trip Planner</a>
         <a href="/index.html#contact">Contact</a>
@@ -484,6 +507,144 @@
       </div>
     </div>
   </section>
+
+  
+
+  <section id="one-day-tours" class="one-day-section">
+    <div class="container">
+      <div class="section-head">
+        <h2>One Day Tours from Ulaanbaatar</h2>
+        <p>Short private day trips with clear route maps, realistic driving time, traffic notes, photo stops and detailed itinerary. These tours are designed for travelers with limited time in Mongolia.</p>
+      </div>
+
+      <div class="one-day-intro">
+        <div class="one-day-note"><strong>Route style</strong><span>Each tour follows a prepared route map. Ulaanbaatar city traffic is considered, especially morning exit and evening return.</span></div>
+        <div class="one-day-note"><strong>Flexible booking</strong><span>Private pickup and drop-off can be arranged from hotel, airport area or central Ulaanbaatar. Final route can change slightly depending on weather and road conditions.</span></div>
+      </div>
+
+      <div class="tour-grid">
+        <article class="tour-card one-day-card">
+          <div class="tour-cover" style="background-image:url('images/tour/terelj-landscape.jpg')"></div>
+          <div class="tour-body">
+            <div class="tour-top"><div><span class="tour-badge">1 Day Tour</span><h3 class="tour-title">Terelj National Park + Chinggis Khaan Statue</h3></div><div class="tour-duration">Full day</div></div>
+            <div class="tour-highlights"><span class="pill">Chinggis Statue</span><span class="pill">Turtle Rock</span><span class="pill">Aryabal Temple</span></div>
+            <div class="one-day-route-map"><img src="images/tour/terelj-route-map.jpg" alt="Terelj one day tour route map from Ulaanbaatar"></div>
+            <div class="one-day-gallery"><img src="images/tour/chinggis-khaan-statue.jpg" alt="Chinggis Khaan Statue"><img src="images/tour/turtle-rock.jpg" alt="Turtle Rock Terelj"><img src="images/tour/aryabal-temple.jpg" alt="Aryabal Temple Terelj"></div>
+            <div class="one-day-meta"><div><strong>Route</strong>UB → Statue → Terelj → UB</div><div><strong>Distance</strong>Approx. 150–170 km round trip</div><div><strong>Driving</strong>4–5 hrs with traffic buffer</div></div>
+            <ul class="itinerary-timeline">
+              <li><time>08:00</time><span>Hotel pickup. Early departure is recommended to leave Ulaanbaatar before heavier traffic.</span></li>
+              <li><time>09:30</time><span>Arrive at Chinggis Khaan Statue Complex. Photo stop, museum / elevator option, panoramic view.</span></li>
+              <li><time>11:00</time><span>Drive to Terelj National Park through open valley scenery and photo stops on the road.</span></li>
+              <li><time>11:40</time><span>Visit Turtle Rock. Short walk and time for photos around the main rock formation.</span></li>
+              <li><time>12:30</time><span>Lunch stop at local restaurant or tourist camp area.</span></li>
+              <li><time>14:00</time><span>Aryabal Meditation Temple visit. Easy uphill walk, temple view and quiet nature time.</span></li>
+              <li><time>16:00</time><span>Optional horse riding / eagle photo stop depending on guest interest and time.</span></li>
+              <li><time>17:00</time><span>Return to Ulaanbaatar. Evening traffic buffer included.</span></li>
+              <li><time>19:00</time><span>Drop-off at hotel or central Ulaanbaatar.</span></li>
+            </ul>
+            <div class="traffic-note"><strong>Traffic note:</strong> best departure is 08:00–08:30. Returning after 17:00 may be slower near the city entrance.</div>
+            <div class="included-box"><strong>Good for:</strong> first-time visitors, layover travelers, families and photographers. Entrance fees and meals can be added after confirmation.</div>
+            <div class="tour-actions"><button class="tour-btn primary" onclick="openServiceRequest('Terelj National Park + Chinggis Statue 1 Day Tour')">Book This Tour</button><button class="tour-btn" onclick="openServiceRequest('Ask details for Terelj 1 Day Tour')">Ask Details</button></div>
+          </div>
+        </article>
+
+        <article class="tour-card one-day-card">
+          <div class="tour-cover" style="background-image:url('images/tour/aglag-monastery.jpg')"></div>
+          <div class="tour-body">
+            <div class="tour-top"><div><span class="tour-badge">1 Day Tour</span><h3 class="tour-title">Aglag Monastery & Meditation Trail</h3></div><div class="tour-duration">Easy day</div></div>
+            <div class="tour-highlights"><span class="pill">Monastery</span><span class="pill">Forest Trail</span><span class="pill">Rock Art</span></div>
+            <div class="one-day-route-map"><img src="images/tour/aglag-route-map.jpg" alt="Aglag Monastery one day tour route map"></div>
+            <div class="one-day-gallery"><img src="images/tour/aglag-monastery.jpg" alt="Aglag Monastery"><img src="images/tour/aglag-meditation-trail.jpg" alt="Aglag meditation trail"><img src="images/tour/aglag-rock-art.jpg" alt="Aglag rock art"></div>
+            <div class="one-day-meta"><div><strong>Route</strong>UB → Aglag → UB</div><div><strong>Distance</strong>Approx. 120–140 km round trip</div><div><strong>Driving</strong>3–4 hrs with traffic buffer</div></div>
+            <ul class="itinerary-timeline">
+              <li><time>08:30</time><span>Hotel pickup and drive north from Ulaanbaatar. Morning traffic buffer included.</span></li>
+              <li><time>10:15</time><span>Arrive near Aglag Buteeliin Khiid area. Short orientation and start walking route.</span></li>
+              <li><time>10:30</time><span>Visit Aglag Monastery, temple area and forest surroundings.</span></li>
+              <li><time>11:30</time><span>Walk the meditation trail. See rock carvings, nature viewpoints and quiet photo spots.</span></li>
+              <li><time>13:00</time><span>Lunch stop / picnic style lunch depending on season and group preference.</span></li>
+              <li><time>14:00</time><span>Free time for slow walking, photos and monastery surroundings.</span></li>
+              <li><time>15:30</time><span>Return drive to Ulaanbaatar.</span></li>
+              <li><time>17:30</time><span>Drop-off at hotel or central Ulaanbaatar.</span></li>
+            </ul>
+            <div class="traffic-note"><strong>Traffic note:</strong> this is easier than long countryside tours, but city exit and return can still add time.</div>
+            <div class="included-box"><strong>Good for:</strong> calm nature day, spiritual/cultural visit, families and travelers who do not want a very long drive.</div>
+            <div class="tour-actions"><button class="tour-btn primary" onclick="openServiceRequest('Aglag Monastery 1 Day Tour')">Book This Tour</button><button class="tour-btn" onclick="openServiceRequest('Ask details for Aglag 1 Day Tour')">Ask Details</button></div>
+          </div>
+        </article>
+
+        <article class="tour-card one-day-card">
+          <div class="tour-cover" style="background-image:url('images/tour/sukhbaatar-square.jpg')"></div>
+          <div class="tour-body">
+            <div class="tour-top"><div><span class="tour-badge">1 Day Tour</span><h3 class="tour-title">Ulaanbaatar City Highlights Tour</h3></div><div class="tour-duration">City day</div></div>
+            <div class="tour-highlights"><span class="pill">Sukhbaatar Square</span><span class="pill">Gandan</span><span class="pill">Zaisan</span></div>
+            <div class="one-day-route-map"><img src="images/tour/ub-city-route-map.jpg" alt="Ulaanbaatar city tour route map"></div>
+            <div class="one-day-gallery"><img src="images/tour/sukhbaatar-square.jpg" alt="Sukhbaatar Square"><img src="images/tour/gandan-monastery.jpg" alt="Gandan Monastery"><img src="images/tour/zaisan-hill.jpg" alt="Zaisan Hill"></div>
+            <div class="one-day-meta"><div><strong>Route</strong>Hotel → Square → Gandan → Zaisan → Market/Museum</div><div><strong>Distance</strong>Approx. 25–40 km inside city</div><div><strong>Driving</strong>Traffic-sensitive route</div></div>
+            <ul class="itinerary-timeline">
+              <li><time>09:30</time><span>Hotel pickup after morning rush hour. Route starts from central city area.</span></li>
+              <li><time>10:00</time><span>Sukhbaatar Square and Parliament House photo stop. Short historical introduction.</span></li>
+              <li><time>11:00</time><span>Gandan Monastery visit. Main temple area and local Buddhist culture overview.</span></li>
+              <li><time>12:30</time><span>Lunch in central Ulaanbaatar. Mongolian or international food option.</span></li>
+              <li><time>14:00</time><span>Zaisan Hill viewpoint. City panorama and photo time.</span></li>
+              <li><time>15:30</time><span>Choose one: National Museum, Bogd Khan Palace Museum, Narantuul Market or cashmere shopping.</span></li>
+              <li><time>17:30</time><span>Drop-off before evening traffic becomes heavier, or continue to dinner area by request.</span></li>
+            </ul>
+            <div class="traffic-note"><strong>Traffic note:</strong> city route avoids the worst rush hours where possible. Museum/market choice may change depending on weekday and opening hours.</div>
+            <div class="included-box"><strong>Good for:</strong> airport layover, first day in Mongolia, business travelers and guests who want an easy city introduction.</div>
+            <div class="tour-actions"><button class="tour-btn primary" onclick="openServiceRequest('Ulaanbaatar City Highlights 1 Day Tour')">Book This Tour</button><button class="tour-btn" onclick="openServiceRequest('Ask details for UB City 1 Day Tour')">Ask Details</button></div>
+          </div>
+        </article>
+
+        <article class="tour-card one-day-card">
+          <div class="tour-cover" style="background-image:url('images/tour/hustai-horses.jpg')"></div>
+          <div class="tour-body">
+            <div class="tour-top"><div><span class="tour-badge">1 Day Tour</span><h3 class="tour-title">Hustai National Park Wild Horses</h3></div><div class="tour-duration">Long day</div></div>
+            <div class="tour-highlights"><span class="pill">Takhi Horses</span><span class="pill">Steppe</span><span class="pill">Wildlife</span></div>
+            <div class="one-day-route-map"><img src="images/tour/hustai-route-map.jpg" alt="Hustai National Park one day route map"></div>
+            <div class="one-day-gallery"><img src="images/tour/hustai-horses.jpg" alt="Hustai wild horses"><img src="images/tour/hustai-steppe.jpg" alt="Hustai steppe"><img src="images/tour/hustai-visitor-center.jpg" alt="Hustai visitor center"></div>
+            <div class="one-day-meta"><div><strong>Route</strong>UB → Hustai → UB</div><div><strong>Distance</strong>Approx. 200–220 km round trip</div><div><strong>Driving</strong>5–6 hrs with park road</div></div>
+            <ul class="itinerary-timeline">
+              <li><time>07:30</time><span>Early hotel pickup. This tour needs an early start to make the wildlife viewing time better.</span></li>
+              <li><time>10:30</time><span>Arrive at Hustai National Park area. Visitor center / park introduction depending on schedule.</span></li>
+              <li><time>11:30</time><span>Drive inside the national park and search for Takhi wild horses from safe viewing distance.</span></li>
+              <li><time>13:00</time><span>Lunch stop near park / camp area.</span></li>
+              <li><time>14:00</time><span>Short steppe walk and photo stops. Wildlife and landscape photography time.</span></li>
+              <li><time>16:00</time><span>Begin return drive to Ulaanbaatar.</span></li>
+              <li><time>19:00</time><span>Drop-off at hotel. Arrival may be later if city traffic is heavy.</span></li>
+            </ul>
+            <div class="traffic-note"><strong>Traffic note:</strong> early departure is important. Wildlife sightings depend on season, weather and movement of the horses.</div>
+            <div class="included-box"><strong>Good for:</strong> wildlife lovers, families, photographers and travelers who want real steppe without sleeping outside UB.</div>
+            <div class="tour-actions"><button class="tour-btn primary" onclick="openServiceRequest('Hustai National Park 1 Day Tour')">Book This Tour</button><button class="tour-btn" onclick="openServiceRequest('Ask details for Hustai 1 Day Tour')">Ask Details</button></div>
+          </div>
+        </article>
+
+        <article class="tour-card one-day-card">
+          <div class="tour-cover" style="background-image:url('images/tour/elsen-tasarkhai-dunes.jpg')"></div>
+          <div class="tour-body">
+            <div class="tour-top"><div><span class="tour-badge">Long 1 Day</span><h3 class="tour-title">Elsen Tasarkhai Mini Gobi Day Trip</h3></div><div class="tour-duration">Very long day</div></div>
+            <div class="tour-highlights"><span class="pill">Sand Dunes</span><span class="pill">Camel Option</span><span class="pill">Countryside</span></div>
+            <div class="one-day-route-map"><img src="images/tour/elsen-tasarkhai-route-map.jpg" alt="Elsen Tasarkhai Mini Gobi one day route map"></div>
+            <div class="one-day-gallery"><img src="images/tour/elsen-tasarkhai-dunes.jpg" alt="Elsen Tasarkhai dunes"><img src="images/tour/elsen-camel-ride.jpg" alt="Camel ride at Elsen Tasarkhai"><img src="images/tour/mini-gobi-landscape.jpg" alt="Mini Gobi landscape"></div>
+            <div class="one-day-meta"><div><strong>Route</strong>UB → Elsen Tasarkhai → UB</div><div><strong>Distance</strong>Approx. 560–600 km round trip</div><div><strong>Driving</strong>8–10 hrs total</div></div>
+            <ul class="itinerary-timeline">
+              <li><time>06:30</time><span>Very early hotel pickup. This is a long-distance one day route, so early start is required.</span></li>
+              <li><time>09:30</time><span>Roadside coffee / restroom stop and countryside photo stop.</span></li>
+              <li><time>11:30</time><span>Arrive around Elsen Tasarkhai / Mini Gobi sand dune area.</span></li>
+              <li><time>12:00</time><span>Sand dune walk and photos. Camel riding can be arranged as an optional activity.</span></li>
+              <li><time>13:30</time><span>Lunch stop in local area or picnic style depending on season.</span></li>
+              <li><time>14:30</time><span>Extra photo stops around dunes and steppe landscape.</span></li>
+              <li><time>15:30</time><span>Return drive to Ulaanbaatar with rest stops on the road.</span></li>
+              <li><time>21:00</time><span>Drop-off at hotel. Arrival time depends heavily on road and city traffic.</span></li>
+            </ul>
+            <div class="traffic-note"><strong>Traffic note:</strong> this is a very long day. For comfort, 2-day version is recommended, but 1-day is possible for short-stay travelers.</div>
+            <div class="included-box"><strong>Good for:</strong> travelers who want a quick desert-style experience but have only one free day.</div>
+            <div class="tour-actions"><button class="tour-btn primary" onclick="openServiceRequest('Elsen Tasarkhai Mini Gobi 1 Day Tour')">Book This Tour</button><button class="tour-btn" onclick="openServiceRequest('Ask details for Elsen Tasarkhai 1 Day Tour')">Ask Details</button></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
 
   <section id="calendar-list">
     <div class="container">
