@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Self-Drive Car Rental in Mongolia | BookingMongolia</title>
+  <meta name="description" content="Self-drive car rental in Mongolia. Requirements, insurance, deposit, driving rules, safety advice, road conditions and rental terms for foreign travelers." />
+
+  <style>
+    :root{
+      --primary:#0d3b66;
+      --accent:#c98b2f;
+      --bg:#f7f5ef;
+      --dark:#1f2937;
+      --muted:#6b7280;
+      --white:#ffffff;
+      --shadow:0 14px 34px rgba(0,0,0,.10);
+      --radius:20px;
+      --max:1100px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--dark);
+      line-height:1.7;
+    }
+
+    a{text-decoration:none;color:inherit}
+    .container{width:min(92%,var(--max));margin:auto}
+
+    header{
+      background:#fff;
+      box-shadow:0 2px 12px rgba(0,0,0,.06);
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+
+    .nav{
+      min-height:72px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+    }
+
+    .logo{
+      font-size:24px;
+      font-weight:800;
+      color:var(--primary);
+    }
+
+    .logo span{color:var(--accent)}
+
+    .back-link{
+      background:var(--primary);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-weight:700;
+    }
+
+    .hero{
+      background:
+        linear-gradient(rgba(8,20,33,.65),rgba(8,20,33,.72)),
+        url("images/self-drive/self-drive-cover.jpg") center/cover no-repeat;
+      color:#fff;
+      padding:100px 0;
+    }
+
+    .hero h1{
+      font-size:clamp(36px,6vw,64px);
+      line-height:1.1;
+      margin:0 0 18px;
+    }
+
+    .hero p{
+      max-width:760px;
+      font-size:18px;
+      margin:0;
+    }
+
+    section{padding:60px 0}
+
+    .card{
+      background:#fff;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+      margin-bottom:24px;
+    }
+
+    h2{
+      color:var(--primary);
+      margin-top:0;
+      font-size:30px;
+    }
+
+    h3{
+      color:var(--primary);
+      margin-top:24px;
+    }
+
+    ul{padding-left:22px}
+
+    li{margin-bottom:8px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .info-box{
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      border-radius:16px;
+      padding:18px;
+    }
+
+    .warning{
+      background:#fff8e8;
+      border-left:5px solid var(--accent);
+      padding:18px;
+      border-radius:14px;
+      margin-top:18px;
+    }
+
+    .danger{
+      background:#fef2f2;
+      border-left:5px solid #dc2626;
+      padding:18px;
+      border-radius:14px;
+      margin-top:18px;
+    }
+
+    .price-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:14px;
+      overflow:hidden;
+      border-radius:14px;
+    }
+
+    .price-table th,
+    .price-table td{
+      border:1px solid #e5e7eb;
+      padding:14px;
+      text-align:left;
+    }
+
+    .price-table th{
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .btn-row{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+
+    .btn{
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:14px 22px;
+      border-radius:999px;
+      font-weight:800;
+      color:#fff;
+      background:var(--accent);
+    }
+
+    .btn.secondary{
+      background:var(--primary);
+    }
+
+    footer{
+      background:#0d1b2a;
+      color:#fff;
+      padding:28px 0;
+      text-align:center;
+      font-size:14px;
+    }
+
+    @media(max-width:800px){
+      .grid{grid-template-columns:1fr}
+      .nav{flex-direction:column;padding:14px 0}
+      .hero{padding:70px 0}
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">Booking<span>Mongolia</span></a>
+    <a href="index.html#guides" class="back-link">← Back to Guides</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Self-Drive Car Rental in Mongolia</h1>
+    <p>
+      Explore Mongolia freely with our self-drive rental service. Choose from city cars and 4WD vehicles suitable for road trips, countryside routes and adventure travel.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+
+    <div class="card">
+      <h2>Available Vehicles</h2>
+      <div class="grid">
+        <div class="info-box"><strong>Toyota Prius</strong><br>City and short road trips</div>
+        <div class="info-box"><strong>Toyota Alphard</strong><br>Comfortable family travel</div>
+        <div class="info-box"><strong>Toyota Land Cruiser 200</strong><br>4WD countryside and long-distance travel</div>
+        <div class="info-box"><strong>Toyota Prado</strong><br>4WD road trip option</div>
+        <div class="info-box"><strong>Toyota Hilux</strong><br>Adventure and expedition routes</div>
+        <div class="info-box"><strong>UAZ / Purgon</strong><br>Available on request</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Rental Requirements</h2>
+      <ul>
+        <li>Valid passport</li>
+        <li>Valid driving license</li>
+        <li>International Driving Permit if required</li>
+        <li>Rental agreement</li>
+        <li>Deposit / security payment</li>
+        <li>Confirmed travel route and rental dates</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Driving in Mongolia as a Foreigner</h2>
+      <p>
+        Foreign travelers may drive in Mongolia if they hold a valid driving license and meet local driving requirements.
+        Travelers from countries that signed the 1968 Vienna Convention on Road Traffic may usually drive with their valid national license and passport.
+      </p>
+
+      <div class="warning">
+        Some travelers may need an International Driving Permit or additional authorization depending on nationality, vehicle type and travel route.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Insurance and Driver Responsibility</h2>
+      <p>
+        Our vehicles include standard insurance. However, the driver remains responsible for damages caused by negligence, misuse or violation of rental conditions.
+      </p>
+
+      <h3>Driver responsibility may include:</h3>
+      <ul>
+        <li>Off-road misuse</li>
+        <li>River or water crossing damage</li>
+        <li>Tire damage</li>
+        <li>Windshield damage</li>
+        <li>Undercarriage damage</li>
+        <li>Traffic violations and camera fines</li>
+        <li>Driving under the influence of alcohol</li>
+        <li>Damage caused by careless driving</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Authorization and Notary Documents</h2>
+      <p>
+        For some vehicles, especially high-value 4WD cars such as Land Cruiser 200, Prado or Hilux, additional authorization documents may be required.
+      </p>
+
+      <p>
+        This may include a rental agreement, vehicle documents, insurance documents or notarized authorization allowing the renter to drive the vehicle.
+      </p>
+
+      <div class="warning">
+        Requirements may vary depending on the vehicle owner, insurance condition, rental period and travel route.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Deposit Policy</h2>
+      <p>
+        A refundable deposit may be required before the rental starts. The deposit amount depends on the vehicle type, rental duration, insurance condition and travel route.
+      </p>
+
+      <table class="price-table">
+        <tr>
+          <th>Vehicle Type</th>
+          <th>Estimated Deposit</th>
+        </tr>
+        <tr>
+          <td>Prius</td>
+          <td>From 500 USD</td>
+        </tr>
+        <tr>
+          <td>Alphard</td>
+          <td>From 800 USD</td>
+        </tr>
+        <tr>
+          <td>Prado</td>
+          <td>From 1,000 USD</td>
+        </tr>
+        <tr>
+          <td>Land Cruiser 200</td>
+          <td>From 1,500 USD</td>
+        </tr>
+        <tr>
+          <td>Expedition / remote route</td>
+          <td>May be higher</td>
+        </tr>
+      </table>
+
+      <div class="warning">
+        Final deposit amount will be confirmed depending on the selected vehicle and route.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Road Conditions in Mongolia</h2>
+      <ul>
+        <li>Mongolia has right-hand traffic.</li>
+        <li>Long distances between towns are common.</li>
+        <li>Some countryside roads are unpaved or off-road.</li>
+        <li>Fuel stations may be limited in remote areas.</li>
+        <li>Mobile signal may be unavailable in some regions.</li>
+        <li>Animals may cross the road without warning.</li>
+        <li>Speed cameras and police checks are common.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Safety Advice</h2>
+      <p>
+        Many road accidents in Mongolia are related to tired driving, drunk driving, speeding, night driving and failure to switch headlights properly.
+      </p>
+
+      <div class="danger">
+        Never drive when tired or under the influence of alcohol. Avoid long night driving, especially in the countryside.
+      </div>
+
+      <ul>
+        <li>Rest regularly during long-distance driving.</li>
+        <li>Use headlights correctly at night.</li>
+        <li>Follow speed limits.</li>
+        <li>Use offline maps and GPS.</li>
+        <li>Carry enough fuel, water and food for remote routes.</li>
+        <li>Check road and weather conditions before departure.</li>
+        <li>Do not attempt unknown river crossings without guidance.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Rental Conditions</h2>
+      <ul>
+        <li>Fuel is not included in the rental price.</li>
+        <li>Only registered drivers may drive the vehicle.</li>
+        <li>The vehicle must be returned in the same condition.</li>
+        <li>Traffic fines are the renter’s responsibility.</li>
+        <li>Off-road restrictions may apply.</li>
+        <li>Naadam and peak season availability is limited.</li>
+        <li>Some routes may only be available with a driver.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Estimated Rental Prices</h2>
+
+      <table class="price-table">
+        <tr>
+          <th>Vehicle</th>
+          <th>Estimated Price</th>
+        </tr>
+        <tr>
+          <td>Prius</td>
+          <td>From 110 USD/day</td>
+        </tr>
+        <tr>
+          <td>Alphard</td>
+          <td>From 150 USD/day</td>
+        </tr>
+        <tr>
+          <td>Land Cruiser 200</td>
+          <td>From 200 USD/day</td>
+        </tr>
+      </table>
+
+      <p class="muted">
+        Prices may vary depending on season, availability, rental duration and route.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Contact BookingMongolia</h2>
+      <p>
+        Send us your travel dates, preferred vehicle, number of travelers and planned route.
+        We will recommend the most suitable vehicle and rental conditions for your Mongolia road trip.
+      </p>
+
+      <div class="btn-row">
+        <a class="btn" href="https://wa.me/97690283039">WhatsApp Us</a>
+        <a class="btn secondary" href="index.html#contact">Contact Form</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © BookingMongolia. Self-drive car rental, travel support and Mongolia road trip planning.
+  </div>
+</footer>
+
+</body>
+</html>
