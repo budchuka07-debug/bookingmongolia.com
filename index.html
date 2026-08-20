@@ -10,6 +10,7 @@ gtag('js', new Date());
 
 gtag('config', 'G-SWZZY2HBZB');
 </script>
+<script src="/js/share.js"></script>
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -967,8 +968,11 @@ gtag('config', 'G-SWZZY2HBZB');
     .community-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 
     .community-engagement{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px;border-top:1px solid #eef2f7;padding-top:12px}
-    .community-like-btn,.community-comment-toggle{border:1px solid #dbe3ef;background:#fff;color:var(--primary);border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer}
+    .community-like-btn,.community-comment-toggle,.community-share-btn{border:1px solid #dbe3ef;background:#fff;color:var(--primary);border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:40px}
     .community-like-btn.active{background:#fff1dc;border-color:#f3c77a;color:#8a520d}
+    .community-share-btn.is-copied{background:#ecfdf5;border-color:#86efac;color:#166534}
+    .guide-mini-actions,.guide-card-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+    .guide-share-btn{border:1px solid #dbe3ef;background:#fff;color:var(--primary);border-radius:999px;padding:8px 12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:38px;font-size:13px}
     .community-comments{margin-top:12px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:12px}
     .community-comment-item{padding:10px 0;border-bottom:1px solid #e5e7eb}
     .community-comment-item:last-child{border-bottom:none}
@@ -1606,31 +1610,46 @@ gtag('config', 'G-SWZZY2HBZB');
           <div class="guide-mini">
             <h4 data-i18n="guide_1_title">Nomadic Culture</h4>
             <p class="muted" data-i18n="guide_1_text">Learn about ger life, livestock and countryside hospitality.</p>
-            <a class="btn btn-primary" href="guide/nomadic-culture.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/nomadic-culture.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Nomadic Culture of Mongolia" data-share-url="guide/nomadic-culture.html" aria-label="Share Nomadic Culture"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
             <h4 data-i18n="guide_2_title">Religion & Traditions</h4>
             <p class="muted" data-i18n="guide_2_text">Buddhism, ovoo traditions and local customs.</p>
-            <a class="btn btn-primary" href="guide/religion-traditions.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/religion-traditions.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Religion & Traditions of Mongolia" data-share-url="guide/religion-traditions.html" aria-label="Share Religion & Traditions"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
             <h4 data-i18n="guide_3_title">Food & Taste</h4>
             <p class="muted" data-i18n="guide_3_text">Traditional dishes, dairy food and tour meal expectations.</p>
-            <a class="btn btn-primary" href="guide/mongolian-food.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/mongolian-food.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Mongolian Food & Taste" data-share-url="guide/mongolian-food.html" aria-label="Share Mongolian Food"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
             <h4 data-i18n="guide_4_title">Weather & Seasons</h4>
             <p class="muted" data-i18n="guide_4_text">Summer travel, winter conditions and what to pack.</p>
-            <a class="btn btn-primary" href="guide/weather-seasons.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/weather-seasons.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Weather & Seasons in Mongolia" data-share-url="guide/weather-seasons.html" aria-label="Share Weather & Seasons"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
             <h4 data-i18n="guide_5_title">Money & Currency</h4>
             <p class="muted" data-i18n="guide_5_text">Cash, card use and typical travel costs in Mongolia.</p>
-            <a class="btn btn-primary" href="guide/money-currency.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/money-currency.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Money & Currency in Mongolia" data-share-url="guide/money-currency.html" aria-label="Share Money & Currency"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
@@ -1638,7 +1657,10 @@ gtag('config', 'G-SWZZY2HBZB');
             <p class="muted" data-i18n="guide_6_text">
               Explore Mongolia’s ancient shamanic traditions, nature worship and spiritual beliefs.
             </p>
-            <a class="btn btn-primary" href="guide/shamanism-spiritual-culture.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/shamanism-spiritual-culture.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Shamanism & Spiritual Culture" data-share-url="guide/shamanism-spiritual-culture.html" aria-label="Share Shamanism guide"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
@@ -1646,7 +1668,10 @@ gtag('config', 'G-SWZZY2HBZB');
             <p class="muted" data-i18n="guide_7_text">
               Traditional performances, theatres, opera, ballet and art exhibitions in Mongolia.
             </p>
-            <a class="btn btn-primary" href="guide/shows-entertainment-in-mongolia.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/shows-entertainment-in-mongolia.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Shows & Entertainment in Mongolia" data-share-url="guide/shows-entertainment-in-mongolia.html" aria-label="Share Shows & Entertainment"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
 
           <div class="guide-mini">
@@ -1654,7 +1679,10 @@ gtag('config', 'G-SWZZY2HBZB');
             <p class="muted" data-i18n="guide_8_text">
               Travel distances, road conditions and why private transport helps.
             </p>
-            <a class="btn btn-primary" href="guide/transport-reality.html" data-i18n="read_more">Read More</a>
+            <div class="guide-mini-actions">
+              <a class="btn btn-primary" href="guide/transport-reality.html" data-i18n="read_more">Read More</a>
+              <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Transport Reality in Mongolia" data-share-url="guide/transport-reality.html" aria-label="Share Transport Reality"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+            </div>
           </div>
           <article class="card guide-card">
   <img src="images/guide/animals.jpg" alt="Mongolian wildlife animals">
@@ -1668,9 +1696,10 @@ gtag('config', 'G-SWZZY2HBZB');
       Discover Mongolia’s wild animals, including argali sheep, ibex, wolves, and rare species. Learn about steppe, desert, and mountain wildlife.
     </p>
 
-    <a class="btn btn-primary" href="guide/mongolia-wildlife-guide.html">
-      Read More
-    </a>
+    <div class="guide-card-actions">
+      <a class="btn btn-primary" href="guide/mongolia-wildlife-guide.html">Read More</a>
+      <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Wildlife of Mongolia | Travel Guide" data-share-url="guide/mongolia-wildlife-guide.html" aria-label="Share Wildlife Guide"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+    </div>
   </div>
 </article>
         </div>
@@ -1686,6 +1715,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <a class="btn btn-primary" href="guide/safety-guide.html">Read More</a>
+          <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Mongolia Travel Safety Guide" data-share-url="guide/safety-guide.html" aria-label="Share Safety Guide"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
           <a class="btn btn-primary" href="/files/mongolia-travel-safety-guide.pdf" download>Download PDF</a>
         </div>
   
@@ -1694,14 +1724,20 @@ gtag('config', 'G-SWZZY2HBZB');
             <div class="card-body">
               <h3 data-i18n="side_guide_2_title">Mongolian Ger & Daily Life</h3>
               <p class="muted" data-i18n="side_guide_2_text">Learn about ger etiquette and countryside daily life.</p>
-              <a class="btn btn-primary" href="guide/mongolian-ger-daily-life.html" data-i18n="read_more">Read More</a>
+              <div class="guide-card-actions">
+                <a class="btn btn-primary" href="guide/mongolian-ger-daily-life.html" data-i18n="read_more">Read More</a>
+                <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Mongolian Ger & Daily Life" data-share-url="guide/mongolian-ger-daily-life.html" aria-label="Share Ger Daily Life"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+              </div>
             </div>
             <div class="guide-mini">
   <h4>Self-Drive Car Rental</h4>
   <p class="muted">
     Rent a car and explore Mongolia at your own pace. Includes rental requirements, deposit policy, insurance conditions, driving rules and safety advice.
   </p>
-  <a class="btn btn-primary" href="guide/self-drive.html">Read More</a>
+  <div class="guide-mini-actions">
+    <a class="btn btn-primary" href="guide/self-drive.html">Read More</a>
+    <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm" data-share-title="Self-Drive Car Rental in Mongolia" data-share-url="guide/self-drive.html" aria-label="Share Self-Drive guide"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
+  </div>
 </div>
           </article>
         </div>
@@ -2863,6 +2899,25 @@ async function loadCars() {
     if (sharingList) {
       sharingList.innerHTML = sharingPosts.length ? sharingPosts.map(renderCommunityPost).join('') : '<div class="community-empty">No group tour sharing posts yet.</div>';
     }
+
+    if (window.BMShare?.bindButton) {
+      document.querySelectorAll('.community-share-btn').forEach((btn) => window.BMShare.bindButton(btn));
+    }
+    focusCommunityPostFromHash();
+  }
+
+  function focusCommunityPostFromHash() {
+    const hash = String(location.hash || '');
+    if (!hash.startsWith('#community-post-')) return;
+    const el = document.querySelector(hash);
+    if (!el) return;
+    document.getElementById('community')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.style.outline = '2px solid #c98b2f';
+      el.style.outlineOffset = '4px';
+      setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 2400);
+    }, 250);
   }
 
   async function loadCommunityEngagement(postIds) {
@@ -2935,6 +2990,9 @@ async function loadCars() {
     const liked = !!communityState.userLiked[item.id];
     const comments = communityState.comments[item.id] || [];
 
+    const shareUrl = `${window.location.origin}${window.location.pathname}#community-post-${postId}`;
+    const shareTitle = item.title || (item.type === 'sharing' ? 'Looking for travel partners' : 'Traveler story');
+
     return `
       <article class="community-card" id="community-post-${postId}">
         <div class="community-card-top">
@@ -2958,6 +3016,7 @@ async function loadCars() {
         <div class="community-engagement">
           <button type="button" class="community-like-btn ${liked ? 'active' : ''}" onclick="toggleCommunityLike('${postId}')">${liked ? '❤️ Liked' : '♡ Like'} <span>${likeCount}</span></button>
           <button type="button" class="community-comment-toggle" onclick="toggleCommunityComments('${postId}')">💬 Comments <span>${comments.length}</span></button>
+          <button type="button" class="community-share-btn bm-share-btn" data-share-title="${escapeAttr(shareTitle)}" data-share-text="${escapeAttr(shareTitle)}" data-share-url="${escapeAttr(shareUrl)}" aria-label="Share this post"><span class="bm-share-icon" aria-hidden="true">↗</span> Share</button>
         </div>
 
         <div class="community-comments" id="comments-${postId}" style="display:none">
