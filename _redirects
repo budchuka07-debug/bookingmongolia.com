@@ -1,0 +1,7 @@
+# Permanent redirects for consolidated duplicate URLs (Netlify)
+/horse-riding-tour.html  /tours/horse-riding-tour.html  301
+/safety-guide.html  /guide/safety-guide.html  301
+/shows-entertainment-in-mongolia.html  /guide/shows-entertainment-in-mongolia.html  301
+/guide/guidenomadic-culture.html  /guide/nomadic-culture.html  301
+/tour-calendar.html  /tours-dates.html  301
+/contact.html  /booking.html  301
