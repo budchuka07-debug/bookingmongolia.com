@@ -96,6 +96,11 @@ gtag('config', 'G-SWZZY2HBZB');
       font-size:15px;
     }
     .nav-links a:hover{color:var(--accent)}
+    .nav-links a.nav-hotels{
+      font-weight:800;
+      color:var(--primary);
+    }
+    .nav-links a.nav-hotels:hover{color:var(--accent)}
 
     .menu-toggle{
       display:none;
@@ -499,50 +504,72 @@ gtag('config', 'G-SWZZY2HBZB');
     .image-lightbox-close{position:absolute;top:16px;right:24px;color:#fff;font-size:42px;line-height:1;cursor:pointer}
 
 
-    .hotel-filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 22px}
-    .hotel-filter-bar input,.hotel-filter-bar select{min-width:220px;background:#fff}
-    .hotel-booking-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:22px;align-items:start}
-    .hotel-results-column{display:grid;gap:16px}
-    .hotel-result-count{font-size:14px;color:var(--muted);margin:-6px 0 2px}
-    .hotel-booking-card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);display:grid;grid-template-columns:260px 1fr;border:1px solid rgba(13,59,102,.08)}
+    #hotels.soft-section{padding:72px 0 80px;background:linear-gradient(180deg,#f3f7fb 0%,#fff8ef 48%,#f7f5ef 100%)}
+    #hotels .section-head h2{font-size:clamp(32px,4vw,46px)}
+    #hotels .section-head p{font-size:18px;max-width:720px}
+    .hotel-menu-bar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 20px}
+    .hotel-menu-chip{display:inline-flex;align-items:center;justify-content:center;border:1px solid #dbe3ef;background:#fff;color:var(--primary);border-radius:999px;padding:12px 18px;font-weight:800;font-size:15px;cursor:pointer;min-height:48px;box-shadow:0 6px 16px rgba(13,59,102,.06)}
+    .hotel-menu-chip.active,.hotel-menu-chip:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+    .hotel-filter-bar{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 24px}
+    .hotel-filter-bar input,.hotel-filter-bar select{min-width:240px;min-height:52px;background:#fff;font-size:16px;padding:14px 16px;border-radius:16px;border:1px solid #dbe3ef}
+    .hotel-booking-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(380px,.9fr);gap:26px;align-items:start}
+    .hotel-results-column{display:grid;gap:20px}
+    .hotel-result-count{font-size:16px;color:var(--muted);margin:-4px 0 4px;font-weight:700}
+    .hotel-booking-card{background:#fff;border-radius:26px;overflow:hidden;box-shadow:var(--shadow);display:grid;grid-template-columns:300px 1fr;border:1px solid rgba(13,59,102,.08)}
     .hotel-booking-card:hover{transform:translateY(-4px)}
-    .hotel-booking-card .hotel-cover{width:100%;height:100%;min-height:250px;object-fit:cover;background:#eef2f7}
-    .hotel-cover-wrap{width:100%;height:100%;min-height:250px;background:#eef2f7;display:flex;flex-direction:column}
+    .hotel-booking-card .hotel-cover{width:100%;height:100%;min-height:300px;object-fit:cover;background:#eef2f7}
+    .hotel-cover-wrap{width:100%;height:100%;min-height:300px;background:#eef2f7;display:flex;flex-direction:column}
     .hotel-booking-card .listing-gallery{height:100%;background:#eef2f7;padding:0}
-    .hotel-booking-card .listing-main-image{width:100%;min-height:250px;height:250px;object-fit:cover;border-radius:0}
-    .hotel-booking-card .listing-thumbs{padding:10px 10px 12px;background:#fff}
-    .hotel-booking-card .listing-thumbs img{width:64px;height:64px}
-    .hotel-booking-body{padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+    .hotel-booking-card .listing-main-image{width:100%;min-height:300px;height:300px;object-fit:cover;border-radius:0}
+    .hotel-booking-card .listing-thumbs{padding:12px 12px 14px;background:#fff}
+    .hotel-booking-card .listing-thumbs img{width:72px;height:72px}
+    .hotel-booking-body{padding:22px 24px;display:flex;flex-direction:column;gap:12px}
     .hotel-booking-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-    .hotel-booking-title{margin:0;font-size:24px;color:var(--primary-dark)}
-    .hotel-booking-location{color:var(--muted);font-size:14px}
-    .hotel-booking-price{font-weight:800;color:#15803d;font-size:20px;white-space:nowrap}
-    .hotel-booking-price small{display:block;color:var(--muted);font-size:12px;font-weight:600}
-    .hotel-booking-desc{color:var(--muted);margin:0}
+    .hotel-booking-title{margin:0;font-size:28px;color:var(--primary-dark)}
+    .hotel-booking-location{color:var(--muted);font-size:15px}
+    .hotel-booking-price{font-weight:800;color:#15803d;font-size:24px;white-space:nowrap}
+    .hotel-booking-price small{display:block;color:var(--muted);font-size:13px;font-weight:600}
+    .hotel-booking-desc{color:var(--muted);margin:0;font-size:16px;line-height:1.65}
     .hotel-booking-tags{display:flex;gap:8px;flex-wrap:wrap}
-    .hotel-booking-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
-    .hotel-mini-btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:999px;font-weight:700;border:1px solid #dbe3ef;background:#fff;color:var(--primary)}
+    .hotel-booking-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+    .hotel-mini-btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:999px;font-weight:800;font-size:15px;min-height:48px;border:1px solid #dbe3ef;background:#fff;color:var(--primary)}
     .hotel-mini-btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
-    .hotel-map-panel{position:sticky;top:100px;background:#fff;border-radius:22px;padding:14px;box-shadow:var(--shadow);border:1px solid rgba(13,59,102,.08)}
-    .hotel-map-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0 0 10px}
-    .hotel-map-title strong{font-size:16px;color:var(--primary-dark)}
-    #hotel-map{height:760px;border-radius:18px;overflow:hidden;background:#eef2f7}
-    .hotel-empty-state{background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow);color:var(--muted);text-align:center}
+    .hotel-map-panel{position:sticky;top:100px;background:#fff;border-radius:26px;padding:16px;box-shadow:var(--shadow);border:1px solid rgba(13,59,102,.08)}
+    .hotel-map-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0 0 12px}
+    .hotel-map-title strong{font-size:18px;color:var(--primary-dark)}
+    #hotel-map{height:820px;border-radius:20px;overflow:hidden;background:#eef2f7}
+    .hotel-empty-state{background:#fff;border-radius:24px;padding:36px;box-shadow:var(--shadow);color:var(--muted);text-align:center;font-size:16px}
+    .quick-link.quick-hotels{font-weight:800}
     .leaflet-popup-content-wrapper{border-radius:16px}
     .hotel-popup img{width:100%;height:110px;object-fit:cover;border-radius:12px;margin-bottom:8px;background:#eef2f7}
     .hotel-popup strong{display:block;font-size:15px;margin-bottom:4px;color:var(--primary-dark)}
 
     
-    .hotel-policy-strip{
-      margin:0 0 18px;
-      padding:14px 16px;
-      border-radius:16px;
-      background:#fff8e8;
-      color:#7c4a03;
-      border:1px solid #f6d9a8;
-      box-shadow:var(--shadow);
-      font-size:14px;
+    .hotel-filter-panel{background:#fff;border:1px solid rgba(13,59,102,.08);border-radius:22px;padding:16px;box-shadow:var(--shadow);margin:0 0 18px}
+    .hotel-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .hotel-filter-grid label{display:block;font-size:12px;font-weight:800;color:var(--primary);margin:0 0 6px}
+    .hotel-filter-grid input,.hotel-filter-grid select{width:100%;min-height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:10px 12px;font-size:15px;background:#fff}
+    .hotel-filter-toggles{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .hotel-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid #dbe3ef;background:#f8fafc;border-radius:999px;padding:10px 14px;font-weight:700;font-size:13px;cursor:pointer;min-height:44px}
+    .hotel-toggle input{width:16px;height:16px}
+    .hotel-toggle.active{background:#0d3b66;border-color:#0d3b66;color:#fff}
+    .acc-amenity-row,.acc-fact-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+    .acc-pill{display:inline-flex;align-items:center;gap:4px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:#334155}
+    .acc-pill.on{background:#ecfdf5;border-color:#86efac;color:#166534}
+    .acc-pill.off{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
+    .acc-booking-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    @media (max-width:900px){
+      .hotel-filter-grid{grid-template-columns:1fr 1fr}
     }
+    @media (max-width:720px){
+      .hotel-filter-grid{grid-template-columns:1fr}
+      .hotel-filter-panel{padding:14px}
+    }
+    .hotel-data-badge{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-left:8px}
+    .hotel-data-badge.verified{background:#ecfdf5;color:#166534;border:1px solid #86efac}
+    .hotel-data-badge.sample{background:#fff7ed;color:#9a3412;border:1px solid #fdba74}
+    .hotel-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:4px}
+    .hotel-title-row .tag{margin:0}
 
     footer{
       background:#0d1b2a;
@@ -751,7 +778,7 @@ gtag('config', 'G-SWZZY2HBZB');
       .register-service-top{align-items:flex-start}
       .hero-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
       .video-small{grid-template-columns:1fr 1fr}
-      #hotel-map{height:420px}
+      #hotel-map{height:480px}
       .hotel-map-panel{position:relative;top:auto}
       .destination-map-layout{grid-template-columns:1fr}
       .destination-mapbox{min-height:440px}
@@ -828,9 +855,15 @@ gtag('config', 'G-SWZZY2HBZB');
         grid-template-columns:1fr;
       }
       .hotel-booking-card{grid-template-columns:1fr}
-      .hotel-booking-card .hotel-cover{min-height:220px}
-      .hotel-cover-wrap{min-height:220px}
+      .hotel-booking-card .hotel-cover{min-height:240px}
+      .hotel-cover-wrap{min-height:240px}
+      .hotel-booking-card .listing-main-image{min-height:240px;height:240px}
+      .hotel-booking-title{font-size:24px}
       .hotel-booking-top{flex-direction:column}
+      .hotel-menu-chip{flex:1 1 calc(50% - 10px);justify-content:center;text-align:center}
+      .hotel-filter-bar input,.hotel-filter-bar select{min-width:100%;width:100%}
+      #hotel-map{height:360px}
+      .nav-links a.nav-hotels{width:auto;justify-content:flex-start;text-align:left;font-size:inherit;padding:8px 0}
       .hero{min-height:auto}
       .hero-content{padding:80px 0 70px}
       .video-main iframe{min-height:260px}
@@ -1028,7 +1061,7 @@ gtag('config', 'G-SWZZY2HBZB');
         <a href="#experiences" data-i18n="nav_experiences">Experiences</a>
         <a href="visa-requirements.html">Visa Information</a>
         <a href="#destinations" data-i18n="nav_destinations">Destinations</a>
-        <a href="#hotels" data-i18n="nav_hotels">Hotels</a>
+        <a href="#hotels" class="nav-hotels" data-i18n="nav_hotels">Hotels</a>
         <a href="#guides">Guides</a>
         <a href="#cars" data-i18n="nav_cars">Car Rental</a>
         <a href="#community">Traveler Hub</a>
@@ -1074,7 +1107,7 @@ gtag('config', 'G-SWZZY2HBZB');
   <a class="btn btn-outline" href="visa-requirements.html">Visa Requirements</a>
 </div>
         <div class="quick-links">
-          <a class="quick-link" href="#hotels">🏨 Hotels</a>
+          <a class="quick-link quick-hotels" href="#hotels">Hotels &amp; Camps</a>
           <a class="quick-link" href="#cars">🚙 Car Rental</a>
           <a class="quick-link" href="#guides">🧭 Guides</a>
           <a class="quick-link" href="#service-registration">📝 Register Service</a>
@@ -1783,25 +1816,70 @@ gtag('config', 'G-SWZZY2HBZB');
 <section id="hotels" class="soft-section">
     <div class="container">
       <div class="section-head">
-        <h2>Hotels & Camps</h2>
-        <p>Booking style hotel list with map view. Approved accommodations only.</p>
+        <h2>Mongolia Accommodation Directory</h2>
+        <p>Browse hotels, guesthouses, hostels, tourist ger camps, resorts, lodges, apartments and nomadic family stays across Mongolia. Live listings come from our database first; sample catalog stays fill gaps.</p>
       </div>
 
-      <div class="hotel-filter-bar">
-        <input type="text" id="hotel-search" placeholder="Search hotel, camp, lodge...">
-        <select id="hotel-city-filter">
-          <option value="">All locations</option>
-        </select>
-        <select id="hotel-type-filter">
-          <option value="">All property types</option>
-        </select>
+      <div class="hotel-menu-bar" id="hotel-menu-bar" role="tablist" aria-label="Property types">
+        <button type="button" class="hotel-menu-chip active" data-hotel-type="" aria-pressed="true">All stays</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Hotel" aria-pressed="false">Hotels</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Guesthouse" aria-pressed="false">Guesthouses</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Hostel" aria-pressed="false">Hostels</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Tourist Ger Camp" aria-pressed="false">Tourist ger camps</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Resort" aria-pressed="false">Resorts</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Lodge" aria-pressed="false">Lodges</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Apartment" aria-pressed="false">Apartments</button>
+        <button type="button" class="hotel-menu-chip" data-hotel-type="Nomadic Family Stay" aria-pressed="false">Family stays</button>
       </div>
 
-      
+      <div class="hotel-filter-panel">
+        <div class="hotel-filter-grid">
+          <div>
+            <label for="hotel-search">Search</label>
+            <input type="text" id="hotel-search" placeholder="Name, place, amenity...">
+          </div>
+          <div>
+            <label for="hotel-destination-filter">Destination</label>
+            <select id="hotel-destination-filter"><option value="">All destinations</option></select>
+          </div>
+          <div>
+            <label for="hotel-aimag-filter">Aimag / Province</label>
+            <select id="hotel-aimag-filter"><option value="">All aimags</option></select>
+          </div>
+          <div>
+            <label for="hotel-type-filter">Property type</label>
+            <select id="hotel-type-filter"><option value="">All property types</option></select>
+          </div>
+          <div>
+            <label for="hotel-price-filter">Price range (USD from)</label>
+            <select id="hotel-price-filter">
+              <option value="">Any price</option>
+              <option value="0-40">Under $40</option>
+              <option value="40-70">$40 – $70</option>
+              <option value="70-100">$70 – $100</option>
+              <option value="100-9999">$100+</option>
+            </select>
+          </div>
+          <div>
+            <label for="hotel-city-filter">Soum / city / area</label>
+            <select id="hotel-city-filter"><option value="">All areas</option></select>
+          </div>
+        </div>
+        <div class="hotel-filter-toggles">
+          <label class="hotel-toggle"><input type="checkbox" id="hotel-filter-private-bath"> Private bathroom</label>
+          <label class="hotel-toggle"><input type="checkbox" id="hotel-filter-wifi"> Wi-Fi</label>
+          <label class="hotel-toggle"><input type="checkbox" id="hotel-filter-breakfast"> Breakfast</label>
+          <label class="hotel-toggle"><input type="checkbox" id="hotel-filter-ger"> Tourist ger camp</label>
+        </div>
+      </div>
+
       <div class="hotel-policy-strip">
         <strong>Booking policy:</strong> date changes requested 7 or more days before check-in can usually be processed without an extra change fee, subject to availability. Changes requested less than 7 days before check-in may require an additional charge.
       </div>
-<div class="hotel-booking-layout">
+      <div class="hotel-source-note" id="hotel-source-note">
+        Loading stay options from Booking Mongolia database…
+      </div>
+      <div class="hotel-booking-layout">
         <div class="hotel-results-column">
           <div class="hotel-result-count" id="hotel-result-count">Loading hotels...</div>
           <div id="hotel-list"></div>
@@ -1809,8 +1887,8 @@ gtag('config', 'G-SWZZY2HBZB');
 
         <aside class="hotel-map-panel">
           <div class="hotel-map-title">
-            <strong>Hotel Map</strong>
-            <span class="muted">Choose by location</span>
+            <strong>Accommodation Map</strong>
+            <span class="muted">Mongolia-wide</span>
           </div>
           <div id="hotel-map"></div>
         </aside>
@@ -1874,15 +1952,43 @@ gtag('config', 'G-SWZZY2HBZB');
             <div class="form-grid">
               <div><label>Property Name</label><input type="text" id="hotel_name" required></div>
               <div><label>Property Type</label><select id="hotel_type" required>
-                <option value="">Select type</option><option>Hotel</option><option>Guesthouse</option><option>Ger Camp</option><option>Tourist Camp</option><option>Lodge</option><option>Resort</option><option>Hostel</option><option>Homestay</option><option>Apartment</option>
+                <option value="">Select type</option>
+                <option>Hotel</option>
+                <option>Guesthouse</option>
+                <option>Hostel</option>
+                <option>Tourist Ger Camp</option>
+                <option>Ger Camp</option>
+                <option>Resort</option>
+                <option>Lodge</option>
+                <option>Apartment</option>
+                <option>Homestay</option>
+                <option>Nomadic Family Stay</option>
               </select></div>
-              <div><label>Location</label><input type="text" id="hotel_location" placeholder="Terelj / Gobi / Ulaanbaatar" required></div>
+              <div><label>Aimag / Province</label><select id="hotel_aimag" required>
+                <option value="">Select aimag</option>
+              </select></div>
+              <div><label>Soum / City</label><input type="text" id="hotel_soum" placeholder="e.g. Khatgal / Sukhbaatar" required></div>
+              <div><label>Destination area</label><input type="text" id="hotel_destination" placeholder="Terelj / Gobi / Khuvsgul Lake"></div>
               <div><label>Price From</label><input type="text" id="hotel_price" placeholder="From $80 per night"></div>
+              <div><label>Room / ger types</label><input type="text" id="hotel_room_types" placeholder="Twin room, Deluxe ger, Family ger"></div>
+              <div><label>Seasonal availability</label><input type="text" id="hotel_season" placeholder="May–October / Year-round"></div>
+              <div><label>Meals</label><input type="text" id="hotel_meals" placeholder="Breakfast included / Full board"></div>
+              <div><label>Mobile signal</label><input type="text" id="hotel_mobile_signal" placeholder="Strong 4G / Limited"></div>
               <div><label>Contact Person</label><input type="text" id="hotel_contact_person"></div>
               <div><label>Email</label><input type="email" id="hotel_email"></div>
               <div><label>Phone / WhatsApp</label><input type="text" id="hotel_phone"></div>
+              <div><label>Google Maps URL</label><input type="url" id="hotel_maps_url" placeholder="https://maps.google.com/..."></div>
               <div><label>Latitude</label><input type="number" step="any" id="hotel_latitude" placeholder="47.9184"></div>
               <div><label>Longitude</label><input type="number" step="any" id="hotel_longitude" placeholder="106.9177"></div>
+              <div class="full" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+                <label><input type="checkbox" id="hotel_breakfast"> Breakfast included</label>
+                <label><input type="checkbox" id="hotel_private_bathroom"> Private bathroom</label>
+                <label><input type="checkbox" id="hotel_shower"> Shower</label>
+                <label><input type="checkbox" id="hotel_electricity"> Electricity</label>
+                <label><input type="checkbox" id="hotel_wifi"> Wi-Fi</label>
+                <label><input type="checkbox" id="hotel_parking"> Parking</label>
+              </div>
+              <div class="full"><label>Amenities (comma separated)</label><input type="text" id="hotel_amenities" placeholder="Wi-Fi, Hot shower, Parking, Restaurant"></div>
               <div class="full"><label>Hotel Images</label>
                 <div class="multi-upload-box">
                   <input type="file" id="hotel_image_file" accept="image/*" multiple style="display:none">
@@ -1894,8 +2000,8 @@ gtag('config', 'G-SWZZY2HBZB');
                   <div id="hotel-image-list" class="multi-upload-list"></div>
                 </div>
               </div>
-              <div class="full"><label>Short Description</label><textarea id="hotel_description" placeholder="Tell travelers about your property, room style, view and key facilities."></textarea></div>
-              <div class="full submit-actions"><button class="btn btn-primary" type="submit">Submit Hotel / Camp</button></div>
+              <div class="full"><label>Description</label><textarea id="hotel_description" placeholder="Tell travelers about your property, rooms/gers, facilities and seasonal notes."></textarea></div>
+              <div class="full submit-actions"><button class="btn btn-primary" type="submit">Submit Accommodation</button></div>
               <div class="full"><div id="hotel-notice" class="notice"></div></div>
             </div>
           </form>
@@ -2241,6 +2347,8 @@ gtag('config', 'G-SWZZY2HBZB');
 
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/data/accommodation-schema.js"></script>
+<script src="/data/hotel-mock.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
  const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
@@ -2560,13 +2668,48 @@ gtag('config', 'G-SWZZY2HBZB');
   function populateHotelFilters(items) {
     const cityFilter = document.getElementById('hotel-city-filter');
     const typeFilter = document.getElementById('hotel-type-filter');
+    const aimagFilter = document.getElementById('hotel-aimag-filter');
+    const destinationFilter = document.getElementById('hotel-destination-filter');
     if (!cityFilter || !typeFilter) return;
 
-    const cities = [...new Set(items.map(item => (item.location || '').trim()).filter(Boolean))].sort();
-    const types = [...new Set(items.map(item => (item.property_type || '').trim()).filter(Boolean))].sort();
+    const schema = window.BMAccommodation || {};
+    const cities = [...new Set(items.map(item => (item.soum || item.location || '').trim()).filter(Boolean))].sort();
+    const aimags = [...new Set([
+      ...(schema.AIMAGS || []),
+      ...items.map(item => (item.aimag || '').trim()).filter(Boolean)
+    ])].sort();
+    const destinations = [...new Set([
+      ...(schema.DESTINATIONS || []),
+      ...items.map(item => (item.destination || '').trim()).filter(Boolean)
+    ])].sort();
+    const types = [...new Set([
+      ...(schema.PROPERTY_TYPES || []),
+      ...items.map(item => (item.property_type || '').trim()).filter(Boolean)
+    ])];
 
-    cityFilter.innerHTML = '<option value="">All locations</option>' + cities.map(city => `<option value="${city}">${city}</option>`).join('');
+    const keepCity = cityFilter.value;
+    const keepType = typeFilter.value;
+    const keepAimag = aimagFilter?.value || '';
+    const keepDest = destinationFilter?.value || '';
+
+    cityFilter.innerHTML = '<option value="">All areas</option>' + cities.map(city => `<option value="${city}">${city}</option>`).join('');
     typeFilter.innerHTML = '<option value="">All property types</option>' + types.map(type => `<option value="${type}">${type}</option>`).join('');
+    if (aimagFilter) {
+      aimagFilter.innerHTML = '<option value="">All aimags</option>' + aimags.map(a => `<option value="${a}">${a}</option>`).join('');
+      aimagFilter.value = keepAimag;
+    }
+    if (destinationFilter) {
+      destinationFilter.innerHTML = '<option value="">All destinations</option>' + destinations.map(d => `<option value="${d}">${d}</option>`).join('');
+      destinationFilter.value = keepDest;
+    }
+    cityFilter.value = keepCity;
+    typeFilter.value = keepType;
+  }
+
+  function amenityPill(label, on) {
+    if (on === true) return `<span class="acc-pill on">✓ ${label}</span>`;
+    if (on === false) return `<span class="acc-pill off">✗ ${label}</span>`;
+    return '';
   }
 
   function renderHotelMap(items) {
@@ -2576,7 +2719,7 @@ gtag('config', 'G-SWZZY2HBZB');
     hotelMarkersLayer.clearLayers();
     const bounds = [];
 
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       const coords = getHotelCoordinates(item);
       if (!coords) return;
 
@@ -2584,12 +2727,11 @@ gtag('config', 'G-SWZZY2HBZB');
       const marker = L.marker(coords).addTo(hotelMarkersLayer);
       marker.bindPopup(`
         <div class="hotel-popup">
-          <img src="${image}" alt="${item.name || 'Hotel'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
-          <strong>${item.name || 'Hotel'}</strong>
-          <div>${item.location || ''}</div>
+          <img src="${image}" alt="${item.name || 'Stay'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+          <strong>${item.name || 'Stay'}</strong>
+          <div>${item.location || item.destination || ''}</div>
           ${item.price ? `<div style="margin-top:4px;color:#15803d;font-weight:700;">${item.price}</div>` : ''}
-          ${item.phone ? `<div style="margin-top:4px;">📞 ${item.phone}</div>` : ''}
-          <div style="margin-top:8px;"><a href="hotel-detail.html?id=${item.id}" style="color:#0d3b66;font-weight:700;">View details</a></div>
+          <div style="margin-top:8px;"><a href="hotel-detail.html?id=${encodeURIComponent(item.id)}" style="color:#0d3b66;font-weight:700;">View details</a></div>
         </div>
       `);
       bounds.push(coords);
@@ -2598,7 +2740,7 @@ gtag('config', 'G-SWZZY2HBZB');
     if (bounds.length) {
       hotelMap.fitBounds(bounds, { padding: [30, 30] });
     } else {
-      hotelMap.setView([47.9184, 106.9177], 5);
+      hotelMap.setView([46.8, 103.8], 5);
     }
   }
 
@@ -2609,12 +2751,12 @@ gtag('config', 'G-SWZZY2HBZB');
 
   if (counter) {
     counter.textContent = items.length
-      ? `${items.length} stay option${items.length > 1 ? 's' : ''} found`
-      : 'No matching hotels found';
+      ? `${items.length} stay option${items.length > 1 ? 's' : ''} found across Mongolia`
+      : 'No matching accommodation found';
   }
 
   if (!items.length) {
-    wrap.innerHTML = `<div class="hotel-empty-state">No approved hotel matches this filter yet.</div>`;
+    wrap.innerHTML = `<div class="hotel-empty-state">No approved stay matches this filter yet. Try clearing filters or browse another aimag.</div>`;
     renderHotelMap([]);
     return;
   }
@@ -2631,6 +2773,12 @@ gtag('config', 'G-SWZZY2HBZB');
     const phoneLink = item.phone
       ? `https://wa.me/${String(item.phone).replace(/[^0-9]/g, '')}`
       : '';
+    const isMock = item.is_mock === true || item.source === 'mock';
+    const badgeLabel = item.data_badge || (isMock ? 'Sample listing' : 'Verified');
+    const badgeClass = isMock ? 'sample' : 'verified';
+    const mapsUrl = item.google_maps_url || (getHotelCoordinates(item) ? `https://www.google.com/maps?q=${getHotelCoordinates(item).join(',')}` : '');
+    const rooms = (item.room_types || []).slice(0, 3).map(r => `<span class="acc-pill">${r}</span>`).join('');
+    const reviewCount = (item.reviews || []).length;
 
     return `
       <article class="hotel-booking-card">
@@ -2640,36 +2788,52 @@ gtag('config', 'G-SWZZY2HBZB');
             index,
             item.gallery_urls || item.main_image_url || item.image_url,
             item.main_image_url || item.image_url || fallbackImage,
-            item.name || "Hotel"
+            item.name || "Stay"
           )}
         </div>
 
         <div class="hotel-booking-body">
           <div class="hotel-booking-top">
             <div>
-              <div class="tag">${typeTag}</div>
+              <div class="hotel-title-row">
+                <div class="tag">${typeTag}</div>
+                <span class="hotel-data-badge ${badgeClass}">${badgeLabel}</span>
+              </div>
               <h3 class="hotel-booking-title">${item.name || ''}</h3>
-              <div class="hotel-booking-location">📍 ${item.location || ''}</div>
+              <div class="hotel-booking-location">📍 ${item.soum || item.location || ''}${item.aimag ? ` · ${item.aimag}` : ''}</div>
+              ${item.destination ? `<div class="muted" style="font-size:13px;">Destination: ${item.destination}</div>` : ''}
             </div>
 
             <div class="hotel-booking-price">
               ${item.price || 'Ask for price'}
-              <small>${item.price ? 'per night / package' : 'contact for latest rate'}</small>
+              <small>${item.season ? item.season : 'confirm seasonal dates'}</small>
             </div>
           </div>
 
-          <div class="hotel-booking-tags">
-            ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
-            ${item.email ? `<span class="pill">✉️ ${item.email}</span>` : ''}
-            ${galleryUrls.length > 1 ? `<span class="pill">${galleryUrls.length} photos</span>` : ''}
+          <div class="acc-fact-row">
+            ${amenityPill('Private bath', item.private_bathroom)}
+            ${amenityPill('Shower', item.shower)}
+            ${amenityPill('Wi-Fi', item.wifi)}
+            ${amenityPill('Breakfast', item.breakfast)}
+            ${amenityPill('Electricity', item.electricity)}
+            ${amenityPill('Parking', item.parking)}
+            ${item.mobile_signal ? `<span class="acc-pill">Signal: ${item.mobile_signal}</span>` : ''}
           </div>
 
-          <p class="hotel-booking-desc">${desc}</p>
+          ${rooms ? `<div class="acc-amenity-row"><strong style="font-size:13px;color:var(--primary)">Rooms / gers:</strong> ${rooms}</div>` : ''}
+          ${item.meals ? `<div class="muted" style="font-size:13px;">Meals: ${item.meals}</div>` : ''}
+          ${(item.amenities || []).length ? `<div class="acc-amenity-row">${item.amenities.slice(0, 6).map(a => `<span class="acc-pill">${a}</span>`).join('')}</div>` : ''}
 
-          <div class="hotel-booking-actions">
-            <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${item.id}">View details</a>
-            ${phoneLink ? `<a class="hotel-mini-btn" href="${phoneLink}" target="_blank" rel="noopener">Book / Contact</a>` : ''}
-            ${galleryUrls.length ? `<button class="hotel-mini-btn" type="button" onclick="openImageLightbox('${String(mainImg).replace(/'/g, "\\'")}')">View photo</button>` : ''}
+          <p class="hotel-booking-desc">${desc}</p>
+          ${reviewCount ? `<div class="muted" style="font-size:13px;">★ ${reviewCount} traveler review${reviewCount > 1 ? 's' : ''}</div>` : `<div class="muted" style="font-size:13px;">Reviews: ask Booking Mongolia for recent guest feedback</div>`}
+          ${isMock ? `<p class="muted" style="margin:0;font-size:13px;">Sample catalog stay — confirm live price and availability before booking.</p>` : ''}
+
+          <div class="hotel-booking-actions acc-booking-bar">
+            <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${encodeURIComponent(item.id)}">View details</a>
+            <button type="button" class="hotel-mini-btn primary" onclick='requestStayBooking(${JSON.stringify({ id: item.id, name: item.name, location: item.location || item.aimag })})'>Request booking</button>
+            ${phoneLink ? `<a class="hotel-mini-btn" href="${phoneLink}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+            ${item.phone ? `<a class="hotel-mini-btn" href="tel:${String(item.phone).replace(/\s/g, '')}">Call</a>` : ''}
+            ${mapsUrl ? `<a class="hotel-mini-btn" href="${mapsUrl}" target="_blank" rel="noopener">Google Maps</a>` : ''}
             <button class="hotel-mini-btn" type="button" onclick="focusHotelOnMap(${index})">Show on map</button>
           </div>
         </div>
@@ -2679,22 +2843,78 @@ gtag('config', 'G-SWZZY2HBZB');
 
   renderHotelMap(items);
 }
+
   function applyHotelFilters() {
     const searchTerm = (document.getElementById('hotel-search')?.value || '').toLowerCase().trim();
     const cityValue = document.getElementById('hotel-city-filter')?.value || '';
     const typeValue = document.getElementById('hotel-type-filter')?.value || '';
+    const aimagValue = document.getElementById('hotel-aimag-filter')?.value || '';
+    const destinationValue = document.getElementById('hotel-destination-filter')?.value || '';
+    const priceValue = document.getElementById('hotel-price-filter')?.value || '';
+    const needBath = !!document.getElementById('hotel-filter-private-bath')?.checked;
+    const needWifi = !!document.getElementById('hotel-filter-wifi')?.checked;
+    const needBreakfast = !!document.getElementById('hotel-filter-breakfast')?.checked;
+    const needGer = !!document.getElementById('hotel-filter-ger')?.checked;
+
+    document.querySelectorAll('.hotel-toggle').forEach((el) => {
+      const input = el.querySelector('input');
+      el.classList.toggle('active', !!(input && input.checked));
+    });
 
     const filtered = approvedHotels.filter(item => {
-      const haystack = `${item.name || ''} ${item.location || ''} ${item.property_type || ''} ${item.description || ''}`.toLowerCase();
+      const haystack = [
+        item.name, item.location, item.aimag, item.soum, item.destination,
+        item.property_type, item.description, (item.amenities || []).join(' '),
+        (item.room_types || []).join(' ')
+      ].join(' ').toLowerCase();
+
       const matchesSearch = !searchTerm || haystack.includes(searchTerm);
-      const matchesCity = !cityValue || (item.location || '') === cityValue;
-      const matchesType = !typeValue || (item.property_type || '') === typeValue;
-      return matchesSearch && matchesCity && matchesType;
+      const matchesCity = !cityValue || (item.soum || item.location || '') === cityValue || String(item.location || '').includes(cityValue);
+      const matchesAimag = !aimagValue || (item.aimag || '') === aimagValue;
+      const matchesDestination = !destinationValue || (item.destination || '') === destinationValue || String(item.location || '').toLowerCase().includes(destinationValue.toLowerCase());
+
+      let matchesType = !typeValue;
+      if (typeValue) {
+        if (typeValue === 'Tourist Ger Camp') {
+          matchesType = !!item.tourist_ger_camp || /tourist\s*ger|ger\s*camp|tourist\s*camp/i.test(item.property_type || '');
+        } else if (typeValue === 'Nomadic Family Stay') {
+          matchesType = /nomadic|family stay|homestay/i.test(item.property_type || '');
+        } else {
+          matchesType = (item.property_type || '') === typeValue;
+        }
+      }
+
+      let matchesPrice = true;
+      if (priceValue) {
+        const [minS, maxS] = priceValue.split('-');
+        const min = Number(minS);
+        const max = Number(maxS);
+        const p = item.price_from != null ? Number(item.price_from) : (window.BMAccommodation?.priceNumber(item.price));
+        matchesPrice = p != null && p >= min && p <= max;
+      }
+
+      const matchesBath = !needBath || item.private_bathroom === true;
+      const matchesWifi = !needWifi || item.wifi === true;
+      const matchesBreakfast = !needBreakfast || item.breakfast === true;
+      const matchesGer = !needGer || item.tourist_ger_camp === true || /tourist\s*ger|ger\s*camp/i.test(item.property_type || '');
+
+      return matchesSearch && matchesCity && matchesAimag && matchesDestination && matchesType && matchesPrice && matchesBath && matchesWifi && matchesBreakfast && matchesGer;
     });
 
     window.currentRenderedHotels = filtered;
     renderHotelCards(filtered);
   }
+
+  window.requestStayBooking = function (stay) {
+    const name = stay?.name || 'Accommodation';
+    const loc = stay?.location || '';
+    const msg = `Hello Booking Mongolia, I want to request a booking for: ${name}${loc ? ' (' + loc + ')' : ''}. Please share availability and price.`;
+    const wa = `https://wa.me/97690283039?text=${encodeURIComponent(msg)}`;
+    if (typeof openBooking === 'function') {
+      try { openBooking(); } catch (e) {}
+    }
+    window.open(wa, '_blank', 'noopener');
+  };
 
   window.focusHotelOnMap = function(index) {
     const items = window.currentRenderedHotels || [];
@@ -2713,21 +2933,70 @@ gtag('config', 'G-SWZZY2HBZB');
   };
 
   async function loadHotels() {
-    const { data, error } = await supabaseClient
-      .from('property_submissions')
-      .select('*')
-      .eq('status', 'approved')
-      .order('created_at', { ascending: false })
-      .limit(24);
+    const note = document.getElementById('hotel-source-note');
+    const wrap = document.getElementById('hotel-list');
+    let liveRows = [];
+    let liveError = null;
 
-    if (error) {
-      console.error('loadHotels error:', error);
-      const wrap = document.getElementById('hotel-list');
-      if (wrap) wrap.innerHTML = '<div class="hotel-empty-state">Could not load hotels right now.</div>';
+    try {
+      const { data, error } = await supabaseClient
+        .from('property_submissions')
+        .select('*')
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false })
+        .limit(200);
+
+      if (error) {
+        liveError = error;
+        console.error('loadHotels supabase error:', error);
+      } else {
+        liveRows = Array.isArray(data) ? data : [];
+      }
+    } catch (err) {
+      liveError = err;
+      console.error('loadHotels exception:', err);
+    }
+
+    // eSIM-style hybrid: Supabase first (normalized), then enrich with seed catalog
+    const normalize = window.BMAccommodation?.normalizeProperty;
+    const normalizedLive = liveRows.map((row) => {
+      const n = normalize ? normalize(row) : row;
+      return Object.assign({}, n, { source: 'supabase', is_mock: false, data_badge: 'Verified' });
+    });
+
+    if (window.BM_HOTEL_MOCK && typeof window.BM_HOTEL_MOCK.mergeWithSupabase === 'function') {
+      approvedHotels = window.BM_HOTEL_MOCK.mergeWithSupabase(liveRows);
+    } else {
+      approvedHotels = normalizedLive;
+    }
+
+    // Ensure every row is normalized for filters
+    if (normalize) {
+      approvedHotels = approvedHotels.map((row) => normalize(row));
+    }
+
+    const liveCount = liveRows.length;
+    const mockCount = approvedHotels.filter((h) => h.is_mock || h.source === 'mock').length;
+
+    if (note) {
+      if (liveCount && mockCount) {
+        note.innerHTML = `<strong>${liveCount} verified</strong> from database + <strong>${mockCount} sample stays</strong> from the seed catalog. Sample prices need confirmation.`;
+      } else if (liveCount) {
+        note.innerHTML = `<strong>${liveCount} verified stays</strong> loaded from the Booking Mongolia database (Supabase).`;
+      } else if (mockCount) {
+        note.innerHTML = liveError
+          ? `Live database is temporarily unavailable, so <strong>${mockCount} sample Mongolia stays</strong> are shown. Contact us to confirm availability.`
+          : `No approved properties in Supabase yet — showing <strong>${mockCount} sample Mongolia stays</strong> from the editable seed catalog.`;
+      } else {
+        note.textContent = 'No stay options available right now.';
+      }
+    }
+
+    if (!approvedHotels.length && wrap) {
+      wrap.innerHTML = '<div class="hotel-empty-state">Could not load hotels right now.</div>';
       return;
     }
 
-    approvedHotels = data || [];
     populateHotelFilters(approvedHotels);
     applyHotelFilters();
   }
@@ -3254,23 +3523,64 @@ async function loadCars() {
       showNotice('hotel-notice', 'Uploading images...', 'success');
       const imageUrls = await uploadMultipleImages(imageFiles, 'hotels');
 
-      const payload = {
+      const formValues = {
         name: document.getElementById('hotel_name').value.trim(),
         property_type: document.getElementById('hotel_type').value,
-        location: document.getElementById('hotel_location').value.trim(),
+        aimag: document.getElementById('hotel_aimag')?.value || '',
+        soum: document.getElementById('hotel_soum')?.value.trim() || '',
+        destination: document.getElementById('hotel_destination')?.value.trim() || '',
+        location: document.getElementById('hotel_location')?.value.trim() || '',
         price: document.getElementById('hotel_price').value.trim(),
+        room_types: document.getElementById('hotel_room_types')?.value || '',
+        season: document.getElementById('hotel_season')?.value.trim() || '',
+        meals: document.getElementById('hotel_meals')?.value.trim() || '',
+        mobile_signal: document.getElementById('hotel_mobile_signal')?.value.trim() || '',
+        contact_person: document.getElementById('hotel_contact_person').value.trim(),
         email: document.getElementById('hotel_email').value.trim(),
         phone: document.getElementById('hotel_phone').value.trim(),
+        google_maps_url: document.getElementById('hotel_maps_url')?.value.trim() || '',
         latitude: document.getElementById('hotel_latitude').value.trim() || null,
         longitude: document.getElementById('hotel_longitude').value.trim() || null,
+        breakfast: !!document.getElementById('hotel_breakfast')?.checked,
+        private_bathroom: !!document.getElementById('hotel_private_bathroom')?.checked,
+        shower: !!document.getElementById('hotel_shower')?.checked,
+        electricity: !!document.getElementById('hotel_electricity')?.checked,
+        wifi: !!document.getElementById('hotel_wifi')?.checked,
+        parking: !!document.getElementById('hotel_parking')?.checked,
+        amenities: document.getElementById('hotel_amenities')?.value || '',
+        description: document.getElementById('hotel_description').value.trim(),
         image_url: imageUrls[0] || '',
         main_image_url: imageUrls[0] || '',
         gallery_urls: imageUrls,
-        description: document.getElementById('hotel_description').value.trim(),
         status: 'pending'
       };
 
-      const { error } = await supabaseClient.from('property_submissions').insert([payload]);
+      let payload = window.BMAccommodation?.buildSubmissionPayload
+        ? window.BMAccommodation.buildSubmissionPayload(formValues)
+        : {
+            name: formValues.name,
+            property_type: formValues.property_type,
+            location: formValues.location || [formValues.soum, formValues.aimag].filter(Boolean).join(', '),
+            price: formValues.price,
+            email: formValues.email,
+            phone: formValues.phone,
+            latitude: formValues.latitude,
+            longitude: formValues.longitude,
+            image_url: formValues.image_url,
+            main_image_url: formValues.main_image_url,
+            gallery_urls: formValues.gallery_urls,
+            description: formValues.description,
+            status: 'pending'
+          };
+
+      let { error } = await supabaseClient.from('property_submissions').insert([payload]);
+
+      // If extended column details_json is missing, retry with base columns only
+      if (error && /details_json|column|schema/i.test(String(error.message || ''))) {
+        const { details_json, ...basePayload } = payload;
+        payload = basePayload;
+        ({ error } = await supabaseClient.from('property_submissions').insert([payload]));
+      }
 
       if (error) {
         throw error;
@@ -3279,7 +3589,7 @@ async function loadCars() {
       document.getElementById('hotel-form').reset();
       pendingUploadFiles.hotel = [];
       renderSelectedImages('hotel');
-      showNotice('hotel-notice', 'Hotel or camp submitted successfully. It will appear after admin approval.');
+      showNotice('hotel-notice', 'Accommodation submitted successfully. It will appear after admin approval.');
     } catch (error) {
       console.error('hotel insert error:', error);
       showNotice('hotel-notice', error.message || 'Hotel submission failed.', 'error');
@@ -3397,9 +3707,56 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('guide-form')?.addEventListener('submit', insertGuideSubmission);
   document.getElementById('community-blog-form')?.addEventListener('submit', insertCommunityPost);
   document.getElementById('community-sharing-form')?.addEventListener('submit', insertCommunityPost);
+  // Fill aimag options for registration form
+  (function fillAimagSelect() {
+    const sel = document.getElementById('hotel_aimag');
+    if (!sel || !window.BMAccommodation?.AIMAGS) return;
+    const current = sel.value;
+    sel.innerHTML = '<option value="">Select aimag</option>' +
+      window.BMAccommodation.AIMAGS.map((a) => `<option value="${a}">${a}</option>`).join('');
+    sel.value = current;
+  })();
+
   document.getElementById('hotel-search')?.addEventListener('input', applyHotelFilters);
   document.getElementById('hotel-city-filter')?.addEventListener('change', applyHotelFilters);
-  document.getElementById('hotel-type-filter')?.addEventListener('change', applyHotelFilters);
+  document.getElementById('hotel-aimag-filter')?.addEventListener('change', applyHotelFilters);
+  document.getElementById('hotel-destination-filter')?.addEventListener('change', applyHotelFilters);
+  document.getElementById('hotel-price-filter')?.addEventListener('change', applyHotelFilters);
+  ['hotel-filter-private-bath', 'hotel-filter-wifi', 'hotel-filter-breakfast', 'hotel-filter-ger'].forEach((id) => {
+    document.getElementById(id)?.addEventListener('change', applyHotelFilters);
+  });
+  document.getElementById('hotel-type-filter')?.addEventListener('change', function () {
+    const typeValue = this.value || '';
+    document.querySelectorAll('.hotel-menu-chip').forEach((chip) => {
+      const active = (chip.getAttribute('data-hotel-type') || '') === typeValue;
+      chip.classList.toggle('active', active);
+      chip.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    applyHotelFilters();
+  });
+  document.querySelectorAll('.hotel-menu-chip').forEach((chip) => {
+    chip.addEventListener('click', function () {
+      const typeValue = this.getAttribute('data-hotel-type') || '';
+      document.querySelectorAll('.hotel-menu-chip').forEach((c) => {
+        const active = c === chip;
+        c.classList.toggle('active', active);
+        c.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      const typeFilter = document.getElementById('hotel-type-filter');
+      if (typeFilter) {
+        if (typeValue && ![...typeFilter.options].some((o) => o.value === typeValue)) {
+          const opt = document.createElement('option');
+          opt.value = typeValue;
+          opt.textContent = typeValue;
+          typeFilter.appendChild(opt);
+        }
+        typeFilter.value = typeValue;
+      }
+      const gerToggle = document.getElementById('hotel-filter-ger');
+      if (gerToggle) gerToggle.checked = typeValue === 'Tourist Ger Camp';
+      applyHotelFilters();
+    });
+  });
 
   loadHotels();
   loadCars();

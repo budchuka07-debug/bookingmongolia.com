@@ -4,51 +4,59 @@
 <script src="/js/ga4.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel Details | Booking Mongolia</title>
-  <meta name="description" content="Hotel, ger camp and lodge details on Booking Mongolia." />
+  <title>Accommodation Details | Booking Mongolia</title>
+  <meta name="description" content="Hotel, ger camp, lodge and family stay details on Booking Mongolia." />
   <style>
     :root{--primary:#0d3b66;--accent:#c98b2f;--bg:#f7f5ef;--muted:#6b7280;--line:#e5e7eb}
     *{box-sizing:border-box}
     body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#1f2937;line-height:1.6}
     a{color:var(--primary);text-decoration:none}
-    .wrap{max-width:960px;margin:0 auto;padding:24px 16px 60px}
+    .wrap{max-width:960px;margin:0 auto;padding:24px 16px 90px}
     .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:999px;font-weight:700;border:0;cursor:pointer}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;font-weight:800;border:0;cursor:pointer;min-height:46px}
     .btn-primary{background:var(--primary);color:#fff}
+    .btn-accent{background:var(--accent);color:#fff}
     .btn-outline{background:#fff;border:1px solid var(--line);color:var(--primary)}
     .card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.06)}
     .cover{width:100%;max-height:420px;object-fit:cover;display:block;background:#ddd}
     .body{padding:22px}
     .tag{display:inline-block;background:#eef4f8;color:var(--primary);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:10px}
     h1{margin:0 0 8px;font-size:clamp(26px,4vw,40px);color:var(--primary)}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-    .pill{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px}
+    .meta,.facts,.amenities,.rooms,.reviews{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    .pill{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}
+    .pill.on{background:#ecfdf5;border-color:#86efac;color:#166534}
+    .pill.off{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
     .price{font-size:22px;font-weight:800;color:#15803d;margin:10px 0}
     .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
     .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:18px}
-    .gallery img{width:100%;height:110px;object-fit:cover;border-radius:14px;cursor:pointer}
+    .gallery img{width:100%;height:110px;object-fit:cover;border-radius:14px}
     .state{padding:40px 20px;text-align:center;color:var(--muted)}
     .error{color:#b91c1c}
+    .review{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px;background:#f8fafc}
+    h3{margin:22px 0 8px;color:var(--primary)}
+    @media (max-width:720px){.wrap{padding:16px 12px 100px}.actions .btn{flex:1 1 calc(50% - 10px)}}
   </style>
 <script src="/js/book-dates-btn.js" defer></script>
 </head>
 <body>
   <div class="wrap">
     <div class="top">
-      <a class="btn btn-outline" href="/index.html#hotels">← Back to Hotels</a>
+      <a class="btn btn-outline" href="/index.html#hotels">← Back to directory</a>
       <a class="btn btn-primary" href="/index.html#contact">Contact Booking Mongolia</a>
     </div>
     <div id="hotel-detail" class="card">
-      <div class="state">Loading hotel details...</div>
+      <div class="state">Loading accommodation details...</div>
     </div>
   </div>
 
+  <script src="/data/accommodation-schema.js"></script>
+  <script src="/data/hotel-mock.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const fallbackImage = "https://via.placeholder.com/1200x700?text=Hotel";
+    const fallbackImage = "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80";
 
     function qs(name) {
       return new URLSearchParams(window.location.search).get(name);
@@ -78,59 +86,139 @@
         .replace(/"/g, "&quot;");
     }
 
-    async function loadHotel() {
+    function pill(label, on) {
+      if (on === true) return `<span class="pill on">✓ ${escapeHtml(label)}</span>`;
+      if (on === false) return `<span class="pill off">✗ ${escapeHtml(label)}</span>`;
+      return "";
+    }
+
+    function renderHotel(raw) {
+      const data = window.BMAccommodation?.normalizeProperty
+        ? window.BMAccommodation.normalizeProperty(raw)
+        : raw;
       const root = document.getElementById("hotel-detail");
-      const id = qs("id");
-      if (!id) {
-        root.innerHTML = `<div class="state error">Missing hotel id. <a href="/index.html#hotels">Browse hotels</a></div>`;
-        return;
-      }
-
-      const { data, error } = await supabaseClient
-        .from("property_submissions")
-        .select("*")
-        .eq("id", id)
-        .eq("status", "approved")
-        .maybeSingle();
-
-      if (error || !data) {
-        root.innerHTML = `<div class="state error">Hotel not found or not approved yet. <a href="/index.html#hotels">Back to hotels</a></div>`;
-        return;
-      }
-
       const gallery = normalizeGallery(data.gallery_urls, data.main_image_url || data.image_url);
       const cover = gallery[0] || fallbackImage;
       const phoneLink = data.phone
         ? `https://wa.me/${String(data.phone).replace(/[^0-9]/g, "")}`
         : "";
+      const isMock = data.is_mock === true || data.source === "mock" || String(data.id || "").startsWith("mock-");
+      const mapsUrl = data.google_maps_url || (
+        data.latitude != null && data.longitude != null
+          ? `https://www.google.com/maps?q=${data.latitude},${data.longitude}`
+          : ""
+      );
+      const bookMsg = encodeURIComponent(
+        `Hello Booking Mongolia, I want to request a booking for: ${data.name || "stay"}${data.location ? " (" + data.location + ")" : ""}.`
+      );
 
-      document.title = `${data.name || "Hotel"} | Booking Mongolia`;
+      document.title = `${data.name || "Stay"} | Booking Mongolia`;
 
       root.innerHTML = `
-        <img class="cover" src="${escapeHtml(cover)}" alt="${escapeHtml(data.name || "Hotel")}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+        <img class="cover" src="${escapeHtml(cover)}" alt="${escapeHtml(data.name || "Stay")}" onerror="this.onerror=null;this.src='${fallbackImage}'">
         <div class="body">
-          <div class="tag">${escapeHtml(data.property_type || "Property")}</div>
-          <h1>${escapeHtml(data.name || "Hotel")}</h1>
-          <div>📍 ${escapeHtml(data.location || "Mongolia")}</div>
+          <div class="tag">${escapeHtml(data.property_type || "Property")}${isMock ? " · Sample listing" : " · Verified"}</div>
+          <h1>${escapeHtml(data.name || "Stay")}</h1>
+          <div>📍 ${escapeHtml([data.soum, data.aimag].filter(Boolean).join(", ") || data.location || "Mongolia")}</div>
+          ${data.destination ? `<div style="color:#6b7280;margin-top:4px;">Destination: ${escapeHtml(data.destination)}</div>` : ""}
           ${data.price ? `<div class="price">${escapeHtml(data.price)}</div>` : `<div class="price">Ask for price</div>`}
-          <div class="meta">
-            ${data.phone ? `<span class="pill">📞 ${escapeHtml(data.phone)}</span>` : ""}
-            ${data.email ? `<span class="pill">✉️ ${escapeHtml(data.email)}</span>` : ""}
-            ${gallery.length > 1 ? `<span class="pill">${gallery.length} photos</span>` : ""}
+          ${data.season ? `<div class="pill">Season: ${escapeHtml(data.season)}</div>` : ""}
+
+          <div class="facts">
+            ${pill("Private bathroom", data.private_bathroom)}
+            ${pill("Shower", data.shower)}
+            ${pill("Wi-Fi", data.wifi)}
+            ${pill("Breakfast", data.breakfast)}
+            ${pill("Electricity", data.electricity)}
+            ${pill("Parking", data.parking)}
+            ${data.mobile_signal ? `<span class="pill">Signal: ${escapeHtml(data.mobile_signal)}</span>` : ""}
           </div>
+
           <p>${escapeHtml(data.description || "Comfortable stay option reviewed by Booking Mongolia.")}</p>
+          ${data.meals ? `<p><strong>Meals:</strong> ${escapeHtml(data.meals)}</p>` : ""}
+          ${isMock ? `<p style="color:#9a3412;background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px;">Sample catalog stay used when live inventory is thin. Confirm price and availability before booking.</p>` : ""}
+
+          ${(data.room_types || []).length ? `
+            <h3>Room / ger types</h3>
+            <div class="rooms">${data.room_types.map((r) => `<span class="pill">${escapeHtml(r)}</span>`).join("")}</div>
+          ` : ""}
+
+          ${(data.amenities || []).length ? `
+            <h3>Amenities</h3>
+            <div class="amenities">${data.amenities.map((a) => `<span class="pill">${escapeHtml(a)}</span>`).join("")}</div>
+          ` : ""}
+
+          <h3>Reviews</h3>
+          <div class="reviews">
+            ${(data.reviews || []).length
+              ? data.reviews.map((r) => `
+                  <div class="review">
+                    <strong>${escapeHtml(r.name || "Guest")}</strong>
+                    ${r.country ? ` · ${escapeHtml(r.country)}` : ""}
+                    ${r.rating ? ` · ★ ${escapeHtml(r.rating)}` : ""}
+                    <div>${escapeHtml(r.text || "")}</div>
+                  </div>`).join("")
+              : `<div class="pill">No public reviews yet — ask Booking Mongolia for recent guest feedback.</div>`}
+          </div>
+
           ${gallery.length > 1 ? `
+            <h3>Photos</h3>
             <div class="gallery">
               ${gallery.map(url => `<img src="${escapeHtml(url)}" alt="" onerror="this.style.display='none'">`).join("")}
             </div>` : ""}
+
           <div class="actions">
-            ${phoneLink ? `<a class="btn btn-primary" href="${phoneLink}" target="_blank" rel="noopener">Book / WhatsApp</a>` : ""}
-            ${data.email ? `<a class="btn btn-outline" href="mailto:${escapeHtml(data.email)}">Email property</a>` : ""}
-            <a class="btn btn-outline" href="/index.html#contact">Ask Booking Mongolia</a>
-            <a class="btn btn-outline" href="/index.html#hotels">All hotels</a>
+            <a class="btn btn-accent" href="https://wa.me/97690283039?text=${bookMsg}" target="_blank" rel="noopener">Request booking</a>
+            ${phoneLink ? `<a class="btn btn-primary" href="${phoneLink}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
+            ${data.phone ? `<a class="btn btn-outline" href="tel:${escapeHtml(String(data.phone).replace(/\s/g, ""))}">Call</a>` : ""}
+            ${mapsUrl ? `<a class="btn btn-outline" href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener">Google Maps</a>` : ""}
+            ${data.email ? `<a class="btn btn-outline" href="mailto:${escapeHtml(data.email)}">Email</a>` : ""}
+            <a class="btn btn-outline" href="/index.html#contact">Contact form</a>
+            <a class="btn btn-outline" href="/index.html#hotels">All stays</a>
           </div>
         </div>
       `;
+    }
+
+    async function loadHotel() {
+      const root = document.getElementById("hotel-detail");
+      const id = qs("id");
+      if (!id) {
+        root.innerHTML = `<div class="state error">Missing stay id. <a href="/index.html#hotels">Browse directory</a></div>`;
+        return;
+      }
+
+      if (String(id).startsWith("mock-") && window.BM_HOTEL_MOCK) {
+        const mock = window.BM_HOTEL_MOCK.getById(id);
+        if (mock) {
+          renderHotel(mock);
+          return;
+        }
+      }
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("property_submissions")
+          .select("*")
+          .eq("id", id)
+          .eq("status", "approved")
+          .maybeSingle();
+
+        if (!error && data) {
+          renderHotel(Object.assign({}, data, { source: "supabase", is_mock: false }));
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      const mock = window.BM_HOTEL_MOCK && window.BM_HOTEL_MOCK.getById(id);
+      if (mock) {
+        renderHotel(mock);
+        return;
+      }
+
+      root.innerHTML = `<div class="state error">Stay not found or not approved yet. <a href="/index.html#hotels">Back to directory</a></div>`;
     }
 
     loadHotel();
