@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="/js/ga4.js"></script>
 <meta charset="UTF-8" />
+<script src="/js/ga4.js"></script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex,nofollow">
 <title>BookingMongolia Secure Admin</title>
@@ -217,7 +218,7 @@ function renderPost(p){
     <div class="card-top">
       <div>
         <h3>${escapeHtml(p.title || "No title")}</h3>
-        <div class="muted">${escapeHtml(p.name || "Traveler")} â€¢ ${escapeHtml(p.country || "")} â€¢ ${new Date(p.created_at).toLocaleString()}</div>
+        <div class="muted">${escapeHtml(p.name || "Traveler")} • ${escapeHtml(p.country || "")} • ${new Date(p.created_at).toLocaleString()}</div>
       </div>
       <div>${getStatusBadge(p.status)} <span class="badge">${escapeHtml(p.type || "blog")}</span></div>
     </div>
@@ -237,7 +238,7 @@ function renderComment(c){
   return `<div class="card">
     <div class="card-top"><h3>${escapeHtml(c.name || "Traveler")}</h3>${getStatusBadge(c.status || "published")}</div>
     <p>${escapeHtml(c.comment || c.content || "")}</p>
-    <div class="muted">Post ID: ${escapeHtml(c.post_id || "-")} â€¢ ${new Date(c.created_at).toLocaleString()}</div>
+    <div class="muted">Post ID: ${escapeHtml(c.post_id || "-")} • ${new Date(c.created_at).toLocaleString()}</div>
     <div class="actions">
       <button class="ok" onclick="updateStatus('community_comments','${c.id}','published')">Approve</button>
       <button class="warn" onclick="updateStatus('community_comments','${c.id}','hidden')">Hide</button>
@@ -250,7 +251,7 @@ function renderHotel(h){
   return `<div class="card">
     <div class="card-top"><h3>${escapeHtml(h.property_name || h.name || h.title || "Hotel submission")}</h3>${getStatusBadge(h.status)}</div>
     <p>${escapeHtml(h.description || "")}</p>
-    <div class="muted">${escapeHtml(h.location || "")} â€¢ ${escapeHtml(h.contact_name || "")} â€¢ ${escapeHtml(h.phone || h.email || "")}</div>
+    <div class="muted">${escapeHtml(h.location || "")} • ${escapeHtml(h.contact_name || "")} • ${escapeHtml(h.phone || h.email || "")}</div>
     ${renderImages(urls)}
     <div class="actions">
       <button class="ok" onclick="updateStatus('property_submissions','${h.id}','published')">Approve</button>
@@ -264,7 +265,7 @@ function renderCar(v){
   return `<div class="card">
     <div class="card-top"><h3>${escapeHtml(v.vehicle_type || v.title || "Vehicle submission")}</h3>${getStatusBadge(v.status)}</div>
     <p>${escapeHtml(v.description || "")}</p>
-    <div class="muted">Seats: ${escapeHtml(v.seats || "-")} â€¢ Rate: ${escapeHtml(v.daily_rate || "-")} â€¢ ${escapeHtml(v.contact_name || "")} ${escapeHtml(v.phone || v.email || "")}</div>
+    <div class="muted">Seats: ${escapeHtml(v.seats || "-")} • Rate: ${escapeHtml(v.daily_rate || "-")} • ${escapeHtml(v.contact_name || "")} ${escapeHtml(v.phone || v.email || "")}</div>
     ${renderImages(urls)}
     <div class="actions">
       <button class="ok" onclick="updateStatus('vehicle_submissions','${v.id}','published')">Approve</button>
