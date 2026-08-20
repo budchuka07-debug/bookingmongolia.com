@@ -100,6 +100,22 @@
     return m ? Number(m[1]) : null;
   }
 
+  /** Agency display margin on starting/from prices (partner base × this). */
+  var PRICE_MARGIN = 1.2;
+
+  function applyMarginToPriceLabel(label, margin, markedPrice) {
+    var s = String(label || "").trim();
+    if (markedPrice == null) return s;
+    if (!s) return "From $" + markedPrice + " / night";
+    if (/\$\s*\d/.test(s)) {
+      return s.replace(/\$\s*\d+(?:\.\d+)?/, function () { return "$" + markedPrice; });
+    }
+    if (/\d/.test(s)) {
+      return s.replace(/\d+(?:\.\d+)?/, String(markedPrice));
+    }
+    return "From $" + markedPrice + " / night";
+  }
+
   function normalizeProperty(raw) {
     raw = raw || {};
     var fromDesc = extractMetaFromDescription(raw.description);
@@ -136,6 +152,27 @@
       /tourist\s*ger|ger\s*camp|tourist\s*camp/i.test(propertyType) ||
       truthy(raw.tourist_ger_camp != null ? raw.tourist_ger_camp : meta.tourist_ger_camp) === true;
 
+    var rawPriceLabel = raw.price || meta.price || "";
+    // Idempotent: loadHotels may normalize twice
+    var alreadyMarked = raw._price_margin_applied === true;
+    var basePrice = alreadyMarked
+      ? priceNumber(raw.price_base != null ? raw.price_base : meta.price_base)
+      : priceNumber(
+          raw.price_from != null
+            ? raw.price_from
+            : (meta.price_from != null ? meta.price_from : rawPriceLabel)
+        );
+    var displayPrice = alreadyMarked && raw.price_from != null
+      ? priceNumber(raw.price_from)
+      : (basePrice != null ? Math.round(basePrice * PRICE_MARGIN) : null);
+    var priceLabel = alreadyMarked && rawPriceLabel
+      ? rawPriceLabel
+      : applyMarginToPriceLabel(rawPriceLabel, PRICE_MARGIN, displayPrice);
+
+    var gallery = asArray(raw.gallery_urls || meta.gallery_urls);
+    var mainImg = raw.main_image_url || raw.image_url || "";
+    if (mainImg && gallery.indexOf(mainImg) === -1) gallery = [mainImg].concat(gallery);
+
     return {
       id: raw.id,
       name: raw.name || "Accommodation",
@@ -147,8 +184,10 @@
       latitude: lat,
       longitude: lng,
       google_maps_url: mapsUrl,
-      price: raw.price || meta.price || "",
-      price_from: priceNumber(raw.price_from != null ? raw.price_from : (meta.price_from != null ? meta.price_from : raw.price)),
+      price: priceLabel,
+      price_from: displayPrice,
+      price_base: alreadyMarked && raw.price_base != null ? priceNumber(raw.price_base) : basePrice,
+      _price_margin_applied: true,
       description: fromDesc.cleanDescription || raw.description || "",
       room_types: roomTypes,
       breakfast: breakfast,
@@ -164,9 +203,9 @@
       phone: raw.phone || meta.phone || "",
       email: raw.email || meta.email || "",
       contact_person: raw.contact_person || meta.contact_person || "",
-      main_image_url: raw.main_image_url || raw.image_url || "",
+      main_image_url: mainImg,
       image_url: raw.image_url || raw.main_image_url || "",
-      gallery_urls: raw.gallery_urls || meta.gallery_urls || [],
+      gallery_urls: gallery,
       reviews: reviews,
       tourist_ger_camp: isTouristGer,
       status: raw.status || "approved",
@@ -226,6 +265,7 @@
     PROPERTY_TYPES: PROPERTY_TYPES,
     AIMAGS: AIMAGS,
     DESTINATIONS: DESTINATIONS,
+    PRICE_MARGIN: PRICE_MARGIN,
     normalizeProperty: normalizeProperty,
     buildSubmissionPayload: buildSubmissionPayload,
     encodeMetaIntoDescription: encodeMetaIntoDescription,

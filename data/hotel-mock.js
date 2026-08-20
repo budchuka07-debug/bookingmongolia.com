@@ -4,27 +4,180 @@
  * Hybrid load: Supabase first, then this seed enriches the directory.
  */
 (function (root) {
+  function u(id) {
+    return "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=1200&q=80";
+  }
+  function g(n) { return "images/gallery/gallery" + n + ".jpg"; }
+  function d(name) { return "images/destinations/" + name; }
+  function e(name) { return "images/experiences/" + name; }
+
   var IMG = {
-    ub: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-    terelj: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
-    gobi: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
-    khuvsgul: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=1200&q=80",
-    ger: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80",
-    lodge: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
-    guesthouse: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1200&q=80",
-    resort: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
-    hostel: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1200&q=80",
-    apt: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80"
+    ub: u("photo-1566073771259-6a8506099945"),
+    terelj: u("photo-1501785888041-af3ef285b470"),
+    gobi: u("photo-1469854523086-cc02fe5d8800"),
+    khuvsgul: u("photo-1439066615861-d1af74d74000"),
+    ger: u("photo-1520250497591-112f2f40a3f4"),
+    lodge: u("photo-1582719478250-c89cae4dc85b"),
+    guesthouse: u("photo-1555854877-bab0e564b8d5"),
+    resort: u("photo-1571896349842-33c89424de2d"),
+    hostel: u("photo-1555854877-bab0e564b8d5"),
+    apt: u("photo-1502672260266-1c1ef2d93688")
   };
 
+  // Trip.com-style multi-photo pools (hotel rooms + Mongolia site photos)
+  var POOL = {
+    hotel: [
+      IMG.ub,
+      u("photo-1611892440504-42a792e24d32"),
+      u("photo-1631049307264-da0ec9d70304"),
+      u("photo-1590490360182-c33d57733427"),
+      u("photo-1582719508461-905c673771fd"),
+      u("photo-1564501049412-61c2a3083791"),
+      g(1), g(2), g(3), d("ulaanbaatar.jpg")
+    ],
+    hostel: [
+      IMG.hostel,
+      u("photo-1555854877-bab0e564b8d5"),
+      u("photo-1522708323590-d24dbb6b0267"),
+      u("photo-1493809842364-78817add7ffb"),
+      g(4), g(5), g(6), d("ulaanbaatar.jpg")
+    ],
+    apt: [
+      IMG.apt,
+      u("photo-1502672260266-1c1ef2d93688"),
+      u("photo-1560448204-e02f11c3d0e2"),
+      u("photo-1522708323590-d24dbb6b0267"),
+      g(7), g(8), d("ulaanbaatar.jpg")
+    ],
+    guesthouse: [
+      IMG.guesthouse,
+      u("photo-1566073771259-6a8506099945"),
+      u("photo-1445019980597-93fa8acb246c"),
+      g(9), g(10), g(11), d("karakorum.jpg"), e("exp-nomadic-life.jpg")
+    ],
+    ger: [
+      IMG.ger,
+      u("photo-1520250497591-112f2f40a3f4"),
+      u("photo-1501785888041-af3ef285b470"),
+      g(12), g(13), g(14), e("exp-nomadic-life.jpg"), d("dest-terelj-national-park.jpg")
+    ],
+    lodge: [
+      IMG.lodge,
+      u("photo-1582719478250-c89cae4dc85b"),
+      u("photo-1542314831-068cd1dbfeeb"),
+      g(15), g(16), d("dest-khuvsgul-lake.jpg"), d("khuvsgul-lake.jpg")
+    ],
+    resort: [
+      IMG.resort,
+      u("photo-1571896349842-33c89424de2d"),
+      u("photo-1566073771259-6a8506099945"),
+      u("photo-1571003123894-1f0594d2b5d9"),
+      g(17), g(18), g(19)
+    ],
+    terelj: [
+      IMG.terelj,
+      d("dest-terelj-national-park.jpg"),
+      g(20), g(21), e("exp-nomadic-life.jpg"),
+      u("photo-1501785888041-af3ef285b470")
+    ],
+    gobi: [
+      IMG.gobi,
+      d("dest-gobi-desert.jpg"),
+      d("bayanzag.jpg"),
+      d("khongor-dunes.jpg"),
+      d("yol-valley.jpg"),
+      e("exp-gobi-desert.jpg"),
+      g(22), g(23)
+    ],
+    khuvsgul: [
+      IMG.khuvsgul,
+      d("dest-khuvsgul-lake.jpg"),
+      d("khuvsgul-lake.jpg"),
+      d("khatgal.jpg"),
+      e("exp-khuvsgul-lake.jpg"),
+      g(24), g(25)
+    ],
+    altai: [
+      IMG.lodge,
+      d("dest-altai-mountains.jpg"),
+      d("altai-tavan-bogd.jpg"),
+      d("eagle-hunter.jpg"),
+      e("exp-eagle-hunter.jpg"),
+      g(26), g(27)
+    ],
+    orkhon: [
+      IMG.ger,
+      d("dest-karakorum.jpg"),
+      d("dest-orkhon-valley.jpg"),
+      d("erdene-zuu.jpg"),
+      d("karakorum.jpg"),
+      g(28), g(29)
+    ],
+    nature: [
+      IMG.terelj,
+      g(30), g(1), g(12),
+      d("hustai.jpg"),
+      d("elsen-tasarkhai.jpg"),
+      e("exp-nomadic-life.jpg")
+    ]
+  };
+
+  function uniqueUrls(list) {
+    var seen = {};
+    var out = [];
+    (list || []).forEach(function (url) {
+      if (!url || seen[url]) return;
+      seen[url] = true;
+      out.push(url);
+    });
+    return out;
+  }
+
+  function galleryPoolFor(row) {
+    var type = String(row.property_type || "").toLowerCase();
+    var dest = String(row.destination || row.aimag || "").toLowerCase();
+    var pool = POOL.hotel;
+
+    if (/hostel/.test(type)) pool = POOL.hostel;
+    else if (/apartment/.test(type)) pool = POOL.apt;
+    else if (/guesthouse|homestay/.test(type)) pool = POOL.guesthouse;
+    else if (/ger|nomadic/.test(type)) pool = POOL.ger;
+    else if (/lodge/.test(type)) pool = POOL.lodge;
+    else if (/resort/.test(type)) pool = POOL.resort;
+
+    if (/terelj|tuv/.test(dest)) pool = uniqueUrls(pool.concat(POOL.terelj));
+    else if (/gobi|umnugovi|dundgovi|dornogovi/.test(dest)) pool = uniqueUrls(pool.concat(POOL.gobi));
+    else if (/khuvsgul|khövsgöl|hovsgol/.test(dest)) pool = uniqueUrls(pool.concat(POOL.khuvsgul));
+    else if (/altai|ulgii|bayan-ulgii|khovd|uvs/.test(dest)) pool = uniqueUrls(pool.concat(POOL.altai));
+    else if (/orkhon|kharkhorum|karakorum|uvurkhangai|arkhangai/.test(dest)) pool = uniqueUrls(pool.concat(POOL.orkhon));
+    else if (!/ulaanbaatar|ub\b/.test(dest)) pool = uniqueUrls(pool.concat(POOL.nature));
+
+    return pool;
+  }
+
+  function buildGallery(row) {
+    var main = row.main_image_url || row.image_url || "";
+    var existing = Array.isArray(row.gallery_urls) ? row.gallery_urls : [];
+    var pool = galleryPoolFor(row);
+    // Rotate pool by a stable hash of id so listings don't all share the same order
+    var id = String(row.id || row.name || "");
+    var shift = 0;
+    for (var i = 0; i < id.length; i++) shift = (shift + id.charCodeAt(i)) % Math.max(pool.length, 1);
+    var rotated = pool.slice(shift).concat(pool.slice(0, shift));
+    return uniqueUrls([main].concat(existing).concat(rotated)).slice(0, 8);
+  }
+
   function seed(row) {
-    return Object.assign({
+    var out = Object.assign({
       status: "approved",
       source: "mock",
       is_mock: true,
       phone: "+97690283039",
       email: "bookingmongoliatour@gmail.com"
     }, row);
+    out.gallery_urls = buildGallery(out);
+    if (!out.main_image_url && out.gallery_urls[0]) out.main_image_url = out.gallery_urls[0];
+    return out;
   }
 
   var SEED = [
