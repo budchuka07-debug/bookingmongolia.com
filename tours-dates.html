@@ -206,8 +206,36 @@
       .story-grid,.planner-grid{grid-template-columns:1fr}
       .tour-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tour-meta{grid-template-columns:1fr 1fr 1fr}
     }
+    .menu-toggle{
+      display:none;
+      border:1px solid #dbe3ef;
+      background:#fff;
+      color:var(--primary,#0d3b66);
+      border-radius:999px;
+      padding:9px 14px;
+      font-weight:800;
+      cursor:pointer;
+    }
     @media (max-width:720px){
-      .nav-links{display:none}
+      .menu-toggle{display:inline-flex;align-items:center}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:#fff;
+        box-shadow:0 18px 32px rgba(0,0,0,.12);
+        border-bottom-left-radius:18px;
+        border-bottom-right-radius:18px;
+        padding:14px 16px 18px;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+        z-index:120;
+      }
+      .nav-links.active{display:flex}
+      .nav{position:relative}
       .summary-strip,.price-grid,.story-facts,.modal-grid,.tour-meta,.quick-services,.simple-steps,.tier-grid{grid-template-columns:1fr}
       .hero .container{padding:80px 0 60px}
       .tour-title{font-size:18px}
@@ -314,7 +342,8 @@
 <script src="/js/ga4.js"></script>
     <div class="container nav">
       <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
-      <nav class="nav-links">
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">Menu</button>
+      <nav class="nav-links" id="siteNav">
         <a href="/index.html#destinations">Destinations</a>
         <a href="/index.html#tours">Featured Tours</a>
         <a href="#services">Services</a>
@@ -326,6 +355,25 @@
       </nav>
     </div>
   </header>
+  <script>
+    (function () {
+      var btn = document.getElementById('menuToggle');
+      var nav = document.getElementById('siteNav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', function () {
+        var open = nav.classList.toggle('active');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? 'Close' : 'Menu';
+      });
+      nav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          nav.classList.remove('active');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.textContent = 'Menu';
+        });
+      });
+    })();
+  </script>
 
   <section class="hero">
     <div class="container">

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/js/ga4.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Details | Booking Mongolia</title>
+  <meta name="description" content="Hotel, ger camp and lodge details on Booking Mongolia." />
+  <style>
+    :root{--primary:#0d3b66;--accent:#c98b2f;--bg:#f7f5ef;--muted:#6b7280;--line:#e5e7eb}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#1f2937;line-height:1.6}
+    a{color:var(--primary);text-decoration:none}
+    .wrap{max-width:960px;margin:0 auto;padding:24px 16px 60px}
+    .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:999px;font-weight:700;border:0;cursor:pointer}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-outline{background:#fff;border:1px solid var(--line);color:var(--primary)}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.06)}
+    .cover{width:100%;max-height:420px;object-fit:cover;display:block;background:#ddd}
+    .body{padding:22px}
+    .tag{display:inline-block;background:#eef4f8;color:var(--primary);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:10px}
+    h1{margin:0 0 8px;font-size:clamp(26px,4vw,40px);color:var(--primary)}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    .pill{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px}
+    .price{font-size:22px;font-weight:800;color:#15803d;margin:10px 0}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:18px}
+    .gallery img{width:100%;height:110px;object-fit:cover;border-radius:14px;cursor:pointer}
+    .state{padding:40px 20px;text-align:center;color:var(--muted)}
+    .error{color:#b91c1c}
+  </style>
+<script src="/js/book-dates-btn.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="btn btn-outline" href="/index.html#hotels">← Back to Hotels</a>
+      <a class="btn btn-primary" href="/index.html#contact">Contact Booking Mongolia</a>
+    </div>
+    <div id="hotel-detail" class="card">
+      <div class="state">Loading hotel details...</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const fallbackImage = "https://via.placeholder.com/1200x700?text=Hotel";
+
+    function qs(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function normalizeGallery(gallery, main) {
+      let urls = [];
+      if (Array.isArray(gallery)) urls = gallery;
+      else if (typeof gallery === "string" && gallery.trim()) {
+        try {
+          const parsed = JSON.parse(gallery);
+          if (Array.isArray(parsed)) urls = parsed;
+          else urls = gallery.split(",").map(s => s.trim()).filter(Boolean);
+        } catch (e) {
+          urls = gallery.split(",").map(s => s.trim()).filter(Boolean);
+        }
+      }
+      if (main) urls = [main].concat(urls);
+      return [...new Set(urls.filter(Boolean))];
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    async function loadHotel() {
+      const root = document.getElementById("hotel-detail");
+      const id = qs("id");
+      if (!id) {
+        root.innerHTML = `<div class="state error">Missing hotel id. <a href="/index.html#hotels">Browse hotels</a></div>`;
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("property_submissions")
+        .select("*")
+        .eq("id", id)
+        .eq("status", "approved")
+        .maybeSingle();
+
+      if (error || !data) {
+        root.innerHTML = `<div class="state error">Hotel not found or not approved yet. <a href="/index.html#hotels">Back to hotels</a></div>`;
+        return;
+      }
+
+      const gallery = normalizeGallery(data.gallery_urls, data.main_image_url || data.image_url);
+      const cover = gallery[0] || fallbackImage;
+      const phoneLink = data.phone
+        ? `https://wa.me/${String(data.phone).replace(/[^0-9]/g, "")}`
+        : "";
+
+      document.title = `${data.name || "Hotel"} | Booking Mongolia`;
+
+      root.innerHTML = `
+        <img class="cover" src="${escapeHtml(cover)}" alt="${escapeHtml(data.name || "Hotel")}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+        <div class="body">
+          <div class="tag">${escapeHtml(data.property_type || "Property")}</div>
+          <h1>${escapeHtml(data.name || "Hotel")}</h1>
+          <div>📍 ${escapeHtml(data.location || "Mongolia")}</div>
+          ${data.price ? `<div class="price">${escapeHtml(data.price)}</div>` : `<div class="price">Ask for price</div>`}
+          <div class="meta">
+            ${data.phone ? `<span class="pill">📞 ${escapeHtml(data.phone)}</span>` : ""}
+            ${data.email ? `<span class="pill">✉️ ${escapeHtml(data.email)}</span>` : ""}
+            ${gallery.length > 1 ? `<span class="pill">${gallery.length} photos</span>` : ""}
+          </div>
+          <p>${escapeHtml(data.description || "Comfortable stay option reviewed by Booking Mongolia.")}</p>
+          ${gallery.length > 1 ? `
+            <div class="gallery">
+              ${gallery.map(url => `<img src="${escapeHtml(url)}" alt="" onerror="this.style.display='none'">`).join("")}
+            </div>` : ""}
+          <div class="actions">
+            ${phoneLink ? `<a class="btn btn-primary" href="${phoneLink}" target="_blank" rel="noopener">Book / WhatsApp</a>` : ""}
+            ${data.email ? `<a class="btn btn-outline" href="mailto:${escapeHtml(data.email)}">Email property</a>` : ""}
+            <a class="btn btn-outline" href="/index.html#contact">Ask Booking Mongolia</a>
+            <a class="btn btn-outline" href="/index.html#hotels">All hotels</a>
+          </div>
+        </div>
+      `;
+    }
+
+    loadHotel();
+  </script>
+</body>
+</html>

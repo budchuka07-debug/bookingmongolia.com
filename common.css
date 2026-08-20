@@ -1,0 +1,56 @@
+/* Shared minimal styles for Booking Mongolia legal / about pages */
+:root {
+  --primary: #0d3b66;
+  --accent: #c98b2f;
+  --bg: #f7f5ef;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+a { color: var(--primary); }
+.wrap { max-width: 920px; margin: 0 auto; padding: 28px 16px 60px; }
+.hero {
+  background: linear-gradient(135deg, var(--primary), #164a78);
+  color: #fff;
+  border-radius: 22px;
+  padding: 36px 28px;
+  margin-bottom: 22px;
+}
+.hero h1 { margin: 0 0 10px; font-size: clamp(28px, 4vw, 42px); }
+.hero .sub { margin: 0; color: rgba(255,255,255,.9); }
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.05);
+}
+.card h2 { margin-top: 0; color: var(--primary); }
+footer, .site-footer {
+  margin-top: 28px;
+  padding: 20px 0;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 18px;
+}
+footer a, .site-footer a { color: #fff; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--accent);
+  color: #fff;
+}

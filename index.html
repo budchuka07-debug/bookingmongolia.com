@@ -811,7 +811,9 @@ gtag('config', 'G-SWZZY2HBZB');
         gap:8px;
       }
       .header-register-link{
-        display:none;
+        display:inline-flex;
+        padding:8px 12px;
+        font-size:12px;
       }
       .lang-switch{
         gap:6px;
@@ -836,12 +838,20 @@ gtag('config', 'G-SWZZY2HBZB');
       .about-photo{min-height:300px}
       .destination-province-list,.destination-meta,.destination-attractions-list,.featured-places-grid,.mongolia-story-facts{grid-template-columns:1fr}
       .book-now-float{
-        right:84px;
         left:12px;
-        bottom:12px;
+        right:auto;
+        bottom:calc(14px + env(safe-area-inset-bottom, 0px));
+        max-width:min(200px, calc(100vw - 92px));
         justify-content:center;
-        padding:13px 16px;
+        padding:12px 15px;
+        font-size:13.5px;
       }
+      .book-now-float small{display:none}
+      .chat-container{
+        right:12px;
+        bottom:calc(14px + env(safe-area-inset-bottom, 0px));
+      }
+      .chat-main-btn{width:54px;height:54px;font-size:22px}
     }
   
     .multi-upload-box{display:flex;flex-direction:column;gap:10px}
@@ -921,16 +931,18 @@ gtag('config', 'G-SWZZY2HBZB');
 }
 .floating-book-btn{
   position:fixed;
-  right:18px;
+  left:18px;
+  right:auto;
   bottom:18px;
   z-index:9998;
-  background:#c98b2f;
+  background:linear-gradient(135deg,#c98b2f,#e0a63f);
   color:#fff;
-  padding:14px 20px;
+  padding:13px 18px;
   border-radius:999px;
   font-weight:800;
   text-decoration:none;
-  box-shadow:0 12px 26px rgba(0,0,0,.18);
+  box-shadow:0 10px 24px rgba(13,59,102,.22);
+  max-width:calc(100vw - 100px);
 }
 .floating-book-btn:hover{
   background:#a56f1f;
@@ -942,8 +954,12 @@ gtag('config', 'G-SWZZY2HBZB');
   }
   .floating-book-btn{
     left:12px;
-    right:12px;
-    bottom:12px;
+    right:auto;
+    bottom:calc(14px + env(safe-area-inset-bottom, 0px));
+    max-width:min(200px, calc(100vw - 92px));
+    min-height:48px;
+    padding:12px 15px;
+    font-size:13.5px;
     text-align:center;
   }
 }
@@ -992,6 +1008,7 @@ gtag('config', 'G-SWZZY2HBZB');
     @media (max-width:900px){.community-layout{grid-template-columns:1fr}.community-panel{padding:16px}.community-tabs{padding:16px 16px 0}}
 
   </style>
+<script src="/js/book-dates-btn.js" defer></script>
 </head>
 <body>
 
@@ -1230,7 +1247,7 @@ gtag('config', 'G-SWZZY2HBZB');
               </div>
               <div class="destination-mini-links">
                 <a class="destination-mini-link" href="destinations/khuvsgul.html">Province Guide</a>
-                <a class="destination-mini-link" href="tours/reindeer-tour.html">Related Tour</a>
+                <a class="destination-mini-link" href="tours/reindeer-taiga-tour.html">Related Tour</a>
               </div>
               <div class="destination-attractions">
                 <h4>Top Places to Visit</h4>
@@ -1243,7 +1260,7 @@ gtag('config', 'G-SWZZY2HBZB');
               </div>
               <div class="destination-map-cta">
                 <a class="btn btn-primary" href="destinations/khuvsgul.html">Open Province Page</a>
-                <a class="btn btn-secondary" href="tours/reindeer-tour.html">View Related Tour</a>
+                <a class="btn btn-secondary" href="tours/reindeer-taiga-tour.html">View Related Tour</a>
               </div>
             </div>
 
@@ -2148,30 +2165,31 @@ gtag('config', 'G-SWZZY2HBZB');
             <li data-i18n="support_lang"><strong>Support:</strong> English, Japanese and Korean inquiry support</li>
           </ul>
 
-          <a class="btn btn-primary paypal-btn" href="YOUR_PAYPAL_LINK_HERE" target="_blank">Pay with PayPal</a>
+          <a class="btn btn-primary paypal-btn" href="https://wa.me/97690283039" target="_blank" rel="noopener">Ask about payment on WhatsApp</a>
         </div>
 
-        <form>
+        <form action="https://formspree.io/f/xwvwywob" method="POST">
+          <input type="hidden" name="_subject" value="Booking Mongolia website inquiry">
           <div class="form-grid">
             <div>
               <label data-i18n="form_name">Full Name</label>
-              <input type="text" placeholder="Your name">
+              <input type="text" name="name" placeholder="Your name" required>
             </div>
             <div>
               <label data-i18n="form_country">Country</label>
-              <input type="text" placeholder="Japan / Korea / USA">
+              <input type="text" name="country" placeholder="Japan / Korea / USA">
             </div>
             <div>
               <label data-i18n="form_email">Email</label>
-              <input type="email" placeholder="you@example.com">
+              <input type="email" name="email" placeholder="you@example.com" required>
             </div>
             <div>
               <label data-i18n="form_dates">Travel Dates</label>
-              <input type="text" placeholder="July 10 - July 18">
+              <input type="text" name="travel_dates" placeholder="July 10 - July 18">
             </div>
             <div>
               <label data-i18n="form_travelers">Travelers</label>
-              <select>
+              <select name="travelers">
                 <option>1</option>
                 <option>2</option>
                 <option>3-4</option>
@@ -2180,7 +2198,7 @@ gtag('config', 'G-SWZZY2HBZB');
             </div>
             <div>
               <label data-i18n="form_interest">Interested In</label>
-              <select>
+              <select name="interest">
                 <option>VIP Tour</option>
                 <option>Private Transport</option>
                 <option>Travel Guide</option>
@@ -2189,7 +2207,7 @@ gtag('config', 'G-SWZZY2HBZB');
             </div>
             <div class="full">
               <label data-i18n="form_message">Message</label>
-              <textarea placeholder="Tell us where you want to go in Mongolia..."></textarea>
+              <textarea name="message" placeholder="Tell us where you want to go in Mongolia..." required></textarea>
             </div>
             <div class="full">
               <button class="btn btn-primary" type="submit" data-i18n="form_send">Send Inquiry</button>
@@ -2209,6 +2227,15 @@ gtag('config', 'G-SWZZY2HBZB');
     <div class="container footer-wrap">
       <div>© 2026 Booking Mongolia</div>
       <div data-i18n="footer_text">Local travel guide, private tours and Mongolia trip planning.</div>
+      <div class="footer-links" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px;font-size:14px;">
+        <a href="about.html">About</a>
+        <a href="booking.html">Booking</a>
+        <a href="tours-dates.html">Tours &amp; Dates</a>
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="#contact">Contact</a>
+      </div>
     </div>
   </footer>
 
@@ -3778,7 +3805,7 @@ read_more: "Read More",
         season: "June – September",
         type: "Nature, culture, adventure",
         page: "destinations/khuvsgul.html",
-        tour: "tours/reindeer-tour.html",
+        tour: "tours/reindeer-taiga-tour.html",
         attractions: ["Khuvsgul Lake", "Taiga & Reindeer Area", "Khatgal", "Darkhad Valley"]
       },
       bayanulgii: {
@@ -3789,7 +3816,7 @@ read_more: "Read More",
         season: "June – September",
         type: "Adventure, culture, trekking",
         page: "destinations/bayan-ulgii.html",
-        tour: "tours/altai-tour.html",
+        tour: "tours/altai-tavan-bogd-tour.html",
         attractions: ["Altai Tavan Bogd", "Potanin Glacier", "Eagle Hunter Villages", "Tolbo Lake"]
       },
       umnugovi: {
@@ -3822,7 +3849,7 @@ read_more: "Read More",
         season: "Year-round",
         type: "Short trips and day tours",
         page: "destinations/tuv.html",
-        tour: "tours/terelj-tour.html",
+        tour: "tours/terelj-hustai-tour.html",
         attractions: ["Khustain Nuruu", "Terelj National Park", "Turtle Rock", "Chinggis Khan Statue"]
       },
       khentii: {
@@ -3833,7 +3860,7 @@ read_more: "Read More",
         season: "June – September",
         type: "History and nature",
         page: "destinations/khentii.html",
-        tour: "tours/history-steppe-tour.html",
+        tour: "destinations/khentii.html",
         attractions: ["Baldan Bereeven Monastery", "Binder Steppe", "Deluun Boldog Area", "Sacred Mountain Routes"]
       },
       selenge: {
@@ -3844,7 +3871,7 @@ read_more: "Read More",
         season: "May – October",
         type: "Cultural travel",
         page: "destinations/selenge.html",
-        tour: "tours/amarbayasgalant-tour.html",
+        tour: "destinations/selenge.html",
         attractions: ["Amarbayasgalant Monastery", "Selenge Valley", "Forest-Steppe Landscapes", "Northern Heritage Routes"]
       }
     };
@@ -3865,7 +3892,7 @@ read_more: "Read More",
         </div>
         <div class="destination-mini-links">
           <a class="destination-mini-link" href="${d.page}">Province Guide</a>
-          <a class="destination-mini-link" href="${d.tour}">Related Tour</a>
+          <a class="destination-mini-link" href="${d.tour}">${String(d.tour).includes('destinations/') ? 'Related Guide' : 'Related Tour'}</a>
         </div>
         <div class="destination-attractions">
           <h4>Top Places to Visit</h4>
@@ -3875,7 +3902,7 @@ read_more: "Read More",
         </div>
         <div class="destination-map-cta">
           <a class="btn btn-primary" href="${d.page}">Open Province Page</a>
-          <a class="btn btn-secondary" href="${d.tour}">View Related Tour</a>
+          <a class="btn btn-secondary" href="${d.tour}">${String(d.tour).includes('destinations/') ? 'Open Related Guide' : 'View Related Tour'}</a>
         </div>
       `;
     }
@@ -4032,11 +4059,12 @@ window.addEventListener('click', function(e){
 @media (max-width:720px){
   .chat-container{
     right:12px;
-    bottom:12px;
+    bottom:calc(14px + env(safe-area-inset-bottom, 0px));
   }
   .chat-main-btn{
-    width:58px;
-    height:58px;
+    width:54px;
+    height:54px;
+    font-size:22px;
   }
   .chat-menu{
     min-width:150px;

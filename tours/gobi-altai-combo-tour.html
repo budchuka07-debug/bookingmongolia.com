@@ -1,78 +1,116 @@
-﻿
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <script src="/js/ga4.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gobi & Altai Adventure</title>
+<script src="/js/book-dates-btn.js" defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gobi Altai Combo Tour | Booking Mongolia</title>
+<meta name="description" content="A combined journey through Gobi desert highlights and western Altai mountain landscapes." />
 <style>
-body{font-family:Arial;margin:0;background:#f5f5f5;line-height:1.6}
-header{background:#0f3557;color:white;padding:20px}
-.container{max-width:1000px;margin:auto;padding:20px}
-.hero{height:320px;background:url('../images/tour.jpg') center/cover;display:flex;align-items:center;justify-content:center;color:white;font-size:36px;font-weight:bold}
-.box{background:white;padding:20px;border-radius:8px;margin-top:20px}
-button{background:#0f3557;color:white;padding:12px 20px;border:none;border-radius:6px;cursor:pointer}
+:root{--primary:#0d3b66;--accent:#c98b2f;--bg:#f7f5ef;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--white:#fff;--shadow:0 14px 34px rgba(0,0,0,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}a{text-decoration:none;color:inherit}
+.topnav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}.topnav-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:22px;color:var(--primary)}.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:14px;flex-wrap:wrap;font-weight:700;font-size:14px}.nav-links a{color:var(--primary)}
+.hero{min-height:58vh;color:#fff;display:flex;align-items:flex-end;background-size:cover;background-position:center;padding:70px 18px 46px}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
+.hero h1{margin:0 0 12px;font-size:clamp(32px,5vw,54px);line-height:1.1;max-width:820px}
+.hero p{margin:0;max-width:720px;color:rgba(255,255,255,.94);font-size:18px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:999px;font-weight:800}
+.btn-primary{background:var(--accent);color:#fff}.btn-secondary{background:#fff;color:var(--primary)}.btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.45)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 70px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-top:-36px;position:relative;z-index:2}
+.card{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 0}
+.meta div{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px}.meta strong{display:block;color:var(--primary);font-size:12px;margin-bottom:4px}
+h2{margin:0 0 10px;color:var(--primary);font-size:26px}h3{margin:18px 0 8px;color:var(--primary)}
+.muted{color:var(--muted)}.list{padding-left:18px;margin:8px 0}.list li{margin:6px 0}
+.itinerary{display:grid;gap:10px}.day{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}.day strong{color:var(--primary)}
+.side .btn{width:100%;margin-top:10px}.side ul{padding-left:18px}
+.floating{position:fixed;left:18px;right:auto;bottom:18px;z-index:50;background:linear-gradient(135deg,#c98b2f,#e0a63f);color:#fff;padding:13px 18px;border-radius:999px;font-weight:800;box-shadow:0 10px 24px rgba(13,59,102,.22);max-width:calc(100vw - 100px)}
+@media(max-width:720px){.grid,.meta{grid-template-columns:1fr}.hero{min-height:48vh;align-items:center}.nav-links{width:100%}.floating{left:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:min(200px,calc(100vw - 92px));min-height:48px;padding:12px 15px;font-size:13.5px}}
+footer{padding:24px 18px 50px;color:var(--muted);text-align:center;font-size:14px}
+.hero{background-image:linear-gradient(rgba(8,24,40,.62),rgba(8,24,40,.68)),url('/images/destinations/dest-gobi-desert.jpg');}
 </style>
 </head>
 <body>
-
-<header>
-<script src="/js/ga4.js"></script>
-<h1>Discover Mongolia Tours</h1>
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="logo" href="/index.html">Booking<span>Mongolia</span></a>
+    <nav class="nav-links">
+      <a href="/index.html#tours">Tours</a>
+      <a href="/tours-dates.html">Dates</a>
+      <a href="/destinations/bayan-ulgii.html">Destination</a>
+      <a href="/index.html#contact">Contact</a>
+    </nav>
+  </div>
 </header>
-
-<div class="hero">Gobi & Altai Adventure</div>
-
-<div class="container">
-
-<div class="box">
-<h2>Gobi & Altai Adventure</h2>
-<p>Combine desert landscapes with western mountain exploration.</p>
-
-<button onclick="location.href='/tours-dates.html'">Check Dates &amp; Book</button>
-</div>
-
-<div class="box">
-<h2>Highlights</h2>
-<ul>
-<li>Beautiful landscapes</li>
-<li>Nomadic culture</li>
-<li>Local experiences</li>
-</ul>
-</div>
-
-<div class="box">
-<h2>Typical Itinerary</h2>
-<p>Day 1 â€“ Departure from Ulaanbaatar<br>
-Day 2 â€“ Travel and explore<br>
-Day 3 â€“ Continue adventure<br>
-Final day â€“ Return to Ulaanbaatar</p>
-</div>
-
-</div>
-
-
-<!-- SEO CONTENT START -->
-<section class="container" style="max-width:1100px;margin:40px auto;padding:32px 24px;background:#fff;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.08);">
-  <h2>About This Tour</h2>
-  <p>This Mongolia tour is designed for travelers who want to experience the countryâ€™s landscapes, culture, and local way of life in a more meaningful way. Each itinerary combines nature, authentic experiences, and practical travel planning to help visitors enjoy Mongolia comfortably and with confidence.</p>
-
-  <h2>Why Choose This Tour</h2>
-  <p>This route is suitable for travelers looking for a balance of sightseeing, cultural discovery, and memorable outdoor experiences. Depending on the destination, guests may explore mountains, lakes, desert scenery, nomadic camps, wildlife areas, and important historical sites.</p>
-
-  <h2>Travel Tips</h2>
-  <ul>
-    <li>Bring comfortable walking shoes and layered clothing.</li>
-    <li>Morning and evening temperatures can be cooler than daytime, even in summer.</li>
-    <li>Weather conditions may vary between cities, steppe, mountains, and desert areas.</li>
-    <li>Booking in advance is recommended during peak travel season.</li>
-  </ul>
-
-  <h2>Plan Your Mongolia Journey</h2>
-  <p>If you would like a longer itinerary or a private version of this route, you can also explore our other Mongolia tours and travel guides to plan a trip that fits your interests and season of travel.</p>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Combo Tour</div>
+    <h1>Gobi Altai Combo Tour</h1>
+    <p>A combined journey through desert highlights and western mountain landscapes - dunes, cliffs, glaciers and dramatic Altai scenery.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/tours-dates.html">Check Dates &amp; Book</a>
+      <a class="btn btn-outline" href="/index.html#contact">Ask a Custom Version</a>
+    </div>
+  </div>
 </section>
-<!-- SEO CONTENT END -->
-
+<main class="wrap">
+  <div class="grid">
+    <div class="card">
+      <h2>About this tour</h2>
+      <p>A combined journey through desert highlights and western mountain landscapes - dunes, cliffs, glaciers and dramatic Altai scenery.</p>
+      <div class="meta">
+        <div><strong>Duration</strong>10-14 days</div>
+        <div><strong>Best for</strong>Adventure travelers</div>
+        <div><strong>Best season</strong>June-September</div>
+        <div><strong>From UB</strong>Mixed flights + overland</div>
+      </div>
+      <h3>Highlights</h3>
+      <ul class="list"><li>Classic Gobi highlights</li>
+<li>Altai Tavan Bogd mountain region</li>
+<li>Desert + mountain contrast</li>
+<li>Photography-focused pacing</li>
+<li>Customizable private route</li></ul>
+      <h3>Sample itinerary</h3>
+      <div class="itinerary"><div class='day'><strong>Part 1 - Gobi</strong><div>Explore dunes, Flaming Cliffs and canyon landscapes in southern Mongolia.</div></div>
+<div class='day'><strong>Part 2 - Transfer</strong><div>Connect westward by flight and/or overland depending on season and schedule.</div></div>
+<div class='day'><strong>Part 3 - Altai</strong><div>Discover Altai Tavan Bogd views, valleys and western mountain culture.</div></div>
+<div class='day'><strong>Final days</strong><div>Return via Ulgii / Ulaanbaatar with flexible rest and city wrap-up.</div></div></div>
+      <h3>Travel tips</h3>
+      <ul class="list">
+        <li>Bring layered clothing and comfortable walking shoes.</li>
+        <li>Weather can change quickly between desert, steppe, mountain and lake areas.</li>
+        <li>Private departures can be adjusted for pace, hotels and food preference.</li>
+        <li>Booking in advance is recommended in peak season.</li>
+      </ul>
+    </div>
+    <aside class="card side">
+      <h2>Book this route</h2>
+      <p class="muted">Private and small-group departures available. Exact dates and pricing are listed on Tours &amp; Dates.</p>
+      <a class="btn btn-primary" href="/tours-dates.html">View Dates &amp; Book</a>
+      <a class="btn btn-secondary" href="/index.html#contact">Send Inquiry</a>
+      <a class="btn btn-secondary" href="https://wa.me/97690283039" target="_blank" rel="noopener">WhatsApp</a>
+      <h3>Usually includes</h3>
+      <ul><li>Private route planning</li>
+<li>Mixed transport coordination</li>
+<li>Ger camps / lodges</li>
+<li>Guide options</li>
+<li>Custom duration</li></ul>
+      <h3>Explore more</h3>
+      <ul>
+        <li><a href="/destinations/bayan-ulgii.html">Related destination guide</a></li>
+        <li><a href="/index.html#tours">All featured tours</a></li>
+        <li><a href="/guide/safety-guide.html">Travel safety guide</a></li>
+      </ul>
+    </aside>
+  </div>
+</main>
+<footer>© 2026 Booking Mongolia — Gobi Altai Combo Tour</footer>
+<a class="floating" href="/tours-dates.html">Check Dates &amp; Book</a>
 </body>
 </html>
