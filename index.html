@@ -3149,12 +3149,8 @@ async function loadCars() {
     const title = item.title || 'Car rental with driver';
     const profileUrl = `driver-detail.html?id=${encodeURIComponent(item.id)}`;
     const anchorId = carAnchorIds[index];
-    // Share exact car card on the homepage, e.g. https://bookingmongolia.com/#car-hiace-01
-    const path = window.location.pathname || '/';
-    const onHome = /\/(index\.html)?$/i.test(path);
-    const shareUrl = onHome
-      ? `${window.location.origin}/#${anchorId}`
-      : `${window.location.origin}${path}#${anchorId}`;
+    // Share ONLY this driver's profile URL (not the general car-rental section)
+    const shareUrl = new URL(profileUrl, window.location.href).href;
     const stats = reviewStats[item.id] || { count: 0, avg: null };
     const ratingHtml = stats.count
       ? `<div class="listing-meta"><span class="pill">★ ${stats.avg.toFixed(1)} · ${stats.count} review${stats.count === 1 ? '' : 's'}</span></div>`
@@ -3177,9 +3173,9 @@ async function loadCars() {
             <a class="hotel-mini-btn primary" href="${profileUrl}">View profile & reviews</a>
             <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm"
               data-share-title="${escapeAttr(title)}"
-              data-share-text="${escapeAttr(title + ' — Booking Mongolia car rental')}"
+              data-share-text="${escapeAttr(title + ' — Booking Mongolia driver')}"
               data-share-url="${escapeAttr(shareUrl)}"
-              aria-label="Share this car link">
+              aria-label="Share this driver link">
               <span class="bm-share-icon" aria-hidden="true">↗</span> Share
             </button>
           </div>

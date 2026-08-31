@@ -153,14 +153,13 @@
 
     /** Mobile-friendly star rating control markup */
     ratingField(name, label, { required = false, value = 0 } = {}) {
-      const req = required ? "required" : "";
       const stars = [1, 2, 3, 4, 5].map((n) => `
         <button type="button" class="bm-star-btn${Number(value) >= n ? " on" : ""}" data-rating-for="${BMReviews.escapeHtml(name)}" data-value="${n}" aria-label="${n} star${n > 1 ? "s" : ""}">★</button>`).join("");
       return `
         <div class="bm-rating-field" data-rating-field="${BMReviews.escapeHtml(name)}">
           <label>${BMReviews.escapeHtml(label)}${required ? " *" : ""}</label>
           <div class="bm-star-input" role="radiogroup" aria-label="${BMReviews.escapeHtml(label)}">${stars}</div>
-          <input type="hidden" name="${BMReviews.escapeHtml(name)}" id="${BMReviews.escapeHtml(name)}" value="${Number(value) || ""}" ${req}>
+          <input type="hidden" name="${BMReviews.escapeHtml(name)}" id="bm-field-${BMReviews.escapeHtml(name)}" value="${Number(value) || ""}" data-required-rating="${required ? "1" : "0"}">
         </div>`;
     },
 
@@ -200,19 +199,32 @@
 
     bindStarInputs(root) {
       const el = root || document;
-      el.querySelectorAll(".bm-star-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const name = btn.getAttribute("data-rating-for");
-          const value = Number(btn.getAttribute("data-value"));
-          const field = el.querySelector(`[data-rating-field="${name}"]`);
-          const input = el.querySelector(`#${CSS.escape(name)}`);
-          if (input) input.value = String(value);
-          if (field) {
-            field.querySelectorAll(".bm-star-btn").forEach((b) => {
-              b.classList.toggle("on", Number(b.getAttribute("data-value")) <= value);
-            });
-          }
-        });
+      // Event delegation — works on mobile/desktop and avoids CSS.escape failures
+      if (el.__bmStarsBound) return;
+      el.__bmStarsBound = true;
+      el.addEventListener("click", (e) => {
+        const btn = e.target && e.target.closest ? e.target.closest(".bm-star-btn") : null;
+        if (!btn || !el.contains(btn)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const name = btn.getAttribute("data-rating-for");
+        const value = Number(btn.getAttribute("data-value"));
+        if (!name || !Number.isFinite(value)) return;
+        const field =
+          btn.closest("[data-rating-field]") ||
+          el.querySelector('[data-rating-field="' + name.replace(/"/g, '\\"') + '"]');
+        const input = field
+          ? field.querySelector('input[name="' + name.replace(/"/g, '\\"') + '"]')
+          : el.querySelector('input[name="' + name.replace(/"/g, '\\"') + '"]');
+        if (input) {
+          input.value = String(value);
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        if (field) {
+          field.querySelectorAll(".bm-star-btn").forEach((b) => {
+            b.classList.toggle("on", Number(b.getAttribute("data-value")) <= value);
+          });
+        }
       });
     },
 
@@ -324,8 +336,8 @@
 .bm-review-form textarea{min-height:110px;resize:vertical}
 .bm-rating-field{margin:10px 0}
 .bm-star-input{display:flex;gap:6px;flex-wrap:wrap}
-.bm-star-btn{appearance:none;border:0;background:transparent;color:#d1d5db;font-size:32px;line-height:1;cursor:pointer;padding:4px 2px;min-width:44px;min-height:44px}
-.bm-star-btn.on,.bm-star-btn:hover{color:#c98b2f}
+.bm-star-btn{appearance:none;-webkit-appearance:none;border:0;background:transparent;color:#d1d5db;font-size:32px;line-height:1;cursor:pointer;padding:4px 2px;min-width:44px;min-height:44px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.bm-star-btn.on,.bm-star-btn:hover,.bm-star-btn:focus{color:#c98b2f;outline:none}
 .bm-aspect-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px 14px}
 .bm-form-note{font-size:13px;color:var(--muted,#6b7280);margin:12px 0}
 .bm-notice{padding:12px 14px;border-radius:12px;margin:10px 0;font-weight:700}
