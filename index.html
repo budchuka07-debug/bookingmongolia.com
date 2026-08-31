@@ -102,6 +102,13 @@ gtag('config', 'G-SWZZY2HBZB');
     }
     .nav-links a.nav-hotels:hover{color:var(--accent)}
 
+    /* Sticky header offset for in-page section links */
+    #home,#experiences,#destinations,#hotels,#guides,#cars,#car-rental,
+    #community,#contact,#tours,#guide,#videos,#gallery,#about,
+    #service-registration,[id^="driver-"],#guest-reviews{
+      scroll-margin-top:110px;
+    }
+    .bm-section-alias{display:block;height:0;width:0;overflow:hidden;position:relative;top:-110px}
     .menu-toggle{
       display:none;
       border:none;
@@ -1042,6 +1049,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
   </style>
 <script src="/js/book-dates-btn.js" defer></script>
+<script src="/js/nav-anchors.js" defer></script>
 </head>
 <body>
 
@@ -1063,7 +1071,7 @@ gtag('config', 'G-SWZZY2HBZB');
         <a href="#destinations" data-i18n="nav_destinations">Destinations</a>
         <a href="#hotels" class="nav-hotels" data-i18n="nav_hotels">Hotels</a>
         <a href="#guides">Guides</a>
-        <a href="#cars" data-i18n="nav_cars">Car Rental</a>
+        <a href="#car-rental" data-i18n="nav_cars">Car Rental</a>
         <a href="#community">Traveler Hub</a>
         <a href="#contact" data-i18n="nav_contact">Contact</a>
         <a href="/vip-helicopter-expedition.html">Helicopter Tour</a>
@@ -1108,7 +1116,7 @@ gtag('config', 'G-SWZZY2HBZB');
 </div>
         <div class="quick-links">
           <a class="quick-link quick-hotels" href="#hotels">Hotels &amp; Camps</a>
-          <a class="quick-link" href="#cars">🚙 Car Rental</a>
+          <a class="quick-link" href="#car-rental">🚙 Car Rental</a>
           <a class="quick-link" href="#guides">🧭 Guides</a>
           <a class="quick-link" href="#service-registration">📝 Register Service</a>
           <a class="quick-link" href="#contact">✉️ Contact</a>
@@ -1817,7 +1825,7 @@ gtag('config', 'G-SWZZY2HBZB');
     <div class="container">
       <div class="section-head">
         <h2>Mongolia Accommodation Directory</h2>
-        <p>Browse hotels, guesthouses, hostels, tourist ger camps, resorts, lodges, apartments and nomadic family stays across Mongolia. Live listings come from our database first; sample catalog stays fill gaps.</p>
+        <p>Browse hotels, guesthouses, hostels, tourist ger camps, resorts, lodges, apartments and nomadic family stays across Mongolia.</p>
       </div>
 
       <div class="hotel-menu-bar" id="hotel-menu-bar" role="tablist" aria-label="Property types">
@@ -1876,12 +1884,9 @@ gtag('config', 'G-SWZZY2HBZB');
       <div class="hotel-policy-strip">
         <strong>Booking policy:</strong> date changes requested 7 or more days before check-in can usually be processed without an extra change fee, subject to availability. Changes requested less than 7 days before check-in may require an additional charge.
       </div>
-      <div class="hotel-source-note" id="hotel-source-note">
-        Loading stay options from Booking Mongolia database…
-      </div>
       <div class="hotel-booking-layout">
         <div class="hotel-results-column">
-          <div class="hotel-result-count" id="hotel-result-count">Loading hotels...</div>
+          <div class="hotel-result-count" id="hotel-result-count">Loading...</div>
           <div id="hotel-list"></div>
         </div>
 
@@ -1908,6 +1913,7 @@ gtag('config', 'G-SWZZY2HBZB');
   </div>
 </section>
   <section id="cars">
+    <span id="car-rental" class="bm-section-alias" aria-hidden="true"></span>
     <div class="container">
       <div class="section-head">
         <h2>Car Rental & Private Transport</h2>
@@ -2349,6 +2355,7 @@ gtag('config', 'G-SWZZY2HBZB');
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="/data/accommodation-schema.js"></script>
 <script src="/data/hotel-mock.js"></script>
+<script src="/js/hotel-inquiry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
  const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
@@ -2725,13 +2732,22 @@ gtag('config', 'G-SWZZY2HBZB');
 
       const image = item.main_image_url || item.image_url || fallbackImage;
       const marker = L.marker(coords).addTo(hotelMarkersLayer);
+      const showPrice = window.BMHotelInquiry?.isPriceConfirmed(item) && item.price;
+      const stayPayload = encodeURIComponent(JSON.stringify({
+        id: item.id,
+        name: item.name,
+        room_types: item.room_types || []
+      }));
       marker.bindPopup(`
         <div class="hotel-popup">
           <img src="${image}" alt="${item.name || 'Stay'}" onerror="this.onerror=null;this.src='${fallbackImage}'">
           <strong>${item.name || 'Stay'}</strong>
           <div>${item.location || item.destination || ''}</div>
-          ${item.price ? `<div style="margin-top:4px;color:#15803d;font-weight:700;">${item.price}</div>` : ''}
-          <div style="margin-top:8px;"><a href="hotel-detail.html?id=${encodeURIComponent(item.id)}" style="color:#0d3b66;font-weight:700;">View details</a></div>
+          ${showPrice ? `<div style="margin-top:4px;color:#15803d;font-weight:700;">${item.price}</div>` : ''}
+          <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;">
+            <a href="hotel-detail.html?id=${encodeURIComponent(item.id)}" style="color:#0d3b66;font-weight:700;">View details</a>
+            <button type="button" style="border:0;background:#0d3b66;color:#fff;border-radius:999px;padding:8px 12px;font-weight:700;cursor:pointer;" onclick='openHotelPriceInquiry(JSON.parse(decodeURIComponent("${stayPayload}")))'>Ask Price & Room Information</button>
+          </div>
         </div>
       `);
       bounds.push(coords);
@@ -2751,34 +2767,30 @@ gtag('config', 'G-SWZZY2HBZB');
 
   if (counter) {
     counter.textContent = items.length
-      ? `${items.length} stay option${items.length > 1 ? 's' : ''} found across Mongolia`
+      ? `Showing ${items.length} accommodation${items.length > 1 ? 's' : ''}`
       : 'No matching accommodation found';
   }
 
   if (!items.length) {
-    wrap.innerHTML = `<div class="hotel-empty-state">No approved stay matches this filter yet. Try clearing filters or browse another aimag.</div>`;
+    wrap.innerHTML = `<div class="hotel-empty-state">No matching accommodation found. Try clearing filters or browse another area.</div>`;
     renderHotelMap([]);
     return;
   }
 
   wrap.innerHTML = items.map((item, index) => {
-    const galleryUrls = normalizeGalleryUrls(
-      item.gallery_urls,
-      item.main_image_url || item.image_url || fallbackImage
-    );
-
-    const mainImg = galleryUrls[0] || fallbackImage;
     const typeTag = item.property_type || 'Property';
-    const desc = item.description || 'Comfortable stay option reviewed by our team.';
+    const desc = item.description || 'Comfortable stay option arranged with Booking Mongolia.';
     const phoneLink = item.phone
       ? `https://wa.me/${String(item.phone).replace(/[^0-9]/g, '')}`
       : '';
-    const isMock = item.is_mock === true || item.source === 'mock';
-    const badgeLabel = item.data_badge || (isMock ? 'Sample listing' : 'Verified');
-    const badgeClass = isMock ? 'sample' : 'verified';
     const mapsUrl = item.google_maps_url || (getHotelCoordinates(item) ? `https://www.google.com/maps?q=${getHotelCoordinates(item).join(',')}` : '');
     const rooms = (item.room_types || []).slice(0, 3).map(r => `<span class="acc-pill">${r}</span>`).join('');
-    const reviewCount = (item.reviews || []).length;
+    const showPrice = window.BMHotelInquiry?.isPriceConfirmed(item) && item.price;
+    const stayPayload = encodeURIComponent(JSON.stringify({
+      id: item.id,
+      name: item.name || '',
+      room_types: item.room_types || []
+    }));
 
     return `
       <article class="hotel-booking-card">
@@ -2797,17 +2809,17 @@ gtag('config', 'G-SWZZY2HBZB');
             <div>
               <div class="hotel-title-row">
                 <div class="tag">${typeTag}</div>
-                <span class="hotel-data-badge ${badgeClass}">${badgeLabel}</span>
               </div>
               <h3 class="hotel-booking-title">${item.name || ''}</h3>
               <div class="hotel-booking-location">📍 ${item.soum || item.location || ''}${item.aimag ? ` · ${item.aimag}` : ''}</div>
               ${item.destination ? `<div class="muted" style="font-size:13px;">Destination: ${item.destination}</div>` : ''}
             </div>
 
+            ${showPrice ? `
             <div class="hotel-booking-price">
-              ${item.price || 'Ask for price'}
-              <small>${item.season ? item.season : 'confirm seasonal dates'}</small>
-            </div>
+              ${item.price}
+              ${item.season ? `<small>${item.season}</small>` : ''}
+            </div>` : ''}
           </div>
 
           <div class="acc-fact-row">
@@ -2825,12 +2837,10 @@ gtag('config', 'G-SWZZY2HBZB');
           ${(item.amenities || []).length ? `<div class="acc-amenity-row">${item.amenities.slice(0, 6).map(a => `<span class="acc-pill">${a}</span>`).join('')}</div>` : ''}
 
           <p class="hotel-booking-desc">${desc}</p>
-          ${reviewCount ? `<div class="muted" style="font-size:13px;">★ ${reviewCount} traveler review${reviewCount > 1 ? 's' : ''}</div>` : `<div class="muted" style="font-size:13px;">Reviews: ask Booking Mongolia for recent guest feedback</div>`}
-          ${isMock ? `<p class="muted" style="margin:0;font-size:13px;">Sample catalog stay — confirm live price and availability before booking.</p>` : ''}
 
           <div class="hotel-booking-actions acc-booking-bar">
+            <button type="button" class="hotel-mini-btn primary" onclick="openHotelPriceInquiry(JSON.parse(decodeURIComponent('${stayPayload}')))">Ask Price & Room Information</button>
             <a class="hotel-mini-btn primary" href="hotel-detail.html?id=${encodeURIComponent(item.id)}">View details</a>
-            <button type="button" class="hotel-mini-btn primary" onclick='requestStayBooking(${JSON.stringify({ id: item.id, name: item.name, location: item.location || item.aimag })})'>Request booking</button>
             ${phoneLink ? `<a class="hotel-mini-btn" href="${phoneLink}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
             ${item.phone ? `<a class="hotel-mini-btn" href="tel:${String(item.phone).replace(/\s/g, '')}">Call</a>` : ''}
             ${mapsUrl ? `<a class="hotel-mini-btn" href="${mapsUrl}" target="_blank" rel="noopener">Google Maps</a>` : ''}
@@ -2906,14 +2916,18 @@ gtag('config', 'G-SWZZY2HBZB');
   }
 
   window.requestStayBooking = function (stay) {
+    if (typeof openHotelPriceInquiry === 'function') {
+      openHotelPriceInquiry({
+        id: stay?.id,
+        name: stay?.name || 'Accommodation',
+        room_types: stay?.room_types || []
+      });
+      return;
+    }
     const name = stay?.name || 'Accommodation';
     const loc = stay?.location || '';
     const msg = `Hello Booking Mongolia, I want to request a booking for: ${name}${loc ? ' (' + loc + ')' : ''}. Please share availability and price.`;
-    const wa = `https://wa.me/97690283039?text=${encodeURIComponent(msg)}`;
-    if (typeof openBooking === 'function') {
-      try { openBooking(); } catch (e) {}
-    }
-    window.open(wa, '_blank', 'noopener');
+    window.open(`https://wa.me/97690283039?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
   };
 
   window.focusHotelOnMap = function(index) {
@@ -2933,10 +2947,8 @@ gtag('config', 'G-SWZZY2HBZB');
   };
 
   async function loadHotels() {
-    const note = document.getElementById('hotel-source-note');
     const wrap = document.getElementById('hotel-list');
     let liveRows = [];
-    let liveError = null;
 
     try {
       const { data, error } = await supabaseClient
@@ -2947,21 +2959,18 @@ gtag('config', 'G-SWZZY2HBZB');
         .limit(200);
 
       if (error) {
-        liveError = error;
         console.error('loadHotels supabase error:', error);
       } else {
         liveRows = Array.isArray(data) ? data : [];
       }
     } catch (err) {
-      liveError = err;
       console.error('loadHotels exception:', err);
     }
 
-    // eSIM-style hybrid: Supabase first (normalized), then enrich with seed catalog
     const normalize = window.BMAccommodation?.normalizeProperty;
     const normalizedLive = liveRows.map((row) => {
       const n = normalize ? normalize(row) : row;
-      return Object.assign({}, n, { source: 'supabase', is_mock: false, data_badge: 'Verified' });
+      return Object.assign({}, n, { source: 'supabase', is_mock: false });
     });
 
     if (window.BM_HOTEL_MOCK && typeof window.BM_HOTEL_MOCK.mergeWithSupabase === 'function') {
@@ -2970,35 +2979,26 @@ gtag('config', 'G-SWZZY2HBZB');
       approvedHotels = normalizedLive;
     }
 
-    // Ensure every row is normalized for filters
     if (normalize) {
       approvedHotels = approvedHotels.map((row) => normalize(row));
     }
 
-    const liveCount = liveRows.length;
-    const mockCount = approvedHotels.filter((h) => h.is_mock || h.source === 'mock').length;
-
-    if (note) {
-      if (liveCount && mockCount) {
-        note.innerHTML = `<strong>${liveCount} verified</strong> from database + <strong>${mockCount} sample stays</strong> from the seed catalog. Sample prices need confirmation.`;
-      } else if (liveCount) {
-        note.innerHTML = `<strong>${liveCount} verified stays</strong> loaded from the Booking Mongolia database (Supabase).`;
-      } else if (mockCount) {
-        note.innerHTML = liveError
-          ? `Live database is temporarily unavailable, so <strong>${mockCount} sample Mongolia stays</strong> are shown. Contact us to confirm availability.`
-          : `No approved properties in Supabase yet — showing <strong>${mockCount} sample Mongolia stays</strong> from the editable seed catalog.`;
-      } else {
-        note.textContent = 'No stay options available right now.';
-      }
-    }
-
     if (!approvedHotels.length && wrap) {
-      wrap.innerHTML = '<div class="hotel-empty-state">Could not load hotels right now.</div>';
+      wrap.innerHTML = '<div class="hotel-empty-state">Accommodation listings are temporarily unavailable. Please try again shortly.</div>';
+      const counter = document.getElementById('hotel-result-count');
+      if (counter) counter.textContent = '';
       return;
     }
 
     populateHotelFilters(approvedHotels);
     applyHotelFilters();
+
+    if (window.BMNavAnchors && window.location.hash) {
+      const hash = String(window.location.hash || '');
+      if (/hotels|hotel|accommodation|stays/i.test(hash)) {
+        window.BMNavAnchors.scrollToHashWhenReady(hash, 8);
+      }
+    }
   }
 async function loadGuides() {
 
@@ -3047,6 +3047,40 @@ async function loadGuides() {
     `).join('')
     : '<p class="muted">No guide profiles published yet.</p>';
 }
+async function loadDriverReviewStats(driverIds) {
+  const stats = {};
+  (driverIds || []).forEach((id) => { stats[id] = { count: 0, sum: 0, avg: null }; });
+  if (!driverIds || !driverIds.length) return stats;
+  try {
+    const { data, error } = await supabaseClient
+      .from('guest_reviews')
+      .select('driver_id, rating')
+      .eq('review_type', 'driver')
+      .eq('status', 'approved')
+      .in('driver_id', driverIds);
+    if (error) {
+      console.error('driver review stats error:', error);
+      return stats;
+    }
+    (data || []).forEach((row) => {
+      const id = row.driver_id;
+      if (!stats[id]) stats[id] = { count: 0, sum: 0, avg: null };
+      const rating = Number(row.rating);
+      if (!Number.isFinite(rating)) return;
+      stats[id].count += 1;
+      stats[id].sum += rating;
+    });
+    Object.keys(stats).forEach((id) => {
+      if (stats[id].count) {
+        stats[id].avg = Math.round((stats[id].sum / stats[id].count) * 10) / 10;
+      }
+    });
+  } catch (e) {
+    console.error('driver review stats exception:', e);
+  }
+  return stats;
+}
+
 async function loadCars() {
   const { data, error } = await supabaseClient
     .from('vehicle_submissions')
@@ -3067,24 +3101,55 @@ async function loadCars() {
     return;
   }
 
+  const ids = data.map((item) => item.id).filter(Boolean);
+  const reviewStats = await loadDriverReviewStats(ids);
+
   container.innerHTML = data.map((item, index) => {
     const galleryUrls = normalizeGalleryUrls([item.gallery_urls, item.main_image_url, item.image_url], item.main_image_url || item.image_url || fallbackCarImage);
+    const title = item.title || 'Car rental with driver';
+    const profileUrl = `driver-detail.html?id=${encodeURIComponent(item.id)}`;
+    const absoluteShare = new URL(profileUrl, window.location.href).href;
+    const stats = reviewStats[item.id] || { count: 0, avg: null };
+    const ratingHtml = stats.count
+      ? `<div class="listing-meta"><span class="pill">★ ${stats.avg.toFixed(1)} · ${stats.count} review${stats.count === 1 ? '' : 's'}</span></div>`
+      : '';
+
     return `
-      <article class="card listing-card">
-        ${renderGalleryBlock('car', index, galleryUrls, fallbackCarImage, item.title || 'Car rental')}
+      <article class="card listing-card" id="driver-${escapeHtml(item.id)}">
+        ${renderGalleryBlock('car', index, galleryUrls, fallbackCarImage, title)}
         <div class="card-body">
           <span class="tag">${item.vehicle_type || 'Car Rental'}</span>
-          <h3>${item.title || 'Car rental with driver'}</h3>
+          <h3>${escapeHtml(title)}</h3>
           <div class="listing-meta">
-            ${item.daily_rate ? `<span class="pill">${item.daily_rate}</span>` : ''}
-            ${item.seats ? `<span class="pill">${item.seats} seats</span>` : ''}
-            ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
+            ${item.daily_rate ? `<span class="pill">${escapeHtml(item.daily_rate)}</span>` : ''}
+            ${item.seats ? `<span class="pill">${escapeHtml(item.seats)} seats</span>` : ''}
+            ${item.phone ? `<span class="pill">📞 ${escapeHtml(item.phone)}</span>` : ''}
           </div>
-          <p class="muted">${item.description || ''}</p>
+          ${ratingHtml}
+          <p class="muted">${escapeHtml(item.description || '')}</p>
+          <div class="guide-mini-actions" style="margin-top:10px;">
+            <a class="hotel-mini-btn primary" href="${profileUrl}">View profile & reviews</a>
+            <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm"
+              data-share-title="${escapeAttr(title)}"
+              data-share-text="${escapeAttr(title + ' — Booking Mongolia driver')}"
+              data-share-url="${escapeAttr(absoluteShare)}"
+              aria-label="Share driver profile">
+              <span class="bm-share-icon" aria-hidden="true">↗</span> Share
+            </button>
+          </div>
         </div>
       </article>
     `;
   }).join('');
+
+  if (window.BMShare) {
+    container.querySelectorAll('.bm-share-btn').forEach((btn) => window.BMShare.bindButton(btn));
+  }
+
+  // If arriving via #driver-{id} or #car-rental / #cars, re-scroll after cards render
+  if (window.BMNavAnchors && window.location.hash) {
+    window.BMNavAnchors.scrollToHashWhenReady(window.location.hash, 8);
+  }
 }
 
   function getSelectedCountry(selectId) {

@@ -40,9 +40,10 @@
   .card{padding:16px}
   .card-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
   .badge{display:inline-flex;padding:6px 10px;border-radius:999px;background:#eef4ff;color:var(--primary);font-size:12px;font-weight:800}
-  .badge.published{background:#ecfdf5;color:#166534}
-  .badge.hidden{background:#fef2f2;color:#991b1b}
+  .badge.published,.badge.approved{background:#ecfdf5;color:#166534}
+  .badge.hidden,.badge.rejected{background:#fef2f2;color:#991b1b}
   .badge.pending{background:#fff7ed;color:#9a3412}
+  .card.pending-card{border-color:#fdba74;box-shadow:0 0 0 2px rgba(249,115,22,.18)}
   .muted{color:var(--muted);font-size:13px}
   .images{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
   .images img{width:100%;height:120px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:pointer;background:#f1f5f9}
@@ -60,10 +61,15 @@
   .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
   .lightbox.open{display:flex}
   .lightbox img{max-width:94vw;max-height:90vh;border-radius:16px}
+  .invite-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+  .invite-grid .full{grid-column:1/-1}
+  .invite-link{word-break:break-all;background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:10px;margin-top:10px;font-size:13px}
+  .detail-box{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;white-space:pre-wrap;font-size:13px}
   @media(max-width:760px){
     .toolbar{grid-template-columns:1fr}
     .top{align-items:flex-start}
     .login-box{margin:35px auto}
+    .invite-grid{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -83,7 +89,7 @@
     <div class="top">
       <div>
         <h1>BookingMongolia Admin PRO</h1>
-        <div class="muted">Moderate Traveler Hub posts, comments, hotel submissions and car submissions.</div>
+        <div class="muted">Moderate Traveler Hub posts, comments, hotels, cars, and guest reviews.</div>
       </div>
       <button class="secondary" onclick="logout()">Logout</button>
     </div>
@@ -94,6 +100,7 @@
         <button class="tab" data-tab="comments" onclick="setTab('comments')">Recent Comments</button>
         <button class="tab" data-tab="hotels" onclick="setTab('hotels')">Hotels</button>
         <button class="tab" data-tab="cars" onclick="setTab('cars')">Cars</button>
+        <button class="tab" data-tab="reviews" onclick="setTab('reviews')">Reviews</button>
       </div>
       <div class="toolbar">
         <div>
@@ -105,12 +112,14 @@
           <select id="statusFilter" onchange="renderCurrent()">
             <option value="all">All</option>
             <option value="published">Published</option>
+            <option value="approved">Approved</option>
             <option value="pending">Pending</option>
+            <option value="rejected">Rejected</option>
             <option value="hidden">Hidden</option>
           </select>
         </div>
         <div>
-          <label>Type</label>
+          <label id="typeFilterLabel">Type</label>
           <select id="typeFilter" onchange="renderCurrent()">
             <option value="all">All</option>
             <option value="blog">Blog</option>
@@ -120,6 +129,44 @@
         <button onclick="loadCurrent()">Refresh</button>
       </div>
       <div id="notice" class="notice"></div>
+    </div>
+
+    <div id="invitePanel" class="panel hidden">
+      <h3 style="margin:0 0 8px;color:var(--primary)">Create review link (Verified Guest)</h3>
+      <p class="muted">After a completed hotel stay or driver trip, generate a one-time link and send it to the guest (WhatsApp/email). Submitting via this link marks the review as Verified Guest. Guests cannot self-verify.</p>
+      <div class="invite-grid">
+        <div>
+          <label>Type</label>
+          <select id="inviteType" onchange="syncInviteTarget()">
+            <option value="hotel">Hotel</option>
+            <option value="driver">Driver</option>
+          </select>
+        </div>
+        <div>
+          <label>Hotel / Driver ID</label>
+          <input id="inviteTargetId" placeholder="UUID from hotel or car listing" />
+        </div>
+        <div>
+          <label>Guest name (optional)</label>
+          <input id="inviteGuestName" placeholder="Michael" />
+        </div>
+        <div>
+          <label>Guest country (optional)</label>
+          <input id="inviteGuestCountry" placeholder="Australia" />
+        </div>
+        <div>
+          <label>Booking ref (optional)</label>
+          <input id="inviteBookingRef" placeholder="WhatsApp / manual ref" />
+        </div>
+        <div>
+          <label>Service date (optional)</label>
+          <input id="inviteServiceDate" type="date" />
+        </div>
+        <div class="full">
+          <button class="ok" onclick="createInvite()">Generate review link</button>
+        </div>
+      </div>
+      <div id="inviteResult" class="invite-link hidden"></div>
     </div>
 
     <div id="content" class="grid"></div>
@@ -134,7 +181,8 @@
 const API = "/.netlify/functions/admin-action";
 let adminPassword = sessionStorage.getItem("bm_admin_password") || "";
 let activeTab = "community";
-let cache = { community: [], comments: [], hotels: [], cars: [] };
+let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [] };
+let nameCache = { hotels: {}, cars: {} };
 
 function showNotice(msg, type="success"){
   const n = document.getElementById("notice");
@@ -169,14 +217,50 @@ async function login(){
   }catch(e){ showLoginError(e.message || "Wrong password"); }
 }
 function logout(){ sessionStorage.removeItem("bm_admin_password"); location.reload(); }
+
+function syncTypeFilterOptions(){
+  const sel = document.getElementById("typeFilter");
+  const label = document.getElementById("typeFilterLabel");
+  const wrap = sel.parentElement;
+  if(activeTab === "community"){
+    wrap.style.display = "block";
+    label.textContent = "Type";
+    sel.innerHTML = `<option value="all">All</option><option value="blog">Blog</option><option value="sharing">Sharing</option>`;
+  } else if(activeTab === "reviews"){
+    wrap.style.display = "block";
+    label.textContent = "Type";
+    sel.innerHTML = `<option value="all">All</option><option value="hotel">Hotel</option><option value="driver">Driver</option>`;
+  } else {
+    wrap.style.display = "none";
+  }
+}
+
 function setTab(tab){
   activeTab = tab;
   document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab===tab));
-  document.getElementById("typeFilter").style.display = tab === "community" ? "block" : "none";
+  document.getElementById("invitePanel").classList.toggle("hidden", tab !== "reviews");
+  syncTypeFilterOptions();
   loadCurrent();
 }
+
+async function ensureNameCaches(){
+  if(!Object.keys(nameCache.hotels).length){
+    try{
+      const data = await api({ action:"list", resource:"hotels" });
+      (data.items || []).forEach(h => { nameCache.hotels[h.id] = h.property_name || h.name || h.title || h.id; });
+    }catch(e){}
+  }
+  if(!Object.keys(nameCache.cars).length){
+    try{
+      const data = await api({ action:"list", resource:"cars" });
+      (data.items || []).forEach(v => { nameCache.cars[v.id] = v.title || v.vehicle_type || v.contact_name || v.id; });
+    }catch(e){}
+  }
+}
+
 async function loadCurrent(){
   try{
+    if(activeTab === "reviews") await ensureNameCaches();
     const data = await api({ action:"list", resource: activeTab });
     cache[activeTab] = data.items || [];
     renderCurrent();
@@ -191,8 +275,16 @@ function escapeHtml(str=""){
 }
 function textMatch(item, q){
   if(!q) return true;
-  const blob = [item.title,item.content,item.name,item.country,item.destination,item.contact,item.comment,item.description,item.property_name,item.vehicle_type,item.email,item.phone].join(" ").toLowerCase();
+  const blob = [
+    item.title,item.content,item.name,item.country,item.destination,item.contact,item.comment,
+    item.description,item.property_name,item.vehicle_type,item.email,item.phone,
+    item.guest_name,item.guest_country,item.review_type,item.booking_ref
+  ].join(" ").toLowerCase();
   return blob.includes(q);
+}
+function targetName(r){
+  if(r.review_type === "hotel") return nameCache.hotels[r.hotel_id] || r.hotel_id || "-";
+  return nameCache.cars[r.driver_id] || r.driver_id || "-";
 }
 function renderCurrent(){
   const q = document.getElementById("searchInput").value.toLowerCase().trim();
@@ -202,12 +294,22 @@ function renderCurrent(){
   items = items.filter(i => textMatch(i,q));
   if(status !== "all") items = items.filter(i => (i.status || "pending") === status);
   if(activeTab === "community" && type !== "all") items = items.filter(i => (i.type || "blog") === type);
+  if(activeTab === "reviews" && type !== "all") items = items.filter(i => (i.review_type || "") === type);
+  if(activeTab === "reviews"){
+    items.sort((a,b)=>{
+      const ap = (a.status||"") === "pending" ? 0 : 1;
+      const bp = (b.status||"") === "pending" ? 0 : 1;
+      if(ap !== bp) return ap - bp;
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
+  }
   const c = document.getElementById("content");
   if(!items.length){ c.innerHTML = `<div class="panel muted">No items found.</div>`; return; }
   if(activeTab === "community") c.innerHTML = items.map(renderPost).join("");
   if(activeTab === "comments") c.innerHTML = items.map(renderComment).join("");
   if(activeTab === "hotels") c.innerHTML = items.map(renderHotel).join("");
   if(activeTab === "cars") c.innerHTML = items.map(renderCar).join("");
+  if(activeTab === "reviews") c.innerHTML = items.map(renderReview).join("");
 }
 function renderImages(urls){
   if(!Array.isArray(urls) || !urls.length) return "";
@@ -252,6 +354,7 @@ function renderHotel(h){
     <div class="card-top"><h3>${escapeHtml(h.property_name || h.name || h.title || "Hotel submission")}</h3>${getStatusBadge(h.status)}</div>
     <p>${escapeHtml(h.description || "")}</p>
     <div class="muted">${escapeHtml(h.location || "")} • ${escapeHtml(h.contact_name || "")} • ${escapeHtml(h.phone || h.email || "")}</div>
+    <div class="muted">ID: ${escapeHtml(h.id || "")}</div>
     ${renderImages(urls)}
     <div class="actions">
       <button class="ok" onclick="updateStatus('property_submissions','${h.id}','published')">Approve</button>
@@ -266,6 +369,7 @@ function renderCar(v){
     <div class="card-top"><h3>${escapeHtml(v.vehicle_type || v.title || "Vehicle submission")}</h3>${getStatusBadge(v.status)}</div>
     <p>${escapeHtml(v.description || "")}</p>
     <div class="muted">Seats: ${escapeHtml(v.seats || "-")} • Rate: ${escapeHtml(v.daily_rate || "-")} • ${escapeHtml(v.contact_name || "")} ${escapeHtml(v.phone || v.email || "")}</div>
+    <div class="muted">ID: ${escapeHtml(v.id || "")}</div>
     ${renderImages(urls)}
     <div class="actions">
       <button class="ok" onclick="updateStatus('vehicle_submissions','${v.id}','published')">Approve</button>
@@ -273,6 +377,82 @@ function renderCar(v){
       <button class="danger" onclick="deleteItem('vehicle_submissions','${v.id}')">Delete</button>
     </div>
   </div>`;
+}
+function renderReview(r){
+  const pending = (r.status || "pending") === "pending";
+  const verified = r.is_verified ? `<span class="badge approved">Verified</span>` : `<span class="badge">Unverified</span>`;
+  return `<div class="card ${pending ? "pending-card" : ""}">
+    <div class="card-top">
+      <div>
+        <h3>${escapeHtml(r.guest_name || "Guest")} — ${escapeHtml(r.guest_country || "")}</h3>
+        <div class="muted">${escapeHtml(r.review_type || "")} • ${escapeHtml(targetName(r))} • ★ ${escapeHtml(r.rating)} • ${new Date(r.created_at).toLocaleString()}</div>
+      </div>
+      <div>${getStatusBadge(r.status)} ${verified}</div>
+    </div>
+    <p>${escapeHtml(r.comment || "")}</p>
+    <div class="muted">Target ID: ${escapeHtml(r.hotel_id || r.driver_id || "-")} ${r.booking_ref ? "• Ref: " + escapeHtml(r.booking_ref) : ""}</div>
+    <div id="review-detail-${r.id}" class="detail-box hidden"></div>
+    <div class="actions">
+      <button class="secondary" onclick="toggleReviewDetail('${r.id}')">View</button>
+      <button class="ok" onclick="updateStatus('guest_reviews','${r.id}','approved')">Approve</button>
+      <button class="warn" onclick="updateStatus('guest_reviews','${r.id}','rejected')">Reject</button>
+      <button class="danger" onclick="deleteItem('guest_reviews','${r.id}')">Delete</button>
+    </div>
+  </div>`;
+}
+function toggleReviewDetail(id){
+  const box = document.getElementById(`review-detail-${id}`);
+  if(!box) return;
+  if(!box.classList.contains("hidden")){ box.classList.add("hidden"); return; }
+  const r = (cache.reviews || []).find(x => x.id === id);
+  if(!r){ box.textContent = "Not found"; box.classList.remove("hidden"); return; }
+  const lines = [
+    `Guest: ${r.guest_name || "-"} (${r.guest_country || "-"})`,
+    `Type: ${r.review_type}`,
+    `Target: ${targetName(r)}`,
+    `Overall: ${r.rating}/5`,
+    `Verified: ${r.is_verified ? "yes" : "no"}`,
+    `Status: ${r.status}`,
+    `Service date: ${r.service_date || "-"}`,
+    `Booking ref: ${r.booking_ref || "-"}`,
+    `Comment: ${r.comment || "-"}`,
+    "",
+    "Aspect ratings:",
+    `  Cleanliness: ${r.cleanliness_rating ?? "-"}`,
+    `  Location: ${r.location_rating ?? "-"}`,
+    `  Service: ${r.service_rating ?? "-"}`,
+    `  Comfort: ${r.comfort_rating ?? "-"}`,
+    `  Driving & safety: ${r.driving_safety_rating ?? "-"}`,
+    `  Communication: ${r.communication_rating ?? "-"}`,
+    `  Helpfulness: ${r.helpfulness_rating ?? "-"}`,
+    `  Vehicle condition: ${r.vehicle_condition_rating ?? "-"}`,
+    `  Punctuality: ${r.punctuality_rating ?? "-"}`
+  ];
+  box.textContent = lines.join("\n");
+  box.classList.remove("hidden");
+}
+function syncInviteTarget(){ /* placeholder for future hotel/driver pickers */ }
+async function createInvite(){
+  const review_type = document.getElementById("inviteType").value;
+  const targetId = document.getElementById("inviteTargetId").value.trim();
+  if(!targetId) return showNotice("Enter hotel or driver ID", "error");
+  try{
+    const data = await api({
+      action: "createReviewInvite",
+      review_type,
+      hotel_id: review_type === "hotel" ? targetId : null,
+      driver_id: review_type === "driver" ? targetId : null,
+      guest_name: document.getElementById("inviteGuestName").value.trim() || null,
+      guest_country: document.getElementById("inviteGuestCountry").value.trim() || null,
+      booking_ref: document.getElementById("inviteBookingRef").value.trim() || null,
+      service_date: document.getElementById("inviteServiceDate").value || null,
+      site_origin: location.origin
+    });
+    const box = document.getElementById("inviteResult");
+    box.classList.remove("hidden");
+    box.innerHTML = `<strong>Send this link to the guest:</strong><br>${escapeHtml(data.link)}`;
+    showNotice("Review link created");
+  }catch(e){ showNotice(e.message, "error"); }
 }
 async function updateStatus(table,id,status){
   try{ await api({action:"updateStatus", table, id, status}); showNotice("Updated"); loadCurrent(); }
@@ -305,6 +485,7 @@ function openImg(url){
 if(adminPassword){
   document.getElementById("loginPanel").classList.add("hidden");
   document.getElementById("adminPanel").classList.remove("hidden");
+  syncTypeFilterOptions();
   loadCurrent();
 }
 </script>

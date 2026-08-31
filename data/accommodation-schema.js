@@ -212,6 +212,9 @@
       source: raw.source || "supabase",
       is_mock: !!raw.is_mock || raw.source === "mock",
       data_badge: raw.data_badge || (raw.is_mock || raw.source === "mock" ? "Sample listing" : "Verified"),
+      price_confirmed: truthy(
+        raw.price_confirmed != null ? raw.price_confirmed : meta.price_confirmed
+      ) === true,
       _raw: raw
     };
   }

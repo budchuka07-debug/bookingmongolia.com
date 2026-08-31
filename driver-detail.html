@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script src="/js/ga4.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Details | Booking Mongolia</title>
+  <meta name="description" content="Private driver and vehicle details on Booking Mongolia." />
+  <style>
+    :root{--primary:#0d3b66;--accent:#c98b2f;--bg:#f7f5ef;--muted:#6b7280;--line:#e5e7eb}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#1f2937;line-height:1.6}
+    a{color:var(--primary);text-decoration:none}
+    .wrap{max-width:960px;margin:0 auto;padding:24px 16px 90px}
+    .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;font-weight:800;border:0;cursor:pointer;min-height:46px}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-accent{background:var(--accent);color:#fff}
+    .btn-outline{background:#fff;border:1px solid var(--line);color:var(--primary)}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.06)}
+    .cover{width:100%;max-height:420px;object-fit:cover;display:block;background:#ddd}
+    .body{padding:22px}
+    .tag{display:inline-block;background:#eef4f8;color:var(--primary);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:10px}
+    h1{margin:0 0 8px;font-size:clamp(26px,4vw,40px);color:var(--primary)}
+    .facts{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    .pill{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}
+    .price{font-size:22px;font-weight:800;color:#15803d;margin:10px 0}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:18px}
+    .gallery img{width:100%;height:110px;object-fit:cover;border-radius:14px}
+    .state{padding:40px 20px;text-align:center;color:var(--muted)}
+    .error{color:#b91c1c}
+    h3{margin:22px 0 8px;color:var(--primary)}
+    #guest-reviews{scroll-margin-top:24px}
+    .driver-rating-line{margin:8px 0 4px;font-weight:800;color:var(--primary)}
+    @media (max-width:720px){.wrap{padding:16px 12px 100px}.actions .btn{flex:1 1 calc(50% - 10px)}}
+  </style>
+<script src="/js/book-dates-btn.js" defer></script>
+<script src="/js/share.js"></script>
+<script src="/js/guest-reviews.js"></script>
+<script src="/js/nav-anchors.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="btn btn-outline" href="/index.html#car-rental">← Back to drivers</a>
+      <a class="btn btn-primary" href="/index.html#contact">Contact Booking Mongolia</a>
+    </div>
+    <div id="driver-detail" class="card">
+      <div class="state">Loading driver details...</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const fallbackImage = "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80";
+
+    function qs(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function normalizeGallery(gallery, main) {
+      let urls = [];
+      if (Array.isArray(gallery)) urls = gallery;
+      else if (typeof gallery === "string" && gallery.trim()) {
+        try {
+          const parsed = JSON.parse(gallery);
+          if (Array.isArray(parsed)) urls = parsed;
+          else urls = gallery.split(",").map(s => s.trim()).filter(Boolean);
+        } catch (e) {
+          urls = gallery.split(",").map(s => s.trim()).filter(Boolean);
+        }
+      }
+      if (main) urls = [main].concat(urls);
+      return [...new Set(urls.filter(Boolean))];
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderDriver(data, reviews) {
+      const root = document.getElementById("driver-detail");
+      const gallery = normalizeGallery(data.gallery_urls, data.main_image_url || data.image_url);
+      const cover = gallery[0] || fallbackImage;
+      const title = data.title || data.vehicle_type || "Driver service";
+      const phoneLink = data.phone
+        ? `https://wa.me/${String(data.phone).replace(/[^0-9]/g, "")}`
+        : "";
+      const bookMsg = encodeURIComponent(
+        `Hello Booking Mongolia, I want to request a driver/vehicle: ${title}${data.contact_name ? " (" + data.contact_name + ")" : ""}.`
+      );
+      const shareUrl = new URL(`driver-detail.html?id=${encodeURIComponent(data.id)}`, window.location.href).href;
+      const avg = window.BMReviews ? BMReviews.average((reviews || []).map((r) => r.rating)) : null;
+      const reviewCount = (reviews || []).length;
+
+      document.title = `${title} | Booking Mongolia`;
+
+      // Keep a clean shareable profile URL; preserve review hash if present
+      try {
+        const clean = new URL(window.location.href);
+        clean.search = `?id=${encodeURIComponent(data.id)}`;
+        const keepHash = clean.hash === "#guest-reviews" ? "#guest-reviews" : "";
+        history.replaceState(null, "", clean.pathname + clean.search + keepHash);
+      } catch (e) {}
+
+      root.innerHTML = `
+        <img class="cover" src="${escapeHtml(cover)}" alt="${escapeHtml(title)}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+        <div class="body">
+          <div class="tag">${escapeHtml(data.vehicle_type || "Driver / Car")}</div>
+          <h1>${escapeHtml(title)}</h1>
+          ${data.contact_name ? `<div>Driver: ${escapeHtml(data.contact_name)}</div>` : ""}
+          ${avg != null ? `<div class="driver-rating-line">★ ${avg.toFixed(1)} / 5 · ${reviewCount} guest review${reviewCount === 1 ? "" : "s"}</div>` : ""}
+          ${data.daily_rate ? `<div class="price">${escapeHtml(data.daily_rate)}</div>` : ""}
+
+          <div class="facts">
+            ${data.seats ? `<span class="pill">${escapeHtml(String(data.seats))} seats</span>` : ""}
+            ${data.phone ? `<span class="pill">📞 ${escapeHtml(data.phone)}</span>` : ""}
+            ${data.email ? `<span class="pill">✉️ ${escapeHtml(data.email)}</span>` : ""}
+          </div>
+
+          <p>${escapeHtml(data.description || "Private driver and transport arranged through Booking Mongolia.")}</p>
+
+          <div id="guest-reviews-mount"></div>
+
+          ${gallery.length > 1 ? `
+            <h3>Photos</h3>
+            <div class="gallery">
+              ${gallery.map(url => `<img src="${escapeHtml(url)}" alt="" onerror="this.style.display='none'">`).join("")}
+            </div>` : ""}
+
+          <div class="actions">
+            <a class="btn btn-accent" href="https://wa.me/97690283039?text=${bookMsg}" target="_blank" rel="noopener">Request booking</a>
+            <button type="button" class="btn btn-outline bm-share-btn"
+              data-share-title="${escapeHtml(title)}"
+              data-share-text="${escapeHtml(title + " — Booking Mongolia driver")}"
+              data-share-url="${escapeHtml(shareUrl)}"
+              aria-label="Share this driver profile">
+              <span class="bm-share-icon" aria-hidden="true">↗</span> Share
+            </button>
+            ${phoneLink ? `<a class="btn btn-primary" href="${phoneLink}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
+            ${data.phone ? `<a class="btn btn-outline" href="tel:${escapeHtml(String(data.phone).replace(/\s/g, ""))}">Call</a>` : ""}
+            ${data.email ? `<a class="btn btn-outline" href="mailto:${escapeHtml(data.email)}">Email</a>` : ""}
+            <a class="btn btn-outline" href="/index.html#car-rental">All drivers</a>
+            <a class="btn btn-outline" href="#guest-reviews">Guest reviews</a>
+          </div>
+        </div>
+      `;
+
+      if (window.BMShare) {
+        root.querySelectorAll(".bm-share-btn").forEach((btn) => BMShare.bindButton(btn));
+      }
+
+      mountGuestReviews(data, reviews || []);
+    }
+
+    function mountGuestReviews(data, reviews) {
+      if (window.BMReviews) window.BMReviews.mountStyles();
+      const mount = document.getElementById("guest-reviews-mount");
+      if (!mount || !window.BMReviews) return;
+
+      mount.innerHTML = `
+        ${BMReviews.renderSummaryHtml(reviews, { title: "Guest Reviews", reviewType: "driver" })}
+        ${BMReviews.renderListHtml(reviews)}
+        <div class="bm-write-review">
+          <h3>Write a Review</h3>
+          ${BMReviews.formHtml({ reviewType: "driver", targetId: data.id })}
+        </div>
+      `;
+
+      BMReviews.bindStarInputs(mount);
+      const form = document.getElementById("bm-guest-review-form");
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const notice = document.getElementById("bm-review-notice");
+          const btn = form.querySelector(".bm-submit-review");
+          try {
+            const payload = BMReviews.collectForm(form);
+            if (!payload.rating) throw new Error("Please select an overall rating");
+            if (btn) btn.disabled = true;
+            await BMReviews.submitReview(payload);
+            if (notice) {
+              notice.hidden = false;
+              notice.className = "bm-notice ok";
+              notice.textContent = "Thank you! Your review was submitted and is pending moderation.";
+            }
+            form.reset();
+            form.querySelectorAll(".bm-star-btn").forEach((b) => b.classList.remove("on"));
+          } catch (err) {
+            if (notice) {
+              notice.hidden = false;
+              notice.className = "bm-notice err";
+              notice.textContent = err.message || "Could not submit review.";
+            }
+          } finally {
+            if (btn) btn.disabled = false;
+          }
+        });
+      }
+
+      if (reviews.length) {
+        BMReviews.injectJsonLd({
+          name: data.title || data.vehicle_type || "Driver service",
+          reviewType: "driver",
+          reviews,
+          url: location.href
+        });
+      }
+
+      if (location.hash === "#guest-reviews" && window.BMNavAnchors) {
+        setTimeout(() => BMNavAnchors.scrollToHash("#guest-reviews"), 100);
+      }
+    }
+
+    async function loadDriver() {
+      const root = document.getElementById("driver-detail");
+      const id = qs("id");
+      if (!id) {
+        root.innerHTML = `<div class="state error">Missing driver id. <a href="/index.html#car-rental">Browse drivers</a></div>`;
+        return;
+      }
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("vehicle_submissions")
+          .select("*")
+          .eq("id", id)
+          .eq("status", "approved")
+          .maybeSingle();
+
+        if (!error && data) {
+          let reviews = [];
+          try {
+            reviews = await BMReviews.fetchApproved(supabaseClient, {
+              reviewType: "driver",
+              targetId: data.id
+            });
+          } catch (e) {
+            console.error("guest reviews load error:", e);
+          }
+          renderDriver(data, reviews);
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      root.innerHTML = `<div class="state error">Driver not found. <a href="/index.html#car-rental">Back to drivers</a></div>`;
+    }
+
+    loadDriver();
+  </script>
+</body>
+</html>

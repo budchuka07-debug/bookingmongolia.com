@@ -38,6 +38,9 @@
     @media (max-width:720px){.wrap{padding:16px 12px 100px}.actions .btn{flex:1 1 calc(50% - 10px)}}
   </style>
 <script src="/js/book-dates-btn.js" defer></script>
+<script src="/js/guest-reviews.js"></script>
+<script src="/js/hotel-inquiry.js"></script>
+<script src="/js/nav-anchors.js" defer></script>
 </head>
 <body>
   <div class="wrap">
@@ -58,6 +61,7 @@
     const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const fallbackImage = "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80";
+    let currentHotel = null;
 
     function qs(name) {
       return new URLSearchParams(window.location.search).get(name);
@@ -97,6 +101,7 @@
       const data = window.BMAccommodation?.normalizeProperty
         ? window.BMAccommodation.normalizeProperty(raw)
         : raw;
+      currentHotel = data;
       const root = document.getElementById("hotel-detail");
       const gallery = normalizeGallery(data.gallery_urls, data.main_image_url || data.image_url);
       const cover = gallery[0] || fallbackImage;
@@ -109,20 +114,18 @@
           ? `https://www.google.com/maps?q=${data.latitude},${data.longitude}`
           : ""
       );
-      const bookMsg = encodeURIComponent(
-        `Hello Booking Mongolia, I want to request a booking for: ${data.name || "stay"}${data.location ? " (" + data.location + ")" : ""}.`
-      );
+      const showPrice = window.BMHotelInquiry?.isPriceConfirmed(data) && data.price;
 
       document.title = `${data.name || "Stay"} | Booking Mongolia`;
 
       root.innerHTML = `
         <img class="cover" src="${escapeHtml(cover)}" alt="${escapeHtml(data.name || "Stay")}" onerror="this.onerror=null;this.src='${fallbackImage}'">
         <div class="body">
-          <div class="tag">${escapeHtml(data.property_type || "Property")}${isMock ? " · Sample listing" : " · Verified"}</div>
+          <div class="tag">${escapeHtml(data.property_type || "Property")}</div>
           <h1>${escapeHtml(data.name || "Stay")}</h1>
           <div>📍 ${escapeHtml([data.soum, data.aimag].filter(Boolean).join(", ") || data.location || "Mongolia")}</div>
           ${data.destination ? `<div style="color:#6b7280;margin-top:4px;">Destination: ${escapeHtml(data.destination)}</div>` : ""}
-          ${data.price ? `<div class="price">${escapeHtml(data.price)}</div>` : `<div class="price">Ask for price</div>`}
+          ${showPrice ? `<div class="price">${escapeHtml(data.price)}</div>` : ""}
           ${data.season ? `<div class="pill">Season: ${escapeHtml(data.season)}</div>` : ""}
 
           <div class="facts">
@@ -135,9 +138,8 @@
             ${data.mobile_signal ? `<span class="pill">Signal: ${escapeHtml(data.mobile_signal)}</span>` : ""}
           </div>
 
-          <p>${escapeHtml(data.description || "Comfortable stay option reviewed by Booking Mongolia.")}</p>
+          <p>${escapeHtml(data.description || "Comfortable stay option arranged with Booking Mongolia.")}</p>
           ${data.meals ? `<p><strong>Meals:</strong> ${escapeHtml(data.meals)}</p>` : ""}
-          ${isMock ? `<p style="color:#9a3412;background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px;">Sample catalog stay used when live inventory is thin. Confirm price and availability before booking.</p>` : ""}
 
           ${(data.room_types || []).length ? `
             <h3>Room / ger types</h3>
@@ -149,18 +151,7 @@
             <div class="amenities">${data.amenities.map((a) => `<span class="pill">${escapeHtml(a)}</span>`).join("")}</div>
           ` : ""}
 
-          <h3>Reviews</h3>
-          <div class="reviews">
-            ${(data.reviews || []).length
-              ? data.reviews.map((r) => `
-                  <div class="review">
-                    <strong>${escapeHtml(r.name || "Guest")}</strong>
-                    ${r.country ? ` · ${escapeHtml(r.country)}` : ""}
-                    ${r.rating ? ` · ★ ${escapeHtml(r.rating)}` : ""}
-                    <div>${escapeHtml(r.text || "")}</div>
-                  </div>`).join("")
-              : `<div class="pill">No public reviews yet — ask Booking Mongolia for recent guest feedback.</div>`}
-          </div>
+          <div id="guest-reviews-mount"></div>
 
           ${gallery.length > 1 ? `
             <h3>Photos</h3>
@@ -169,7 +160,7 @@
             </div>` : ""}
 
           <div class="actions">
-            <a class="btn btn-accent" href="https://wa.me/97690283039?text=${bookMsg}" target="_blank" rel="noopener">Request booking</a>
+            <button type="button" class="btn btn-accent" id="ask-price-btn">Ask Price & Room Information</button>
             ${phoneLink ? `<a class="btn btn-primary" href="${phoneLink}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
             ${data.phone ? `<a class="btn btn-outline" href="tel:${escapeHtml(String(data.phone).replace(/\s/g, ""))}">Call</a>` : ""}
             ${mapsUrl ? `<a class="btn btn-outline" href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener">Google Maps</a>` : ""}
@@ -179,6 +170,97 @@
           </div>
         </div>
       `;
+
+      const askBtn = document.getElementById("ask-price-btn");
+      if (askBtn) {
+        askBtn.addEventListener("click", () => {
+          openHotelPriceInquiry({
+            id: data.id,
+            name: data.name,
+            room_types: data.room_types || []
+          });
+        });
+      }
+
+      loadGuestReviews(data, isMock);
+    }
+
+    async function loadGuestReviews(data, isMock) {
+      if (window.BMReviews) window.BMReviews.mountStyles();
+      const mount = document.getElementById("guest-reviews-mount");
+      if (!mount || !window.BMReviews) return;
+
+      let reviews = [];
+      try {
+        if (!isMock && data.id) {
+          reviews = await BMReviews.fetchApproved(supabaseClient, {
+            reviewType: "hotel",
+            targetId: data.id
+          });
+        }
+      } catch (e) {
+        console.error("guest reviews load error:", e);
+      }
+
+      if (!reviews.length) {
+        mount.innerHTML = isMock
+          ? ""
+          : `
+          <div class="bm-write-review">
+            <h3>Write a Review</h3>
+            ${BMReviews.formHtml({ reviewType: "hotel", targetId: data.id })}
+          </div>
+        `;
+      } else {
+        mount.innerHTML = `
+          ${BMReviews.renderSummaryHtml(reviews, { title: "Guest Reviews", reviewType: "hotel" })}
+          ${BMReviews.renderListHtml(reviews)}
+          ${isMock ? "" : `
+          <div class="bm-write-review">
+            <h3>Write a Review</h3>
+            ${BMReviews.formHtml({ reviewType: "hotel", targetId: data.id })}
+          </div>`}
+        `;
+        BMReviews.injectJsonLd({
+          name: data.name,
+          reviewType: "hotel",
+          reviews,
+          url: location.href
+        });
+      }
+
+      if (!isMock) {
+        BMReviews.bindStarInputs(mount);
+        const form = document.getElementById("bm-guest-review-form");
+        if (form) {
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const notice = document.getElementById("bm-review-notice");
+            const btn = form.querySelector(".bm-submit-review");
+            try {
+              const payload = BMReviews.collectForm(form);
+              if (!payload.rating) throw new Error("Please select an overall rating");
+              if (btn) btn.disabled = true;
+              await BMReviews.submitReview(payload);
+              if (notice) {
+                notice.hidden = false;
+                notice.className = "bm-notice ok";
+                notice.textContent = "Thank you! Your review was submitted and is pending moderation.";
+              }
+              form.reset();
+              form.querySelectorAll(".bm-star-btn").forEach((b) => b.classList.remove("on"));
+            } catch (err) {
+              if (notice) {
+                notice.hidden = false;
+                notice.className = "bm-notice err";
+                notice.textContent = err.message || "Could not submit review.";
+              }
+            } finally {
+              if (btn) btn.disabled = false;
+            }
+          });
+        }
+      }
     }
 
     async function loadHotel() {
@@ -219,7 +301,7 @@
         return;
       }
 
-      root.innerHTML = `<div class="state error">Stay not found or not approved yet. <a href="/index.html#hotels">Back to directory</a></div>`;
+      root.innerHTML = `<div class="state error">Stay not found. <a href="/index.html#hotels">Back to directory</a></div>`;
     }
 
     loadHotel();
