@@ -473,6 +473,135 @@ gtag('config', 'G-SWZZY2HBZB');
       gap:8px;
       margin:12px 0;
     }
+
+    /* Car Rental cards — equal height, consistent hierarchy (scoped) */
+    #cars .car-grid{align-items:stretch}
+    #cars .car-card{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      overflow:hidden;
+    }
+    #cars .car-card-media{
+      position:relative;
+      aspect-ratio:16 / 10;
+      background:#e8eef5;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    #cars .car-card-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      border-radius:0;
+    }
+    #cars .car-card-body{
+      display:flex;
+      flex-direction:column;
+      flex:1 1 auto;
+      padding:18px 18px 16px;
+      gap:10px;
+      min-height:0;
+    }
+    #cars .car-card-tag{
+      display:inline-block;
+      align-self:flex-start;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#eef4ff;
+      color:var(--primary);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+    #cars .car-card-title{
+      margin:0;
+      font-size:20px;
+      line-height:1.3;
+      color:var(--primary);
+      font-weight:800;
+    }
+    #cars .car-card-desc{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+      flex:1 1 auto;
+      display:-webkit-box;
+      -webkit-line-clamp:3;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+      min-height:4.5em;
+    }
+    #cars .car-card-desc.is-empty{min-height:0;display:none}
+    #cars .car-card-facts{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:2px 0 0;
+    }
+    #cars .car-fact{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 11px;
+      border-radius:999px;
+      background:#f3f6fa;
+      border:1px solid #e5eaf1;
+      color:#1f2937;
+      font-size:12px;
+      font-weight:700;
+      line-height:1.2;
+    }
+    #cars .car-fact-price{background:#ecfdf5;border-color:#bbf7d0;color:#166534}
+    #cars .car-card-rating{
+      margin:0;
+      font-size:13px;
+      font-weight:700;
+      color:var(--primary);
+    }
+    #cars .car-card-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:auto;
+      padding-top:6px;
+    }
+    #cars .car-card-actions .car-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:13px;
+      text-decoration:none;
+      border:1px solid transparent;
+      cursor:pointer;
+      flex:1 1 auto;
+      white-space:nowrap;
+    }
+    #cars .car-card-actions .car-btn-primary{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+    }
+    #cars .car-card-actions .car-btn-secondary{
+      background:#fff;
+      color:var(--primary);
+      border-color:#dbe3ef;
+    }
+    #cars .car-card-actions .car-btn-secondary.is-copied{
+      background:#ecfdf5;
+      border-color:#86efac;
+      color:#166534;
+    }
+    @media (max-width:720px){
+      #cars .car-card-actions .car-btn{flex:1 1 100%}
+      #cars .car-card-media{aspect-ratio:16 / 11}
+    }
     .pill{
       display:inline-flex;
       align-items:center;
@@ -1916,11 +2045,11 @@ gtag('config', 'G-SWZZY2HBZB');
     <span id="car-rental" class="bm-section-alias" aria-hidden="true"></span>
     <div class="container">
       <div class="section-head">
-        <h2>Car Rental & Private Transport</h2>
-        <p>Private drivers, airport transfer and countryside vehicles for international travelers.</p>
+        <h2>Car Rental in Mongolia</h2>
+        <p>Reliable vehicles and experienced local drivers for your Mongolia journey.</p>
       </div>
 
-      <div class="grid grid-3" id="car-list"></div>
+      <div class="grid grid-3 car-grid" id="car-list"></div>
     </div>
   </section>
 
@@ -3135,6 +3264,50 @@ async function loadCars() {
     return;
   }
 
+  function isMeaningfulText(value, minLen = 3) {
+    const s = String(value == null ? '' : value).trim();
+    if (!s) return false;
+    const lower = s.toLowerCase();
+    const blocked = new Set([
+      'a', 'aa', 'aaa', 'b', 'c', 'ok', 'good', 'nice', 'test', 'testing',
+      'n/a', 'na', 'none', 'null', 'undefined', '-', '--', '.', '..', '...',
+      'x', 'xx', 'todo', 'tbd'
+    ]);
+    if (blocked.has(lower)) return false;
+    if (s.length < minLen && !/\d/.test(s)) return false;
+    return true;
+  }
+
+  function cleanDescription(text) {
+    if (!isMeaningfulText(text, 12)) return '';
+    return String(text).trim().replace(/\s+/g, ' ');
+  }
+
+  function formatSeats(seats) {
+    if (!isMeaningfulText(seats, 1)) return '';
+    const s = String(seats).trim();
+    if (/seat/i.test(s)) return s;
+    return `${s} seats`;
+  }
+
+  function formatRate(rate) {
+    if (!isMeaningfulText(rate, 2)) return '';
+    return String(rate).trim();
+  }
+
+  function formatPhone(phone) {
+    if (!isMeaningfulText(phone, 5)) return '';
+    return String(phone).trim();
+  }
+
+  function carCoverUrl(item) {
+    const urls = normalizeGalleryUrls(
+      [item.gallery_urls, item.main_image_url, item.image_url],
+      item.main_image_url || item.image_url || fallbackCarImage
+    );
+    return urls[0] || fallbackCarImage;
+  }
+
   const ids = data.map((item) => item.id).filter(Boolean);
   const reviewStats = await loadDriverReviewStats(ids);
   const carAnchorIds = buildUniqueCarAnchorIds(data);
@@ -3145,37 +3318,57 @@ async function loadCars() {
   }));
 
   container.innerHTML = data.map((item, index) => {
-    const galleryUrls = normalizeGalleryUrls([item.gallery_urls, item.main_image_url, item.image_url], item.main_image_url || item.image_url || fallbackCarImage);
-    const title = item.title || 'Car rental with driver';
+    const title = isMeaningfulText(item.title, 2)
+      ? String(item.title).trim()
+      : (isMeaningfulText(item.vehicle_type, 2) ? String(item.vehicle_type).trim() : 'Private vehicle with driver');
+    const category = isMeaningfulText(item.vehicle_type, 2)
+      ? String(item.vehicle_type).trim()
+      : 'Car Rental';
+    const description = cleanDescription(item.description);
+    const rate = formatRate(item.daily_rate);
+    const seats = formatSeats(item.seats);
+    const phone = formatPhone(item.phone);
+    const cover = carCoverUrl(item);
     const profileUrl = `driver-detail.html?id=${encodeURIComponent(item.id)}`;
     const anchorId = carAnchorIds[index];
-    // Share ONLY this driver's profile URL (not the general car-rental section)
-    const shareUrl = new URL(profileUrl, window.location.href).href;
+    // Share exact vehicle deep link on the homepage, e.g. https://bookingmongolia.com/#car-hiace-01
+    const shareUrl = `${window.location.origin}/#${anchorId}`;
     const stats = reviewStats[item.id] || { count: 0, avg: null };
-    const ratingHtml = stats.count
-      ? `<div class="listing-meta"><span class="pill">★ ${stats.avg.toFixed(1)} · ${stats.count} review${stats.count === 1 ? '' : 's'}</span></div>`
+    const phoneDigits = phone ? phone.replace(/[^0-9+]/g, '') : '';
+    const phoneHref = phoneDigits
+      ? (phoneDigits.replace(/\D/g, '').length >= 8
+          ? `https://wa.me/${phoneDigits.replace(/^\+/, '').replace(/\D/g, '')}`
+          : `tel:${phoneDigits}`)
       : '';
 
+    const facts = [
+      rate ? `<span class="car-fact car-fact-price">${escapeHtml(rate)}</span>` : '',
+      seats ? `<span class="car-fact">${escapeHtml(seats)}</span>` : '',
+      phone
+        ? (phoneHref
+            ? `<a class="car-fact" href="${escapeAttr(phoneHref)}" target="_blank" rel="noopener">📞 ${escapeHtml(phone)}</a>`
+            : `<span class="car-fact">📞 ${escapeHtml(phone)}</span>`)
+        : ''
+    ].filter(Boolean).join('');
+
     return `
-      <article class="card listing-card" id="${escapeHtml(anchorId)}" data-vehicle-id="${escapeAttr(item.id)}" data-car-anchor="${escapeAttr(anchorId)}">
-        ${renderGalleryBlock('car', index, galleryUrls, fallbackCarImage, title)}
-        <div class="card-body">
-          <span class="tag">${item.vehicle_type || 'Car Rental'}</span>
-          <h3>${escapeHtml(title)}</h3>
-          <div class="listing-meta">
-            ${item.daily_rate ? `<span class="pill">${escapeHtml(item.daily_rate)}</span>` : ''}
-            ${item.seats ? `<span class="pill">${escapeHtml(item.seats)} seats</span>` : ''}
-            ${item.phone ? `<span class="pill">📞 ${escapeHtml(item.phone)}</span>` : ''}
-          </div>
-          ${ratingHtml}
-          <p class="muted">${escapeHtml(item.description || '')}</p>
-          <div class="guide-mini-actions" style="margin-top:10px;">
-            <a class="hotel-mini-btn primary" href="${profileUrl}">View profile & reviews</a>
-            <button type="button" class="guide-share-btn bm-share-btn bm-share-btn-sm"
+      <article class="card car-card" id="${escapeHtml(anchorId)}" data-vehicle-id="${escapeAttr(item.id)}" data-car-anchor="${escapeAttr(anchorId)}">
+        <div class="car-card-media">
+          <img src="${escapeAttr(cover)}" alt="${escapeAttr(title)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackCarImage}'">
+        </div>
+        <div class="car-card-body">
+          <span class="car-card-tag">${escapeHtml(category)}</span>
+          <h3 class="car-card-title">${escapeHtml(title)}</h3>
+          <p class="car-card-desc${description ? '' : ' is-empty'}">${description ? escapeHtml(description) : ''}</p>
+          ${facts ? `<div class="car-card-facts">${facts}</div>` : ''}
+          ${stats.count ? `<div class="car-card-rating">★ ${stats.avg.toFixed(1)} · ${stats.count} review${stats.count === 1 ? '' : 's'}</div>` : ''}
+          <div class="car-card-actions">
+            <a class="car-btn car-btn-primary" href="${escapeAttr(profileUrl)}">View profile &amp; reviews</a>
+            <button type="button" class="car-btn car-btn-secondary bm-share-btn"
               data-share-title="${escapeAttr(title)}"
-              data-share-text="${escapeAttr(title + ' — Booking Mongolia driver')}"
+              data-share-text="${escapeAttr(title + ' — Booking Mongolia car rental')}"
               data-share-url="${escapeAttr(shareUrl)}"
-              aria-label="Share this driver link">
+              aria-label="Share this vehicle">
               <span class="bm-share-icon" aria-hidden="true">↗</span> Share
             </button>
           </div>
@@ -3188,7 +3381,6 @@ async function loadCars() {
     container.querySelectorAll('.bm-share-btn').forEach((btn) => window.BMShare.bindButton(btn));
   }
 
-  // Exact-car deep links (#car-...) must wait until cards exist, then scroll to that card
   if (window.BMNavAnchors && window.location.hash) {
     window.BMNavAnchors.scrollToHashWhenReady(window.location.hash, 20);
   }
