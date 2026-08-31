@@ -24,7 +24,9 @@
   function resolveId(hash) {
     var raw = String(hash || "").replace(/^#/, "").trim();
     if (!raw) return null;
-    // driver-UUID on listing page
+    // Individual car cards: #car-hiace-01, #car-starex-van-02 — never map these to the section
+    if (/^car-(?:[a-z0-9]+-)+?\d+$/i.test(raw) && raw.toLowerCase() !== "car-rental") return raw;
+    // Legacy driver-UUID anchors on listing page
     if (/^driver-/i.test(raw)) return raw;
     return ALIASES[raw.toLowerCase()] || raw;
   }
@@ -32,7 +34,14 @@
   function findTarget(hash) {
     var id = resolveId(hash);
     if (!id) return null;
-    return document.getElementById(id);
+    var el = document.getElementById(id);
+    if (el) return el;
+    // Fallback: data-car-anchor on dynamically rendered cards
+    try {
+      return document.querySelector('[data-car-anchor="' + id.replace(/"/g, '\\"') + '"]');
+    } catch (e) {
+      return null;
+    }
   }
 
   function scrollToHash(hash, opts) {
