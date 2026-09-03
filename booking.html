@@ -42,12 +42,19 @@
       background:#0f3557;color:#fff;border:none;border-radius:999px;
       padding:14px 22px;font-weight:700;cursor:pointer
     }
+    .btn:disabled{opacity:.55;cursor:not-allowed}
     .btn-secondary{background:#c98b2f}
     .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
     .note{
       margin-top:18px;padding:14px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px
     }
     .small{font-size:13px;color:#6b7280}
+    .agreement-box{background:#f8fafc;border:1px solid #dbe3ef;border-radius:16px;padding:16px;display:grid;gap:12px}
+    .agreement-box h3{margin:0;font-size:18px;color:#0f3557}
+    .agreement-check{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:2px solid #0f3557;border-radius:12px;background:#fff}
+    .agreement-check input{width:18px;height:18px;margin-top:2px;flex:0 0 auto}
+    .agreement-error{margin:0;color:#b91c1c;font-weight:700;font-size:14px;display:none}
+    .agreement-error.show{display:block}
     @media (max-width: 800px){
       .layout{grid-template-columns:1fr}
       .form-grid{grid-template-columns:1fr}
@@ -179,8 +186,23 @@
               <textarea id="message" name="message" placeholder="Tell us about your trip, preferred route, interests, transport needs, accommodation level, and special requests."></textarea>
             </div>
 
+            <div class="full agreement-box">
+              <h3>Travel Agreement</h3>
+              <div><strong>BookingMongolia General Travel Agreement</strong></div>
+              <div>
+                <a class="btn" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" target="_blank" rel="noopener">View / Download Agreement PDF</a>
+              </div>
+              <label class="agreement-check" for="agreementAccepted">
+                <input id="agreementAccepted" name="agreement_accepted" type="checkbox" value="true" autocomplete="off">
+                <span>I have read and agree to the BookingMongolia General Travel Agreement and accept its terms and conditions.</span>
+              </label>
+              <input type="hidden" name="agreement_version" value="2026">
+              <input type="hidden" name="booking_id" id="bookingIdField" value="">
+              <p class="agreement-error" id="agreementError">Please read and accept the BookingMongolia General Travel Agreement before continuing.</p>
+            </div>
+
             <div class="full">
-              <button class="btn" type="submit">Send Booking Request</button>
+              <button class="btn" type="submit" id="bookingSubmitBtn" disabled>Send Booking Request</button>
             </div>
           </div>
         </form>
@@ -226,5 +248,56 @@
     © 2026 Discover Mongolia Tours
   </div>
 </footer>
+<script>
+(function(){
+  var AGREEMENT_VERSION = "2026";
+  var RECORD_URL = "/.netlify/functions/record-agreement-acceptance";
+  var form = document.querySelector('form[name="mongolia-booking"]');
+  var checkbox = document.getElementById("agreementAccepted");
+  var submitBtn = document.getElementById("bookingSubmitBtn");
+  var errorEl = document.getElementById("agreementError");
+  var bookingIdField = document.getElementById("bookingIdField");
+  if(!form || !checkbox || !submitBtn) return;
+
+  function sync(){
+    submitBtn.disabled = !checkbox.checked;
+    if(checkbox.checked) errorEl.classList.remove("show");
+  }
+  checkbox.addEventListener("change", sync);
+  sync();
+
+  form.addEventListener("submit", function(ev){
+    if(!checkbox.checked){
+      ev.preventDefault();
+      errorEl.classList.add("show");
+      return;
+    }
+    var bookingId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("bm-" + Date.now());
+    bookingIdField.value = bookingId;
+    ev.preventDefault();
+    submitBtn.disabled = true;
+
+    var payload = {
+      booking_id: bookingId,
+      traveler_name: document.getElementById("fullname").value || "",
+      traveler_email: document.getElementById("email").value || "",
+      traveler_contact: document.getElementById("phone").value || document.getElementById("email").value || "",
+      service_type: document.getElementById("service").value || "",
+      selected_tour: document.getElementById("service").value || "",
+      agreement_accepted: true,
+      agreement_version: AGREEMENT_VERSION,
+      source: "booking.html"
+    };
+
+    fetch(RECORD_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).catch(function(){ /* Formspree/Netlify form still proceeds */ }).finally(function(){
+      form.submit();
+    });
+  });
+})();
+</script>
 </body>
 </html>

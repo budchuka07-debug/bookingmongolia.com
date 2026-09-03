@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Travel Agreement | Booking Mongolia</title>
+<style>
+  :root{
+    --primary:#0d3b66;
+    --accent:#c98b2f;
+    --line:#dbe3ef;
+    --muted:#64748b;
+    --bg:#f7f5ef;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:#1f2937;
+    line-height:1.55;
+  }
+  .toolbar{
+    position:sticky;top:0;z-index:20;
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    padding:12px 16px;background:#fff;border-bottom:1px solid var(--line);
+  }
+  .toolbar strong{color:var(--primary)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    border:0;border-radius:999px;padding:11px 16px;font-weight:800;cursor:pointer;
+    text-decoration:none;font:inherit;min-height:42px;
+  }
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-outline{background:#fff;color:var(--primary);border:1px solid var(--line)}
+  .hint{font-size:13px;color:var(--muted);max-width:520px}
+  .sheet{
+    width:min(900px,94%);
+    margin:22px auto 50px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.06);
+    padding:34px 36px 40px;
+  }
+  .brand{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--primary);padding-bottom:14px;margin-bottom:18px}
+  .brand h1{margin:0;font-size:26px;color:var(--primary)}
+  .brand .meta{font-size:13px;color:var(--muted);text-align:right}
+  h2{margin:22px 0 8px;font-size:16px;color:var(--primary);text-transform:uppercase;letter-spacing:.04em}
+  p,li{font-size:14px}
+  .fill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin:12px 0 6px}
+  .fill{border-bottom:1px dotted #94a3b8;min-height:28px;padding:4px 2px;font-size:14px}
+  .fill label{display:block;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  .fill input,.fill textarea{
+    width:100%;border:0;outline:none;font:inherit;background:transparent;padding:2px 0;
+  }
+  .fill.full{grid-column:1/-1}
+  .fill textarea{min-height:70px;resize:vertical}
+  ul{margin:8px 0 0;padding-left:18px}
+  .box{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:8px}
+  .sign{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}
+  .sign-box{border-top:1px solid #94a3b8;padding-top:10px;min-height:90px}
+  .sign-box strong{display:block;margin-bottom:8px;color:var(--primary)}
+  .muted{color:var(--muted);font-size:12px}
+  .note{margin-top:18px;padding:12px 14px;border-left:4px solid var(--accent);background:#fffbeb;font-size:13px}
+  @media (max-width:720px){
+    .sheet{padding:22px 16px 28px}
+    .fill-grid,.sign{grid-template-columns:1fr}
+    .brand .meta{text-align:left}
+  }
+  @media print{
+    body{background:#fff}
+    .toolbar{display:none!important}
+    .sheet{
+      width:100%;max-width:none;margin:0;border:0;border-radius:0;box-shadow:none;padding:0;
+    }
+    a{color:inherit;text-decoration:none}
+    .fill input,.fill textarea{border:0}
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <strong>Booking Mongolia — Travel Agreement</strong>
+      <div class="hint">Fill the blanks → click <b>Save as PDF</b> → send the PDF to your guest by WhatsApp/email.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" class="btn btn-accent" onclick="window.print()">Save as PDF / Print</button>
+      <a class="btn btn-outline" href="/tours-dates.html">Back to Tours &amp; Dates</a>
+    </div>
+  </div>
+
+  <article class="sheet" id="agreement">
+    <header class="brand">
+      <div>
+        <h1>Travel Agreement</h1>
+        <div class="muted">Private tour / transport booking confirmation</div>
+      </div>
+      <div class="meta">
+        <div><strong>Booking Mongolia</strong></div>
+        <div>WhatsApp: +976 90283039</div>
+        <div>Email: hello@discovermongoliatours.com</div>
+        <div>Web: bookingmongolia.com</div>
+      </div>
+    </header>
+
+    <p>
+      This Travel Agreement is between <strong>Booking Mongolia</strong> (“Operator”) and the Guest named below.
+      It confirms the itinerary, price, and booking conditions after both sides agree.
+    </p>
+
+    <h2>1. Guest &amp; Trip Details</h2>
+    <div class="fill-grid">
+      <div class="fill"><label>Guest full name(s)</label><input type="text" placeholder="Type guest name(s)"></div>
+      <div class="fill"><label>Country</label><input type="text" placeholder="e.g. Japan / Korea / Germany"></div>
+      <div class="fill"><label>WhatsApp / Phone</label><input type="text" placeholder="+81 / +82 / +976"></div>
+      <div class="fill"><label>Email</label><input type="email" placeholder="guest@email.com"></div>
+      <div class="fill"><label>Number of travelers</label><input type="text" placeholder="e.g. 2 adults"></div>
+      <div class="fill"><label>Travel dates</label><input type="text" placeholder="e.g. 10–18 July 2026"></div>
+      <div class="fill full"><label>Service type</label><input type="text" placeholder="VIP Tour / Gobi / Khuvsgul / Private driver / Custom route"></div>
+      <div class="fill full"><label>Confirmed itinerary summary</label><textarea placeholder="Day-by-day summary, destinations, hotel/ger camps, driver/guide notes..."></textarea></div>
+    </div>
+
+    <h2>2. Price &amp; Payment</h2>
+    <div class="fill-grid">
+      <div class="fill"><label>Total price (USD)</label><input type="text" placeholder="e.g. USD 2,400"></div>
+      <div class="fill"><label>Includes</label><input type="text" placeholder="Driver, vehicle, fuel, guide, hotels..."></div>
+      <div class="fill"><label>Excludes</label><input type="text" placeholder="Flights, meals, personal expenses..."></div>
+      <div class="fill"><label>Deposit / balance</label><input type="text" placeholder="e.g. Deposit USD ___ / Balance before trip"></div>
+    </div>
+    <div class="box">
+      <strong>Payment methods currently used by Booking Mongolia</strong>
+      <ul>
+        <li>Wise transfer</li>
+        <li>SWIFT bank transfer</li>
+      </ul>
+      <p class="muted" style="margin:8px 0 0">
+        Payment details are sent only after this agreement is confirmed by both sides.
+        Bank/Wise account details are not published on the public website.
+      </p>
+    </div>
+
+    <h2>3. Booking Process</h2>
+    <ul>
+      <li>Operator and Guest first confirm travel dates, itinerary, traveler count, and availability.</li>
+      <li>Operator sends this Travel Agreement for review.</li>
+      <li>After both sides confirm, Operator sends payment instructions.</li>
+      <li>Accommodations and key services may be reserved after deposit/confirmation, because popular ger camps can fill quickly.</li>
+    </ul>
+
+    <h2>4. Changes &amp; Cancellation</h2>
+    <ul>
+      <li>Date changes requested <strong>7 or more days</strong> before start can usually be processed without an extra change fee, subject to availability.</li>
+      <li>Changes requested <strong>less than 7 days</strong> before start may require an additional charge.</li>
+      <div class="fill-grid" style="margin-top:10px">
+        <div class="fill full"><label>Additional cancellation / refund notes for this booking</label><textarea placeholder="Write any booking-specific refund rules agreed with the guest..."></textarea></div>
+      </div>
+    </ul>
+
+    <h2>5. Responsibilities</h2>
+    <ul>
+      <li>Guest is responsible for valid passport/visa and travel insurance.</li>
+      <li>Operator arranges agreed local services (guide, driver, vehicle, selected accommodations) as described in the itinerary.</li>
+      <li>Weather, road conditions, and remote logistics in Mongolia may require flexible timing. Operator will adjust safely when needed.</li>
+      <li>Third-party hotels, ger camps, and activity providers remain responsible for their own service quality under their own terms.</li>
+    </ul>
+
+    <h2>6. Confirmation</h2>
+    <p>
+      By signing (or confirming by email/WhatsApp reply “I agree”), both sides confirm the details above.
+      Small itinerary adjustments may still be made by mutual agreement to improve comfort and safety.
+    </p>
+
+    <div class="sign">
+      <div class="sign-box">
+        <strong>Guest confirmation</strong>
+        <div class="muted">Name / Signature / Date</div>
+        <div class="fill" style="margin-top:28px"><label>Date</label><input type="text" placeholder="YYYY-MM-DD"></div>
+      </div>
+      <div class="sign-box">
+        <strong>Booking Mongolia</strong>
+        <div class="muted">Authorized representative</div>
+        <div class="fill" style="margin-top:28px"><label>Date</label><input type="text" placeholder="YYYY-MM-DD"></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>How to send as PDF:</strong> Click <em>Save as PDF / Print</em> → choose “Save as PDF” → send the file to the guest on WhatsApp or email.
+      Keep one copy for your records.
+    </div>
+  </article>
+</body>
+</html>

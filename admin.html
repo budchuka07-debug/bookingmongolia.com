@@ -89,7 +89,7 @@
     <div class="top">
       <div>
         <h1>BookingMongolia Admin PRO</h1>
-        <div class="muted">Moderate Traveler Hub posts, comments, hotels, cars, and guest reviews.</div>
+        <div class="muted">Moderate Traveler Hub posts, comments, hotels, cars, guest reviews, and travel agreement acceptances.</div>
       </div>
       <button class="secondary" onclick="logout()">Logout</button>
     </div>
@@ -101,6 +101,7 @@
         <button class="tab" data-tab="hotels" onclick="setTab('hotels')">Hotels</button>
         <button class="tab" data-tab="cars" onclick="setTab('cars')">Cars</button>
         <button class="tab" data-tab="reviews" onclick="setTab('reviews')">Reviews</button>
+        <button class="tab" data-tab="agreements" onclick="setTab('agreements')">Agreements</button>
       </div>
       <div class="toolbar">
         <div>
@@ -181,7 +182,7 @@
 const API = "/.netlify/functions/admin-action";
 let adminPassword = sessionStorage.getItem("bm_admin_password") || "";
 let activeTab = "community";
-let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [] };
+let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [], agreements: [] };
 let nameCache = { hotels: {}, cars: {} };
 
 function showNotice(msg, type="success"){
@@ -230,6 +231,8 @@ function syncTypeFilterOptions(){
     wrap.style.display = "block";
     label.textContent = "Type";
     sel.innerHTML = `<option value="all">All</option><option value="hotel">Hotel</option><option value="driver">Driver</option>`;
+  } else if(activeTab === "agreements"){
+    wrap.style.display = "none";
   } else {
     wrap.style.display = "none";
   }
@@ -278,7 +281,9 @@ function textMatch(item, q){
   const blob = [
     item.title,item.content,item.name,item.country,item.destination,item.contact,item.comment,
     item.description,item.property_name,item.vehicle_type,item.email,item.phone,
-    item.guest_name,item.guest_country,item.review_type,item.booking_ref
+    item.guest_name,item.guest_country,item.review_type,item.booking_ref,
+    item.traveler_name,item.traveler_email,item.traveler_contact,item.booking_id,
+    item.selected_tour,item.service_type,item.agreement_version
   ].join(" ").toLowerCase();
   return blob.includes(q);
 }
@@ -292,7 +297,7 @@ function renderCurrent(){
   const type = document.getElementById("typeFilter").value;
   let items = [...(cache[activeTab] || [])];
   items = items.filter(i => textMatch(i,q));
-  if(status !== "all") items = items.filter(i => (i.status || "pending") === status);
+  if(status !== "all" && activeTab !== "agreements") items = items.filter(i => (i.status || "pending") === status);
   if(activeTab === "community" && type !== "all") items = items.filter(i => (i.type || "blog") === type);
   if(activeTab === "reviews" && type !== "all") items = items.filter(i => (i.review_type || "") === type);
   if(activeTab === "reviews"){
@@ -310,6 +315,7 @@ function renderCurrent(){
   if(activeTab === "hotels") c.innerHTML = items.map(renderHotel).join("");
   if(activeTab === "cars") c.innerHTML = items.map(renderCar).join("");
   if(activeTab === "reviews") c.innerHTML = items.map(renderReview).join("");
+  if(activeTab === "agreements") c.innerHTML = items.map(renderAgreement).join("");
 }
 function renderImages(urls){
   if(!Array.isArray(urls) || !urls.length) return "";
@@ -430,6 +436,28 @@ function toggleReviewDetail(id){
   ];
   box.textContent = lines.join("\n");
   box.classList.remove("hidden");
+}
+function renderAgreement(a){
+  const accepted = a.agreement_accepted === true || a.agreement_accepted === "true";
+  const acceptedAt = a.agreement_accepted_at || a.created_at;
+  return `<div class="card">
+    <div class="card-top">
+      <div>
+        <h3>Travel Agreement</h3>
+        <div class="muted">${escapeHtml(a.traveler_name || "-")} • ${escapeHtml(a.traveler_email || a.traveler_contact || "-")}</div>
+      </div>
+      <div><span class="badge ${accepted ? "approved" : "rejected"}">${accepted ? "Accepted" : "Not accepted"}</span></div>
+    </div>
+    <div class="muted"><strong>Accepted:</strong> ${accepted ? "Yes" : "No"}</div>
+    <div class="muted"><strong>Version:</strong> ${escapeHtml(a.agreement_version || "2026")}</div>
+    <div class="muted"><strong>Accepted At:</strong> ${acceptedAt ? new Date(acceptedAt).toLocaleString() : "-"}</div>
+    <div class="muted"><strong>Booking ID:</strong> ${escapeHtml(a.booking_id || "-")}</div>
+    <div class="muted"><strong>Tour / Service:</strong> ${escapeHtml(a.selected_tour || "-")} / ${escapeHtml(a.service_type || "-")}</div>
+    <div class="muted"><strong>Source:</strong> ${escapeHtml(a.source || "-")}</div>
+    <div class="actions">
+      <button class="danger" onclick="deleteItem('booking_agreement_acceptances','${a.id}')">Delete</button>
+    </div>
+  </div>`;
 }
 function syncInviteTarget(){ /* placeholder for future hotel/driver pickers */ }
 async function createInvite(){

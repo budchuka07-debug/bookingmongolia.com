@@ -4,7 +4,8 @@ const ALLOWED_TABLES = new Set([
   "property_submissions",
   "vehicle_submissions",
   "guest_reviews",
-  "review_invites"
+  "review_invites",
+  "booking_agreement_acceptances"
 ]);
 
 const RESOURCE_TO_TABLE = {
@@ -13,7 +14,8 @@ const RESOURCE_TO_TABLE = {
   hotels: "property_submissions",
   cars: "vehicle_submissions",
   reviews: "guest_reviews",
-  invites: "review_invites"
+  invites: "review_invites",
+  agreements: "booking_agreement_acceptances"
 };
 
 const STATUS_BY_TABLE = {

@@ -135,6 +135,15 @@
     .full{grid-column:1/-1}
     .help-note{margin-top:14px;padding:14px 16px;border-radius:14px;background:#eef6ff;border:1px solid #cfe2ff;color:#244b75}
     .hidden{display:none!important}
+    .btn-primary:disabled{opacity:.55;cursor:not-allowed;pointer-events:none}
+    .agreement-box{grid-column:1/-1;background:#f8fafc;border:1px solid #dbe3ef;border-radius:18px;padding:18px;display:grid;gap:12px}
+    .agreement-box h4{margin:0;color:var(--primary-dark);font-size:18px}
+    .agreement-box .agreement-title{margin:0;font-weight:700;color:var(--primary)}
+    .agreement-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .agreement-check{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;border:2px solid #0d3b66;background:#fff}
+    .agreement-check input{width:20px;height:20px;margin-top:2px;flex:0 0 auto;accent-color:#0d3b66;cursor:pointer}
+    .agreement-check span{font-weight:600;color:#0f172a;line-height:1.45}
+    .agreement-error{margin:0;color:#b91c1c;font-weight:700;font-size:14px}
 
     .service-grid-6{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
     .family-section{background:#fff}
@@ -897,14 +906,28 @@
           <textarea id="guestMessage" placeholder="Special requests, children, helper, hotel level, language guide, food preference, budget, etc."></textarea>
         </div>
 
+        <div class="agreement-box" id="travelAgreementSection">
+          <h4>Travel Agreement</h4>
+          <p class="agreement-title">BookingMongolia General Travel Agreement</p>
+          <div class="agreement-actions">
+            <a class="btn btn-primary" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" target="_blank" rel="noopener">View / Download Agreement PDF</a>
+            <span class="small-note">Version 2026 · general terms (tour dates and price stay on your booking confirmation)</span>
+          </div>
+          <label class="agreement-check" for="agreementAccepted">
+            <input id="agreementAccepted" type="checkbox" autocomplete="off">
+            <span>I have read and agree to the BookingMongolia General Travel Agreement and accept its terms and conditions.</span>
+          </label>
+          <p class="agreement-error hidden" id="agreementError" role="alert">Please read and accept the BookingMongolia General Travel Agreement before continuing.</p>
+        </div>
+
         <div class="full" style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button class="btn btn-primary" type="submit">Send Request</button>
+          <button class="btn btn-primary" type="submit" id="bookingSubmitBtn" disabled>Send Request</button>
           <a class="btn" style="background:#111;color:#fff;" href="javascript:void(0)" id="paymentInfoLink" onclick="openAgreementInfo()">Agreement & Payment Info</a>
           <a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a>
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/esimmongolia">Messenger</a>
         </div>
       </form>
-      <div class="help-note" id="submitNote">This form sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. After dates and itinerary are confirmed, the travel agreement is shared and payment details are sent by Wise transfer or SWIFT bank transfer. WhatsApp and Messenger remain available as backup.</div>
+      <div class="help-note" id="submitNote">This form sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. After you accept the General Travel Agreement and we confirm dates and itinerary, Wise / SWIFT payment details are sent. WhatsApp and Messenger remain available as backup.</div>
     </div>
   </div>
 
@@ -943,14 +966,18 @@
         <h4>Important note</h4>
         <p>The travel agreement is shared only when the traveler is ready to confirm the booking. Payment details are not shown publicly on the page before confirmation.</p>
       </div>
-      <div class="service-actions" style="margin-top:18px;">
-        <button class="service-btn primary" onclick="closeAgreementModal()">Close</button>
+      <div class="service-actions" style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+        <a class="service-btn primary" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" target="_blank" rel="noopener">View Agreement PDF</a>
+        <button class="service-btn" onclick="closeAgreementModal()">Close</button>
       </div>
     </div>
   </div>
 
   <script>
         const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvwywob';
+    const AGREEMENT_VERSION = '2026';
+    const AGREEMENT_PDF_URL = '/documents/BookingMongolia-General-Travel-Agreement.pdf';
+    const RECORD_AGREEMENT_ENDPOINT = '/.netlify/functions/record-agreement-acceptance';
     const seasonDates = {
       weekly: ['May 10','May 17','May 24','May 31','June 7','June 14','June 21','June 28','July 5','July 12','July 19','July 26','August 2','August 9','August 16','August 23','September 6','September 20','October 4'],
       weeklyLate: ['May 12','May 19','May 26','June 2','June 9','June 16','June 23','June 30','July 7','July 14','July 21','July 28','August 4','August 11','August 18','August 25','September 8','September 22','October 6'],
@@ -1390,6 +1417,7 @@
         `Places to visit: ${document.getElementById('routeRequest').value || '-'}`,
         `Name: ${document.getElementById('guestName').value || '-'}`,
         `Contact: ${document.getElementById('guestContact').value || '-'}`,
+        `Agreement accepted: ${document.getElementById('agreementAccepted').checked ? 'Yes (v' + AGREEMENT_VERSION + ')' : 'No'}`,
         `Notes: ${document.getElementById('guestMessage').value || '-'}`
       ].join('\n');
     }
@@ -1399,13 +1427,66 @@
       document.getElementById('waLink').href = `https://wa.me/97690283039?text=${text}`;
     }
 
+    function newBookingId(){
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return window.crypto.randomUUID();
+      }
+      return 'bm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    }
+
+    function syncAgreementSubmitState(){
+      const checked = document.getElementById('agreementAccepted').checked;
+      document.getElementById('bookingSubmitBtn').disabled = !checked;
+      if (checked) {
+        document.getElementById('agreementError').classList.add('hidden');
+      }
+    }
+
+    async function recordAgreementAcceptance(bookingId){
+      const contact = document.getElementById('guestContact').value || '';
+      const response = await fetch(RECORD_AGREEMENT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          booking_id: bookingId,
+          traveler_name: document.getElementById('guestName').value || '',
+          traveler_contact: contact,
+          traveler_email: contact.includes('@') ? contact : '',
+          service_type: document.getElementById('requestType').value || '',
+          selected_tour: document.getElementById('selectedTour').value || '',
+          agreement_accepted: true,
+          agreement_version: AGREEMENT_VERSION,
+          source: 'tours-dates'
+        })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Could not save agreement acceptance');
+      }
+      return data;
+    }
+
     async function submitInquiry(){
       updateWhatsAppLink();
-      const paymentBtn = document.getElementById('paymentInfoLink');
-      const type = document.getElementById('requestType').value;
       const submitNote = document.getElementById('submitNote');
+      const agreementError = document.getElementById('agreementError');
+      const agreementAccepted = document.getElementById('agreementAccepted').checked;
+
+      if (!agreementAccepted) {
+        agreementError.classList.remove('hidden');
+        agreementError.textContent = 'Please read and accept the BookingMongolia General Travel Agreement before continuing.';
+        submitNote.innerHTML = 'Please read and accept the BookingMongolia General Travel Agreement before continuing.';
+        return;
+      }
+
+      const bookingId = newBookingId();
+      const contact = document.getElementById('guestContact').value || '';
 
       const payload = {
+        booking_id: bookingId,
         serviceType: document.getElementById('requestType').value || '',
         selectedTour: document.getElementById('selectedTour').value || '',
         preferredDate: document.getElementById('selectedDate').value || '',
@@ -1419,13 +1500,25 @@
         foodPreference: document.getElementById('foodPreference').value || '',
         childcareOption: document.getElementById('childcareOption').value || '',
         name: document.getElementById('guestName').value || '',
-        contact: document.getElementById('guestContact').value || '',
+        contact: contact,
         notes: document.getElementById('guestMessage').value || '',
         message: buildMessageText(),
+        agreement_accepted: true,
+        agreement_version: AGREEMENT_VERSION,
+        agreement_pdf: AGREEMENT_PDF_URL,
         _subject: `Booking Mongolia request: ${document.getElementById('selectedTour').value || document.getElementById('requestType').value || 'Tour inquiry'}`
       };
 
-      submitNote.innerHTML = 'Sending your request...';
+      submitNote.innerHTML = 'Saving agreement acceptance and sending your request...';
+      document.getElementById('bookingSubmitBtn').disabled = true;
+
+      let acceptanceSaved = false;
+      try {
+        await recordAgreementAcceptance(bookingId);
+        acceptanceSaved = true;
+      } catch (agreementErrorSave) {
+        acceptanceSaved = false;
+      }
 
       try {
         const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -1441,11 +1534,19 @@
           throw new Error('Formspree request failed');
         }
 
-        submitNote.innerHTML = 'Your request was sent successfully. We will confirm dates first, then share the travel agreement and Wise / SWIFT payment details.';
+        if (acceptanceSaved) {
+          submitNote.innerHTML = 'Your request was sent successfully. Agreement acceptance was recorded. We will confirm dates and itinerary next, then send Wise / SWIFT payment details.';
+        } else {
+          submitNote.innerHTML = 'Your request was sent successfully. Agreement acceptance was included with the request. We will confirm dates and itinerary next, then send Wise / SWIFT payment details.';
+        }
       } catch (error) {
-        submitNote.innerHTML = 'Your request could not be sent automatically. Please use the green <strong>WhatsApp</strong> button or <strong>Messenger</strong> and we will continue manually.';
+        syncAgreementSubmitState();
+        submitNote.innerHTML = 'Your request could not be completed automatically. Please accept the agreement, then use the green <strong>WhatsApp</strong> button or <strong>Messenger</strong> and we will continue manually.';
       }
     }
+
+    document.getElementById('agreementAccepted').addEventListener('change', syncAgreementSubmitState);
+    syncAgreementSubmitState();
 
     ['guestName','guestContact','guestMessage','selectedPeople','selectedTour','selectedDate','travelMonth','nomadNights','routeRequest','guestFamilyInfo','foodPreference','childcareOption'].forEach(id => {
       const el = document.getElementById(id);
