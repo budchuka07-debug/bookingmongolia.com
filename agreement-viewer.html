@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>General Travel Agreement | Booking Mongolia</title>
+<link rel="canonical" href="https://bookingmongolia.com/agreement-viewer.html" />
+<style>
+  :root{ --primary:#0d3b66; --accent:#c98b2f; --line:#dbe3ef; --muted:#64748b; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef2f7;color:#1f2937}
+  .toolbar{
+    position:sticky;top:0;z-index:20;
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    padding:12px 16px;background:#fff;border-bottom:1px solid var(--line);
+    box-shadow:0 6px 18px rgba(15,23,42,.06);
+  }
+  .toolbar h1{margin:0;font-size:18px;color:var(--primary)}
+  .actions{display:flex;flex-wrap:wrap;gap:8px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    border:0;border-radius:999px;padding:11px 16px;font-weight:800;cursor:pointer;
+    text-decoration:none;font:inherit;min-height:42px;color:#fff;background:var(--primary);
+  }
+  .btn-dark{background:#111}
+  .btn-outline{background:#fff;color:var(--primary);border:1px solid var(--line)}
+  .hint{font-size:13px;color:var(--muted);margin:0;max-width:420px}
+  .viewer{height:calc(100vh - 74px);background:#fff}
+  .viewer iframe{width:100%;height:100%;border:0;display:block}
+  .fallback{padding:24px;text-align:center}
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <h1>BookingMongolia General Travel Agreement</h1>
+      <p class="hint">Read the agreement, then use Close to return to your booking.</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn-dark" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" download>Download PDF</a>
+      <button type="button" class="btn" id="closeBtn">Close</button>
+    </div>
+  </div>
+  <div class="viewer">
+    <iframe title="BookingMongolia General Travel Agreement PDF" src="/documents/BookingMongolia-General-Travel-Agreement.pdf#toolbar=1&navpanes=0"></iframe>
+  </div>
+  <noscript>
+    <div class="fallback">
+      <p>Open the PDF directly:</p>
+      <a href="/documents/BookingMongolia-General-Travel-Agreement.pdf">BookingMongolia-General-Travel-Agreement.pdf</a>
+    </div>
+  </noscript>
+<script>
+(function(){
+  function goBack(){
+    var params = new URLSearchParams(window.location.search);
+    var ret = params.get("return");
+    if (ret && ret.charAt(0) === "/" && ret.indexOf("//") === -1) {
+      window.location.href = ret;
+      return;
+    }
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+    window.location.href = "/tours-dates.html";
+  }
+  document.getElementById("closeBtn").addEventListener("click", goBack);
+})();
+</script>
+</body>
+</html>

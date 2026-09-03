@@ -144,6 +144,13 @@
     .agreement-check input{width:20px;height:20px;margin-top:2px;flex:0 0 auto;accent-color:#0d3b66;cursor:pointer}
     .agreement-check span{font-weight:600;color:#0f172a;line-height:1.45}
     .agreement-error{margin:0;color:#b91c1c;font-weight:700;font-size:14px}
+    .pdf-viewer-dialog{width:min(980px,96vw);max-height:92vh;display:flex;flex-direction:column;padding:16px 16px 18px}
+    .pdf-viewer-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px;padding-right:36px}
+    .pdf-viewer-toolbar h3{margin:0;font-size:18px;color:var(--primary-dark)}
+    .pdf-viewer-actions{display:flex;flex-wrap:wrap;gap:8px}
+    .pdf-viewer-frame-wrap{flex:1;min-height:58vh;border:1px solid #dbe3ef;border-radius:14px;overflow:hidden;background:#eef2f7}
+    .pdf-viewer-frame-wrap iframe{width:100%;height:min(68vh,720px);border:0;display:block;background:#fff}
+    .pdf-viewer-footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:12px}
 
     .service-grid-6{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
     .family-section{background:#fff}
@@ -910,7 +917,8 @@
           <h4>Travel Agreement</h4>
           <p class="agreement-title">BookingMongolia General Travel Agreement</p>
           <div class="agreement-actions">
-            <a class="btn btn-primary" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" target="_blank" rel="noopener">View / Download Agreement PDF</a>
+            <button type="button" class="btn btn-primary" id="viewAgreementBtn" onclick="openPdfAgreementViewer()">View Agreement PDF</button>
+            <a class="btn" style="background:#111;color:#fff;" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" download>Download PDF</a>
             <span class="small-note">Version 2026 · general terms (tour dates and price stay on your booking confirmation)</span>
           </div>
           <label class="agreement-check" for="agreementAccepted">
@@ -967,8 +975,28 @@
         <p>The travel agreement is shared only when the traveler is ready to confirm the booking. Payment details are not shown publicly on the page before confirmation.</p>
       </div>
       <div class="service-actions" style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
-        <a class="service-btn primary" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" target="_blank" rel="noopener">View Agreement PDF</a>
+        <button type="button" class="service-btn primary" onclick="openPdfAgreementViewer()">View Agreement PDF</button>
         <button class="service-btn" onclick="closeAgreementModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="pdfAgreementModal" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closePdfAgreementViewer()"></div>
+    <div class="modal-dialog pdf-viewer-dialog">
+      <button class="modal-close" onclick="closePdfAgreementViewer()" aria-label="Close agreement">&times;</button>
+      <div class="pdf-viewer-toolbar">
+        <h3>BookingMongolia General Travel Agreement</h3>
+        <div class="pdf-viewer-actions">
+          <a class="btn" style="background:#111;color:#fff;" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" download>Download PDF</a>
+          <button type="button" class="btn btn-primary" onclick="closePdfAgreementViewer()">Close</button>
+        </div>
+      </div>
+      <div class="pdf-viewer-frame-wrap">
+        <iframe id="pdfAgreementFrame" title="BookingMongolia General Travel Agreement PDF" loading="lazy"></iframe>
+      </div>
+      <div class="pdf-viewer-footer">
+        <button type="button" class="btn btn-primary" onclick="closePdfAgreementViewer()">Close / Back to booking</button>
       </div>
     </div>
   </div>
@@ -1334,6 +1362,22 @@
 
     function closeAgreementModal(){
       document.getElementById('agreementModal').classList.remove('open');
+    }
+
+    function openPdfAgreementViewer(){
+      const modal = document.getElementById('pdfAgreementModal');
+      const frame = document.getElementById('pdfAgreementFrame');
+      if (frame && !frame.getAttribute('src')) {
+        frame.setAttribute('src', AGREEMENT_PDF_URL + '#toolbar=1&navpanes=0');
+      }
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closePdfAgreementViewer(){
+      const modal = document.getElementById('pdfAgreementModal');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
     }
 
     function updateDepositField(){
