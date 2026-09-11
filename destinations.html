@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d3b66" />
+  <title>Mongolia Destinations | Booking Mongolia</title>
+  <meta name="description" content="Explore Mongolia by destination. Click a province to find famous places, travel tips and related tours." />
+  <link rel="canonical" href="https://bookingmongolia.com/destinations.html" />
+  <script src="/js/ga4.js"></script>
+  <script src="/js/share.js"></script>
+  <link rel="stylesheet" href="/css/site.css" />
+  
+  <script src="/js/book-dates-btn.js" defer></script>
+  <script src="/js/site-nav.js" defer></script>
+  <script src="/js/nav-anchors.js" defer></script>
+</head>
+<body class="bm-inner-page">
+  <div class="topbar">
+    <div class="container">
+      <div data-i18n="topbar_left">Local Mongolia Travel Expert • Private Tours • Transport Help</div>
+      <div data-i18n="topbar_right">WhatsApp: +976 90283039 • English / 日本語 / 한국어</div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
+      <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="siteNav">
+        <a href="/experiences.html" data-i18n="nav_experiences">Experiences</a>
+        <a href="/visa-requirements.html">Visa Information</a>
+        <a href="/destinations.html" data-i18n="nav_destinations">Destinations</a>
+        <a href="/hotels.html" class="nav-hotels" data-i18n="nav_hotels">Hotels</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/car-rental.html" data-i18n="nav_cars">Car Rental</a>
+        <a href="/travel-hub.html">Traveler Hub</a>
+        <a href="/contact.html" data-i18n="nav_contact">Contact</a>
+        <a href="/vip-helicopter-expedition.html">Helicopter Tour</a>
+        <a href="/tours.html" data-i18n="nav_tours">VIP Tours</a>
+        <a href="/nomadic-experience.html">Nomadic Experience</a>
+        <a href="/travel-guide.html" data-i18n="nav_guide">Travel Guide</a>
+        <a href="/tours-dates.html">Tour&amp;dates</a>
+        <a href="/videos.html" data-i18n="nav_videos">Videos</a>
+        <a href="/gallery.html" data-i18n="nav_gallery">Gallery</a>
+        <a href="/about.html" data-i18n="nav_about">About</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-register-link" href="/register-service.html">Register Service</a>
+        <div class="lang-switch">
+          <button class="active" data-lang="en">EN</button>
+          <button data-lang="ja">日本語</button>
+          <button data-lang="ko">한국어</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<section id="destinations" class="destination-map-section">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-i18n="dest_title">Explore Mongolia by Destination</h2>
+        <p data-i18n="dest_text">See Mongolia on the map first, then click a province to reveal the most famous places inside it. Major attractions are visible from the start so travelers can understand where everything is located.</p>
+      </div>
+
+      <div class="destination-map-wrap">
+        <div class="destination-map-layout">
+          <div class="destination-map-panel">
+            <div class="destination-mapbox" id="destinationMapBox">
+              <div class="destination-map-bg"></div>
+              <div class="destination-map-overlay"></div>
+
+              <button class="destination-point active" data-province-btn="khuvsgul" style="left:56%;top:16%" onclick="showProvince('khuvsgul', event)">Khuvsgul</button>
+              <button class="destination-point" data-province-btn="bayanulgii" style="left:12%;top:27%" onclick="showProvince('bayanulgii', event)">Bayan-Ulgii</button>
+              <button class="destination-point" data-province-btn="umnugovi" style="left:56%;top:76%" onclick="showProvince('umnugovi', event)">Umnugovi</button>
+              <button class="destination-point" data-province-btn="arkhangai" style="left:37%;top:42%" onclick="showProvince('arkhangai', event)">Arkhangai</button>
+              <button class="destination-point" data-province-btn="tuv" style="left:52%;top:49%" onclick="showProvince('tuv', event)">Tuv</button>
+              <button class="destination-point" data-province-btn="khentii" style="left:77%;top:37%" onclick="showProvince('khentii', event)">Khentii</button>
+              <button class="destination-point" data-province-btn="selenge" style="left:46%;top:23%" onclick="showProvince('selenge', event)">Selenge</button>
+
+              <a href="destinations/khuvsgul.html" class="destination-place-label featured" data-province="khuvsgul" style="left:59%;top:11%">Khuvsgul Lake</a>
+              <a href="destinations/khuvsgul.html" class="destination-place-label" data-province="khuvsgul" style="left:62%;top:20%">Taiga & Reindeer</a>
+
+              <a href="destinations/bayan-ulgii.html" class="destination-place-label featured" data-province="bayanulgii" style="left:10%;top:20%">Altai Tavan Bogd</a>
+              <a href="destinations/bayan-ulgii.html" class="destination-place-label" data-province="bayanulgii" style="left:16%;top:34%">Eagle Hunter</a>
+
+              <a href="destinations/umnugovi.html" class="destination-place-label featured" data-province="umnugovi" style="left:58%;top:69%">Khermen Tsav</a>
+              <a href="destinations/umnugovi.html" class="destination-place-label" data-province="umnugovi" style="left:63%;top:79%">Khongor Dunes</a>
+
+              <a href="destinations/arkhangai.html" class="destination-place-label featured" data-province="arkhangai" style="left:39%;top:37%">Khorgo Volcano</a>
+              <a href="destinations/arkhangai.html" class="destination-place-label" data-province="arkhangai" style="left:31%;top:44%">Taikhar Rock</a>
+              <a href="destinations/arkhangai.html" class="destination-place-label" data-province="arkhangai" style="left:40%;top:50%">Tsenkher Hot Spring</a>
+
+              <a href="destinations/tuv.html" class="destination-place-label featured" data-province="tuv" style="left:52%;top:44%">Khustain Nuruu</a>
+              <a href="destinations/tuv.html" class="destination-place-label" data-province="tuv" style="left:58%;top:52%">Terelj</a>
+
+              <a href="destinations/khentii.html" class="destination-place-label featured" data-province="khentii" style="left:76%;top:31%">Baldan Bereeven</a>
+              <a href="destinations/khentii.html" class="destination-place-label" data-province="khentii" style="left:80%;top:42%">Steppe Routes</a>
+
+              <a href="destinations/selenge.html" class="destination-place-label featured" data-province="selenge" style="left:44%;top:16%">Amarbayasgalant</a>
+              <a href="destinations/selenge.html" class="destination-place-label" data-province="selenge" style="left:50%;top:26%">Selenge Valley</a>
+            </div>
+
+            <div class="destination-map-legend">
+              <span><i class="legend-dot"></i> Click a province to focus its places</span>
+              <span><i class="legend-pill"></i> Famous places stay visible on the full map</span>
+            </div>
+          </div>
+
+          <div class="destination-map-panel destination-info-card">
+            <div id="provinceContent">
+              <div class="destination-info-top">
+                <h3>Khuvsgul</h3>
+                <span class="destination-badge">Province Overview</span>
+              </div>
+              <p>The Blue Pearl of Mongolia, famous for Khuvsgul Lake, taiga forests and reindeer culture.</p>
+              <div class="destination-meta">
+                <div><strong>Best For</strong><br>Lake, taiga, reindeer</div>
+                <div><strong>From UB</strong><br>Flight or long-distance bus</div>
+                <div><strong>Best Season</strong><br>June – September</div>
+                <div><strong>Tour Type</strong><br>Nature, culture, adventure</div>
+              </div>
+              <div class="destination-mini-links">
+                <a class="destination-mini-link" href="destinations/khuvsgul.html">Province Guide</a>
+                <a class="destination-mini-link" href="tours/reindeer-taiga-tour.html">Related Tour</a>
+              </div>
+              <div class="destination-attractions">
+                <h4>Top Places to Visit</h4>
+                <ul class="destination-attractions-list">
+                  <li>Khuvsgul Lake</li>
+                  <li>Taiga & Reindeer Area</li>
+                  <li>Khatgal</li>
+                  <li>Darkhad Valley</li>
+                </ul>
+              </div>
+              <div class="destination-map-cta">
+                <a class="btn btn-primary" href="destinations/khuvsgul.html">Open Province Page</a>
+                <a class="btn btn-secondary" href="tours/reindeer-taiga-tour.html">View Related Tour</a>
+              </div>
+            </div>
+
+            <div class="destination-tip">
+              <strong>How to use it:</strong> First look at the full Mongolia map to see where famous places are. Then click a province name to make that area easier to read and reveal its most important attractions more clearly.
+            </div>
+
+            <div class="destination-map-caption">Replace <code>images/destinations/mongolia-map-full.png</code> with your full Mongolia map image.</div>
+
+            <h3 style="margin-top:22px">Quick Province Links</h3>
+            <div class="destination-province-list">
+              <a class="destination-province-link" href="destinations/khuvsgul.html">Khuvsgul</a>
+              <a class="destination-province-link" href="destinations/bayan-ulgii.html">Bayan-Ulgii</a>
+              <a class="destination-province-link" href="destinations/umnugovi.html">Umnugovi</a>
+              <a class="destination-province-link" href="destinations/arkhangai.html">Arkhangai</a>
+              <a class="destination-province-link" href="destinations/tuv.html">Tuv</a>
+              <a class="destination-province-link" href="destinations/khentii.html">Khentii</a>
+              <a class="destination-province-link" href="destinations/selenge.html">Selenge</a>
+            </div>
+
+            <h3 style="margin-top:22px">Famous Place Links</h3>
+            <div class="destination-famous-list">
+              <a class="destination-famous-link" href="destinations/arkhangai.html">Khorgo Volcano</a>
+              <a class="destination-famous-link" href="destinations/arkhangai.html">Taikhar Rock</a>
+              <a class="destination-famous-link" href="destinations/arkhangai.html">Tsenkher Hot Spring</a>
+              <a class="destination-famous-link" href="destinations/tuv.html">Khustain Nuruu</a>
+              <a class="destination-famous-link" href="destinations/selenge.html">Amarbayasgalant</a>
+              <a class="destination-famous-link" href="destinations/umnugovi.html">Khermen Tsav</a>
+              <a class="destination-famous-link" href="destinations/khuvsgul.html">Khuvsgul Lake</a>
+              <a class="destination-famous-link" href="destinations/bayan-ulgii.html">Altai Tavan Bogd</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-wrap">
+      <div>© 2026 Booking Mongolia</div>
+      <div data-i18n="footer_text">Local travel guide, private tours and Mongolia trip planning.</div>
+      <div class="footer-links" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px;font-size:14px;">
+        <a href="/about.html">About</a>
+        <a href="/booking.html">Booking</a>
+        <a href="/tours-dates.html">Tours &amp; Dates</a>
+        <a href="/privacy-policy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+<script src="/js/destinations-map.js"></script>
+<script src="/js/site-i18n.js"></script>
+</body>
+</html>

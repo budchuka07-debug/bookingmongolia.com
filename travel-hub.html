@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d3b66" />
+  <title>Traveler Hub | Booking Mongolia</title>
+  <meta name="description" content="Traveler blog and group tour sharing board for Mongolia trips." />
+  <link rel="canonical" href="https://bookingmongolia.com/travel-hub.html" />
+  <script src="/js/ga4.js"></script>
+  <script src="/js/share.js"></script>
+  <link rel="stylesheet" href="/css/site.css" />
+  
+  <script src="/js/book-dates-btn.js" defer></script>
+  <script src="/js/site-nav.js" defer></script>
+  <script src="/js/nav-anchors.js" defer></script>
+</head>
+<body class="bm-inner-page">
+  <div class="topbar">
+    <div class="container">
+      <div data-i18n="topbar_left">Local Mongolia Travel Expert • Private Tours • Transport Help</div>
+      <div data-i18n="topbar_right">WhatsApp: +976 90283039 • English / 日本語 / 한국어</div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
+      <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="siteNav">
+        <a href="/experiences.html" data-i18n="nav_experiences">Experiences</a>
+        <a href="/visa-requirements.html">Visa Information</a>
+        <a href="/destinations.html" data-i18n="nav_destinations">Destinations</a>
+        <a href="/hotels.html" class="nav-hotels" data-i18n="nav_hotels">Hotels</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/car-rental.html" data-i18n="nav_cars">Car Rental</a>
+        <a href="/travel-hub.html">Traveler Hub</a>
+        <a href="/contact.html" data-i18n="nav_contact">Contact</a>
+        <a href="/vip-helicopter-expedition.html">Helicopter Tour</a>
+        <a href="/tours.html" data-i18n="nav_tours">VIP Tours</a>
+        <a href="/nomadic-experience.html">Nomadic Experience</a>
+        <a href="/travel-guide.html" data-i18n="nav_guide">Travel Guide</a>
+        <a href="/tours-dates.html">Tour&amp;dates</a>
+        <a href="/videos.html" data-i18n="nav_videos">Videos</a>
+        <a href="/gallery.html" data-i18n="nav_gallery">Gallery</a>
+        <a href="/about.html" data-i18n="nav_about">About</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-register-link" href="/register-service.html">Register Service</a>
+        <div class="lang-switch">
+          <button class="active" data-lang="en">EN</button>
+          <button data-lang="ja">日本語</button>
+          <button data-lang="ko">한국어</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<section id="community" class="community-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-accent">Traveler Community</span>
+      <h2>Traveler Blog & Group Tour Sharing</h2>
+      <p>A public community board for Mongolia travelers. Share a travel story, ask for route advice, or find other travelers to join a group tour and reduce costs.</p>
+    </div>
+
+    <div class="community-shell">
+      <div class="community-tabs">
+        <button class="community-tab active" type="button" data-community-tab="blog" onclick="switchCommunityTab('blog')">Traveler Blog</button>
+        <button class="community-tab" type="button" data-community-tab="sharing" onclick="switchCommunityTab('sharing')">Join Group Tour</button>
+      </div>
+
+      <div id="communityBlogPanel" class="community-panel active">
+        <div class="community-layout">
+          <form id="community-blog-form" class="community-form-card">
+            <h3>Share Your Mongolia Travel Story</h3>
+            <p class="community-small">Your post appears publicly after submission. Spam or incorrect posts may be removed by BookingMongolia.</p>
+            <div class="form-grid">
+              <div><label>Your Name</label><input type="text" id="blog_name" placeholder="Anna" required></div>
+              <div><label>Country</label><select id="blog_country_code" required>
+                  <option value="">Select country</option>
+                  <option value="fr">🇫🇷 France</option>
+                  <option value="de">🇩🇪 Germany</option>
+                  <option value="us">🇺🇸 USA</option>
+                  <option value="gb">🇬🇧 United Kingdom</option>
+                  <option value="au">🇦🇺 Australia</option>
+                  <option value="ca">🇨🇦 Canada</option>
+                  <option value="jp">🇯🇵 Japan</option>
+                  <option value="kr">🇰🇷 South Korea</option>
+                  <option value="cn">🇨🇳 China</option>
+                  <option value="sg">🇸🇬 Singapore</option>
+                  <option value="my">🇲🇾 Malaysia</option>
+                  <option value="th">🇹🇭 Thailand</option>
+                  <option value="vn">🇻🇳 Vietnam</option>
+                  <option value="in">🇮🇳 India</option>
+                  <option value="nl">🇳🇱 Netherlands</option>
+                  <option value="es">🇪🇸 Spain</option>
+                  <option value="it">🇮🇹 Italy</option>
+                  <option value="ch">🇨🇭 Switzerland</option>
+                  <option value="se">🇸🇪 Sweden</option>
+                  <option value="other">🌍 Other</option>
+                </select></div>
+              <div><label>Destination</label><input type="text" id="blog_destination" placeholder="Gobi / Khuvsgul / Ulaanbaatar"></div>
+              <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="blog_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. You can upload multiple photos.</div></div>
+              <div class="full"><label>Title</label><input type="text" id="blog_title" placeholder="My first Gobi Desert trip" required></div>
+              <div class="full"><label>Story</label><textarea id="blog_content" placeholder="Write your experience, route tips, costs, transport, border tips or useful advice for future travelers." required></textarea></div>
+              
+              <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Story</button></div>
+              <div class="full"><div id="community-blog-notice" class="notice"></div></div>
+            </div>
+          </form>
+
+          <div>
+            <div class="community-card" style="margin-bottom:14px">
+              <strong>Latest Traveler Stories</strong>
+              <p class="community-small" style="margin:6px 0 0">Real traveler posts will appear here automatically from Supabase.</p>
+            </div>
+            <div id="community-blog-list" class="community-feed"><div class="community-empty">No traveler stories yet. Be the first to share one.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="communitySharingPanel" class="community-panel">
+        <div class="community-layout">
+          <form id="community-sharing-form" class="community-form-card">
+            <h3>Find People to Join Your Tour</h3>
+            <p class="community-small">For solo travelers or small groups who want to share transport, guide or tour costs in Mongolia.</p>
+            <div class="form-grid">
+              <div><label>Your Name</label><input type="text" id="share_name" placeholder="Lucas" required></div>
+              <div><label>Country</label><select id="share_country_code" required>
+                  <option value="">Select country</option>
+                  <option value="fr">🇫🇷 France</option>
+                  <option value="de">🇩🇪 Germany</option>
+                  <option value="us">🇺🇸 USA</option>
+                  <option value="gb">🇬🇧 United Kingdom</option>
+                  <option value="au">🇦🇺 Australia</option>
+                  <option value="ca">🇨🇦 Canada</option>
+                  <option value="jp">🇯🇵 Japan</option>
+                  <option value="kr">🇰🇷 South Korea</option>
+                  <option value="cn">🇨🇳 China</option>
+                  <option value="sg">🇸🇬 Singapore</option>
+                  <option value="my">🇲🇾 Malaysia</option>
+                  <option value="th">🇹🇭 Thailand</option>
+                  <option value="vn">🇻🇳 Vietnam</option>
+                  <option value="in">🇮🇳 India</option>
+                  <option value="nl">🇳🇱 Netherlands</option>
+                  <option value="es">🇪🇸 Spain</option>
+                  <option value="it">🇮🇹 Italy</option>
+                  <option value="ch">🇨🇭 Switzerland</option>
+                  <option value="se">🇸🇪 Sweden</option>
+                  <option value="other">🌍 Other</option>
+                </select></div>
+              <div><label>Destination / Route</label><input type="text" id="share_destination" placeholder="Gobi 6 days / Orkhon Valley / Khuvsgul" required></div>
+              <div><label>Travel Dates</label><input type="text" id="share_dates" placeholder="May 10–15 / Flexible"></div>
+              <div><label>People</label><input type="number" min="1" max="20" id="share_people_count" placeholder="1"></div>
+              <div><label>Budget</label><select id="share_budget"><option value="">Select budget</option><option>Low budget</option><option>Mid range</option><option>Comfort</option><option>Flexible</option></select></div>
+              <div class="full"><label>Contact</label><input type="text" id="share_contact" placeholder="WhatsApp, email or Instagram" required></div>
+              <div class="full community-image-upload"><label>Upload Photos from Device</label><input type="file" id="share_images" accept="image/*" multiple><div class="community-image-hint">Choose photos directly from your phone or computer. Optional: route, car, group or destination photos.</div></div>
+              <div class="full"><label>Message</label><textarea id="share_content" placeholder="Tell others what kind of group tour you want to join or share." required></textarea></div>
+              
+              <div class="full submit-actions"><button class="btn btn-primary" type="submit">Publish Sharing Post</button></div>
+              <div class="full"><div id="community-sharing-notice" class="notice"></div></div>
+            </div>
+          </form>
+
+          <div>
+            <div class="community-card" style="margin-bottom:14px">
+              <strong>Open Group Tour Sharing Posts</strong>
+              <p class="community-small" style="margin:6px 0 0">Travelers looking for people to share a Mongolia tour will appear here.</p>
+            </div>
+            <div id="community-sharing-list" class="community-feed"><div class="community-empty">No group tour sharing posts yet.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Travelers upload photos directly from their device; Cloudinary stores the image files automatically.</p>
+  </div>
+</section>
+  <div id="image-lightbox" class="image-lightbox" onclick="closeImageLightbox()">
+    <span class="image-lightbox-close">&times;</span>
+    <img id="image-lightbox-img" src="" alt="Large image">
+  </div>
+  <footer>
+    <div class="container footer-wrap">
+      <div>© 2026 Booking Mongolia</div>
+      <div data-i18n="footer_text">Local travel guide, private tours and Mongolia trip planning.</div>
+      <div class="footer-links" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px;font-size:14px;">
+        <a href="/about.html">About</a>
+        <a href="/booking.html">Booking</a>
+        <a href="/tours-dates.html">Tours &amp; Dates</a>
+        <a href="/privacy-policy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/data/accommodation-schema.js"></script>
+<script src="/data/hotel-mock.js"></script>
+<script src="/js/hotel-inquiry.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/index-app.js"></script>
+<script src="/js/site-i18n.js"></script>
+</body>
+</html>

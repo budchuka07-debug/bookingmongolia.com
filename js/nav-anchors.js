@@ -88,16 +88,17 @@
     if (!hash || hash === "#") return;
     var el = findTarget(hash);
     if (!el) return;
-    e.preventDefault();
     if (history.pushState) {
       history.pushState(null, "", hash);
     } else {
       window.location.hash = hash;
     }
     scrollToHash(hash, { behavior: "smooth" });
-    // close mobile menu if open
+    e.preventDefault();
+    // close mobile menu if open — do not block real page links
     var nav = document.getElementById("siteNav");
-    if (nav && nav.classList.contains("open")) {
+    if (nav && (nav.classList.contains("active") || nav.classList.contains("open"))) {
+      nav.classList.remove("active");
       nav.classList.remove("open");
       var toggle = document.querySelector(".menu-toggle");
       if (toggle) toggle.setAttribute("aria-expanded", "false");

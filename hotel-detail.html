@@ -45,8 +45,8 @@
 <body>
   <div class="wrap">
     <div class="top">
-      <a class="btn btn-outline" href="/index.html#hotels">← Back to directory</a>
-      <a class="btn btn-primary" href="/index.html#contact">Contact Booking Mongolia</a>
+      <a class="btn btn-outline" href="/hotels.html">← Back to directory</a>
+      <a class="btn btn-primary" href="/contact.html">Contact Booking Mongolia</a>
     </div>
     <div id="hotel-detail" class="card">
       <div class="state">Loading accommodation details...</div>
@@ -165,8 +165,8 @@
             ${data.phone ? `<a class="btn btn-outline" href="tel:${escapeHtml(String(data.phone).replace(/\s/g, ""))}">Call</a>` : ""}
             ${mapsUrl ? `<a class="btn btn-outline" href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener">Google Maps</a>` : ""}
             ${data.email ? `<a class="btn btn-outline" href="mailto:${escapeHtml(data.email)}">Email</a>` : ""}
-            <a class="btn btn-outline" href="/index.html#contact">Contact form</a>
-            <a class="btn btn-outline" href="/index.html#hotels">All stays</a>
+            <a class="btn btn-outline" href="/contact.html">Contact form</a>
+            <a class="btn btn-outline" href="/hotels.html">All stays</a>
           </div>
         </div>
       `;
@@ -267,7 +267,7 @@
       const root = document.getElementById("hotel-detail");
       const id = qs("id");
       if (!id) {
-        root.innerHTML = `<div class="state error">Missing stay id. <a href="/index.html#hotels">Browse directory</a></div>`;
+        root.innerHTML = `<div class="state error">Missing stay id. <a href="/hotels.html">Browse directory</a></div>`;
         return;
       }
 
@@ -301,7 +301,7 @@
         return;
       }
 
-      root.innerHTML = `<div class="state error">Stay not found. <a href="/index.html#hotels">Back to directory</a></div>`;
+      root.innerHTML = `<div class="state error">Stay not found. <a href="/hotels.html">Back to directory</a></div>`;
     }
 
     loadHotel();

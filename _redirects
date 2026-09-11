@@ -4,4 +4,17 @@
 /shows-entertainment-in-mongolia.html  /guide/shows-entertainment-in-mongolia.html  301
 /guide/guidenomadic-culture.html  /guide/nomadic-culture.html  301
 /tour-calendar.html  /tours-dates.html  301
-/contact.html  /booking.html  301
+
+# Clean category URLs for main navigation
+/experiences  /experiences.html  200
+/destinations  /destinations.html  200
+/hotels  /hotels.html  200
+/guides  /guides.html  200
+/car-rental  /car-rental.html  200
+/travel-hub  /travel-hub.html  200
+/tours  /tours.html  200
+/travel-guide  /travel-guide.html  200
+/videos  /videos.html  200
+/gallery  /gallery.html  200
+/contact  /contact.html  200
+/register-service  /register-service.html  200

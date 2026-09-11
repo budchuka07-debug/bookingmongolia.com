@@ -361,14 +361,14 @@
       <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
       <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">Menu</button>
       <nav class="nav-links" id="siteNav">
-        <a href="/index.html#destinations">Destinations</a>
-        <a href="/index.html#tours">Featured Tours</a>
+        <a href="/destinations.html">Destinations</a>
+        <a href="/tours.html">Featured Tours</a>
         <a href="#services">Services</a>
         <a href="#family-travel">Family Travel</a>
         <a href="#one-day-tours">1 Day Tours</a>
         <a href="#calendar-list">Tour Calendar</a>
         <a href="#planner">Trip Planner</a>
-        <a href="/index.html#contact">Contact</a>
+        <a href="/contact.html">Contact</a>
       </nav>
     </div>
   </header>
@@ -384,9 +384,11 @@
       });
       nav.querySelectorAll('a').forEach(function (link) {
         link.addEventListener('click', function () {
-          nav.classList.remove('active');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.textContent = 'Menu';
+          setTimeout(function () {
+            nav.classList.remove('active');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.textContent = 'Menu';
+          }, 0);
         });
       });
     })();
@@ -775,7 +777,7 @@
   <footer>
     <div class="container footer-wrap">
       <div>© 2026 Booking Mongolia • Tour Calendar</div>
-      <div><a href="/index.html">Back to Home</a> • <a href="/index.html#contact">Contact</a></div>
+      <div><a href="/index.html">Back to Home</a> • <a href="/contact.html">Contact</a></div>
     </div>
   </footer>
 
