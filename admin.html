@@ -89,7 +89,7 @@
     <div class="top">
       <div>
         <h1>BookingMongolia Admin PRO</h1>
-        <div class="muted">Moderate Traveler Hub posts, comments, hotels, cars, guest reviews, and travel agreement acceptances.</div>
+        <div class="muted">Moderate Traveler Hub posts, comments, hotels, cars, guest reviews, gallery photos, and travel agreement acceptances.</div>
       </div>
       <button class="secondary" onclick="logout()">Logout</button>
     </div>
@@ -102,6 +102,7 @@
         <button class="tab" data-tab="cars" onclick="setTab('cars')">Cars</button>
         <button class="tab" data-tab="reviews" onclick="setTab('reviews')">Reviews</button>
         <button class="tab" data-tab="agreements" onclick="setTab('agreements')">Agreements</button>
+        <button class="tab" data-tab="gallery" onclick="setTab('gallery')">Gallery</button>
       </div>
       <div class="toolbar">
         <div>
@@ -182,7 +183,7 @@
 const API = "/.netlify/functions/admin-action";
 let adminPassword = sessionStorage.getItem("bm_admin_password") || "";
 let activeTab = "community";
-let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [], agreements: [] };
+let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [], agreements: [], gallery: [] };
 let nameCache = { hotels: {}, cars: {} };
 
 function showNotice(msg, type="success"){
@@ -283,7 +284,8 @@ function textMatch(item, q){
     item.description,item.property_name,item.vehicle_type,item.email,item.phone,
     item.guest_name,item.guest_country,item.review_type,item.booking_ref,
     item.traveler_name,item.traveler_email,item.traveler_contact,item.booking_id,
-    item.selected_tour,item.service_type,item.agreement_version
+    item.selected_tour,item.service_type,item.agreement_version,
+    item.caption,item.photographer_name
   ].join(" ").toLowerCase();
   return blob.includes(q);
 }
@@ -316,6 +318,29 @@ function renderCurrent(){
   if(activeTab === "cars") c.innerHTML = items.map(renderCar).join("");
   if(activeTab === "reviews") c.innerHTML = items.map(renderReview).join("");
   if(activeTab === "agreements") c.innerHTML = items.map(renderAgreement).join("");
+  if(activeTab === "gallery") c.innerHTML = items.map(renderGalleryItem).join("");
+}
+function renderGalleryItem(g){
+  let urls = [];
+  if(Array.isArray(g.image_urls)) urls = g.image_urls;
+  else if(g.image_url) urls = [g.image_url];
+  if(g.image_url && !urls.includes(g.image_url)) urls = [g.image_url, ...urls];
+  return `<div class="card">
+    <div class="card-top">
+      <div>
+        <h3>${escapeHtml(g.title || g.caption || "Gallery photo")}</h3>
+        <div class="muted">${escapeHtml(g.photographer_name || "Gallery")} • ${g.created_at ? new Date(g.created_at).toLocaleString() : ""}</div>
+      </div>
+      ${getStatusBadge(g.status)}
+    </div>
+    <p>${escapeHtml(g.description || g.caption || "")}</p>
+    ${renderImages(urls)}
+    <div class="actions">
+      <button class="ok" onclick="updateStatus('gallery_items','${g.id}','published')">Publish</button>
+      <button class="warn" onclick="updateStatus('gallery_items','${g.id}','hidden')">Hide</button>
+      <button class="danger" onclick="deleteItem('gallery_items','${g.id}')">Delete</button>
+    </div>
+  </div>`;
 }
 function renderImages(urls){
   if(!Array.isArray(urls) || !urls.length) return "";

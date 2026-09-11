@@ -386,6 +386,34 @@
     .gallery-grid img:hover{
       transform:scale(1.02);
     }
+    .gallery-card{
+      margin:0;
+      background:#fff;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(13,59,102,.06);
+    }
+    .gallery-card img{
+      height:220px;
+      border-radius:0;
+      box-shadow:none;
+      margin:0;
+    }
+    .gallery-card figcaption{padding:12px 14px 14px}
+    .gallery-card strong{display:block;color:var(--primary);font-size:15px;margin-bottom:4px}
+    .gallery-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+    .gallery-card .who{display:block;margin-top:6px;font-size:12px;color:#94a3b8}
+    .gallery-upload{
+      background:#fff;
+      border:1px solid rgba(13,59,102,.08);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin:0 0 28px;
+    }
+    .gallery-upload h3{margin:0 0 8px;color:var(--primary)}
+    .gallery-upload .muted{margin:0 0 16px}
 
     .contact-section{
       background:#f6f9fc;

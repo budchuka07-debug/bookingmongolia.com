@@ -5,7 +5,8 @@ const ALLOWED_TABLES = new Set([
   "vehicle_submissions",
   "guest_reviews",
   "review_invites",
-  "booking_agreement_acceptances"
+  "booking_agreement_acceptances",
+  "gallery_items"
 ]);
 
 const RESOURCE_TO_TABLE = {
@@ -15,7 +16,8 @@ const RESOURCE_TO_TABLE = {
   cars: "vehicle_submissions",
   reviews: "guest_reviews",
   invites: "review_invites",
-  agreements: "booking_agreement_acceptances"
+  agreements: "booking_agreement_acceptances",
+  gallery: "gallery_items"
 };
 
 const STATUS_BY_TABLE = {
@@ -23,7 +25,8 @@ const STATUS_BY_TABLE = {
   community_comments: ["published", "hidden", "pending"],
   property_submissions: ["published", "hidden", "pending", "approved"],
   vehicle_submissions: ["published", "hidden", "pending", "approved"],
-  guest_reviews: ["pending", "approved", "rejected"]
+  guest_reviews: ["pending", "approved", "rejected"],
+  gallery_items: ["published", "hidden", "pending"]
 };
 
 function json(statusCode, body) {

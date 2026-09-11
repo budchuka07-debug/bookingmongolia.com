@@ -63,7 +63,36 @@
         <p data-i18n="gallery_text">Real travel photos from Mongolia landscapes, nomadic life and experiences.</p>
       </div>
 
-      <div class="gallery-grid">
+      <div class="gallery-upload" id="add-photo">
+        <h3>Add a photo</h3>
+        <p class="muted">Upload a Mongolia travel photo and a short caption. It is saved to the Gallery and appears on the website.</p>
+        <form id="gallery-form">
+          <div class="form-grid">
+            <div>
+              <label for="gallery_name">Your name (optional)</label>
+              <input type="text" id="gallery_name" maxlength="80" placeholder="Booking Mongolia / traveler name">
+            </div>
+            <div>
+              <label for="gallery_title">Caption</label>
+              <input type="text" id="gallery_title" maxlength="120" placeholder="Khuvsgul Lake at sunrise" required>
+            </div>
+            <div class="full">
+              <label for="gallery_description">Short text (optional)</label>
+              <textarea id="gallery_description" maxlength="600" placeholder="A few words about this place, season, or moment."></textarea>
+            </div>
+            <div class="full">
+              <label for="gallery_images">Photos</label>
+              <input type="file" id="gallery_images" accept="image/*" multiple required>
+            </div>
+            <div class="full submit-actions">
+              <button class="btn btn-primary" type="submit">Add to Gallery</button>
+            </div>
+          </div>
+          <div id="gallery-notice" class="notice"></div>
+        </form>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
         <img src="images/gallery/gallery1.jpg" alt="Mongolia gallery 1">
         <img src="images/gallery/gallery2.jpg" alt="Mongolia gallery 2">
         <img src="images/gallery/gallery3.jpg" alt="Mongolia gallery 3">
@@ -98,6 +127,11 @@
     </div>
   </section>
 
+  <div id="image-lightbox" class="image-lightbox">
+    <span class="image-lightbox-close">&times;</span>
+    <img id="image-lightbox-img" src="" alt="Large image">
+  </div>
+
   <footer>
     <div class="container footer-wrap">
       <div>© 2026 Booking Mongolia</div>
@@ -114,6 +148,8 @@
     </div>
   </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/gallery.js"></script>
 <script src="/js/site-i18n.js"></script>
 </body>
 </html>
