@@ -289,6 +289,26 @@ test("fully booked published departures are not join options", () => {
   assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 0);
 });
 
+test("TEST departure IDs are hidden from the public join list", () => {
+  const rows = gobiRows(now).map((row) => Object.assign({}, row, { departure_id: "TEST-GC-2026-09-20" }));
+  const summary = logic.summarizeDeparture("TEST-GC-2026-09-20", rows, now);
+  assert.strictEqual(summary.publicly_joinable, true);
+  assert.strictEqual(logic.isTestDepartureId("TEST-GC-2026-09-20"), true);
+  assert.strictEqual(logic.isPubliclyJoinable(summary), false);
+  assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 0);
+});
+
+test("ALLOW_TEST_DEPARTURES can list TEST ids for local checks only", () => {
+  const rows = gobiRows(now).map((row) => Object.assign({}, row, { departure_id: "TEST-GC-2026-09-20" }));
+  process.env.ALLOW_TEST_DEPARTURES = "1";
+  try {
+    assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 1);
+  } finally {
+    delete process.env.ALLOW_TEST_DEPARTURES;
+  }
+  assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 0);
+});
+
 test("frontend JS has no Google credentials", () => {
   const files = [
     "js/departures.js",
@@ -315,6 +335,42 @@ test("credentials exist only in server google-auth helper", () => {
   const auth = fs.readFileSync(path.join(root, "netlify/functions/lib/google-auth.js"), "utf8");
   assert.ok(auth.includes("process.env.GOOGLE_SERVICE_ACCOUNT_JSON"));
   assert.ok(auth.includes("process.env.GOOGLE_PRIVATE_KEY"));
+  assert.ok(auth.includes("1BbbiaPNG-A7B4La53or4Dsv7E46XE6O35JXTQX0HeeU"));
+});
+
+test("production TOURS headers map without duplicating Booking/Tour columns", () => {
+  const sheet = require("../netlify/functions/lib/tours-sheet");
+  const headers = [
+    "No.",
+    "Booking No.",
+    "Tour /",
+    "Start Date",
+    "End Date",
+    "Customer",
+    "Country",
+    "Pax",
+    "Route",
+    "Accommodation(s)",
+    "Camp / Guesthouse",
+    "Hotel / Camp",
+    "Driver",
+    "Driver Phone",
+    "Selling Price",
+    "Paid",
+    "Balance",
+    "Expenses",
+    "Profit"
+  ];
+  const map = sheet.buildHeaderIndex(headers);
+  assert.ok(map.byAlias.booking_id != null);
+  assert.ok(map.byAlias.tour_name != null);
+  assert.ok(map.byAlias.start_date != null);
+  assert.ok(map.byAlias.driver_phone != null);
+  assert.ok(map.byAlias.paid != null);
+  assert.strictEqual(map.byAlias.departure_id, undefined);
+  assert.strictEqual(map.byAlias.max_pax, undefined);
+  assert.strictEqual(map.byAlias.join_status, undefined);
+  assert.strictEqual(map.byAlias.website_published, undefined);
 });
 
 test("Formspree inquiry path is still in tours-dates", () => {
@@ -363,6 +419,9 @@ test("existing itinerary pages were not removed or replaced by sheet rows", () =
   const sheet = fs.readFileSync(path.join(root, "netlify/functions/lib/tours-sheet.js"), "utf8");
   assert.ok(sheet.includes('website_published: ""'));
   assert.ok(sheet.includes("listJoinablePublicDepartures"));
+  assert.ok(sheet.includes('GOOGLE_TOURS_TAB || "TOURS"'));
+  assert.ok(sheet.includes("/^sheet1$/i"));
+  assert.ok(front.includes("TEST([-_]|$)"));
 });
 
 test("API pretty URLs are mapped in _redirects", () => {

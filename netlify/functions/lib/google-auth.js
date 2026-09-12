@@ -3,12 +3,22 @@ const { google } = require("googleapis");
 function parseServiceAccount() {
   const rawJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   if (rawJson) {
-    const trimmed = rawJson.trim();
+    const trimmed = String(rawJson).replace(/^\uFEFF/, "").trim();
     try {
-      return JSON.parse(trimmed);
-    } catch {
+      let parsed = JSON.parse(trimmed);
+      if (typeof parsed === "string") parsed = JSON.parse(parsed);
+      if (!parsed || typeof parsed !== "object" || !parsed.client_email || !parsed.private_key) {
+        throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is missing client_email/private_key");
+      }
+      return parsed;
+    } catch (err) {
+      if (String(err.message || "").includes("client_email/private_key")) throw err;
       try {
-        return JSON.parse(Buffer.from(trimmed, "base64").toString("utf8"));
+        const parsed = JSON.parse(Buffer.from(trimmed, "base64").toString("utf8"));
+        if (!parsed || typeof parsed !== "object" || !parsed.client_email || !parsed.private_key) {
+          throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is missing client_email/private_key");
+        }
+        return parsed;
       } catch {
         throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON");
       }
@@ -42,7 +52,7 @@ function getSheetsClient() {
 function getSpreadsheetId() {
   return (
     process.env.GOOGLE_SHEET_ID ||
-    "1tRE1n9oNVyGnxWkepw-MvtRw5X3nhL6wiN9kZxAGeGE"
+    "1BbbiaPNG-A7B4La53or4Dsv7E46XE6O35JXTQX0HeeU"
   );
 }
 

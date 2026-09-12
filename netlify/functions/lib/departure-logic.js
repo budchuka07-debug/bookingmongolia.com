@@ -215,8 +215,19 @@ function summarizeDeparture(departureId, rows, now) {
   };
 }
 
+function isTestDepartureId(id) {
+  return /^TEST([-_]|$)/i.test(String(id || "").trim());
+}
+
+function allowTestDepartures() {
+  const v = String(process.env.ALLOW_TEST_DEPARTURES || "").trim().toLowerCase();
+  return v === "1" || v === "true" || v === "yes";
+}
+
 function isPubliclyJoinable(summary) {
-  return !!(summary && summary.publicly_joinable);
+  if (!summary || !summary.publicly_joinable) return false;
+  if (isTestDepartureId(summary.departure_id) && !allowTestDepartures()) return false;
+  return true;
 }
 
 function listJoinablePublicDepartures(records, now) {
@@ -295,6 +306,8 @@ module.exports = {
   nextBookingId,
   groupByDeparture,
   summarizeDeparture,
+  isTestDepartureId,
+  allowTestDepartures,
   listJoinablePublicDepartures,
   canAcceptPax,
   toPublicDeparture,

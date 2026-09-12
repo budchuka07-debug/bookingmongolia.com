@@ -99,6 +99,7 @@
 
   function isJoinableDeparture(dep) {
     if (!dep || !dep.departure_id) return false;
+    if (/^TEST([-_]|$)/i.test(String(dep.departure_id))) return false;
     var status = String(dep.join_status || "");
     if (/closed|cancel|expir|void/i.test(status)) return false;
     if (/full/i.test(status)) return false;

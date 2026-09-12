@@ -17,14 +17,23 @@ const {
   assertNoPrivateFields
 } = logic;
 
-const TOURS_TAB = process.env.GOOGLE_TOURS_TAB || "TOURS";
+function toursTab() {
+  const raw = String(process.env.GOOGLE_TOURS_TAB || "TOURS").trim() || "TOURS";
+  if (/^sheet1$/i.test(raw)) return "TOURS";
+  return raw;
+}
+
+function quotedToursTab() {
+  return `'${toursTab().replace(/'/g, "''")}'`;
+}
+
 const HOLD_MINUTES = Number(process.env.BOOKING_HOLD_MINUTES || 24 * 60);
 
 const HEADER_ALIASES = {
   tour_id: ["tour id", "tourid", "tour_id"],
   departure_id: ["departure id", "departureid", "departure_id"],
-  booking_id: ["booking id", "bookingid", "booking_id"],
-  tour_name: ["tour / trip", "tour/trip", "tour", "trip", "tour name", "tour / trip name"],
+  booking_id: ["booking id", "bookingid", "booking_id", "booking no", "booking no.", "booking number", "booki no"],
+  tour_name: ["tour / trip", "tour/trip", "tour /", "tour", "trip", "tour name", "tour / trip name"],
   start_date: ["start date", "start"],
   end_date: ["end date", "end"],
   customer: ["customer", "customer name", "name", "guest"],
@@ -36,7 +45,7 @@ const HEADER_ALIASES = {
   route: ["route"],
   accommodation: ["accommodation(s)", "accommodations", "accommodation"],
   camp_guesthouse: ["camp / guesthouse", "camp/guesthouse", "camp", "guesthouse"],
-  hotel_camp_phones: ["hotel / camp phone(s)", "hotel/camp phone(s)", "hotel phone", "camp phone"],
+  hotel_camp_phones: ["hotel / camp phone(s)", "hotel/camp phone(s)", "hotel / camp", "hotel/camp", "hotel phone", "camp phone"],
   driver: ["driver"],
   driver_phone: ["driver phone", "driver phones"],
   selling_price: ["selling price", "price", "public price"],
@@ -55,26 +64,26 @@ const HEADER_ALIASES = {
   hold_expires: ["hold expires", "hold expires at", "hold expiry"]
 };
 
-const REQUIRED_WRITE_HEADERS = [
-  "Tour ID",
-  "Departure ID",
-  "Booking ID",
-  "Tour / Trip",
-  "Start Date",
-  "End Date",
-  "Customer",
-  "Country",
-  "Pax",
-  "Max Pax",
-  "Current Pax",
-  "Seats Available",
-  "Route",
-  "Selling Price",
-  "Status",
-  "Join Status",
-  "Website Published",
-  "Hold Expires",
-  "Notes"
+const REQUIRED_WRITE_FIELDS = [
+  { header: "Tour ID", field: "tour_id" },
+  { header: "Departure ID", field: "departure_id" },
+  { header: "Booking ID", field: "booking_id" },
+  { header: "Tour / Trip", field: "tour_name" },
+  { header: "Start Date", field: "start_date" },
+  { header: "End Date", field: "end_date" },
+  { header: "Customer", field: "customer" },
+  { header: "Country", field: "country" },
+  { header: "Pax", field: "pax" },
+  { header: "Max Pax", field: "max_pax" },
+  { header: "Current Pax", field: "current_pax" },
+  { header: "Seats Available", field: "seats_available" },
+  { header: "Route", field: "route" },
+  { header: "Selling Price", field: "selling_price" },
+  { header: "Status", field: "status" },
+  { header: "Join Status", field: "join_status" },
+  { header: "Website Published", field: "website_published" },
+  { header: "Hold Expires", field: "hold_expires" },
+  { header: "Notes", field: "notes" }
 ];
 
 function normHeader(value) {
@@ -132,7 +141,7 @@ function rowToRecord(row, headerMap, rowNumber) {
 async function readTab(sheets, spreadsheetId, tab) {
   return sheets.spreadsheets.values.get({
     spreadsheetId,
-    range: `'${tab}'`,
+    range: `'${String(tab).replace(/'/g, "''")}'`,
     valueRenderOption: "FORMATTED_VALUE"
   });
 }
@@ -140,7 +149,7 @@ async function readTab(sheets, spreadsheetId, tab) {
 async function loadTours() {
   const sheets = getSheetsClient();
   const spreadsheetId = getSpreadsheetId();
-  const tabs = [TOURS_TAB, "TOURS", "Tours"];
+  const tabs = [toursTab(), "TOURS"];
   let values = [];
   let lastError = null;
   for (const tab of [...new Set(tabs)]) {
@@ -163,12 +172,14 @@ async function loadTours() {
 }
 
 async function ensureWriteHeaders(ctx) {
-  const missing = REQUIRED_WRITE_HEADERS.filter((name) => ctx.headerMap.byNorm[normHeader(name)] == null);
+  const missing = REQUIRED_WRITE_FIELDS.filter((item) => ctx.headerMap.byAlias[item.field] == null);
   if (!missing.length) return ctx;
-  const nextHeaders = ctx.headerMap.raw.concat(missing);
+  const allowExtend = /^(1|true|yes)$/i.test(String(process.env.ALLOW_TOURS_HEADER_EXTEND || "").trim());
+  if (!allowExtend) return ctx;
+  const nextHeaders = ctx.headerMap.raw.concat(missing.map((item) => item.header));
   await ctx.sheets.spreadsheets.values.update({
     spreadsheetId: ctx.spreadsheetId,
-    range: `'${TOURS_TAB}'!A1`,
+    range: `${quotedToursTab()}!A1`,
     valueInputOption: "RAW",
     requestBody: { values: [nextHeaders] }
   });
@@ -200,7 +211,7 @@ async function writeCells(ctx, updates) {
     requestBody: {
       valueInputOption: "USER_ENTERED",
       data: updates.map((item) => ({
-        range: `'${TOURS_TAB}'!${item.cell}`,
+        range: `${quotedToursTab()}!${item.cell}`,
         values: [[item.value]]
       }))
     }
@@ -270,6 +281,7 @@ async function listPublishedDepartures() {
 async function getPublishedDeparture(departureId) {
   const id = String(departureId || "").trim();
   if (!id) return null;
+  if (logic.isTestDepartureId(id) && !logic.allowTestDepartures()) return null;
   const now = new Date();
   let ctx = await loadTours();
   await expireHolds(ctx, now);
@@ -387,7 +399,7 @@ async function createPendingBooking(input) {
   const line = recordToLine(ctx.headerMap, record);
   await ctx.sheets.spreadsheets.values.append({
     spreadsheetId: ctx.spreadsheetId,
-    range: `'${TOURS_TAB}'!A1`,
+    range: `${quotedToursTab()}!A1`,
     valueInputOption: "USER_ENTERED",
     insertDataOption: "INSERT_ROWS",
     requestBody: { values: [line] }
@@ -423,6 +435,7 @@ async function createPendingBooking(input) {
 
 module.exports = {
   HOLD_MINUTES,
+  buildHeaderIndex,
   listPublishedDepartures,
   getPublishedDeparture,
   getPublicBookingStatus,
