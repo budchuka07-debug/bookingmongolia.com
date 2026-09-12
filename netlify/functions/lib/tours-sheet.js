@@ -264,23 +264,25 @@ async function listPublishedDepartures() {
   let ctx = await loadTours();
   ctx = await ensureWriteHeaders(ctx);
   await expireHolds(ctx, now);
-  const groups = groupByDeparture(ctx.records);
-  const out = [];
-  for (const [departureId, rows] of groups.entries()) {
-    const summary = summarizeDeparture(departureId, rows, now);
-    if (!summary.website_published) continue;
-    if (!summary.tour_name || !summary.departure_id || !summary.max_pax) continue;
-    out.push(toPublicDeparture(summary));
-  }
-  out.sort((a, b) => String(a.start_date).localeCompare(String(b.start_date)));
-  return out;
+  return logic.listJoinablePublicDepartures(ctx.records, now);
 }
 
 async function getPublishedDeparture(departureId) {
   const id = String(departureId || "").trim();
   if (!id) return null;
-  const all = await listPublishedDepartures();
-  return all.find((item) => item.departure_id === id) || null;
+  const now = new Date();
+  let ctx = await loadTours();
+  await expireHolds(ctx, now);
+  const rows = ctx.records.filter((row) => String(row.departure_id || "").trim() === id);
+  if (!rows.length) return null;
+  const summary = summarizeDeparture(id, rows, now);
+  if (!summary.website_published) return null;
+  const withdrawn = rows.some((row) => {
+    if (!logic.isWebsitePublished(row.website_published)) return false;
+    return /cancel|expired|void/i.test(String(row.join_status || ""));
+  });
+  if (withdrawn) return null;
+  return toPublicDeparture(summary);
 }
 
 async function getPublicBookingStatus(bookingId) {
@@ -334,7 +336,16 @@ async function createPendingBooking(input) {
   }
 
   const summary = summarizeDeparture(departureId, rows, now);
-  if (!summary.website_published) {
+  if (!logic.isPubliclyJoinable(summary)) {
+    if (summary.join_status === "Closed") {
+      throw Object.assign(new Error("This departure is closed"), { statusCode: 409 });
+    }
+    if (!summary.website_published) {
+      throw Object.assign(new Error("This departure is not open on the website"), { statusCode: 400 });
+    }
+    if (summary.seats_available <= 0 || summary.join_status === "Fully Booked") {
+      throw Object.assign(new Error("Not enough seats available"), { statusCode: 409 });
+    }
     throw Object.assign(new Error("This departure is not open on the website"), { statusCode: 400 });
   }
   if (!canAcceptPax(summary, pax)) {

@@ -111,6 +111,7 @@
 
       <section class="card">
         <h2>Booking Request Form</h2>
+        <p class="small" id="joinDepartureNote" hidden></p>
         <form name="mongolia-booking" method="POST" data-netlify="true">
           <input type="hidden" name="form-name" value="mongolia-booking">
           <input type="hidden" name="departure_id" id="departureIdField" value="">
@@ -311,6 +312,22 @@
       var message = document.getElementById("message");
       if (message && !message.value) {
         message.value = "I want to join departure " + dep.departure_id + ".";
+      }
+      var note = document.getElementById("joinDepartureNote");
+      if (note && window.BMDepartures && window.BMDepartures.resolveItinerary) {
+        var itinerary = window.BMDepartures.resolveItinerary(dep);
+        var title = document.createElement("strong");
+        title.textContent = dep.tour_name || "this group";
+        note.hidden = false;
+        note.textContent = "";
+        note.appendChild(document.createTextNode("Joining "));
+        note.appendChild(title);
+        if (dep.date_label) note.appendChild(document.createTextNode(" — " + dep.date_label));
+        note.appendChild(document.createTextNode(". This is a group departure, not a new tour page. "));
+        var link = document.createElement("a");
+        link.href = itinerary.href;
+        link.textContent = "View itinerary";
+        note.appendChild(link);
       }
     } catch (err) {}
   }

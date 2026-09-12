@@ -82,6 +82,11 @@ function statusKey(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+function isWebsitePublished(value) {
+  const s = String(value || "").trim().toLowerCase();
+  return s === "yes" || s === "y" || s === "true" || s === "1" || s === "published";
+}
+
 function isConfirmedStatus(status) {
   const s = statusKey(status);
   if (!s) return false;
@@ -96,7 +101,21 @@ function isPendingStatus(status) {
 
 function isClosedJoin(joinStatus) {
   const s = statusKey(joinStatus);
-  return s === "closed" || s === "close" || s === "not open";
+  return (
+    s === "closed" ||
+    s === "close" ||
+    s === "not open" ||
+    s === "cancelled" ||
+    s === "canceled" ||
+    s === "expired" ||
+    s === "void"
+  );
+}
+
+function isOpenForJoin(joinStatus) {
+  const s = statusKey(joinStatus);
+  if (!s || isClosedJoin(joinStatus)) return false;
+  return s === "open for join" || s === "open" || s === "open for joining";
 }
 
 function publicPrice(value) {
@@ -146,11 +165,10 @@ function groupByDeparture(records) {
 }
 
 function summarizeDeparture(departureId, rows, now) {
-  const published = rows.some((row) => {
-    const s = String(row.website_published || "").trim().toLowerCase();
-    return s === "yes" || s === "y" || s === "true" || s === "1" || s === "published";
-  });
+  const publishedRows = rows.filter((row) => isWebsitePublished(row.website_published));
+  const published = publishedRows.length > 0;
   const closed = rows.some((row) => isClosedJoin(row.join_status));
+  const intentionallyOpen = publishedRows.some((row) => isOpenForJoin(row.join_status));
   let confirmedPax = 0;
   let heldPax = 0;
   let maxPax = 0;
@@ -166,15 +184,13 @@ function summarizeDeparture(departureId, rows, now) {
   if (closed) joinStatus = "Closed";
   else if (seats <= 0) joinStatus = "Fully Booked";
 
-  const seed = rows.find((row) => {
-    const s = String(row.website_published || "").trim().toLowerCase();
-    return s === "yes" || s === "y" || s === "true" || s === "1" || s === "published";
-  }) || rows[0] || {};
+  const seed = publishedRows[0] || rows[0] || {};
+  const tourName = String(seed.tour_name || "").trim();
 
   return {
     departure_id: departureId,
     tour_id: String(seed.tour_id || "").trim(),
-    tour_name: String(seed.tour_name || "").trim(),
+    tour_name: tourName,
     start_date: String(seed.start_date || "").trim(),
     end_date: String(seed.end_date || "").trim(),
     date_label: formatDateLabel(seed.start_date, seed.end_date),
@@ -186,8 +202,33 @@ function summarizeDeparture(departureId, rows, now) {
     occupied_pax: occupied,
     seats_available: seats,
     join_status: joinStatus,
-    website_published: published
+    website_published: published,
+    publicly_joinable: !!(
+      published &&
+      intentionallyOpen &&
+      !closed &&
+      seats > 0 &&
+      maxPax > 0 &&
+      departureId &&
+      tourName
+    )
   };
+}
+
+function isPubliclyJoinable(summary) {
+  return !!(summary && summary.publicly_joinable);
+}
+
+function listJoinablePublicDepartures(records, now) {
+  const groups = groupByDeparture(records);
+  const out = [];
+  for (const [departureId, rows] of groups.entries()) {
+    const summary = summarizeDeparture(departureId, rows, now);
+    if (!isPubliclyJoinable(summary)) continue;
+    out.push(toPublicDeparture(summary));
+  }
+  out.sort((a, b) => String(a.start_date).localeCompare(String(b.start_date)));
+  return out;
 }
 
 function canAcceptPax(summary, pax) {
@@ -244,13 +285,17 @@ module.exports = {
   formatDateLabel,
   isConfirmedStatus,
   isPendingStatus,
+  isWebsitePublished,
   isClosedJoin,
+  isOpenForJoin,
+  isPubliclyJoinable,
   publicPrice,
   holdStillActive,
   expirePendingHolds,
   nextBookingId,
   groupByDeparture,
   summarizeDeparture,
+  listJoinablePublicDepartures,
   canAcceptPax,
   toPublicDeparture,
   toPublicBooking,

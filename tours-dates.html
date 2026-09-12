@@ -369,7 +369,8 @@
         <a href="#services">Services</a>
         <a href="#family-travel">Family Travel</a>
         <a href="#one-day-tours">1 Day Tours</a>
-        <a href="#calendar-list">Tour Calendar</a>
+        <a href="#calendar-list">Browse Tours</a>
+        <a href="#join-now">Join Now</a>
         <a href="#planner">Trip Planner</a>
         <a href="/contact.html">Contact</a>
       </nav>
@@ -404,7 +405,7 @@
       <p>Book fixed tours, request a route built around the exact places you want to visit, hire a car with driver, order a guide only, add a nomadic family stay, or plan a family trip with optional childcare support. The season is open from May to October.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#calendar-list">Browse Tours</a>
-        <a class="btn btn-outline" href="#services">All Services</a>
+        <a class="btn btn-outline" href="#join-now">Join Now</a>
       </div>
       <div class="hero-stats">
         <div class="stat"><strong>25+</strong><span>Routes prepared</span></div>
@@ -717,22 +718,28 @@
     </div>
   </section>
 
+  <section id="join-now">
+    <div class="container">
+      <div class="section-head">
+        <h2>Join Now</h2>
+        <p>Available group departures. Each card is a specific date and group that other travelers can join. This is not the tour catalog, and a normal booking is never shown here unless it is intentionally published and open.</p>
+      </div>
+      <div class="join-departures-block" id="join-departures">
+        <p class="muted" id="joinDeparturesNote">Only published, open departures with available seats appear here. Customer, driver, payment and expense details stay internal.</p>
+        <div class="tour-grid" id="joinDeparturesGrid"></div>
+      </div>
+    </div>
+  </section>
 
   <section id="calendar-list">
     <div class="container">
       <div class="section-head">
-        <h2>2026 Mongolia Tour Calendar</h2>
-        <p>All tours below are shown through the main season from May to October. We currently accept Wise transfer and SWIFT bank transfer only. Final dates are confirmed before payment, and the travel agreement is shared only when the traveler is ready to confirm the booking.</p>
+        <h2>Browse Tours / Itineraries</h2>
+        <p>These are the public tour products. Open a tour to view the itinerary, route, activities, accommodation, duration and price, then request or confirm dates. A customer booking in the internal sheet does not create a new tour page here.</p>
       </div>
 
       <div class="deposit-banner">
         <strong>Booking update:</strong> We currently accept <strong>Wise transfer</strong> and <strong>SWIFT bank transfer</strong> only. Before any payment is made, we first confirm the travel dates and itinerary, then share the travel agreement, and after both sides confirm, payment details are sent.
-      </div>
-
-      <div class="join-departures-block" id="join-departures">
-        <h3>Join an existing departure</h3>
-        <p class="muted" id="joinDeparturesNote">Published group dates from the tour sheet appear here. Private customer, driver, payment and expense details stay internal.</p>
-        <div class="tour-grid" id="joinDeparturesGrid"></div>
       </div>
 
       <div class="summary-strip">
@@ -1371,7 +1378,7 @@
       fillDateOptions(activeTour.dates, activeTour.dates[0] || '');
       document.getElementById('selectedDate').value = activeTour.dates[0] || '';
       document.getElementById('selectedPrice').value = dep.price || 'Ask for quote';
-      document.getElementById('guestMessage').value = `Hello, I want to join ${dep.tour_name || 'this departure'} (${dep.departure_id}).`;
+      document.getElementById('guestMessage').value = `Hello, I want to join ${dep.tour_name || 'this departure'} (${dep.departure_id}, ${dep.date_label || dep.start_date || ''}).`;
       document.getElementById('travelMonth').value = '';
       document.getElementById('nomadNights').value = '';
       document.getElementById('routeRequest').value = dep.route || '';
@@ -1726,6 +1733,16 @@
     });
 
     renderTours();
+
+    function openTourFromHash(){
+      const hash = String(location.hash || '');
+      if (hash.indexOf('#tour-') === 0) {
+        openDetailModal(hash.slice('#tour-'.length));
+      }
+    }
+    openTourFromHash();
+    window.addEventListener('hashchange', openTourFromHash);
+    window.openDetailModal = openDetailModal;
   </script>
   <script src="/js/departures.js"></script>
 

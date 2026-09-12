@@ -44,6 +44,7 @@ function gobiRows(now) {
     {
       departure_id: "GC-2026-09-20",
       booking_id: "BM001",
+      tour_id: "gobi-classic-7d",
       tour_name: "Gobi Classic 7 Days",
       start_date: "Sep 20, 2026",
       end_date: "Sep 26, 2026",
@@ -217,6 +218,77 @@ test("assertNoPrivateFields throws on leaked keys", () => {
   assert.doesNotThrow(() => logic.assertNoPrivateFields({ tour_name: "Gobi", seats_available: 4 }));
 });
 
+test("published open departures are joinable public group dates", () => {
+  const summary = logic.summarizeDeparture("GC-2026-09-20", gobiRows(now), now);
+  assert.strictEqual(summary.publicly_joinable, true);
+  const listed = logic.listJoinablePublicDepartures(gobiRows(now), now);
+  assert.strictEqual(listed.length, 1);
+  assert.strictEqual(listed[0].departure_id, "GC-2026-09-20");
+  assert.strictEqual(listed[0].tour_name, "Gobi Classic 7 Days");
+  assert.strictEqual(listed[0].tour_id, "gobi-classic-7d");
+  assert.strictEqual("publicly_joinable" in listed[0], false);
+  assert.strictEqual("website_published" in listed[0], false);
+  assert.strictEqual("booking_id" in listed[0], false);
+});
+
+test("a normal booking row is not a public tour or join card", () => {
+  const privateOnly = [{
+    departure_id: "PRIVATE-2026-05-01",
+    booking_id: "BM099",
+    tour_name: "Private Gobi request",
+    start_date: "May 1, 2026",
+    end_date: "May 7, 2026",
+    pax: 2,
+    max_pax: 4,
+    status: "Confirmed",
+    join_status: "Open for Join",
+    website_published: ""
+  }];
+  const summary = logic.summarizeDeparture("PRIVATE-2026-05-01", privateOnly, now);
+  assert.strictEqual(summary.website_published, false);
+  assert.strictEqual(summary.publicly_joinable, false);
+  assert.strictEqual(logic.listJoinablePublicDepartures(privateOnly.concat(gobiRows(now)), now).length, 1);
+  assert.strictEqual(
+    logic.listJoinablePublicDepartures(privateOnly.concat(gobiRows(now)), now)[0].departure_id,
+    "GC-2026-09-20"
+  );
+});
+
+test("published without Open for Join is not listed", () => {
+  const rows = gobiRows(now).map((row) => Object.assign({}, row, {
+    website_published: row.booking_id === "BM001" ? "YES" : "",
+    join_status: ""
+  }));
+  const summary = logic.summarizeDeparture("GC-2026-09-20", rows, now);
+  assert.strictEqual(summary.website_published, true);
+  assert.strictEqual(summary.publicly_joinable, false);
+  assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 0);
+});
+
+test("cancelled and expired join statuses are not available", () => {
+  ["Cancelled", "Canceled", "Expired"].forEach((joinStatus) => {
+    const rows = gobiRows(now).map((row) => Object.assign({}, row, { join_status: joinStatus }));
+    const summary = logic.summarizeDeparture("GC-2026-09-20", rows, now);
+    assert.strictEqual(summary.join_status, "Closed");
+    assert.strictEqual(summary.publicly_joinable, false);
+    assert.strictEqual(logic.canAcceptPax(summary, 1), false);
+    assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 0);
+  });
+});
+
+test("fully booked published departures are not join options", () => {
+  const rows = gobiRows(now).map((row) => Object.assign({}, row, { max_pax: 3, pax: row.booking_id === "BM001" ? 3 : 0 }));
+  rows[1].status = "Hold Expired";
+  rows[2].status = "Hold Expired";
+  rows[3].status = "Hold Expired";
+  const summary = logic.summarizeDeparture("GC-2026-09-20", rows, now);
+  assert.strictEqual(summary.confirmed_pax, 3);
+  assert.strictEqual(summary.seats_available, 0);
+  assert.strictEqual(summary.join_status, "Fully Booked");
+  assert.strictEqual(summary.publicly_joinable, false);
+  assert.strictEqual(logic.listJoinablePublicDepartures(rows, now).length, 0);
+});
+
 test("frontend JS has no Google credentials", () => {
   const files = [
     "js/departures.js",
@@ -254,9 +326,43 @@ test("Formspree inquiry path is still in tours-dates", () => {
   assert.ok(html.includes("gobi-classic-7d"));
   assert.ok(html.includes('id="tourGrid"'));
   assert.ok(html.includes('id="joinDeparturesGrid"'));
+  assert.ok(html.includes('id="join-now"'));
+  assert.ok(html.includes("Browse Tours / Itineraries"));
+  assert.ok(html.includes("Available group departures"));
+  assert.ok(html.includes("const filtered = tours"));
   assert.ok(html.includes("Confirm Dates"));
   assert.ok(html.includes("function openBooking(tour)"));
   assert.ok(html.includes("function renderTours()"));
+  assert.ok(html.includes("openTourFromHash"));
+  assert.ok(html.includes("#tour-"));
+});
+
+test("existing itinerary pages were not removed or replaced by sheet rows", () => {
+  [
+    "tours/gobi-desert-tour.html",
+    "tours/central-mongolia-tour.html",
+    "tours/khuvsgul-lake-tour.html",
+    "tours/horse-riding-tour.html",
+    "tours/terelj-hustai-tour.html",
+    "tours/reindeer-taiga-tour.html",
+    "tours/altai-tavan-bogd-tour.html",
+    "tours/naadam-festival-tour.html",
+    "tours/mongolia-grand-tour.html",
+    "tours.html"
+  ].forEach((rel) => {
+    assert.ok(fs.existsSync(path.join(root, rel)), rel + " missing");
+  });
+  const catalog = fs.readFileSync(path.join(root, "tours-dates.html"), "utf8");
+  assert.ok(catalog.includes("'gobi-classic-7d': {route:"));
+  const front = fs.readFileSync(path.join(root, "js/departures.js"), "utf8");
+  assert.ok(front.includes("View Itinerary"));
+  assert.ok(front.includes("already joined"));
+  assert.ok(front.includes("FEATURED_ITINERARY_PAGES"));
+  assert.ok(front.includes("/tours/gobi-desert-tour.html"));
+  assert.ok(front.includes("Does not create tour itinerary pages from booking rows"));
+  const sheet = fs.readFileSync(path.join(root, "netlify/functions/lib/tours-sheet.js"), "utf8");
+  assert.ok(sheet.includes('website_published: ""'));
+  assert.ok(sheet.includes("listJoinablePublicDepartures"));
 });
 
 test("API pretty URLs are mapped in _redirects", () => {
