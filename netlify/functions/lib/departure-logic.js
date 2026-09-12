@@ -91,7 +91,15 @@ function isConfirmedStatus(status) {
   const s = statusKey(status);
   if (!s) return false;
   if (/pending|hold|expir|released|cancel|void|reserv|waitlist/.test(s)) return false;
-  return s === "confirmed" || s === "complete" || s === "completed" || /^confirmed\b/.test(s);
+  return (
+    s === "confirmed" ||
+    s === "complete" ||
+    s === "completed" ||
+    s === "approved" ||
+    s === "approve" ||
+    /^confirmed\b/.test(s) ||
+    /^approved\b/.test(s)
+  );
 }
 
 function isPendingStatus(status) {

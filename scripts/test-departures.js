@@ -123,6 +123,25 @@ test("Paid / Booked statuses do not count as confirmed", () => {
   assert.strictEqual(logic.isConfirmedStatus("Pending"), false);
   assert.strictEqual(logic.isConfirmedStatus("Confirmed"), true);
   assert.strictEqual(logic.isConfirmedStatus("Confirmed - deposit"), true);
+  assert.strictEqual(logic.isConfirmedStatus("approved"), true);
+  assert.strictEqual(logic.isConfirmedStatus("approve"), true);
+});
+
+test("approved bookings count toward travelers already joined", () => {
+  const rows = [
+    {
+      departure_id: "GC-2026-09-23",
+      tour_name: "tour",
+      pax: 2,
+      max_pax: 6,
+      status: "approved",
+      join_status: "Open for Join",
+      website_published: "YES"
+    }
+  ];
+  const summary = logic.summarizeDeparture("GC-2026-09-23", rows, now);
+  assert.strictEqual(summary.confirmed_pax, 2);
+  assert.strictEqual(summary.seats_available, 4);
 });
 
 test("pending bookings reserve seats while hold is active", () => {
