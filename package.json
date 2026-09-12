@@ -1,0 +1,11 @@
+{
+  "name": "bookingmongolia.com",
+  "private": true,
+  "description": "Static Booking Mongolia site with Netlify Functions",
+  "scripts": {
+    "test": "node scripts/test-departures.js"
+  },
+  "dependencies": {
+    "googleapis": "^148.0.0"
+  }
+}

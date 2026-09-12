@@ -106,6 +106,9 @@
     .status.guaranteed{background:#ecfdf5;color:#166534;border:1px solid #bbf7d0}
     .status.limited{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
     .status.request{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+    .join-departures-block{margin:22px 0 8px}
+    .join-departures-block .tour-grid{margin-top:14px}
+    .join-departure-card .tour-body{padding:18px}
     .tour-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
     .story-section{background:linear-gradient(135deg,#fff8eb 0%,#f7f5ef 100%)}
     .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center}
@@ -726,6 +729,12 @@
         <strong>Booking update:</strong> We currently accept <strong>Wise transfer</strong> and <strong>SWIFT bank transfer</strong> only. Before any payment is made, we first confirm the travel dates and itinerary, then share the travel agreement, and after both sides confirm, payment details are sent.
       </div>
 
+      <div class="join-departures-block" id="join-departures">
+        <h3>Join an existing departure</h3>
+        <p class="muted" id="joinDeparturesNote">Published group dates from the tour sheet appear here. Private customer, driver, payment and expense details stay internal.</p>
+        <div class="tour-grid" id="joinDeparturesGrid"></div>
+      </div>
+
       <div class="summary-strip">
         <div class="summary-box"><strong id="tourCount">25+</strong><span>Tours currently shown</span></div>
         <div class="summary-box"><strong>Agreement First</strong><span>Dates and itinerary are confirmed before payment</span></div>
@@ -816,6 +825,7 @@
         <div>
           <label>Selected Tour / Request</label>
           <input id="selectedTour" type="text" placeholder="Tour or request title">
+          <input type="hidden" id="selectedDepartureId" value="">
         </div>
 
         <div id="departureDateWrap">
@@ -903,6 +913,21 @@
         <div>
           <label>Your Name</label>
           <input id="guestName" type="text" placeholder="Full name" required>
+        </div>
+
+        <div>
+          <label>Country</label>
+          <input id="guestCountry" type="text" placeholder="Japan / Korea / Germany">
+        </div>
+
+        <div>
+          <label>Email</label>
+          <input id="guestEmail" type="email" placeholder="you@example.com">
+        </div>
+
+        <div>
+          <label>WhatsApp / Phone</label>
+          <input id="guestPhone" type="text" placeholder="+81 / +82 / +976">
         </div>
 
         <div>
@@ -1311,6 +1336,7 @@
       document.getElementById('bookingModal').classList.add('open');
       document.getElementById('requestType').value = tour.priceMode === 'ask' ? 'heli' : 'tour';
       document.getElementById('selectedTour').value = tour.name;
+      document.getElementById('selectedDepartureId').value = '';
       document.getElementById('selectedPeople').value = selectedPeople;
       fillDateOptions(tour.dates, tour.dates[0] || '');
       document.getElementById('selectedDate').value = tour.dates[0] || '';
@@ -1328,6 +1354,36 @@
       updateWhatsAppLink();
     }
 
+    function openJoinDeparture(dep){
+      if (!dep || !dep.departure_id) return;
+      activeTour = {
+        id: dep.tour_id || dep.departure_id,
+        name: dep.tour_name,
+        dates: [dep.date_label || dep.start_date].filter(Boolean),
+        prices: null,
+        priceMode: dep.price ? undefined : 'ask'
+      };
+      document.getElementById('bookingModal').classList.add('open');
+      document.getElementById('requestType').value = 'tour';
+      document.getElementById('selectedTour').value = dep.tour_name || '';
+      document.getElementById('selectedDepartureId').value = dep.departure_id;
+      document.getElementById('selectedPeople').value = '2';
+      fillDateOptions(activeTour.dates, activeTour.dates[0] || '');
+      document.getElementById('selectedDate').value = activeTour.dates[0] || '';
+      document.getElementById('selectedPrice').value = dep.price || 'Ask for quote';
+      document.getElementById('guestMessage').value = `Hello, I want to join ${dep.tour_name || 'this departure'} (${dep.departure_id}).`;
+      document.getElementById('travelMonth').value = '';
+      document.getElementById('nomadNights').value = '';
+      document.getElementById('routeRequest').value = dep.route || '';
+      document.getElementById('guestFamilyInfo').value = '';
+      document.getElementById('childcareOption').value = '';
+      const fp = document.getElementById('foodPreference'); if (fp) fp.value = '';
+      toggleRequestFields();
+      updateDepositField();
+      updateWhatsAppLink();
+    }
+    window.openJoinDeparture = openJoinDeparture;
+
     function openServiceRequest(type){
       activeTour = null;
       document.getElementById('bookingModal').classList.add('open');
@@ -1341,6 +1397,7 @@
       else requestType.value = 'custom';
 
       document.getElementById('selectedTour').value = type;
+      document.getElementById('selectedDepartureId').value = '';
       document.getElementById('selectedPeople').value = '2';
       fillDateOptions(['Ask / flexible date'], 'Ask / flexible date');
       document.getElementById('travelMonth').value = '';
@@ -1451,6 +1508,7 @@
       return [
         `Service: ${serviceTypeMap[type]}`,
         `Tour / Request: ${document.getElementById('selectedTour').value || '-'}`,
+        `Departure ID: ${document.getElementById('selectedDepartureId').value || '-'}`,
         `Preferred Date: ${document.getElementById('selectedDate').value || '-'}`,
         `Preferred Month: ${document.getElementById('travelMonth').value || '-'}`,
         `Travelers: ${document.getElementById('selectedPeople').value || '-'}`,
@@ -1462,6 +1520,9 @@
         `Nomadic Stay Nights: ${document.getElementById('nomadNights').value || '-'}`,
         `Places to visit: ${document.getElementById('routeRequest').value || '-'}`,
         `Name: ${document.getElementById('guestName').value || '-'}`,
+        `Country: ${document.getElementById('guestCountry').value || '-'}`,
+        `Email: ${document.getElementById('guestEmail').value || '-'}`,
+        `Phone: ${document.getElementById('guestPhone').value || '-'}`,
         `Contact: ${document.getElementById('guestContact').value || '-'}`,
         `Agreement accepted: ${document.getElementById('agreementAccepted').checked ? 'Yes (v' + AGREEMENT_VERSION + ')' : 'No'}`,
         `Notes: ${document.getElementById('guestMessage').value || '-'}`
@@ -1488,8 +1549,47 @@
       }
     }
 
+    function parseTravelerCount(value){
+      const n = parseInt(String(value || '').replace(/[^\d]/g, ''), 10);
+      return Number.isFinite(n) && n > 0 ? n : 1;
+    }
+
+    function joinContactPayload(){
+      const email = (document.getElementById('guestEmail').value || '').trim();
+      const phone = (document.getElementById('guestPhone').value || '').trim();
+      const contact = (document.getElementById('guestContact').value || '').trim();
+      return {
+        email: email || (contact.includes('@') ? contact : ''),
+        phone: phone || (!contact.includes('@') ? contact : ''),
+        contact
+      };
+    }
+
+    async function submitJoinDeparture(bookingId){
+      const departureId = document.getElementById('selectedDepartureId').value || '';
+      const contacts = joinContactPayload();
+      const country = (document.getElementById('guestCountry').value || '').trim();
+      if (!contacts.email || !contacts.phone || !country) {
+        throw new Error('Please enter country, email and phone to join this departure.');
+      }
+      if (!window.BMDepartures || typeof window.BMDepartures.submitJoinBooking !== 'function') {
+        throw new Error('Join booking is not available yet.');
+      }
+      return window.BMDepartures.submitJoinBooking({
+        departure_id: departureId,
+        booking_id: bookingId,
+        name: document.getElementById('guestName').value || '',
+        email: contacts.email,
+        phone: contacts.phone,
+        country: country,
+        pax: parseTravelerCount(document.getElementById('selectedPeople').value),
+        notes: document.getElementById('guestMessage').value || ''
+      });
+    }
+
     async function recordAgreementAcceptance(bookingId){
-      const contact = document.getElementById('guestContact').value || '';
+      const contacts = joinContactPayload();
+      const contact = contacts.contact || contacts.email || contacts.phone;
       const response = await fetch(RECORD_AGREEMENT_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -1500,7 +1600,7 @@
           booking_id: bookingId,
           traveler_name: document.getElementById('guestName').value || '',
           traveler_contact: contact,
-          traveler_email: contact.includes('@') ? contact : '',
+          traveler_email: contacts.email || (contact.includes('@') ? contact : ''),
           service_type: document.getElementById('requestType').value || '',
           selected_tour: document.getElementById('selectedTour').value || '',
           agreement_accepted: true,
@@ -1528,8 +1628,32 @@
         return;
       }
 
+      const departureId = document.getElementById('selectedDepartureId').value || '';
+      const contacts = joinContactPayload();
+      const contact = contacts.contact || contacts.email || contacts.phone;
+      submitNote.innerHTML = 'Saving agreement acceptance and sending your request...';
+      document.getElementById('bookingSubmitBtn').disabled = true;
+
+      if (departureId) {
+        try {
+          const joinResult = await submitJoinDeparture('');
+          const bookingId = joinResult.booking_id || joinResult.booking?.booking_id;
+          try {
+            await recordAgreementAcceptance(bookingId);
+          } catch (agreementErrorSave) {}
+          if (window.BMDepartures && typeof window.BMDepartures.renderJoinGrid === 'function') {
+            window.BMDepartures.renderJoinGrid();
+          }
+          submitNote.innerHTML = `Your join request was received. Booking ID <strong>${bookingId}</strong> is pending and a seat is held until confirmation. We will confirm dates next, then send Wise / SWIFT payment details.`;
+        } catch (joinError) {
+          syncAgreementSubmitState();
+          const msg = String((joinError && joinError.message) || 'This departure could not be reserved.');
+          submitNote.textContent = msg + ' You can also continue on WhatsApp.';
+        }
+        return;
+      }
+
       const bookingId = newBookingId();
-      const contact = document.getElementById('guestContact').value || '';
 
       const payload = {
         booking_id: bookingId,
@@ -1594,14 +1718,16 @@
     document.getElementById('agreementAccepted').addEventListener('change', syncAgreementSubmitState);
     syncAgreementSubmitState();
 
-    ['guestName','guestContact','guestMessage','selectedPeople','selectedTour','selectedDate','travelMonth','nomadNights','routeRequest','guestFamilyInfo','foodPreference','childcareOption'].forEach(id => {
+    ['guestName','guestContact','guestEmail','guestPhone','guestCountry','guestMessage','selectedPeople','selectedTour','selectedDate','travelMonth','nomadNights','routeRequest','guestFamilyInfo','foodPreference','childcareOption'].forEach(id => {
       const el = document.getElementById(id);
+      if (!el) return;
       el.addEventListener('input', updateWhatsAppLink);
       el.addEventListener('change', updateWhatsAppLink);
     });
 
     renderTours();
   </script>
+  <script src="/js/departures.js"></script>
 
   <a href="/index.html" class="back-home-btn">← Home</a>
 

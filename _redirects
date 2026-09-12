@@ -5,6 +5,11 @@
 /guide/guidenomadic-culture.html  /guide/nomadic-culture.html  301
 /tour-calendar.html  /tours-dates.html  301
 
+# Tour departure API (Netlify functions, public fields only)
+/api/departures  /.netlify/functions/departures  200
+/api/create-booking  /.netlify/functions/create-booking  200
+/api/booking-status  /.netlify/functions/booking-status  200
+
 # Clean category URLs for main navigation
 /experiences  /experiences.html  200
 /destinations  /destinations.html  200

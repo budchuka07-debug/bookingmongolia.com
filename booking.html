@@ -113,6 +113,7 @@
         <h2>Booking Request Form</h2>
         <form name="mongolia-booking" method="POST" data-netlify="true">
           <input type="hidden" name="form-name" value="mongolia-booking">
+          <input type="hidden" name="departure_id" id="departureIdField" value="">
 
           <div class="form-grid">
             <div>
@@ -143,11 +144,12 @@
             <div>
               <label for="travelers">Number of Travelers</label>
               <select id="travelers" name="travelers">
-                <option>1</option>
-                <option>2</option>
-                <option>3-4</option>
-                <option>5-8</option>
-                <option>9+</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
               </select>
             </div>
 
@@ -164,6 +166,11 @@
                 <option>Airport Pickup</option>
                 <option>Custom Travel Plan</option>
               </select>
+            </div>
+
+            <div>
+              <label for="shownPrice">Price</label>
+              <input id="shownPrice" name="shown_price" type="text" placeholder="Shown after a departure is selected" readonly>
             </div>
 
             <div>
@@ -249,6 +256,7 @@
     © 2026 Discover Mongolia Tours
   </div>
 </footer>
+<script src="/js/departures.js"></script>
 <script>
 (function(){
   var AGREEMENT_VERSION = "2026";
@@ -258,6 +266,7 @@
   var submitBtn = document.getElementById("bookingSubmitBtn");
   var errorEl = document.getElementById("agreementError");
   var bookingIdField = document.getElementById("bookingIdField");
+  var departureField = document.getElementById("departureIdField");
   if(!form || !checkbox || !submitBtn) return;
 
   function sync(){
@@ -267,22 +276,104 @@
   checkbox.addEventListener("change", sync);
   sync();
 
+  function queryDepartureId(){
+    try {
+      return new URLSearchParams(window.location.search).get("departure") || "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  async function prefillDeparture(){
+    var id = queryDepartureId();
+    if (!id || !window.BMDepartures) return;
+    try {
+      var dep = await window.BMDepartures.lookupDeparture(id);
+      if (!dep) return;
+      if (departureField) departureField.value = dep.departure_id;
+      var service = document.getElementById("service");
+      if (service) {
+        var opt = document.createElement("option");
+        opt.value = dep.tour_name;
+        opt.textContent = dep.tour_name;
+        opt.selected = true;
+        service.appendChild(opt);
+      }
+      var date = document.getElementById("traveldate");
+      if (date) {
+        date.value = dep.date_label || dep.start_date || "";
+        date.readOnly = true;
+      }
+      var price = document.getElementById("shownPrice");
+      if (price) price.value = dep.price || "";
+      var places = document.getElementById("places");
+      if (places && dep.route) places.value = dep.route;
+      var message = document.getElementById("message");
+      if (message && !message.value) {
+        message.value = "I want to join departure " + dep.departure_id + ".";
+      }
+    } catch (err) {}
+  }
+
   form.addEventListener("submit", function(ev){
     if(!checkbox.checked){
       ev.preventDefault();
       errorEl.classList.add("show");
       return;
     }
-    var bookingId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("bm-" + Date.now());
-    bookingIdField.value = bookingId;
     ev.preventDefault();
     submitBtn.disabled = true;
+    var departureId = (departureField && departureField.value) || queryDepartureId();
+    var name = document.getElementById("fullname").value || "";
+    var email = document.getElementById("email").value || "";
+    var phone = document.getElementById("phone").value || "";
+    var country = document.getElementById("country").value || "";
+
+    if (departureId && window.BMDepartures && window.BMDepartures.submitJoinBooking) {
+      window.BMDepartures.submitJoinBooking({
+        departure_id: departureId,
+        name: name,
+        email: email,
+        phone: phone,
+        country: country,
+        pax: document.getElementById("travelers").value,
+        notes: document.getElementById("message").value || ""
+      }).then(function(booking){
+        var bookingId = booking && booking.booking_id ? booking.booking_id : "";
+        bookingIdField.value = bookingId;
+        return fetch(RECORD_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            booking_id: bookingId,
+            traveler_name: name,
+            traveler_email: email,
+            traveler_contact: phone || email,
+            service_type: document.getElementById("service").value || "",
+            selected_tour: document.getElementById("service").value || "",
+            agreement_accepted: true,
+            agreement_version: AGREEMENT_VERSION,
+            source: "booking.html"
+          })
+        }).catch(function(){}).then(function(){
+          alert("Join request received. Booking ID " + bookingId + " is pending and a seat is held until confirmation.");
+          submitBtn.disabled = false;
+        });
+      }).catch(function(err){
+        alert((err && err.message) || "Could not join this departure.");
+        submitBtn.disabled = false;
+      });
+      return;
+    }
+
+    var bookingId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("bm-" + Date.now());
+    bookingIdField.value = bookingId;
 
     var payload = {
       booking_id: bookingId,
-      traveler_name: document.getElementById("fullname").value || "",
-      traveler_email: document.getElementById("email").value || "",
-      traveler_contact: document.getElementById("phone").value || document.getElementById("email").value || "",
+      traveler_name: name,
+      traveler_email: email,
+      traveler_contact: phone || email,
       service_type: document.getElementById("service").value || "",
       selected_tour: document.getElementById("service").value || "",
       agreement_accepted: true,
@@ -298,6 +389,12 @@
       form.submit();
     });
   });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", prefillDeparture);
+  } else {
+    prefillDeparture();
+  }
 })();
 </script>
 </body>
