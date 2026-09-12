@@ -338,6 +338,55 @@ test("credentials exist only in server google-auth helper", () => {
   assert.ok(auth.includes("1BbbiaPNG-A7B4La53or4Dsv7E46XE6O35JXTQX0HeeU"));
 });
 
+test("legacy Sheet1 spreadsheet id is ignored in favor of Tour Manager", () => {
+  const googleAuth = require("../netlify/functions/lib/google-auth");
+  const previous = process.env.GOOGLE_SHEET_ID;
+  try {
+    process.env.GOOGLE_SHEET_ID = "1tRE1n9oNVyGnxWkepw-MvtRw5X3nhL6wiN9kZxAGeGE";
+    assert.strictEqual(googleAuth.getSpreadsheetId(), "1BbbiaPNG-A7B4La53or4Dsv7E46XE6O35JXTQX0HeeU");
+    delete process.env.GOOGLE_SHEET_ID;
+    assert.strictEqual(googleAuth.getSpreadsheetId(), "1BbbiaPNG-A7B4La53or4Dsv7E46XE6O35JXTQX0HeeU");
+  } finally {
+    if (previous == null) delete process.env.GOOGLE_SHEET_ID;
+    else process.env.GOOGLE_SHEET_ID = previous;
+  }
+});
+
+test("parses GOOGLE_SERVICE_ACCOUNT_JSON including broken private_key newlines", () => {
+  const googleAuth = require("../netlify/functions/lib/google-auth");
+  const email = "demo@example.iam.gserviceaccount.com";
+  const valid = JSON.stringify({
+    type: "service_account",
+    client_email: email,
+    private_key: "-----BEGIN PRIVATE KEY-----\nABC123\n-----END PRIVATE KEY-----\n"
+  });
+  const broken = [
+    "{",
+    '  "type": "service_account",',
+    '  "client_email": "' + email + '",',
+    '  "private_key": "-----BEGIN PRIVATE KEY-----',
+    "ABC123",
+    '-----END PRIVATE KEY-----',
+    '"',
+    "}"
+  ].join("\n");
+  const previous = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  try {
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON = valid;
+    let parsed = googleAuth.parseServiceAccount();
+    assert.strictEqual(parsed.client_email, email);
+    assert.ok(parsed.private_key.indexOf("BEGIN PRIVATE KEY") !== -1);
+
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON = broken;
+    parsed = googleAuth.parseServiceAccount();
+    assert.strictEqual(parsed.client_email, email);
+    assert.ok(parsed.private_key.indexOf("BEGIN PRIVATE KEY") !== -1);
+  } finally {
+    if (previous == null) delete process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+    else process.env.GOOGLE_SERVICE_ACCOUNT_JSON = previous;
+  }
+});
+
 test("production TOURS headers map without duplicating Booking/Tour columns", () => {
   const sheet = require("../netlify/functions/lib/tours-sheet");
   const headers = [
