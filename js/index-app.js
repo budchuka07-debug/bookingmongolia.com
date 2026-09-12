@@ -183,6 +183,14 @@ const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
     if (thumb) thumb.classList.add('active');
   }
 
+  window.openImageLightbox = openImageLightbox;
+  window.closeImageLightbox = closeImageLightbox;
+  window.changeGalleryImage = changeGalleryImage;
+
+  function listingGallerySources(item) {
+    return [item?.gallery_urls, item?.main_image_url, item?.image_url];
+  }
+
   function renderGalleryBlock(prefix, index, urls, fallback, alt) {
     const gallery = normalizeGalleryUrls(urls, fallback);
     const safeGallery = gallery.length ? gallery : [fallback];
@@ -438,7 +446,7 @@ const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
           ${renderGalleryBlock(
             "hotel",
             index,
-            item.gallery_urls || item.main_image_url || item.image_url,
+            listingGallerySources(item),
             item.main_image_url || item.image_url || fallbackImage,
             item.name || "Stay"
           )}
@@ -812,14 +820,6 @@ async function loadCars() {
     return String(phone).trim();
   }
 
-  function carCoverUrl(item) {
-    const urls = normalizeGalleryUrls(
-      [item.gallery_urls, item.main_image_url, item.image_url],
-      item.main_image_url || item.image_url || fallbackCarImage
-    );
-    return urls[0] || fallbackCarImage;
-  }
-
   const ids = data.map((item) => item.id).filter(Boolean);
   const reviewStats = await loadDriverReviewStats(ids);
   const carAnchorIds = buildUniqueCarAnchorIds(data);
@@ -840,7 +840,6 @@ async function loadCars() {
     const rate = formatRate(item.daily_rate);
     const seats = formatSeats(item.seats);
     const phone = formatPhone(item.phone);
-    const cover = carCoverUrl(item);
     const profileUrl = `driver-detail.html?id=${encodeURIComponent(item.id)}`;
     const anchorId = carAnchorIds[index];
     // Share exact vehicle deep link on the homepage, e.g. https://bookingmongolia.com/#car-hiace-01
@@ -866,7 +865,13 @@ async function loadCars() {
     return `
       <article class="card car-card" id="${escapeHtml(anchorId)}" data-vehicle-id="${escapeAttr(item.id)}" data-car-anchor="${escapeAttr(anchorId)}">
         <div class="car-card-media">
-          <img src="${escapeAttr(cover)}" alt="${escapeAttr(title)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackCarImage}'">
+          ${renderGalleryBlock(
+            "car",
+            index,
+            listingGallerySources(item),
+            item.main_image_url || item.image_url || fallbackCarImage,
+            title
+          )}
         </div>
         <div class="car-card-body">
           <span class="car-card-tag">${escapeHtml(category)}</span>
