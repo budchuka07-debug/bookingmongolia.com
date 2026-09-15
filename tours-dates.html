@@ -739,7 +739,7 @@
       </div>
 
       <div class="deposit-banner">
-        <strong>Booking update:</strong> We currently accept <strong>Wise transfer</strong> and <strong>SWIFT bank transfer</strong> only. Before any payment is made, we first confirm the travel dates and itinerary, then share the travel agreement, and after both sides confirm, payment details are sent.
+        <strong>Booking update:</strong> We currently accept <strong>WeChat Pay</strong>, <strong>Alipay</strong>, <strong>Wise transfer</strong> and <strong>SWIFT bank transfer</strong>. WeChat / Alipay friend and payment QR codes are on the <a href="/contact.html">Contact page</a>. Wise / SWIFT details are sent after dates and the travel agreement are confirmed.
       </div>
 
       <div class="summary-strip">
@@ -969,7 +969,7 @@
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/esimmongolia">Messenger</a>
         </div>
       </form>
-      <div class="help-note" id="submitNote">This form sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. After you accept the General Travel Agreement and we confirm dates and itinerary, Wise / SWIFT payment details are sent. WhatsApp and Messenger remain available as backup.</div>
+      <div class="help-note" id="submitNote">This form sends booking requests to your <strong>Formspree</strong> inbox using <code>https://formspree.io/f/xwvwywob</code>. After you accept the General Travel Agreement and we confirm dates and itinerary, WeChat Pay / Alipay / Wise / SWIFT payment details are sent. WhatsApp, WeChat and Messenger remain available as backup.</div>
     </div>
   </div>
 
@@ -999,10 +999,16 @@
       <div class="detail-section">
         <h4>Payment methods</h4>
         <ul class="detail-list">
+          <li>WeChat Receive Money / 微信收款 — yellow QR on Contact</li>
+          <li>Alipay / 支付宝收款 — orange QR on Contact</li>
           <li>Wise transfer</li>
           <li>SWIFT bank transfer</li>
         </ul>
-        <p class="small-note">PayPal and QPay are not available for this booking flow.</p>
+        <div class="qr-grid">
+          <figure class="qr-card qr-money"><img src="/images/pay/wechat-receive.jpg" alt="WeChat receive money QR"><figcaption>WeChat receive money</figcaption></figure>
+          <figure class="qr-card qr-money"><img src="/images/pay/alipay-receive.jpg" alt="Alipay receive QR"><figcaption>Alipay receive money</figcaption></figure>
+        </div>
+        <p class="small-note">PayPal and QPay are not available. Friend QRs are on the Contact page. Wise / SWIFT account numbers are still sent privately after confirmation.</p>
       </div>
       <div class="detail-section">
         <h4>Important note</h4>
@@ -1454,7 +1460,7 @@
       paymentBtn.classList.remove('hidden');
 
       if(type === 'tour' && activeTour && activeTour.priceMode !== 'ask'){
-        depositInput.value = 'Agreement first • Wise / SWIFT after confirmation';
+        depositInput.value = 'Agreement first • WeChat / Alipay / Wise / SWIFT after confirmation';
       } else if(type === 'heli') {
         depositInput.value = 'Quote first • Agreement required before payment';
       } else {
@@ -1651,7 +1657,7 @@
           if (window.BMDepartures && typeof window.BMDepartures.renderJoinGrid === 'function') {
             window.BMDepartures.renderJoinGrid();
           }
-          submitNote.innerHTML = `Your join request was received. Booking ID <strong>${bookingId}</strong> is pending and a seat is held until confirmation. We will confirm dates next, then send Wise / SWIFT payment details.`;
+          submitNote.innerHTML = `Your join request was received. Booking ID <strong>${bookingId}</strong> is pending and a seat is held until confirmation. We will confirm dates next, then send WeChat Pay / Alipay / Wise / SWIFT payment details.`;
         } catch (joinError) {
           syncAgreementSubmitState();
           const msg = String((joinError && joinError.message) || 'This departure could not be reserved.');
@@ -1712,9 +1718,9 @@
         }
 
         if (acceptanceSaved) {
-          submitNote.innerHTML = 'Your request was sent successfully. Agreement acceptance was recorded. We will confirm dates and itinerary next, then send Wise / SWIFT payment details.';
+          submitNote.innerHTML = 'Your request was sent successfully. Agreement acceptance was recorded. We will confirm dates and itinerary next, then send WeChat Pay / Alipay / Wise / SWIFT payment details.';
         } else {
-          submitNote.innerHTML = 'Your request was sent successfully. Agreement acceptance was included with the request. We will confirm dates and itinerary next, then send Wise / SWIFT payment details.';
+          submitNote.innerHTML = 'Your request was sent successfully. Agreement acceptance was included with the request. We will confirm dates and itinerary next, then send WeChat Pay / Alipay / Wise / SWIFT payment details.';
         }
       } catch (error) {
         syncAgreementSubmitState();

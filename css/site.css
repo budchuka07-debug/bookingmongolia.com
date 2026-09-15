@@ -440,6 +440,39 @@
       background:#0070ba;
     }
     .paypal-btn:hover{background:#005f9e}
+    .pay-methods{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:16px 0 8px;
+    }
+    .pay-chip{
+      display:inline-flex;
+      align-items:center;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      border:1px solid #d7dee8;
+      background:#f8fafc;
+    }
+    .pay-wechat{background:#e8f8ee;border-color:#b7e0c4;color:#067d3e}
+    .pay-alipay{background:#e8f2ff;border-color:#b7d4ff;color:#1677ff}
+    .pay-wise{background:#eef6fb;border-color:#c5dcea;color:#0d3b66}
+    .pay-swift{background:#f4f1ea;border-color:#e0d5c0;color:#7a4d08}
+    .pay-note{margin:0 0 14px;color:#64748b;font-size:14px;line-height:1.55}
+    .contact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .contact-actions .btn{margin-top:0}
+    .wechat-btn{background:#07c160;color:#fff}
+    .wechat-btn:hover{background:#06ad56;color:#fff}
+    .alipay-btn{background:#1677ff;color:#fff}
+    .alipay-btn:hover{background:#0f62d9;color:#fff}
+    .qr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+    .qr-card{margin:0;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;text-align:center}
+    .qr-card img{width:100%;height:260px;object-fit:contain;background:#0b1220}
+    .qr-card figcaption{padding:10px 8px 12px;font-size:13px;font-weight:800;color:#0d1f35;line-height:1.4}
+    .qr-money{border:2px solid #1677ff}
+    @media(max-width:700px){.qr-grid{grid-template-columns:1fr}}
 
     .form-grid{
       display:grid;

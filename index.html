@@ -1250,12 +1250,29 @@ gtag('config', 'G-SWZZY2HBZB');
           <h3 data-i18n="quick_contact">Quick Contact</h3>
           <ul>
             <li><strong>WhatsApp:</strong> +976 90283039</li>
+            <li><strong>WeChat / 微信:</strong> Scan the WeChat friend QR below (Chuluunchimeg Bud).</li>
+            <li><strong>Alipay / 支付宝:</strong> Scan the friend QR to add us, or the orange receive QR to pay.</li>
             <li><strong>Email:</strong> bookingmongoliatour@gmail.com</li>
             <li><strong>Address:</strong> Ulaanbaatar, Bayanzurkh district, 42nd building, Apartment 117</li>
-            <li data-i18n="support_lang"><strong>Support:</strong> English, Japanese and Korean inquiry support</li>
+            <li data-i18n="support_lang"><strong>Support:</strong> English, Japanese, Korean and Chinese (WeChat / Alipay)</li>
           </ul>
-
-          <a class="btn btn-primary paypal-btn" href="https://wa.me/97690283039" target="_blank" rel="noopener">Ask about payment on WhatsApp</a>
+          <div class="pay-methods" aria-label="Payment methods">
+            <span class="pay-chip pay-wechat">WeChat Pay 微信支付</span>
+            <span class="pay-chip pay-alipay">Alipay 支付宝</span>
+            <span class="pay-chip pay-wise">Wise</span>
+            <span class="pay-chip pay-swift">SWIFT</span>
+          </div>
+          <div class="qr-grid">
+            <figure class="qr-card"><img src="/images/pay/wechat-friend.jpg" alt="WeChat add friend QR"><figcaption>WeChat friend<br>Chuluunchimeg Bud</figcaption></figure>
+            <figure class="qr-card"><img src="/images/pay/alipay-friend.jpg" alt="Alipay friend QR"><figcaption>Alipay friend<br>chuka</figcaption></figure>
+            <figure class="qr-card qr-money"><img src="/images/pay/wechat-receive.jpg" alt="WeChat receive money QR"><figcaption>WeChat receive money<br>Chuluunchimeg Bud</figcaption></figure>
+            <figure class="qr-card qr-money"><img src="/images/pay/alipay-receive.jpg" alt="Alipay receive money QR"><figcaption>Alipay receive money<br>CHULUUNCHIMEG</figcaption></figure>
+          </div>
+          <p class="pay-note">Top two QRs are for adding as a friend. Bottom two are for receiving money: WeChat Receive Money and Alipay Receive. Wise / SWIFT details are still sent after the travel agreement is confirmed.</p>
+          <div class="contact-actions">
+            <a class="btn btn-primary paypal-btn" href="https://wa.me/97690283039" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn wechat-btn" href="mailto:bookingmongoliatour@gmail.com?subject=WeChat%20%2F%20Alipay%20inquiry">WeChat / Alipay</a>
+          </div>
         </div>
 
         <form action="https://formspree.io/f/xwvwywob" method="POST">
@@ -1272,6 +1289,10 @@ gtag('config', 'G-SWZZY2HBZB');
             <div>
               <label data-i18n="form_email">Email</label>
               <input type="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div>
+              <label>WeChat / Alipay</label>
+              <input type="text" name="wechat_alipay" placeholder="WeChat ID or Alipay account (optional)">
             </div>
             <div>
               <label data-i18n="form_dates">Travel Dates</label>
