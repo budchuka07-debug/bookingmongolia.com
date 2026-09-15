@@ -128,7 +128,98 @@ read_more: "Read More",
         form_interest: "Interested In",
         form_message: "Message",
         form_send: "Send Inquiry",
-        footer_text: "Local travel guide, private tours and Mongolia trip planning."
+        footer_text: "Local travel guide, private tours and Mongolia trip planning.",
+        nav_tours_dates: "Tours & Dates",
+        contact_whatsapp: "WhatsApp:",
+        contact_wechat_line: "Scan the WeChat friend QR below (Chuluunchimeg Bud).",
+        contact_alipay_line: "Scan the friend QR to add us, or the orange receive QR to pay.",
+        contact_email: "Email:",
+        contact_address: "Address:",
+        contact_address_value: "Ulaanbaatar, Bayanzurkh district, 42nd building, Apartment 117",
+        contact_wechat_alipay: "WeChat / Alipay",
+        contact_pay_note: "Top two QRs are for adding as a friend. Bottom two are for receiving money: WeChat Receive Money and Alipay Receive. Wise / SWIFT details are still sent after the travel agreement is confirmed.",
+        contact_interest_vip: "VIP Tour",
+        contact_interest_transport: "Private Transport",
+        contact_interest_guide: "Travel Guide",
+        contact_interest_custom: "Custom Travel Plan",
+        td_topbar_left: "Local Mongolia Travel Expert • Tours, custom routes, cars, guides and family trips",
+        td_topbar_right: "WhatsApp: +976 90283039 • May to October 2026",
+        td_nav_destinations: "Destinations",
+        td_nav_featured: "Featured Tours",
+        td_nav_services: "Services",
+        td_nav_family: "Family Travel",
+        td_nav_oneday: "1 Day Tours",
+        td_nav_browse: "Browse Tours",
+        td_nav_join: "Join Now",
+        td_nav_planner: "Trip Planner",
+        td_hero_eyebrow: "2026 Mongolia Summer & Autumn Travel • Open May to October",
+        td_hero_title: "Private tours, custom routes, cars, guides and family-friendly travel in Mongolia",
+        td_hero_text: "Book fixed tours, request a route built around the exact places you want to visit, hire a car with driver, order a guide only, add a nomadic family stay, or plan a family trip with optional childcare support. The season is open from May to October.",
+        td_hero_btn_browse: "Browse Tours",
+        td_hero_btn_join: "Join Now",
+        td_stat_1: "Routes prepared",
+        td_stat_2: "Main summer season open",
+        td_stat_3: "Build your own itinerary",
+        td_stat_4: "Child-friendly planning available",
+        td_services_title: "Booking Mongolia travel services guests can book separately or combine",
+        td_services_text: "Guests do not need to buy only a full package. They can choose a fixed tour, ask for a custom route, rent a vehicle with driver, hire a guide only, add a nomadic stay, request a trip helper or babysitter, and send food preferences for a more personal Booking Mongolia plan.",
+        td_join_title: "Join Now",
+        td_join_text: "Available group departures. Each card is a specific date and group that other travelers can join. This is not the tour catalog, and a normal booking is never shown here unless it is intentionally published and open.",
+        td_browse_title: "Browse Tours / Itineraries",
+        td_browse_text: "These are the public tour products. Open a tour to view the itinerary, route, activities, accommodation, duration and price, then request or confirm dates.",
+        td_deposit_banner: "Booking update: We currently accept WeChat Pay, Alipay, Wise transfer and SWIFT bank transfer. WeChat / Alipay QR codes are on the Contact page. Wise / SWIFT details are sent after dates and the travel agreement are confirmed.",
+        td_summary_tours: "Tours currently shown",
+        td_summary_agreement_title: "Agreement First",
+        td_summary_agreement: "Dates and itinerary are confirmed before payment",
+        td_summary_season: "Summer and autumn season open",
+        td_summary_flexible_title: "Flexible",
+        td_summary_flexible: "Custom route, car, guide and family requests",
+        td_showing: "Showing {n} tours.",
+        td_view_details: "View Details",
+        td_confirm_dates: "Confirm Dates",
+        td_ask_quote: "Ask Quote",
+        td_standard_note: "Standard package shown. Budget and Premium options available.",
+        td_private_note: "Private or group joining possible • Dates confirmed before payment.",
+        td_seats_note: "Limited seats • Ask for final room and vehicle availability.",
+        td_from_price: "From {price} / person (group)",
+        td_ask_for_quote: "Ask for quote",
+        td_booking_title: "Send your travel request or confirm dates",
+        td_booking_text: "Choose the service, dates, group size and contact. Custom routes, car rental, guide-only booking and family travel are supported. Please accept the General Travel Agreement before sending.",
+        td_step_1_t: "1. Choose service",
+        td_step_1_d: "Tour, custom route, car, guide, helper service, family trip or helicopter quote.",
+        td_step_2_t: "2. Add dates",
+        td_step_2_d: "Exact dates, preferred month and route details.",
+        td_step_3_t: "3. Continue",
+        td_step_3_d: "Accept the agreement, then we confirm dates and send payment details.",
+        td_label_service: "Service Type",
+        td_label_tour: "Selected Tour / Request",
+        td_label_date: "Preferred Date / Departure",
+        td_label_travelers: "Travelers",
+        td_label_price: "Shown Price",
+        td_label_payment: "Payment Status",
+        td_label_month: "Preferred Month",
+        td_label_family: "Adults / Children",
+        td_label_food: "Food Preference",
+        td_label_name: "Your Name",
+        td_label_contact: "WhatsApp / Email",
+        td_label_message: "Message / Notes",
+        td_agreement_heading: "Travel Agreement",
+        td_agreement_name: "BookingMongolia General Travel Agreement",
+        td_view_agreement: "View Agreement PDF",
+        td_download_pdf: "Download PDF",
+        td_agreement_version_note: "Version 2026 · general terms (tour dates and price stay on your booking confirmation)",
+        td_agreement_check: "I have read and agree to the BookingMongolia General Travel Agreement and accept its terms and conditions.",
+        td_agreement_error: "Please read and accept the BookingMongolia General Travel Agreement before continuing.",
+        td_send_request: "Send Request",
+        td_agreement_payment_info: "Agreement & Payment Info",
+        td_person_1: "1 Person",
+        td_people_2: "2 People",
+        td_people_3: "3 People",
+        td_people_4: "4 People",
+        td_per_person: "/ person",
+        td_days: "Days",
+        td_close: "Close",
+        td_back_booking: "Close / Back to booking"
       },
       ja: {
         topbar_left: "モンゴル現地旅行エキスパート • プライベートツアー • 移動サポート",
@@ -243,7 +334,98 @@ read_more: "Read More",
         form_interest: "ご希望内容",
         form_message: "メッセージ",
         form_send: "送信",
-        footer_text: "現地旅行ガイド、プライベートツアー、モンゴル旅行計画。"
+        footer_text: "現地旅行ガイド、プライベートツアー、モンゴル旅行計画。",
+        nav_tours_dates: "ツアー＆日程",
+        contact_whatsapp: "WhatsApp:",
+        contact_wechat_line: "下のWeChat友達用QRをスキャンしてください（Chuluunchimeg Bud）。",
+        contact_alipay_line: "友達追加用QR、またはオレンジ色の受取QRでお支払いできます。",
+        contact_email: "メール:",
+        contact_address: "住所:",
+        contact_address_value: "ウランバートル、バヤンズルフ区、42棟、117号室",
+        contact_wechat_alipay: "WeChat / Alipay",
+        contact_pay_note: "上の2つのQRは友達追加用、下の2つは受取用です。Wise / SWIFTの詳細は旅行契約確認後にお送りします。",
+        contact_interest_vip: "VIPツアー",
+        contact_interest_transport: "専用送迎",
+        contact_interest_guide: "旅行ガイド",
+        contact_interest_custom: "カスタム旅行プラン",
+        td_topbar_left: "モンゴル現地旅行エキスパート • ツアー、カスタムルート、車両、ガイド、家族旅行",
+        td_topbar_right: "WhatsApp: +976 90283039 • 2026年5月〜10月",
+        td_nav_destinations: "目的地",
+        td_nav_featured: "おすすめツアー",
+        td_nav_services: "サービス",
+        td_nav_family: "家族旅行",
+        td_nav_oneday: "日帰りツアー",
+        td_nav_browse: "ツアー一覧",
+        td_nav_join: "参加する",
+        td_nav_planner: "旅行プランナー",
+        td_hero_eyebrow: "2026年モンゴル夏・秋旅行 • 5月〜10月オープン",
+        td_hero_title: "モンゴルのプライベートツアー、カスタムルート、車両、ガイド、家族向け旅行",
+        td_hero_text: "固定ツアーの予約、行きたい場所に合わせたルート作成、運転手付き車両、ガイドのみ、遊牧民滞在、ベビーシッター付き家族旅行など。シーズンは5月〜10月です。",
+        td_hero_btn_browse: "ツアー一覧",
+        td_hero_btn_join: "参加する",
+        td_stat_1: "準備済みルート",
+        td_stat_2: "メイン夏シーズン開催中",
+        td_stat_3: "自分だけの旅程を作成",
+        td_stat_4: "お子様向けプラン対応",
+        td_services_title: "単体でも組み合わせても予約できる Booking Mongolia の旅行サービス",
+        td_services_text: "フルパッケージだけでなく、固定ツアー、カスタムルート、運転手付き車両、ガイドのみ、遊牧民滞在、ヘルパー／ベビーシッター、食事の希望もご相談いただけます。",
+        td_join_title: "参加する",
+        td_join_text: "参加可能なグループ出発です。各カードは他の旅行者と合流できる特定の日程です。公開されたオープン出発のみ表示されます。",
+        td_browse_title: "ツアー／旅程を見る",
+        td_browse_text: "公開中のツアー商品です。旅程・ルート・アクティビティ・宿泊・日数・料金を確認し、日程リクエストや確定ができます。",
+        td_deposit_banner: "予約更新: 現在 WeChat Pay、Alipay、Wise、SWIFT に対応。WeChat / Alipay のQRはお問い合わせページにあります。Wise / SWIFT の詳細は日程と旅行契約確認後にお送りします。",
+        td_summary_tours: "表示中のツアー",
+        td_summary_agreement_title: "契約が先",
+        td_summary_agreement: "支払前に日程と旅程を確認します",
+        td_summary_season: "夏・秋シーズン開催中",
+        td_summary_flexible_title: "柔軟対応",
+        td_summary_flexible: "カスタム、車両、ガイド、家族旅行に対応",
+        td_showing: "{n}件のツアーを表示中。",
+        td_view_details: "詳細を見る",
+        td_confirm_dates: "日程を確認",
+        td_ask_quote: "見積もり依頼",
+        td_standard_note: "標準パッケージ表示。予算・プレミアムも可能。",
+        td_private_note: "プライベートまたは合流可能 • 支払前に日程確認。",
+        td_seats_note: "定員あり • 部屋・車両の最終空き状況はお問い合わせください。",
+        td_from_price: "{price}〜 / 人（グループ）",
+        td_ask_for_quote: "見積もりを依頼",
+        td_booking_title: "旅行リクエストまたは日程確認を送信",
+        td_booking_text: "サービス、日程、人数、連絡先を選択。カスタム、車両、ガイドのみ、家族旅行にも対応。送信前に一般旅行契約への同意が必要です。",
+        td_step_1_t: "1. サービス選択",
+        td_step_1_d: "ツアー、カスタム、車両、ガイド、ヘルパー、家族旅行、ヘリ見積もり。",
+        td_step_2_t: "2. 日程を追加",
+        td_step_2_d: "希望日、月、ルート詳細。",
+        td_step_3_t: "3. 続ける",
+        td_step_3_d: "契約に同意後、日程確認と支払い案内を送ります。",
+        td_label_service: "サービス種類",
+        td_label_tour: "選択したツアー／リクエスト",
+        td_label_date: "希望日／出発日",
+        td_label_travelers: "旅行者数",
+        td_label_price: "表示料金",
+        td_label_payment: "支払い状況",
+        td_label_month: "希望の月",
+        td_label_family: "大人／子ども",
+        td_label_food: "食事の希望",
+        td_label_name: "お名前",
+        td_label_contact: "WhatsApp / メール",
+        td_label_message: "メッセージ／メモ",
+        td_agreement_heading: "旅行契約",
+        td_agreement_name: "BookingMongolia 一般旅行契約",
+        td_view_agreement: "契約PDFを見る",
+        td_download_pdf: "PDFをダウンロード",
+        td_agreement_version_note: "2026年版・一般条件（日程と料金は個別の予約確認に記載）",
+        td_agreement_check: "BookingMongolia一般旅行契約を読み、その内容に同意します。",
+        td_agreement_error: "続ける前に BookingMongolia 一般旅行契約を読み、同意してください。",
+        td_send_request: "リクエストを送る",
+        td_agreement_payment_info: "契約＆支払い情報",
+        td_person_1: "1名",
+        td_people_2: "2名",
+        td_people_3: "3名",
+        td_people_4: "4名",
+        td_per_person: "/ 人",
+        td_days: "日間",
+        td_close: "閉じる",
+        td_back_booking: "閉じる / 予約に戻る"
       },
       ko: {
         topbar_left: "몽골 현지 여행 전문가 • 프라이빗 투어 • 이동 지원",
@@ -358,28 +540,169 @@ read_more: "Read More",
         form_interest: "관심 항목",
         form_message: "메시지",
         form_send: "문의 보내기",
-        footer_text: "현지 여행 가이드, 프라이빗 투어, 몽골 여행 플래닝."
+        footer_text: "현지 여행 가이드, 프라이빗 투어, 몽골 여행 플래닝.",
+        nav_tours_dates: "투어 & 일정",
+        contact_whatsapp: "WhatsApp:",
+        contact_wechat_line: "아래 WeChat 친구 QR을 스캔하세요 (Chuluunchimeg Bud).",
+        contact_alipay_line: "친구 추가 QR을 스캔하거나, 주황색 수령 QR로 결제하세요.",
+        contact_email: "이메일:",
+        contact_address: "주소:",
+        contact_address_value: "울란바토르, 바얀주르흐 구, 42동, 117호",
+        contact_wechat_alipay: "WeChat / Alipay",
+        contact_pay_note: "위 두 QR은 친구 추가용, 아래 두 QR은 수령용입니다. Wise / SWIFT 안내는 여행 계약 확인 후 보내드립니다.",
+        contact_interest_vip: "VIP 투어",
+        contact_interest_transport: "전용 차량",
+        contact_interest_guide: "여행 가이드",
+        contact_interest_custom: "맞춤 여행 계획",
+        td_topbar_left: "몽골 현지 여행 전문가 • 투어, 맞춤 루트, 차량, 가이드, 가족 여행",
+        td_topbar_right: "WhatsApp: +976 90283039 • 2026년 5월~10월",
+        td_nav_destinations: "목적지",
+        td_nav_featured: "추천 투어",
+        td_nav_services: "서비스",
+        td_nav_family: "가족 여행",
+        td_nav_oneday: "당일 투어",
+        td_nav_browse: "투어 보기",
+        td_nav_join: "지금 참여",
+        td_nav_planner: "여행 플래너",
+        td_hero_eyebrow: "2026 몽골 여름·가을 여행 • 5월~10월 오픈",
+        td_hero_title: "몽골 프라이빗 투어, 맞춤 루트, 차량, 가이드, 가족 친화 여행",
+        td_hero_text: "고정 투어 예약, 원하는 장소 중심 루트 요청, 기사 포함 차량, 가이드만, 유목 가정 체류, 돌봄 옵션이 있는 가족 여행까지. 시즌은 5월~10월입니다.",
+        td_hero_btn_browse: "투어 보기",
+        td_hero_btn_join: "지금 참여",
+        td_stat_1: "준비된 루트",
+        td_stat_2: "주요 여름 시즌 진행 중",
+        td_stat_3: "나만의 일정 만들기",
+        td_stat_4: "아동 친화 계획 가능",
+        td_services_title: "따로 예약하거나 조합할 수 있는 Booking Mongolia 여행 서비스",
+        td_services_text: "풀 패키지만 필요하지 않습니다. 고정 투어, 맞춤 루트, 기사 포함 차량, 가이드만, 유목 체류, 도우미/돌봄, 식사 선호도 요청할 수 있습니다.",
+        td_join_title: "지금 참여",
+        td_join_text: "참여 가능한 그룹 출발입니다. 각 카드는 다른 여행자와 합류할 수 있는 특정 일정입니다. 공개된 오픈 출발만 표시됩니다.",
+        td_browse_title: "투어 / 일정 보기",
+        td_browse_text: "공개 투어 상품입니다. 일정, 루트, 활동, 숙소, 기간, 가격을 확인한 뒤 일정 요청 또는 확정할 수 있습니다.",
+        td_deposit_banner: "예약 안내: 현재 WeChat Pay, Alipay, Wise, SWIFT를 받습니다. WeChat / Alipay QR은 문의 페이지에 있습니다. Wise / SWIFT 안내는 일정과 여행 계약 확인 후 보내드립니다.",
+        td_summary_tours: "현재 표시된 투어",
+        td_summary_agreement_title: "계약 우선",
+        td_summary_agreement: "결제 전 일정과 여정을 확인합니다",
+        td_summary_season: "여름·가을 시즌 진행 중",
+        td_summary_flexible_title: "유연함",
+        td_summary_flexible: "맞춤, 차량, 가이드, 가족 요청 가능",
+        td_showing: "투어 {n}개 표시 중.",
+        td_view_details: "자세히 보기",
+        td_confirm_dates: "일정 확인",
+        td_ask_quote: "견적 요청",
+        td_standard_note: "표준 패키지 표시. 예산/프리미엄 옵션 가능.",
+        td_private_note: "프라이빗 또는 합류 가능 • 결제 전 일정 확인.",
+        td_seats_note: "좌석 한정 • 최종 객실/차량 가능 여부는 문의해 주세요.",
+        td_from_price: "{price}부터 / 인 (그룹)",
+        td_ask_for_quote: "견적 요청",
+        td_booking_title: "여행 요청 또는 일정 확인 보내기",
+        td_booking_text: "서비스, 일정, 인원, 연락처를 선택하세요. 맞춤 루트, 차량, 가이드만, 가족 여행도 지원합니다. 보내기 전 일반 여행 계약에 동의해 주세요.",
+        td_step_1_t: "1. 서비스 선택",
+        td_step_1_d: "투어, 맞춤, 차량, 가이드, 도우미, 가족 여행, 헬기 견적.",
+        td_step_2_t: "2. 일정 추가",
+        td_step_2_d: "정확한 날짜, 희망 월, 루트 상세.",
+        td_step_3_t: "3. 계속",
+        td_step_3_d: "계약 동의 후 일정 확인과 결제 안내를 보냅니다.",
+        td_label_service: "서비스 유형",
+        td_label_tour: "선택한 투어 / 요청",
+        td_label_date: "희망 날짜 / 출발",
+        td_label_travelers: "여행 인원",
+        td_label_price: "표시 가격",
+        td_label_payment: "결제 상태",
+        td_label_month: "희망 월",
+        td_label_family: "성인 / 어린이",
+        td_label_food: "식사 선호",
+        td_label_name: "이름",
+        td_label_contact: "WhatsApp / 이메일",
+        td_label_message: "메시지 / 메모",
+        td_agreement_heading: "여행 계약",
+        td_agreement_name: "BookingMongolia 일반 여행 계약",
+        td_view_agreement: "계약 PDF 보기",
+        td_download_pdf: "PDF 다운로드",
+        td_agreement_version_note: "2026 버전 · 일반 약관 (일정과 가격은 개별 예약 확인에 포함)",
+        td_agreement_check: "BookingMongolia 일반 여행 계약을 읽었으며 그 조건에 동의합니다.",
+        td_agreement_error: "계속하기 전에 BookingMongolia 일반 여행 계약을 읽고 동의해 주세요.",
+        td_send_request: "요청 보내기",
+        td_agreement_payment_info: "계약 & 결제 정보",
+        td_person_1: "1명",
+        td_people_2: "2명",
+        td_people_3: "3명",
+        td_people_4: "4명",
+        td_per_person: "/ 인",
+        td_days: "일",
+        td_close: "닫기",
+        td_back_booking: "닫기 / 예약으로 돌아가기"
       }
     };
 
+    const LANG_KEY = "bm_lang";
+    let currentLang = "en";
+
+    function getSavedLang() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get("lang");
+        if (q && translations[q]) return q;
+      } catch (e) {}
+      try {
+        const saved = localStorage.getItem(LANG_KEY);
+        if (saved && translations[saved]) return saved;
+      } catch (e) {}
+      return "en";
+    }
+
+    function t(key, fallback) {
+      const pack = translations[currentLang] || translations.en;
+      return (pack && pack[key]) || (translations.en && translations.en[key]) || fallback || key;
+    }
+
     function setLanguage(lang) {
+      if (!translations[lang]) lang = "en";
+      currentLang = lang;
+      try {
+        localStorage.setItem(LANG_KEY, lang);
+      } catch (e) {}
       document.documentElement.lang = lang;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang] && translations[lang][key] != null) {
           el.textContent = translations[lang][key];
         }
       });
 
-      document.querySelectorAll('.lang-switch button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (translations[lang] && translations[lang][key] != null) {
+          el.setAttribute("placeholder", translations[lang][key]);
+        }
       });
+
+      document.querySelectorAll(".lang-switch button").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+
+      if (window.BM_I18N && Array.isArray(window.BM_I18N.onChange)) {
+        window.BM_I18N.onChange.forEach((fn) => {
+          try {
+            fn(lang);
+          } catch (e) {}
+        });
+      }
     }
 
-    document.querySelectorAll('.lang-switch button').forEach(button => {
-      button.addEventListener('click', () => {
+    window.BM_I18N = {
+      getLang: () => currentLang,
+      setLanguage,
+      t,
+      translations,
+      onChange: []
+    };
+
+    document.querySelectorAll(".lang-switch button").forEach((button) => {
+      button.addEventListener("click", () => {
         setLanguage(button.dataset.lang);
       });
     });
 
-    setLanguage('en');
+    setLanguage(getSavedLang());

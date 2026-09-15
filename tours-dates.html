@@ -147,6 +147,16 @@
     .agreement-check input{width:20px;height:20px;margin-top:2px;flex:0 0 auto;accent-color:#0d3b66;cursor:pointer}
     .agreement-check span{font-weight:600;color:#0f172a;line-height:1.45}
     .agreement-error{margin:0;color:#b91c1c;font-weight:700;font-size:14px}
+    .header-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+    .lang-switch{display:flex;gap:6px;flex-wrap:wrap}
+    .lang-switch button{
+      border:1px solid rgba(13,59,102,.2);background:#fff;color:var(--primary);
+      border-radius:999px;padding:7px 10px;font-weight:800;font-size:12px;cursor:pointer
+    }
+    .lang-switch button.active,.lang-switch button:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+    @media (max-width:900px){
+      .header-actions{width:100%;justify-content:flex-start;margin:8px 0 0}
+    }
     .pdf-viewer-dialog{width:min(980px,96vw);max-height:92vh;display:flex;flex-direction:column;padding:16px 16px 18px}
     .pdf-viewer-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px;padding-right:36px}
     .pdf-viewer-toolbar h3{margin:0;font-size:18px;color:var(--primary-dark)}
@@ -353,8 +363,8 @@
 <body>
   <div class="topbar">
     <div class="container">
-      <div>Local Mongolia Travel Expert • Tours, custom routes, cars, guides and family trips</div>
-      <div>WhatsApp: +976 90283039 • May to October 2026</div>
+      <div data-i18n="td_topbar_left">Local Mongolia Travel Expert • Tours, custom routes, cars, guides and family trips</div>
+      <div data-i18n="td_topbar_right">WhatsApp: +976 90283039 • May to October 2026</div>
     </div>
   </div>
 
@@ -364,16 +374,23 @@
       <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
       <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">Menu</button>
       <nav class="nav-links" id="siteNav">
-        <a href="/destinations.html">Destinations</a>
-        <a href="/tours.html">Featured Tours</a>
-        <a href="#services">Services</a>
-        <a href="#family-travel">Family Travel</a>
-        <a href="#one-day-tours">1 Day Tours</a>
-        <a href="#calendar-list">Browse Tours</a>
-        <a href="#join-now">Join Now</a>
-        <a href="#planner">Trip Planner</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/destinations.html" data-i18n="td_nav_destinations">Destinations</a>
+        <a href="/tours.html" data-i18n="td_nav_featured">Featured Tours</a>
+        <a href="#services" data-i18n="td_nav_services">Services</a>
+        <a href="#family-travel" data-i18n="td_nav_family">Family Travel</a>
+        <a href="#one-day-tours" data-i18n="td_nav_oneday">1 Day Tours</a>
+        <a href="#calendar-list" data-i18n="td_nav_browse">Browse Tours</a>
+        <a href="#join-now" data-i18n="td_nav_join">Join Now</a>
+        <a href="#planner" data-i18n="td_nav_planner">Trip Planner</a>
+        <a href="/contact.html" data-i18n="nav_contact">Contact</a>
       </nav>
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button type="button" class="active" data-lang="en">EN</button>
+          <button type="button" data-lang="ja">日本語</button>
+          <button type="button" data-lang="ko">한국어</button>
+        </div>
+      </div>
     </div>
   </header>
   <script>
@@ -400,18 +417,18 @@
 
   <section class="hero">
     <div class="container">
-      <div class="eyebrow">2026 Mongolia Summer & Autumn Travel • Open May to October</div>
-      <h1>Private tours, custom routes, cars, guides and family-friendly travel in Mongolia</h1>
-      <p>Book fixed tours, request a route built around the exact places you want to visit, hire a car with driver, order a guide only, add a nomadic family stay, or plan a family trip with optional childcare support. The season is open from May to October.</p>
+      <div class="eyebrow" data-i18n="td_hero_eyebrow">2026 Mongolia Summer & Autumn Travel • Open May to October</div>
+      <h1 data-i18n="td_hero_title">Private tours, custom routes, cars, guides and family-friendly travel in Mongolia</h1>
+      <p data-i18n="td_hero_text">Book fixed tours, request a route built around the exact places you want to visit, hire a car with driver, order a guide only, add a nomadic family stay, or plan a family trip with optional childcare support. The season is open from May to October.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#calendar-list">Browse Tours</a>
-        <a class="btn btn-outline" href="#join-now">Join Now</a>
+        <a class="btn btn-primary" href="#calendar-list" data-i18n="td_hero_btn_browse">Browse Tours</a>
+        <a class="btn btn-outline" href="#join-now" data-i18n="td_hero_btn_join">Join Now</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><strong>25+</strong><span>Routes prepared</span></div>
-        <div class="stat"><strong>May“Oct</strong><span>Main summer season open</span></div>
-        <div class="stat"><strong>Custom</strong><span>Build your own itinerary</span></div>
-        <div class="stat"><strong>Family Ready</strong><span>Child-friendly planning available</span></div>
+        <div class="stat"><strong>25+</strong><span data-i18n="td_stat_1">Routes prepared</span></div>
+        <div class="stat"><strong>May“Oct</strong><span data-i18n="td_stat_2">Main summer season open</span></div>
+        <div class="stat"><strong>Custom</strong><span data-i18n="td_stat_3">Build your own itinerary</span></div>
+        <div class="stat"><strong>Family Ready</strong><span data-i18n="td_stat_4">Child-friendly planning available</span></div>
       </div>
     </div>
   </section>
@@ -419,8 +436,8 @@
   <section id="services" style="padding-top:0;">
     <div class="container">
       <div class="section-head">
-        <h2>Booking Mongolia travel services guests can book separately or combine</h2>
-        <p>Guests do not need to buy only a full package. They can choose a fixed tour, ask for a custom route, rent a vehicle with driver, hire a guide only, add a nomadic stay, request a trip helper or babysitter, and send food preferences for a more personal Booking Mongolia plan.</p>
+        <h2 data-i18n="td_services_title">Booking Mongolia travel services guests can book separately or combine</h2>
+        <p data-i18n="td_services_text">Guests do not need to buy only a full package. They can choose a fixed tour, ask for a custom route, rent a vehicle with driver, hire a guide only, add a nomadic stay, request a trip helper or babysitter, and send food preferences for a more personal Booking Mongolia plan.</p>
       </div>
       <div class="service-grid-6">
         <article class="service-card">
@@ -721,8 +738,8 @@
   <section id="join-now">
     <div class="container">
       <div class="section-head">
-        <h2>Join Now</h2>
-        <p>Available group departures. Each card is a specific date and group that other travelers can join. This is not the tour catalog, and a normal booking is never shown here unless it is intentionally published and open.</p>
+        <h2 data-i18n="td_join_title">Join Now</h2>
+        <p data-i18n="td_join_text">Available group departures. Each card is a specific date and group that other travelers can join. This is not the tour catalog, and a normal booking is never shown here unless it is intentionally published and open.</p>
       </div>
       <div class="join-departures-block" id="join-departures">
         <p class="muted" id="joinDeparturesNote">Only published, open departures with available seats appear here. Customer, driver, payment and expense details stay internal.</p>
@@ -734,19 +751,19 @@
   <section id="calendar-list">
     <div class="container">
       <div class="section-head">
-        <h2>Browse Tours / Itineraries</h2>
-        <p>These are the public tour products. Open a tour to view the itinerary, route, activities, accommodation, duration and price, then request or confirm dates. A customer booking in the internal sheet does not create a new tour page here.</p>
+        <h2 data-i18n="td_browse_title">Browse Tours / Itineraries</h2>
+        <p data-i18n="td_browse_text">These are the public tour products. Open a tour to view the itinerary, route, activities, accommodation, duration and price, then request or confirm dates. A customer booking in the internal sheet does not create a new tour page here.</p>
       </div>
 
-      <div class="deposit-banner">
-        <strong>Booking update:</strong> We currently accept <strong>WeChat Pay</strong>, <strong>Alipay</strong>, <strong>Wise transfer</strong> and <strong>SWIFT bank transfer</strong>. WeChat / Alipay friend and payment QR codes are on the <a href="/contact.html">Contact page</a>. Wise / SWIFT details are sent after dates and the travel agreement are confirmed.
+      <div class="deposit-banner" data-i18n="td_deposit_banner">
+        Booking update: We currently accept WeChat Pay, Alipay, Wise transfer and SWIFT bank transfer. WeChat / Alipay QR codes are on the Contact page. Wise / SWIFT details are sent after dates and the travel agreement are confirmed.
       </div>
 
       <div class="summary-strip">
-        <div class="summary-box"><strong id="tourCount">25+</strong><span>Tours currently shown</span></div>
-        <div class="summary-box"><strong>Agreement First</strong><span>Dates and itinerary are confirmed before payment</span></div>
-        <div class="summary-box"><strong>May“Oct</strong><span>Summer and autumn season open</span></div>
-        <div class="summary-box"><strong>Flexible</strong><span>Custom route, car, guide and family requests</span></div>
+        <div class="summary-box"><strong id="tourCount">25+</strong><span data-i18n="td_summary_tours">Tours currently shown</span></div>
+        <div class="summary-box"><strong data-i18n="td_summary_agreement_title">Agreement First</strong><span data-i18n="td_summary_agreement">Dates and itinerary are confirmed before payment</span></div>
+        <div class="summary-box"><strong>May“Oct</strong><span data-i18n="td_summary_season">Summer and autumn season open</span></div>
+        <div class="summary-box"><strong data-i18n="td_summary_flexible_title">Flexible</strong><span data-i18n="td_summary_flexible">Custom route, car, guide and family requests</span></div>
       </div>
 
       <div class="calendar-layout">
@@ -803,18 +820,18 @@
     <div class="modal-backdrop" onclick="closeModal()"></div>
     <div class="modal-dialog">
       <button class="modal-close" onclick="closeModal()">&times;</button>
-      <h3>Send your travel request or confirm dates</h3>
-      <p class="muted">This form is intentionally shorter and easier. Guests can choose the service, dates, group size and contact. It now also supports custom routes, car rental, guide-only booking and family travel with optional childcare support. Travel agreement is shared only when the traveler is ready to confirm the booking.</p>
+      <h3 data-i18n="td_booking_title">Send your travel request or confirm dates</h3>
+      <p class="muted" data-i18n="td_booking_text">Choose the service, dates, group size and contact. Custom routes, car rental, guide-only booking and family travel are supported. Please accept the General Travel Agreement before sending.</p>
 
       <div class="simple-steps">
-        <div class="step-box"><strong>1. Choose service</strong><span>Tour, custom route, car, guide, helper service, family trip or helicopter quote.</span></div>
-        <div class="step-box"><strong>2. Add dates</strong><span>Exact dates, preferred month and route details.</span></div>
-        <div class="step-box"><strong>3. Continue</strong><span>We confirm dates first, then send the agreement and payment details.</span></div>
+        <div class="step-box"><strong data-i18n="td_step_1_t">1. Choose service</strong><span data-i18n="td_step_1_d">Tour, custom route, car, guide, helper service, family trip or helicopter quote.</span></div>
+        <div class="step-box"><strong data-i18n="td_step_2_t">2. Add dates</strong><span data-i18n="td_step_2_d">Exact dates, preferred month and route details.</span></div>
+        <div class="step-box"><strong data-i18n="td_step_3_t">3. Continue</strong><span data-i18n="td_step_3_d">Accept the agreement, then we confirm dates and send payment details.</span></div>
       </div>
 
       <form class="modal-grid" id="bookingRequestForm" onsubmit="event.preventDefault();submitInquiry();">
         <div>
-          <label>Service Type</label>
+          <label data-i18n="td_label_service">Service Type</label>
           <select id="requestType" onchange="toggleRequestFields(); updateWhatsAppLink();">
             <option value="tour">Fixed departure tour</option>
             <option value="custom">Custom itinerary</option>
@@ -830,13 +847,13 @@
         </div>
 
         <div>
-          <label>Selected Tour / Request</label>
+          <label data-i18n="td_label_tour">Selected Tour / Request</label>
           <input id="selectedTour" type="text" placeholder="Tour or request title">
           <input type="hidden" id="selectedDepartureId" value="">
         </div>
 
         <div id="departureDateWrap">
-          <label>Preferred Date / Departure</label>
+          <label data-i18n="td_label_date">Preferred Date / Departure</label>
           <select id="selectedDate" onchange="updateWhatsAppLink();">
             <option value="">Choose a departure</option>
           </select>
@@ -844,7 +861,7 @@
         </div>
 
         <div>
-          <label>Travelers</label>
+          <label data-i18n="td_label_travelers">Travelers</label>
           <select id="selectedPeople" onchange="updatePriceField(); updateWhatsAppLink();">
             <option value="1">1 person</option>
             <option value="2">2 people</option>
@@ -856,17 +873,17 @@
         </div>
 
         <div id="priceWrap">
-          <label>Shown Price</label>
+          <label data-i18n="td_label_price">Shown Price</label>
           <input id="selectedPrice" type="text" placeholder="Price or Ask" readonly>
         </div>
 
         <div id="depositWrap">
-          <label>Payment Status</label>
+          <label data-i18n="td_label_payment">Payment Status</label>
           <input id="depositAmount" type="text" placeholder="Calculated deposit" readonly>
         </div>
 
         <div id="monthWrap">
-          <label>Preferred Month</label>
+          <label data-i18n="td_label_month">Preferred Month</label>
           <select id="travelMonth" onchange="updateWhatsAppLink();">
             <option value="">Any month</option>
             <option>May 2026</option>
@@ -898,12 +915,12 @@
         </div>
 
         <div>
-          <label>Adults / Children</label>
+          <label data-i18n="td_label_family">Adults / Children</label>
           <input id="guestFamilyInfo" type="text" placeholder="Example: 2 adults, 1 child">
         </div>
 
         <div>
-          <label>Food Preference</label>
+          <label data-i18n="td_label_food">Food Preference</label>
           <input id="foodPreference" type="text" placeholder="Example: vegetarian, child-friendly meals, no spicy food">
         </div>
 
@@ -918,7 +935,7 @@
         </div>
 
         <div>
-          <label>Your Name</label>
+          <label data-i18n="td_label_name">Your Name</label>
           <input id="guestName" type="text" placeholder="Full name" required>
         </div>
 
@@ -938,33 +955,33 @@
         </div>
 
         <div>
-          <label>WhatsApp / Email</label>
+          <label data-i18n="td_label_contact">WhatsApp / Email</label>
           <input id="guestContact" type="text" placeholder="WhatsApp or email" required>
         </div>
 
         <div class="full">
-          <label>Message / Notes</label>
+          <label data-i18n="td_label_message">Message / Notes</label>
           <textarea id="guestMessage" placeholder="Special requests, children, helper, hotel level, language guide, food preference, budget, etc."></textarea>
         </div>
 
         <div class="agreement-box" id="travelAgreementSection">
-          <h4>Travel Agreement</h4>
-          <p class="agreement-title">BookingMongolia General Travel Agreement</p>
+          <h4 data-i18n="td_agreement_heading">Travel Agreement</h4>
+          <p class="agreement-title" data-i18n="td_agreement_name">BookingMongolia General Travel Agreement</p>
           <div class="agreement-actions">
-            <button type="button" class="btn btn-primary" id="viewAgreementBtn" onclick="openPdfAgreementViewer()">View Agreement PDF</button>
-            <a class="btn" style="background:#111;color:#fff;" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" download>Download PDF</a>
-            <span class="small-note">Version 2026 · general terms (tour dates and price stay on your booking confirmation)</span>
+            <button type="button" class="btn btn-primary" id="viewAgreementBtn" onclick="openPdfAgreementViewer()" data-i18n="td_view_agreement">View Agreement PDF</button>
+            <a class="btn" style="background:#111;color:#fff;" href="/documents/BookingMongolia-General-Travel-Agreement.pdf" download data-i18n="td_download_pdf">Download PDF</a>
+            <span class="small-note" data-i18n="td_agreement_version_note">Version 2026 · general terms (tour dates and price stay on your booking confirmation)</span>
           </div>
           <label class="agreement-check" for="agreementAccepted">
             <input id="agreementAccepted" type="checkbox" autocomplete="off">
-            <span>I have read and agree to the BookingMongolia General Travel Agreement and accept its terms and conditions.</span>
+            <span data-i18n="td_agreement_check">I have read and agree to the BookingMongolia General Travel Agreement and accept its terms and conditions.</span>
           </label>
-          <p class="agreement-error hidden" id="agreementError" role="alert">Please read and accept the BookingMongolia General Travel Agreement before continuing.</p>
+          <p class="agreement-error hidden" id="agreementError" role="alert" data-i18n="td_agreement_error">Please read and accept the BookingMongolia General Travel Agreement before continuing.</p>
         </div>
 
         <div class="full" style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button class="btn btn-primary" type="submit" id="bookingSubmitBtn" disabled>Send Request</button>
-          <a class="btn" style="background:#111;color:#fff;" href="javascript:void(0)" id="paymentInfoLink" onclick="openAgreementInfo()">Agreement & Payment Info</a>
+          <button class="btn btn-primary" type="submit" id="bookingSubmitBtn" disabled data-i18n="td_send_request">Send Request</button>
+          <a class="btn" style="background:#111;color:#fff;" href="javascript:void(0)" id="paymentInfoLink" onclick="openAgreementInfo()" data-i18n="td_agreement_payment_info">Agreement & Payment Info</a>
           <a class="btn" style="background:#25D366;color:#fff;" target="_blank" id="waLink" href="#">WhatsApp</a>
           <a class="btn" style="background:#0084ff;color:#fff;" target="_blank" id="messengerLink" href="https://m.me/esimmongolia">Messenger</a>
         </div>
@@ -1156,6 +1173,13 @@
       return '8+';
     }
 
+    function i18n(key, fallback){
+      if (window.BM_I18N && typeof window.BM_I18N.t === 'function') {
+        return window.BM_I18N.t(key, fallback || key);
+      }
+      return fallback || key;
+    }
+
     function formatPrice(value){
       return '$' + value.toLocaleString();
     }
@@ -1171,36 +1195,37 @@
           <div class="price-grid">
             <div class="price-box ask-only" style="grid-column:1/-1;">
               <strong>Price</strong>
-              <span class="pill">Ask for quote</span>
+              <span class="pill">${i18n('td_ask_for_quote','Ask for quote')}</span>
             </div>
           </div>
         `;
       }
       return `
         <div class="price-grid">
-          <div class="price-box"><strong>1 Person</strong><span>${formatPrice(t.prices[1])}</span></div>
-          <div class="price-box"><strong>2 People</strong><span>${formatPrice(t.prices[2])} / person</span></div>
-          <div class="price-box"><strong>3 People</strong><span>${formatPrice(t.prices[3])} / person</span></div>
-          <div class="price-box"><strong>4 People</strong><span>${formatPrice(t.prices[4])} / person</span></div>
+          <div class="price-box"><strong>${i18n('td_person_1','1 Person')}</strong><span>${formatPrice(t.prices[1])}</span></div>
+          <div class="price-box"><strong>${i18n('td_people_2','2 People')}</strong><span>${formatPrice(t.prices[2])} ${i18n('td_per_person','/ person')}</span></div>
+          <div class="price-box"><strong>${i18n('td_people_3','3 People')}</strong><span>${formatPrice(t.prices[3])} ${i18n('td_per_person','/ person')}</span></div>
+          <div class="price-box"><strong>${i18n('td_people_4','4 People')}</strong><span>${formatPrice(t.prices[4])} ${i18n('td_per_person','/ person')}</span></div>
         </div>
       `;
     }
 
     function shownPriceText(t){
-      if(!t || t.priceMode === 'ask' || !t.prices) return 'Ask for quote';
+      if(!t || t.priceMode === 'ask' || !t.prices) return i18n('td_ask_for_quote','Ask for quote');
       const val = t.prices[selectedPeople] || t.prices[4];
-      return selectedPeople === '1' ? formatPrice(val) : `${formatPrice(val)} / person`;
+      return selectedPeople === '1' ? formatPrice(val) : `${formatPrice(val)} ${i18n('td_per_person','/ person')}`;
     }
 
     function getPriceFrom(t){
-      if(t.priceMode === 'ask') return 'Ask for quote';
+      if(t.priceMode === 'ask') return i18n('td_ask_for_quote','Ask for quote');
       const start = t.prices && t.prices[4] ? t.prices[4] : (t.prices && t.prices[1]);
-      return start ? `From ${formatPrice(start)} / person (group)` : 'Ask for quote';
+      if(!start) return i18n('td_ask_for_quote','Ask for quote');
+      return i18n('td_from_price','From {price} / person (group)').replace('{price}', formatPrice(start));
     }
 
     function renderTours(){
       const filtered = tours;
-      resultCount.textContent = `Showing ${filtered.length} tours.`;
+      resultCount.textContent = i18n('td_showing','Showing {n} tours.').replace('{n}', filtered.length);
       tourCount.textContent = filtered.length + '+';
 
       tourGrid.innerHTML = filtered.map(t => `
@@ -1212,18 +1237,18 @@
                 <span class="tour-badge">${t.region.toUpperCase()} • ${t.style.toUpperCase()}</span>
                 <h3 class="tour-title">${t.name}</h3>
               </div>
-              <div class="tour-duration">${t.days} Days</div>
+              <div class="tour-duration">${t.days} ${i18n('td_days','Days')}</div>
             </div>
             <div class="tour-highlights">
               ${t.highlights.slice(0,3).map(h => `<span class="pill">${h}</span>`).join('')}
             </div>
             <div class="detail-price">${getPriceFrom(t)}</div>
-            <div class="small-note">Standard package shown. Budget and Premium options available.</div>
-            <div class="small-note">Private or group joining possible • Dates confirmed before payment.</div>
-            <div class="small-note">Limited seats • Ask for final room and vehicle availability.</div>
+            <div class="small-note">${i18n('td_standard_note','Standard package shown. Budget and Premium options available.')}</div>
+            <div class="small-note">${i18n('td_private_note','Private or group joining possible • Dates confirmed before payment.')}</div>
+            <div class="small-note">${i18n('td_seats_note','Limited seats • Ask for final room and vehicle availability.')}</div>
             <div class="tour-actions">
-              <button class="tour-btn" onclick="openDetailModal('${t.id}')">View Details</button>
-              <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Ask Quote' : 'Confirm Dates'}</button>
+              <button class="tour-btn" onclick="openDetailModal('${t.id}')">${i18n('td_view_details','View Details')}</button>
+              <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? i18n('td_ask_quote','Ask Quote') : i18n('td_confirm_dates','Confirm Dates')}</button>
             </div>
           </div>
         </article>
@@ -1316,7 +1341,7 @@
         </div>
 
         <div class="tour-actions" style="margin-top:18px;">
-          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? 'Ask Quote' : 'Confirm Dates'}</button>
+          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? i18n('td_ask_quote','Ask Quote') : i18n('td_confirm_dates','Confirm Dates')}</button>
           <button class="tour-btn" onclick="closeDetailModal()">Close</button>
         </div>
       `;
@@ -1817,6 +1842,16 @@
 <script>
   document.addEventListener("contextmenu", function(e){ if(e.target && e.target.tagName === "IMG") e.preventDefault(); });
   document.addEventListener("dragstart", function(e){ if(e.target && e.target.tagName === "IMG") e.preventDefault(); });
+</script>
+
+<script src="/js/site-i18n.js"></script>
+<script>
+  if (window.BM_I18N && Array.isArray(window.BM_I18N.onChange)) {
+    window.BM_I18N.onChange.push(function () {
+      if (typeof renderTours === "function") renderTours();
+    });
+  }
+  if (typeof renderTours === "function") renderTours();
 </script>
 </body>
 </html>
