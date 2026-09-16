@@ -971,7 +971,13 @@ read_more: "Read More",
 
     document.querySelectorAll(".lang-switch button").forEach((button) => {
       button.addEventListener("click", () => {
-        setLanguage(button.dataset.lang);
+        const lang = button.dataset.lang;
+        if (lang === "zh") {
+          window.location.href = "https://visitmongoliatours.com/";
+          return;
+        }
+        if (lang !== "en" && lang !== "ja" && lang !== "ko") return;
+        setLanguage(lang);
       });
     });
 

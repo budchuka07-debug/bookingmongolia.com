@@ -107,7 +107,8 @@
       gap:8px;
       flex-wrap:wrap;
     }
-    .lang-switch button{
+    .lang-switch button,
+    .lang-switch a{
       border:1px solid #d1d5db;
       background:#fff;
       border-radius:999px;
@@ -115,9 +116,13 @@
       cursor:pointer;
       font-weight:700;
       transition:.25s ease;
+      display:inline-flex;
+      align-items:center;
+      color:inherit;
     }
     .lang-switch button.active,
-    .lang-switch button:hover{
+    .lang-switch button:hover,
+    .lang-switch a:hover{
       background:var(--primary);
       border-color:var(--primary);
       color:#fff;
@@ -1041,7 +1046,8 @@
       .lang-switch{
         gap:6px;
       }
-      .lang-switch button{
+      .lang-switch button,
+      .lang-switch a{
         padding:7px 10px;
         font-size:12px;
       }
