@@ -1,8 +1,7 @@
 User-agent: *
 Allow: /
 
-# Important marketing, tours, destinations and guides must stay crawlable.
-# Admin, review and agreement utility pages use noindex in HTML.
+# Utility pages (admin, review, agreement) use HTML noindex.
 
 User-agent: Googlebot
 Allow: /

@@ -10,16 +10,65 @@
 /api/create-booking  /.netlify/functions/create-booking  200
 /api/booking-status  /.netlify/functions/booking-status  200
 
-# Clean category URLs for main navigation
-/experiences  /experiences.html  200
-/destinations  /destinations.html  200
-/hotels  /hotels.html  200
-/guides  /guides.html  200
-/car-rental  /car-rental.html  200
-/travel-hub  /travel-hub.html  200
-/tours  /tours.html  200
-/travel-guide  /travel-guide.html  200
-/videos  /videos.html  200
-/gallery  /gallery.html  200
-/contact  /contact.html  200
-/register-service  /register-service.html  200
+# Force one URL form: extensionless -> .html (matches sitemap + canonicals)
+# Using 301 (not 200 rewrite) so Google does not keep duplicate URLs.
+/experiences  /experiences.html  301
+/destinations  /destinations.html  301
+/hotels  /hotels.html  301
+/guides  /guides.html  301
+/car-rental  /car-rental.html  301
+/travel-hub  /travel-hub.html  301
+/tours  /tours.html  301
+/travel-guide  /travel-guide.html  301
+/videos  /videos.html  301
+/gallery  /gallery.html  301
+/contact  /contact.html  301
+/register-service  /register-service.html  301
+/booking  /booking.html  301
+/about  /about.html  301
+/tours-dates  /tours-dates.html  301
+/visa-requirements  /visa-requirements.html  301
+/nomadic-experience  /nomadic-experience.html  301
+/vip-helicopter-expedition  /vip-helicopter-expedition.html  301
+/modern-ulaanbaatar  /modern-ulaanbaatar.html  301
+/html-sitemap  /html-sitemap.html  301
+
+# Tour detail pages (pretty URL -> canonical .html)
+/tours/altai-tavan-bogd-tour  /tours/altai-tavan-bogd-tour.html  301
+/tours/central-mongolia-tour  /tours/central-mongolia-tour.html  301
+/tours/gobi-altai-combo-tour  /tours/gobi-altai-combo-tour.html  301
+/tours/gobi-desert-tour  /tours/gobi-desert-tour.html  301
+/tours/horse-riding-tour  /tours/horse-riding-tour.html  301
+/tours/ice-festival-tour  /tours/ice-festival-tour.html  301
+/tours/khuvsgul-lake-tour  /tours/khuvsgul-lake-tour.html  301
+/tours/mongolia-grand-tour  /tours/mongolia-grand-tour.html  301
+/tours/naadam-festival-tour  /tours/naadam-festival-tour.html  301
+/tours/reindeer-taiga-tour  /tours/reindeer-taiga-tour.html  301
+/tours/terelj-hustai-tour  /tours/terelj-hustai-tour.html  301
+/tours/ice-festival  /tours/ice-festival-tour.html  301
+/tours/naadam-festival  /tours/naadam-festival-tour.html  301
+
+# Destination pages
+/destinations/arkhangai  /destinations/arkhangai.html  301
+/destinations/bayan-ulgii  /destinations/bayan-ulgii.html  301
+/destinations/dundgovi  /destinations/dundgovi.html  301
+/destinations/khentii  /destinations/khentii.html  301
+/destinations/khuvsgul  /destinations/khuvsgul.html  301
+/destinations/selenge  /destinations/selenge.html  301
+/destinations/tuv  /destinations/tuv.html  301
+/destinations/umnugovi  /destinations/umnugovi.html  301
+/destinations/uvurkhangai  /destinations/uvurkhangai.html  301
+
+# Guide pages
+/guide/nomadic-culture  /guide/nomadic-culture.html  301
+/guide/mongolian-food  /guide/mongolian-food.html  301
+/guide/mongolian-ger-daily-life  /guide/mongolian-ger-daily-life.html  301
+/guide/religion-traditions  /guide/religion-traditions.html  301
+/guide/shamanism-spiritual-culture  /guide/shamanism-spiritual-culture.html  301
+/guide/shows-entertainment-in-mongolia  /guide/shows-entertainment-in-mongolia.html  301
+/guide/transport-reality  /guide/transport-reality.html  301
+/guide/weather-seasons  /guide/weather-seasons.html  301
+/guide/money-currency  /guide/money-currency.html  301
+/guide/mongolia-wildlife-guide  /guide/mongolia-wildlife-guide.html  301
+/guide/safety-guide  /guide/safety-guide.html  301
+/guide/self-drive  /guide/self-drive.html  301
