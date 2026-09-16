@@ -158,11 +158,12 @@
     .agreement-error{margin:0;color:#b91c1c;font-weight:700;font-size:14px}
     .header-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
     .lang-switch{display:flex;gap:6px;flex-wrap:wrap}
-    .lang-switch button{
+    .lang-switch button,.lang-switch a{
       border:1px solid rgba(13,59,102,.2);background:#fff;color:var(--primary);
-      border-radius:999px;padding:7px 10px;font-weight:800;font-size:12px;cursor:pointer
+      border-radius:999px;padding:7px 10px;font-weight:800;font-size:12px;cursor:pointer;
+      display:inline-flex;align-items:center
     }
-    .lang-switch button.active,.lang-switch button:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .lang-switch button.active,.lang-switch button:hover,.lang-switch a:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
     @media (max-width:900px){
       .header-actions{width:100%;justify-content:flex-start;margin:8px 0 0}
     }
@@ -398,6 +399,7 @@
           <button type="button" class="active" data-lang="en">EN</button>
           <button type="button" data-lang="ja">日本語</button>
           <button type="button" data-lang="ko">한국어</button>
+          <a href="https://visitmongoliatours.com/" hreflang="zh-CN" lang="zh-CN">中文</a>
         </div>
       </div>
     </div>
