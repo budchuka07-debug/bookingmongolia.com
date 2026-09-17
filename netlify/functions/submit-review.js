@@ -2,6 +2,9 @@
  * Public guest review submission.
  * Forces status=pending. Sets is_verified only when a valid unused invite token is provided.
  * Guests cannot self-mark verified or publish directly.
+ *
+ * Target IDs (hotel/driver/guide) are stored as TEXT to match submission table PKs
+ * (often integers like "29", not UUIDs).
  */
 function json(statusCode, body) {
   return {
@@ -64,9 +67,15 @@ function cleanText(value, max) {
   return s.slice(0, max);
 }
 
+/** Always store submission PKs as text (supports int ids like "29" and UUIDs). */
+function asTargetId(value) {
+  const s = String(value == null ? "" : value).trim();
+  return s || null;
+}
+
 async function lookupInvite(token) {
   const invites = await supabaseFetch(
-    `review_invites?token=eq.${encodeURIComponent(token)}&select=id,token,review_type,hotel_id,driver_id,guest_name,guest_country,booking_ref,service_date,used_at,created_at&limit=1`,
+    `review_invites?token=eq.${encodeURIComponent(token)}&select=id,token,review_type,hotel_id,driver_id,guide_id,guest_name,guest_country,booking_ref,service_date,used_at,created_at&limit=1`,
     { method: "GET" }
   );
   return Array.isArray(invites) ? invites[0] : null;
@@ -89,6 +98,7 @@ exports.handler = async (event) => {
           review_type: invite.review_type,
           hotel_id: invite.hotel_id,
           driver_id: invite.driver_id,
+          guide_id: invite.guide_id || null,
           guest_name: invite.guest_name,
           guest_country: invite.guest_country,
           booking_ref: invite.booking_ref,
@@ -106,14 +116,14 @@ exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body || "{}");
     const reviewType = String(body.review_type || "").trim();
-    const targetId = String(body.target_id || "").trim();
+    const targetId = asTargetId(body.target_id);
     const token = String(body.token || "").trim();
 
-    if (!["hotel", "driver"].includes(reviewType)) {
+    if (!["hotel", "driver", "guide"].includes(reviewType)) {
       return json(400, { error: "Invalid review_type" });
     }
     if (!targetId && !token) {
-      return json(400, { error: "Missing hotel/driver id" });
+      return json(400, { error: "Missing hotel/driver/guide id" });
     }
 
     const guestName = cleanText(body.guest_name, 80);
@@ -127,6 +137,7 @@ exports.handler = async (event) => {
 
     let hotelId = null;
     let driverId = null;
+    let guideId = null;
     let isVerified = false;
     let inviteId = null;
     let bookingRef = null;
@@ -141,8 +152,9 @@ exports.handler = async (event) => {
         return json(400, { error: "Review type does not match invite" });
       }
 
-      hotelId = invite.hotel_id || null;
-      driverId = invite.driver_id || null;
+      hotelId = asTargetId(invite.hotel_id);
+      driverId = asTargetId(invite.driver_id);
+      guideId = asTargetId(invite.guide_id);
       inviteId = invite.id;
       bookingRef = invite.booking_ref || null;
       serviceDate = invite.service_date || serviceDate;
@@ -154,9 +166,15 @@ exports.handler = async (event) => {
       if (reviewType === "driver" && driverId && targetId && driverId !== targetId) {
         return json(400, { error: "Invite does not match this driver" });
       }
+      if (reviewType === "guide" && guideId && targetId && guideId !== targetId) {
+        return json(400, { error: "Invite does not match this guide" });
+      }
+    } else if (reviewType === "hotel") {
+      hotelId = targetId;
+    } else if (reviewType === "driver") {
+      driverId = targetId;
     } else {
-      if (reviewType === "hotel") hotelId = targetId;
-      else driverId = targetId;
+      guideId = targetId;
     }
 
     if (reviewType === "hotel") {
@@ -166,13 +184,20 @@ exports.handler = async (event) => {
         { method: "GET" }
       );
       if (!Array.isArray(rows) || !rows[0]) return json(404, { error: "Hotel not found" });
-    } else {
+    } else if (reviewType === "driver") {
       if (!driverId) return json(400, { error: "Missing driver_id" });
       const rows = await supabaseFetch(
         `vehicle_submissions?id=eq.${encodeURIComponent(driverId)}&select=id,status,title&limit=1`,
         { method: "GET" }
       );
       if (!Array.isArray(rows) || !rows[0]) return json(404, { error: "Driver not found" });
+    } else {
+      if (!guideId) return json(400, { error: "Missing guide_id" });
+      const rows = await supabaseFetch(
+        `guide_submissions?id=eq.${encodeURIComponent(guideId)}&select=id,status,full_name&limit=1`,
+        { method: "GET" }
+      );
+      if (!Array.isArray(rows) || !rows[0]) return json(404, { error: "Guide not found" });
     }
 
     const payload = {
@@ -181,19 +206,32 @@ exports.handler = async (event) => {
       review_type: reviewType,
       hotel_id: reviewType === "hotel" ? hotelId : null,
       driver_id: reviewType === "driver" ? driverId : null,
+      guide_id: reviewType === "guide" ? guideId : null,
       guest_name: guestName,
       guest_country: guestCountry,
       rating,
       comment,
       cleanliness_rating: reviewType === "hotel" ? clampRating(body.cleanliness_rating) : null,
       location_rating: reviewType === "hotel" ? clampRating(body.location_rating) : null,
-      service_rating: reviewType === "hotel" ? clampRating(body.service_rating) : null,
+      service_rating:
+        reviewType === "hotel" || reviewType === "guide"
+          ? clampRating(body.service_rating)
+          : null,
       comfort_rating: reviewType === "hotel" ? clampRating(body.comfort_rating) : null,
       driving_safety_rating: reviewType === "driver" ? clampRating(body.driving_safety_rating) : null,
-      communication_rating: reviewType === "driver" ? clampRating(body.communication_rating) : null,
-      helpfulness_rating: reviewType === "driver" ? clampRating(body.helpfulness_rating) : null,
+      communication_rating:
+        reviewType === "driver" || reviewType === "guide"
+          ? clampRating(body.communication_rating)
+          : null,
+      helpfulness_rating:
+        reviewType === "driver" || reviewType === "guide"
+          ? clampRating(body.helpfulness_rating)
+          : null,
       vehicle_condition_rating: reviewType === "driver" ? clampRating(body.vehicle_condition_rating) : null,
-      punctuality_rating: reviewType === "driver" ? clampRating(body.punctuality_rating) : null,
+      punctuality_rating:
+        reviewType === "driver" || reviewType === "guide"
+          ? clampRating(body.punctuality_rating)
+          : null,
       is_verified: isVerified,
       invite_id: inviteId,
       status: "pending",
@@ -218,6 +256,14 @@ exports.handler = async (event) => {
       item: Array.isArray(inserted) ? inserted[0] : inserted
     });
   } catch (error) {
-    return json(500, { error: error.message || "Server error" });
+    const msg = error.message || "Server error";
+    // Common when guest_reviews.hotel_id/driver_id are still UUID in Supabase
+    if (/invalid input syntax for type uuid/i.test(msg)) {
+      return json(500, {
+        error:
+          "Review target id type mismatch. Apply migration 20260917_fix_review_target_ids.sql in Supabase (hotel_id/driver_id/guide_id must be TEXT)."
+      });
+    }
+    return json(500, { error: msg });
   }
 };

@@ -70,6 +70,14 @@
           .maybeSingle();
         return data;
       }
+      if (reviewType === "guide") {
+        const { data } = await supabaseClient
+          .from("guide_submissions")
+          .select("id,full_name,guide_type,status")
+          .eq("id", id)
+          .maybeSingle();
+        return data;
+      }
       const { data } = await supabaseClient
         .from("vehicle_submissions")
         .select("id,title,vehicle_type,contact_name,status")
@@ -100,8 +108,12 @@
         <p class="muted">Thank you for traveling with Booking Mongolia. Your feedback helps other guests.</p>
         <div class="meta">
           ${verified ? `<div><span class="badge">Verified review link</span></div>` : ""}
-          <div><strong>Service:</strong> ${escapeHtml(reviewType === "hotel" ? "Hotel stay" : "Driver trip")}</div>
-          <div><strong>${reviewType === "hotel" ? "Hotel" : "Driver"}:</strong> ${escapeHtml(targetName || targetId)}</div>
+          <div><strong>Service:</strong> ${escapeHtml(
+            reviewType === "hotel" ? "Hotel stay" : reviewType === "guide" ? "Guide service" : "Driver trip"
+          )}</div>
+          <div><strong>${
+            reviewType === "hotel" ? "Hotel" : reviewType === "guide" ? "Guide" : "Driver"
+          }:</strong> ${escapeHtml(targetName || targetId)}</div>
           ${serviceDate ? `<div><strong>Service date:</strong> ${escapeHtml(formatDate(serviceDate))}</div>` : ""}
           ${bookingRef ? `<div><strong>Booking ref:</strong> ${escapeHtml(bookingRef)}</div>` : ""}
         </div>
@@ -161,7 +173,12 @@
         }
 
         typeParam = invite.review_type || typeParam;
-        idParam = (typeParam === "hotel" ? invite.hotel_id : invite.driver_id) || idParam;
+        idParam =
+          (typeParam === "hotel"
+            ? invite.hotel_id
+            : typeParam === "guide"
+              ? invite.guide_id
+              : invite.driver_id) || idParam;
         const serviceDate = invite.service_date || qs("date") || "";
         const bookingRef = invite.booking_ref || qs("ref") || "";
         const prefill = {
@@ -178,9 +195,12 @@
         let targetName = "";
         try {
           const target = await loadTarget(typeParam, idParam);
-          targetName = typeParam === "hotel"
-            ? (target?.name || "Hotel")
-            : (target?.title || target?.vehicle_type || "Driver");
+          targetName =
+            typeParam === "hotel"
+              ? (target?.name || "Hotel")
+              : typeParam === "guide"
+                ? (target?.full_name || target?.guide_type || "Guide")
+                : (target?.title || target?.vehicle_type || "Driver");
         } catch (e) {}
 
         mountForm(root, {
@@ -196,13 +216,16 @@
         return;
       }
 
-      if (typeParam && idParam && ["hotel", "driver"].includes(typeParam)) {
+      if (typeParam && idParam && ["hotel", "driver", "guide"].includes(typeParam)) {
         let targetName = "";
         try {
           const target = await loadTarget(typeParam, idParam);
-          targetName = typeParam === "hotel"
-            ? (target?.name || "Hotel")
-            : (target?.title || target?.vehicle_type || "Driver");
+          targetName =
+            typeParam === "hotel"
+              ? (target?.name || "Hotel")
+              : typeParam === "guide"
+                ? (target?.full_name || target?.guide_type || "Guide")
+                : (target?.title || target?.vehicle_type || "Driver");
         } catch (e) {}
 
         mountForm(root, {
@@ -220,8 +243,8 @@
 
       root.innerHTML = `
         <h1>Leave a Review</h1>
-        <p class="error">This page needs a review invite link from Booking Mongolia, or a hotel/driver link.</p>
-        <p class="muted">Open a hotel or driver page and use <strong>Write a Review</strong>.</p>
+        <p class="error">This page needs a review invite link from Booking Mongolia, or a hotel/driver/guide link.</p>
+        <p class="muted">Open a hotel, driver or guide page and use <strong>Write a Review</strong>.</p>
       `;
     }
 

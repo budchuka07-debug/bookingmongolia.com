@@ -3,6 +3,7 @@ const ALLOWED_TABLES = new Set([
   "community_comments",
   "property_submissions",
   "vehicle_submissions",
+  "guide_submissions",
   "guest_reviews",
   "review_invites",
   "booking_agreement_acceptances",
@@ -14,6 +15,7 @@ const RESOURCE_TO_TABLE = {
   comments: "community_comments",
   hotels: "property_submissions",
   cars: "vehicle_submissions",
+  guides: "guide_submissions",
   reviews: "guest_reviews",
   invites: "review_invites",
   agreements: "booking_agreement_acceptances",
@@ -25,6 +27,7 @@ const STATUS_BY_TABLE = {
   community_comments: ["published", "hidden", "pending"],
   property_submissions: ["published", "hidden", "pending", "approved"],
   vehicle_submissions: ["published", "hidden", "pending", "approved"],
+  guide_submissions: ["published", "hidden", "pending", "approved"],
   guest_reviews: ["pending", "approved", "rejected"],
   gallery_items: ["published", "hidden", "pending"]
 };
@@ -140,6 +143,7 @@ exports.handler = async (event) => {
       const reviewType = String(body.review_type || "").trim();
       const hotelId = body.hotel_id ? String(body.hotel_id).trim() : null;
       const driverId = body.driver_id ? String(body.driver_id).trim() : null;
+      const guideId = body.guide_id ? String(body.guide_id).trim() : null;
       const guestName = body.guest_name ? String(body.guest_name).trim().slice(0, 80) : null;
       const guestCountry = body.guest_country
         ? String(body.guest_country).trim().slice(0, 80)
@@ -147,11 +151,12 @@ exports.handler = async (event) => {
       const bookingRef = body.booking_ref ? String(body.booking_ref).trim().slice(0, 120) : null;
       const serviceDate = body.service_date ? String(body.service_date).slice(0, 10) : null;
 
-      if (!["hotel", "driver"].includes(reviewType)) {
+      if (!["hotel", "driver", "guide"].includes(reviewType)) {
         return json(400, { error: "Invalid review_type" });
       }
       if (reviewType === "hotel" && !hotelId) return json(400, { error: "hotel_id required" });
       if (reviewType === "driver" && !driverId) return json(400, { error: "driver_id required" });
+      if (reviewType === "guide" && !guideId) return json(400, { error: "guide_id required" });
 
       const token = randomToken();
       const payload = {
@@ -159,6 +164,7 @@ exports.handler = async (event) => {
         review_type: reviewType,
         hotel_id: reviewType === "hotel" ? hotelId : null,
         driver_id: reviewType === "driver" ? driverId : null,
+        guide_id: reviewType === "guide" ? guideId : null,
         guest_name: guestName,
         guest_country: guestCountry,
         booking_ref: bookingRef,
@@ -171,10 +177,12 @@ exports.handler = async (event) => {
       });
       const invite = Array.isArray(items) ? items[0] : items;
       const siteOrigin = String(body.site_origin || "https://bookingmongolia.com").replace(/\/$/, "");
+      const targetId =
+        reviewType === "hotel" ? hotelId : reviewType === "driver" ? driverId : guideId;
       const params = new URLSearchParams({
         token,
         type: reviewType,
-        id: reviewType === "hotel" ? hotelId : driverId
+        id: targetId
       });
       if (serviceDate) params.set("date", serviceDate);
       if (guestName) params.set("name", guestName);

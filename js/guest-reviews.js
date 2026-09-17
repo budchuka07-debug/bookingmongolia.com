@@ -1,6 +1,7 @@
 /**
  * Booking Mongolia — shared Guest Reviews helpers
- * Hotels = property_submissions, Drivers = vehicle_submissions
+ * Hotels = property_submissions, Drivers = vehicle_submissions, Guides = guide_submissions
+ * Target IDs are stored as text (integer PKs like "29" are valid).
  */
 (function (global) {
   const BMReviews = {
@@ -17,6 +18,24 @@
       { key: "vehicle_condition_rating", label: "Vehicle condition" },
       { key: "punctuality_rating", label: "Punctuality" }
     ],
+    GUIDE_ASPECTS: [
+      { key: "communication_rating", label: "Communication" },
+      { key: "helpfulness_rating", label: "Helpfulness" },
+      { key: "punctuality_rating", label: "Punctuality" },
+      { key: "service_rating", label: "Knowledge & service" }
+    ],
+
+    aspectsFor(reviewType) {
+      if (reviewType === "driver") return BMReviews.DRIVER_ASPECTS;
+      if (reviewType === "guide") return BMReviews.GUIDE_ASPECTS;
+      return BMReviews.HOTEL_ASPECTS;
+    },
+
+    targetColumn(reviewType) {
+      if (reviewType === "driver") return "driver_id";
+      if (reviewType === "guide") return "guide_id";
+      return "hotel_id";
+    },
 
     escapeHtml(str) {
       return String(str == null ? "" : str)
@@ -70,13 +89,14 @@
     },
 
     async fetchApproved(supabaseClient, { reviewType, targetId }) {
-      if (!supabaseClient || !reviewType || !targetId) return [];
-      const col = reviewType === "hotel" ? "hotel_id" : "driver_id";
+      if (!supabaseClient || !reviewType || targetId == null || targetId === "") return [];
+      const col = BMReviews.targetColumn(reviewType);
+      const id = String(targetId);
       const { data, error } = await supabaseClient
         .from("guest_reviews")
         .select("*")
         .eq("review_type", reviewType)
-        .eq(col, targetId)
+        .eq(col, id)
         .eq("status", "approved")
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -87,7 +107,7 @@
       const list = reviews || [];
       const avg = BMReviews.average(list.map((r) => r.rating));
       const dist = BMReviews.distribution(list);
-      const aspects = reviewType === "driver" ? BMReviews.DRIVER_ASPECTS : BMReviews.HOTEL_ASPECTS;
+      const aspects = BMReviews.aspectsFor(reviewType);
       const aspectAvgs = BMReviews.aspectAverages(list, aspects);
       const total = list.length;
 
@@ -163,13 +183,43 @@
         </div>`;
     },
 
+    COUNTRIES: [
+      "Australia", "Austria", "Belgium", "Brazil", "Canada", "China", "Czech Republic",
+      "Denmark", "Finland", "France", "Germany", "Hong Kong", "India", "Indonesia",
+      "Ireland", "Israel", "Italy", "Japan", "Kazakhstan", "South Korea", "Malaysia",
+      "Mongolia", "Netherlands", "New Zealand", "Norway", "Philippines", "Poland",
+      "Portugal", "Russia", "Singapore", "Spain", "Sweden", "Switzerland", "Taiwan",
+      "Thailand", "Turkey", "United Arab Emirates", "United Kingdom", "United States",
+      "Vietnam", "Other"
+    ],
+
+    countrySelectHtml(selected) {
+      const current = String(selected || "").trim();
+      const known = BMReviews.COUNTRIES.slice();
+      if (current && !known.includes(current)) known.unshift(current);
+      const options = [
+        `<option value="">Select country</option>`,
+        ...known.map((c) => {
+          const sel = c === current ? " selected" : "";
+          return `<option value="${BMReviews.escapeHtml(c)}"${sel}>${BMReviews.escapeHtml(c)}</option>`;
+        })
+      ].join("");
+      return `
+            <div>
+              <label for="guest_country">Country *</label>
+              <select id="guest_country" name="guest_country" required size="1" class="bm-country-select">
+                ${options}
+              </select>
+            </div>`;
+    },
+
     formHtml({ reviewType, targetId, prefill = {}, showServiceDate = false } = {}) {
-      const aspects = reviewType === "driver" ? BMReviews.DRIVER_ASPECTS : BMReviews.HOTEL_ASPECTS;
+      const aspects = BMReviews.aspectsFor(reviewType);
       const aspectFields = aspects.map((a) => BMReviews.ratingField(a.key, a.label)).join("");
       return `
         <form id="bm-guest-review-form" class="bm-review-form" novalidate>
           <input type="hidden" name="review_type" value="${BMReviews.escapeHtml(reviewType)}">
-          <input type="hidden" name="target_id" value="${BMReviews.escapeHtml(targetId || "")}">
+          <input type="hidden" name="target_id" value="${BMReviews.escapeHtml(targetId == null ? "" : String(targetId))}">
           ${BMReviews.ratingField("rating", "Overall rating", { required: true, value: prefill.rating || 0 })}
           <div class="bm-aspect-fields">${aspectFields}</div>
           <div class="bm-form-grid">
@@ -177,10 +227,7 @@
               <label for="guest_name">Your name *</label>
               <input id="guest_name" name="guest_name" type="text" maxlength="80" required value="${BMReviews.escapeHtml(prefill.guest_name || "")}" placeholder="Michael">
             </div>
-            <div>
-              <label for="guest_country">Country *</label>
-              <input id="guest_country" name="guest_country" type="text" maxlength="80" required value="${BMReviews.escapeHtml(prefill.guest_country || "")}" placeholder="Australia">
-            </div>
+            ${BMReviews.countrySelectHtml(prefill.guest_country || "")}
             ${showServiceDate ? `
             <div class="full">
               <label for="service_date">Service / stay date</label>
@@ -273,7 +320,8 @@
       const avg = BMReviews.average(list.map((r) => r.rating));
       if (avg == null) return;
 
-      const schemaType = reviewType === "driver" ? "LocalBusiness" : "LodgingBusiness";
+      const schemaType =
+        reviewType === "driver" || reviewType === "guide" ? "LocalBusiness" : "LodgingBusiness";
       const node = {
         "@context": "https://schema.org",
         "@type": schemaType,
@@ -332,7 +380,8 @@
 .bm-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .bm-form-grid .full{grid-column:1/-1}
 .bm-review-form label{display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:#0d3b66}
-.bm-review-form input,.bm-review-form textarea{width:100%;border:1px solid #d1d5db;border-radius:12px;padding:12px 13px;font:inherit;background:#fff;box-sizing:border-box}
+.bm-review-form input,.bm-review-form textarea,.bm-review-form select{width:100%;border:1px solid #d1d5db;border-radius:12px;padding:12px 13px;font:inherit;background:#fff;box-sizing:border-box}
+.bm-review-form select.bm-country-select{appearance:auto;-webkit-appearance:menulist;cursor:pointer;max-height:220px}
 .bm-review-form textarea{min-height:110px;resize:vertical}
 .bm-rating-field{margin:10px 0}
 .bm-star-input{display:flex;gap:6px;flex-wrap:wrap}

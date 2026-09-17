@@ -692,28 +692,32 @@ async function loadGuides() {
             ${item.phone ? `<span class="pill">📞 ${item.phone}</span>` : ''}
             ${item.email ? `<span class="pill">✉️ ${item.email}</span>` : ''}
           </div>
+          <div class="listing-actions" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <a class="btn btn-primary" href="guide-detail.html?id=${encodeURIComponent(item.id)}">View profile &amp; reviews</a>
+          </div>
         </div>
       </article>
     `).join('')
     : '<p class="muted">No guide profiles published yet.</p>';
 }
 async function loadDriverReviewStats(driverIds) {
+  const ids = (driverIds || []).map((id) => String(id)).filter(Boolean);
   const stats = {};
-  (driverIds || []).forEach((id) => { stats[id] = { count: 0, sum: 0, avg: null }; });
-  if (!driverIds || !driverIds.length) return stats;
+  ids.forEach((id) => { stats[id] = { count: 0, sum: 0, avg: null }; });
+  if (!ids.length) return stats;
   try {
     const { data, error } = await supabaseClient
       .from('guest_reviews')
       .select('driver_id, rating')
       .eq('review_type', 'driver')
       .eq('status', 'approved')
-      .in('driver_id', driverIds);
+      .in('driver_id', ids);
     if (error) {
       console.error('driver review stats error:', error);
       return stats;
     }
     (data || []).forEach((row) => {
-      const id = row.driver_id;
+      const id = String(row.driver_id);
       if (!stats[id]) stats[id] = { count: 0, sum: 0, avg: null };
       const rating = Number(row.rating);
       if (!Number.isFinite(rating)) return;
@@ -844,7 +848,7 @@ async function loadCars() {
     const anchorId = carAnchorIds[index];
     // Share exact vehicle deep link on the homepage, e.g. https://bookingmongolia.com/#car-hiace-01
     const shareUrl = `${window.location.origin}/car-rental.html#${anchorId}`;
-    const stats = reviewStats[item.id] || { count: 0, avg: null };
+    const stats = reviewStats[String(item.id)] || { count: 0, avg: null };
     const phoneDigits = phone ? phone.replace(/[^0-9+]/g, '') : '';
     const phoneHref = phoneDigits
       ? (phoneDigits.replace(/\D/g, '').length >= 8

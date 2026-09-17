@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script src="/js/ga4.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Details | Booking Mongolia</title>
+  <meta name="description" content="Local guide profile and guest reviews on Booking Mongolia." />
+  <style>
+    :root{--primary:#0d3b66;--accent:#c98b2f;--bg:#f7f5ef;--muted:#6b7280;--line:#e5e7eb}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#1f2937;line-height:1.6}
+    a{color:var(--primary);text-decoration:none}
+    .wrap{max-width:960px;margin:0 auto;padding:24px 16px 90px}
+    .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;font-weight:800;border:0;cursor:pointer;min-height:46px}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-accent{background:var(--accent);color:#fff}
+    .btn-outline{background:#fff;border:1px solid var(--line);color:var(--primary)}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.06)}
+    .cover{width:100%;max-height:420px;object-fit:cover;display:block;background:#ddd;object-position:center top}
+    .body{padding:22px}
+    .tag{display:inline-block;background:#eef4f8;color:var(--primary);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:10px}
+    h1{margin:0 0 8px;font-size:clamp(26px,4vw,40px);color:var(--primary)}
+    .facts{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    .pill{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}
+    .price{font-size:22px;font-weight:800;color:#15803d;margin:10px 0}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .state{padding:40px 20px;text-align:center;color:var(--muted)}
+    .error{color:#b91c1c}
+    h3{margin:22px 0 8px;color:var(--primary)}
+    #guest-reviews{scroll-margin-top:24px}
+    .guide-rating-line{margin:8px 0 4px;font-weight:800;color:var(--primary)}
+    @media (max-width:720px){.wrap{padding:16px 12px 100px}.actions .btn{flex:1 1 calc(50% - 10px)}}
+  </style>
+<script src="/js/book-dates-btn.js" defer></script>
+<script src="/js/share.js"></script>
+<script src="/js/guest-reviews.js"></script>
+<script src="/js/nav-anchors.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="btn btn-outline" href="/guides.html">← Back to guides</a>
+      <a class="btn btn-primary" href="/contact.html">Contact Booking Mongolia</a>
+    </div>
+    <div id="guide-detail" class="card">
+      <div class="state">Loading guide details...</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ebpjetcuabubihzximbb.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_3F9zG4HoMOCgU4yHvUkiKw_h5VTeeRF";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const fallbackImage = "https://images.unsplash.com/photo-1469474960810-7edd1d38d86f?auto=format&fit=crop&w=1200&q=80";
+
+    function qs(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderGuide(data, reviews) {
+      const root = document.getElementById("guide-detail");
+      const cover = data.profile_image_url || fallbackImage;
+      const title = data.full_name || "Local guide";
+      const phoneLink = data.phone
+        ? `https://wa.me/${String(data.phone).replace(/[^0-9]/g, "")}`
+        : "";
+      const bookMsg = encodeURIComponent(
+        `Hello Booking Mongolia, I want to request a guide: ${title}.`
+      );
+      const shareUrl = new URL(`guide-detail.html?id=${encodeURIComponent(data.id)}`, window.location.href).href;
+      const avg = window.BMReviews ? BMReviews.average((reviews || []).map((r) => r.rating)) : null;
+      const reviewCount = (reviews || []).length;
+
+      document.title = `${title} | Booking Mongolia`;
+
+      try {
+        const clean = new URL(window.location.href);
+        clean.search = `?id=${encodeURIComponent(data.id)}`;
+        const keepHash = clean.hash === "#guest-reviews" ? "#guest-reviews" : "";
+        history.replaceState(null, "", clean.pathname + clean.search + keepHash);
+      } catch (e) {}
+
+      root.innerHTML = `
+        <img class="cover" src="${escapeHtml(cover)}" alt="${escapeHtml(title)}" onerror="this.onerror=null;this.src='${fallbackImage}'">
+        <div class="body">
+          <div class="tag">${escapeHtml(data.guide_type || "Local Guide")}</div>
+          <h1>${escapeHtml(title)}</h1>
+          ${avg != null ? `<div class="guide-rating-line">★ ${avg.toFixed(1)} / 5 · ${reviewCount} guest review${reviewCount === 1 ? "" : "s"}</div>` : ""}
+          ${data.price ? `<div class="price">${escapeHtml(data.price)}</div>` : ""}
+
+          <div class="facts">
+            ${data.age ? `<span class="pill">${escapeHtml(String(data.age))} yrs</span>` : ""}
+            ${data.gender ? `<span class="pill">${escapeHtml(data.gender)}</span>` : ""}
+            ${data.experience_years ? `<span class="pill">${escapeHtml(data.experience_years)}</span>` : ""}
+            ${data.languages ? `<span class="pill">${escapeHtml(data.languages)}</span>` : ""}
+            ${data.special_regions ? `<span class="pill">${escapeHtml(data.special_regions)}</span>` : ""}
+            ${data.phone ? `<span class="pill">📞 ${escapeHtml(data.phone)}</span>` : ""}
+            ${data.email ? `<span class="pill">✉️ ${escapeHtml(data.email)}</span>` : ""}
+          </div>
+
+          ${data.special_interests ? `<p><strong>Expertise:</strong> ${escapeHtml(data.special_interests)}</p>` : ""}
+          <p>${escapeHtml(data.bio || "Professional local guide arranged through Booking Mongolia.")}</p>
+
+          <div id="guest-reviews-mount"></div>
+
+          <div class="actions">
+            <a class="btn btn-accent" href="https://wa.me/97690283039?text=${bookMsg}" target="_blank" rel="noopener">Request booking</a>
+            <button type="button" class="btn btn-outline bm-share-btn"
+              data-share-title="${escapeHtml(title)}"
+              data-share-text="${escapeHtml(title + " — Booking Mongolia guide")}"
+              data-share-url="${escapeHtml(shareUrl)}"
+              aria-label="Share this guide profile">
+              <span class="bm-share-icon" aria-hidden="true">↗</span> Share
+            </button>
+            ${phoneLink ? `<a class="btn btn-primary" href="${phoneLink}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
+            ${data.phone ? `<a class="btn btn-outline" href="tel:${escapeHtml(String(data.phone).replace(/\\s/g, ""))}">Call</a>` : ""}
+            ${data.email ? `<a class="btn btn-outline" href="mailto:${escapeHtml(data.email)}">Email</a>` : ""}
+            <a class="btn btn-outline" href="/guides.html">All guides</a>
+            <a class="btn btn-outline" href="#guest-reviews">Guest reviews</a>
+          </div>
+        </div>
+      `;
+
+      if (window.BMShare) {
+        root.querySelectorAll(".bm-share-btn").forEach((btn) => BMShare.bindButton(btn));
+      }
+
+      mountGuestReviews(data, reviews || []);
+    }
+
+    function mountGuestReviews(data, reviews) {
+      if (window.BMReviews) window.BMReviews.mountStyles();
+      const mount = document.getElementById("guest-reviews-mount");
+      if (!mount || !window.BMReviews) return;
+
+      mount.innerHTML = `
+        ${BMReviews.renderSummaryHtml(reviews, { title: "Guest Reviews", reviewType: "guide" })}
+        ${BMReviews.renderListHtml(reviews)}
+        <div class="bm-write-review">
+          <h3>Write a Review</h3>
+          ${BMReviews.formHtml({ reviewType: "guide", targetId: data.id })}
+        </div>
+      `;
+
+      BMReviews.bindStarInputs(mount);
+      const form = document.getElementById("bm-guest-review-form");
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const notice = document.getElementById("bm-review-notice");
+          const btn = form.querySelector(".bm-submit-review");
+          try {
+            const payload = BMReviews.collectForm(form);
+            if (!payload.rating) throw new Error("Please select an overall rating");
+            if (btn) btn.disabled = true;
+            await BMReviews.submitReview(payload);
+            if (notice) {
+              notice.hidden = false;
+              notice.className = "bm-notice ok";
+              notice.textContent = "Thank you! Your review was submitted and is pending moderation.";
+            }
+            form.reset();
+            form.querySelectorAll(".bm-star-btn").forEach((b) => b.classList.remove("on"));
+          } catch (err) {
+            if (notice) {
+              notice.hidden = false;
+              notice.className = "bm-notice err";
+              notice.textContent = err.message || "Could not submit review.";
+            }
+          } finally {
+            if (btn) btn.disabled = false;
+          }
+        });
+      }
+
+      if (reviews.length) {
+        BMReviews.injectJsonLd({
+          name: data.full_name || "Local guide",
+          reviewType: "guide",
+          reviews,
+          url: location.href
+        });
+      }
+
+      if (location.hash === "#guest-reviews" && window.BMNavAnchors) {
+        setTimeout(() => BMNavAnchors.scrollToHash("#guest-reviews"), 100);
+      }
+    }
+
+    async function loadGuide() {
+      const root = document.getElementById("guide-detail");
+      const id = qs("id");
+      if (!id) {
+        root.innerHTML = `<div class="state error">Missing guide id. <a href="/guides.html">Browse guides</a></div>`;
+        return;
+      }
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("guide_submissions")
+          .select("*")
+          .eq("id", id)
+          .eq("status", "approved")
+          .maybeSingle();
+
+        if (!error && data) {
+          let reviews = [];
+          try {
+            reviews = await BMReviews.fetchApproved(supabaseClient, {
+              reviewType: "guide",
+              targetId: data.id
+            });
+          } catch (e) {
+            console.error("guest reviews load error:", e);
+          }
+          renderGuide(data, reviews);
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      root.innerHTML = `<div class="state error">Guide not found. <a href="/guides.html">Back to guides</a></div>`;
+    }
+
+    loadGuide();
+  </script>
+</body>
+</html>
