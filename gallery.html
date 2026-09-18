@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0d3b66" />
-  <title>Mongolia Gallery | Booking Mongolia</title>
+  <title>BookingMongolia Gallery | Booking Mongolia</title>
   <meta name="description" content="Travel photos from Mongolia landscapes, nomadic life and cultural experiences." />
   <link rel="canonical" href="https://bookingmongolia.com/gallery.html" />
   <script src="/js/ga4.js"></script>
@@ -60,37 +60,8 @@
 <section id="gallery">
     <div class="container">
       <div class="section-head">
-        <h2 data-i18n="gallery_title">Mongolia Gallery</h2>
+        <h1 data-i18n="gallery_title">BookingMongolia Gallery</h1>
         <p data-i18n="gallery_text">Real travel photos from Mongolia landscapes, nomadic life and experiences.</p>
-      </div>
-
-      <div class="gallery-upload" id="add-photo">
-        <h3 data-i18n="gallery_add_title">Add a photo</h3>
-        <p class="muted" data-i18n="gallery_add_text">Upload a Mongolia travel photo and a short caption. It is saved to the Gallery and appears on the website.</p>
-        <form id="gallery-form">
-          <div class="form-grid">
-            <div>
-              <label for="gallery_name" data-i18n="gallery_name">Your name (optional)</label>
-              <input type="text" id="gallery_name" maxlength="80" placeholder="Booking Mongolia / traveler name">
-            </div>
-            <div>
-              <label for="gallery_title" data-i18n="gallery_caption">Caption</label>
-              <input type="text" id="gallery_title" maxlength="120" placeholder="Khuvsgul Lake at sunrise" required>
-            </div>
-            <div class="full">
-              <label for="gallery_description" data-i18n="gallery_desc">Short text (optional)</label>
-              <textarea id="gallery_description" maxlength="600" placeholder="A few words about this place, season, or moment."></textarea>
-            </div>
-            <div class="full">
-              <label for="gallery_images" data-i18n="gallery_photos">Photos</label>
-              <input type="file" id="gallery_images" accept="image/*" multiple required>
-            </div>
-            <div class="full submit-actions">
-              <button class="btn btn-primary" type="submit" data-i18n="gallery_submit">Add to Gallery</button>
-            </div>
-          </div>
-          <div id="gallery-notice" class="notice"></div>
-        </form>
       </div>
 
       <div class="gallery-grid" id="gallery-grid">
@@ -114,7 +85,7 @@
         <img src="images/gallery/gallery18.jpg" alt="Mongolia gallery 18">
         <img src="images/gallery/gallery19.jpg" alt="Mongolia gallery 19">
         <img src="images/gallery/gallery20.jpg" alt="Mongolia gallery 20">
-         <img src="images/gallery/gallery21.jpg" alt="Mongolia gallery 21">
+        <img src="images/gallery/gallery21.jpg" alt="Mongolia gallery 21">
         <img src="images/gallery/gallery22.jpg" alt="Mongolia gallery 22">
         <img src="images/gallery/gallery23.jpg" alt="Mongolia gallery 23">
         <img src="images/gallery/gallery24.jpg" alt="Mongolia gallery 24">
@@ -124,6 +95,41 @@
         <img src="images/gallery/gallery28.jpg" alt="Mongolia gallery 28">
         <img src="images/gallery/gallery29.jpg" alt="Mongolia gallery 29">
         <img src="images/gallery/gallery30.jpg" alt="Mongolia gallery 30">
+      </div>
+
+      <div class="gallery-upload" id="add-photo">
+        <button type="button" class="btn btn-primary gallery-upload-toggle" id="gallery-upload-toggle" aria-expanded="false" aria-controls="gallery-upload-panel" data-i18n="gallery_add_title">
+          Add a photo
+        </button>
+
+        <div class="gallery-upload-panel" id="gallery-upload-panel" hidden>
+          <p class="muted" data-i18n="gallery_add_text">Upload a Mongolia travel photo and a short caption. It is saved to the Gallery and appears on the website.</p>
+          <form id="gallery-form">
+            <div class="form-grid">
+              <div>
+                <label for="gallery_name" data-i18n="gallery_name">Your name (optional)</label>
+                <input type="text" id="gallery_name" maxlength="80" placeholder="Booking Mongolia / traveler name">
+              </div>
+              <div>
+                <label for="gallery_title" data-i18n="gallery_caption">Caption</label>
+                <input type="text" id="gallery_title" maxlength="120" placeholder="Khuvsgul Lake at sunrise" required>
+              </div>
+              <div class="full">
+                <label for="gallery_description" data-i18n="gallery_desc">Short text (optional)</label>
+                <textarea id="gallery_description" maxlength="600" placeholder="A few words about this place, season, or moment."></textarea>
+              </div>
+              <div class="full">
+                <label for="gallery_images" data-i18n="gallery_photos">Photos</label>
+                <input type="file" id="gallery_images" accept="image/*" multiple required>
+              </div>
+              <div class="full submit-actions">
+                <button class="btn btn-primary" type="submit" data-i18n="gallery_submit">Add to Gallery</button>
+                <button class="btn btn-outline" type="button" id="gallery-upload-cancel" data-i18n="gallery_cancel">Cancel</button>
+              </div>
+            </div>
+            <div id="gallery-notice" class="notice"></div>
+          </form>
+        </div>
       </div>
     </div>
   </section>

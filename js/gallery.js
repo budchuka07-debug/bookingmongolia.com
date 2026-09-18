@@ -236,11 +236,51 @@
 
     e.target.reset();
     showNotice("Photo added to the Gallery.", "success");
+    setUploadOpen(false);
     loadGallery();
+  }
+
+  function setUploadOpen(open) {
+    var panel = document.getElementById("gallery-upload-panel");
+    var toggle = document.getElementById("gallery-upload-toggle");
+    if (!panel || !toggle) return;
+    panel.hidden = !open;
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.classList.toggle("is-open", !!open);
+    if (open) {
+      var first = panel.querySelector("#gallery_images, #gallery_title, input, textarea");
+      if (first && typeof first.focus === "function") {
+        setTimeout(function () { first.focus(); }, 50);
+      }
+    }
+  }
+
+  function initUploadToggle() {
+    var toggle = document.getElementById("gallery-upload-toggle");
+    var cancel = document.getElementById("gallery-upload-cancel");
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        var open = toggle.getAttribute("aria-expanded") === "true";
+        setUploadOpen(!open);
+      });
+    }
+    if (cancel) {
+      cancel.addEventListener("click", function () {
+        setUploadOpen(false);
+      });
+    }
+    if (location.hash === "#add-photo") {
+      setUploadOpen(true);
+      var anchor = document.getElementById("add-photo");
+      if (anchor && anchor.scrollIntoView) {
+        setTimeout(function () { anchor.scrollIntoView({ behavior: "smooth", block: "start" }); }, 80);
+      }
+    }
   }
 
   function init() {
     bindLightboxClicks(document);
+    initUploadToggle();
     var form = document.getElementById("gallery-form");
     if (form) form.addEventListener("submit", submitGallery);
     var lightbox = document.getElementById("image-lightbox");
