@@ -51,7 +51,7 @@
           "<p class=\"winter-meta\">" + esc(tour.destination) + " · " + esc(tour.duration) + "</p>" +
           "<p>" + esc(tour.summary) + "</p>" +
           "<ul>" + highlights + "</ul>" +
-          '<p class="winter-meta">' + esc(tour.groupLabel || "Private or group") + " · " + esc(tour.startDate ? (tour.startDate + (tour.endDate ? " – " + tour.endDate : "")) : (tour.datesLabel || "Dates on request")) + "</p>" +
+          '<p class="winter-meta">' + esc(tour.groupLabel || "Private or group") + " · " + esc(tour.startDate ? (tour.startDate + (tour.endDate ? " – " + tour.endDate : "")) : (tour.datesLabel || "November – April")) + "</p>" +
           '<p class="winter-price">' + esc(tour.priceLabel || "Request a Quote") + "</p>" +
           '<div class="winter-actions">' +
             '<a class="winter-btn" href="#' + esc(tour.id) + '">View Details</a>' +
@@ -63,7 +63,7 @@
   }
 
   function eventCard(item) {
-    var when = item.startDate ? esc(item.startDate) + (item.endDate ? " – " + esc(item.endDate) : "") : "Dates on request";
+    var when = item.startDate ? esc(item.startDate) + (item.endDate ? " – " + esc(item.endDate) : "") : "November – April";
     return (
       '<article class="winter-card" id="' + esc(item.id) + '">' +
         '<img src="' + esc(item.image) + '" alt="' + esc(item.alt || item.title) + '" loading="lazy" width="640" height="400">' +
