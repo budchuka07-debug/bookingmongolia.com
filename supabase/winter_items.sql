@@ -12,6 +12,8 @@ create table if not exists public.winter_items (
   summary text,
   highlights jsonb default '[]'::jsonb,
   duration text,
+  duration_min integer,
+  duration_max integer,
   start_date date,
   end_date date,
   price_label text default 'Request a Quote',

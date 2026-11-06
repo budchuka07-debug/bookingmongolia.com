@@ -592,7 +592,9 @@ function rowToItem(row){
     category: row.category || "",
     summary: row.summary || "",
     highlights: Array.isArray(highlights) ? highlights : [],
-    duration: row.duration || "",
+    duration: row.duration || row.durationLabel || "",
+    durationMin: row.duration_min || row.durationMin || "",
+    durationMax: row.duration_max || row.durationMax || "",
     startDate: row.start_date || row.startDate || "",
     endDate: row.end_date || row.endDate || "",
     priceLabel: row.price_label || row.priceLabel || "Request a Quote",
@@ -632,7 +634,9 @@ function renderWinterEditor(){
           </select>
         </div>
         <div><label>Image path</label><input data-field="image" value="${escapeHtml(item.image)}"></div>
-        <div><label>Duration</label><input data-field="duration" value="${escapeHtml(item.duration)}"></div>
+        <div><label>Duration label</label><input data-field="durationLabel" value="${escapeHtml(item.durationLabel || item.duration || "")}"></div>
+        <div><label>Minimum days</label><input data-field="durationMin" type="number" min="1" value="${escapeHtml(item.durationMin || "")}"></div>
+        <div><label>Maximum days</label><input data-field="durationMax" type="number" min="1" value="${escapeHtml(item.durationMax || "")}"></div>
         <div class="full"><label>Summary</label><textarea data-field="summary" rows="3">${escapeHtml(item.summary)}</textarea></div>
         <div><label><input data-field="featured" type="checkbox" ${item.featured?"checked":""}> Feature on homepage data</label></div>
         <div><label><input data-field="published" type="checkbox" ${item.published!==false?"checked":""}> Published</label></div>
