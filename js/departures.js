@@ -19,7 +19,7 @@
     "horse-steppe-3d": "/tours/horse-riding-tour.html",
     "horse-nomad-5d": "/tours/horse-riding-tour.html",
     "mountain-horse-7d": "/tours/horse-riding-tour.html",
-    "winter-day": "/tours/winter-mongolia.html",
+    "winter-day": "/winter-mongolia.html",
     "english-immersion-7d": "/tours/english-immersion-tour.html",
     "khuvsgul-lake-5d": "/tours/khuvsgul-lake-tour.html",
     "khuvsgul-north-7d": "/tours/khuvsgul-lake-tour.html",

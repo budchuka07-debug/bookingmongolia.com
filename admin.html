@@ -103,6 +103,7 @@
         <button class="tab" data-tab="reviews" onclick="setTab('reviews')">Reviews</button>
         <button class="tab" data-tab="agreements" onclick="setTab('agreements')">Agreements</button>
         <button class="tab" data-tab="gallery" onclick="setTab('gallery')">Gallery</button>
+        <button class="tab" data-tab="winter" onclick="setTab('winter')">Winter</button>
       </div>
       <div class="toolbar">
         <div>
@@ -170,6 +171,13 @@
         </div>
       </div>
       <div id="inviteResult" class="invite-link hidden"></div>
+    </div>
+
+    <div id="winterPanel" class="panel hidden">
+      <h3 style="margin:0 0 8px;color:var(--primary)">Winter tours and events</h3>
+      <p class="muted">Dates and prices stay blank until you publish them. Run <code>supabase/winter_items.sql</code> once in Supabase. Until that table exists, the public page keeps the seed catalog.</p>
+      <div id="winterNotice" class="notice"></div>
+      <div id="winterList"></div>
     </div>
 
     <div id="content" class="grid"></div>
@@ -244,7 +252,12 @@ function setTab(tab){
   activeTab = tab;
   document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab===tab));
   document.getElementById("invitePanel").classList.toggle("hidden", tab !== "reviews");
+  const winter = document.getElementById("winterPanel");
+  const content = document.getElementById("content");
+  if (winter) winter.classList.toggle("hidden", tab !== "winter");
+  if (content) content.classList.toggle("hidden", tab === "winter");
   syncTypeFilterOptions();
+  if (tab === "winter") { loadWinterAdmin(); return; }
   loadCurrent();
 }
 
@@ -550,6 +563,168 @@ if(adminPassword){
   syncTypeFilterOptions();
   loadCurrent();
 }
+
+const WINTER_STATUSES = ["on_request","seasonal","upcoming","sold_out","completed","dates_on_request"];
+let winterDraft = [];
+
+function winterNote(msg, type){
+  const n = document.getElementById("winterNotice");
+  n.className = "notice " + (type || "success") + " show";
+  n.textContent = msg;
+}
+
+function winterItemsFromSeed(){
+  const seed = window.BM_WINTER || { tours: [], events: [] };
+  return seed.tours.concat(seed.events);
+}
+
+function rowToItem(row){
+  let highlights = row.highlights;
+  if (typeof highlights === "string") {
+    try { highlights = JSON.parse(highlights); } catch (e) { highlights = []; }
+  }
+  return {
+    id: row.id,
+    kind: row.kind,
+    title: row.title,
+    destination: row.destination || "",
+    location: row.location || row.destination || "",
+    category: row.category || "",
+    summary: row.summary || "",
+    highlights: Array.isArray(highlights) ? highlights : [],
+    duration: row.duration || "",
+    startDate: row.start_date || row.startDate || "",
+    endDate: row.end_date || row.endDate || "",
+    priceLabel: row.price_label || row.priceLabel || "Request a Quote",
+    groupLabel: row.group_label || row.groupLabel || "",
+    availability: row.availability || "on_request",
+    image: row.image || "",
+    alt: row.alt || "",
+    featured: !!row.featured,
+    published: row.published !== false
+  };
+}
+
+function renderWinterEditor(){
+  const box = document.getElementById("winterList");
+  box.innerHTML = winterDraft.map((item, index) => `
+    <article class="card" data-winter="${index}">
+      <h3>${escapeHtml(item.title || "New winter item")}</h3>
+      <p class="muted">${escapeHtml(item.kind)} · ${escapeHtml(item.id || "new-id")}</p>
+      <div class="invite-grid">
+        <div><label>Title</label><input data-field="title" value="${escapeHtml(item.title)}"></div>
+        <div><label>Id</label><input data-field="id" value="${escapeHtml(item.id)}"></div>
+        <div><label>Kind</label>
+          <select data-field="kind">
+            <option value="tour" ${item.kind==="tour"?"selected":""}>Tour</option>
+            <option value="event" ${item.kind==="event"?"selected":""}>Event</option>
+          </select>
+        </div>
+        <div><label>Category</label><input data-field="category" value="${escapeHtml(item.category)}"></div>
+        <div><label>Destination</label><input data-field="destination" value="${escapeHtml(item.destination)}"></div>
+        <div><label>Location</label><input data-field="location" value="${escapeHtml(item.location)}"></div>
+        <div><label>Start date</label><input data-field="startDate" type="date" value="${escapeHtml(item.startDate)}"></div>
+        <div><label>End date</label><input data-field="endDate" type="date" value="${escapeHtml(item.endDate)}"></div>
+        <div><label>Price label</label><input data-field="priceLabel" value="${escapeHtml(item.priceLabel || "Request a Quote")}"></div>
+        <div><label>Availability</label>
+          <select data-field="availability">
+            ${WINTER_STATUSES.map(s => `<option value="${s}" ${item.availability===s?"selected":""}>${s}</option>`).join("")}
+          </select>
+        </div>
+        <div><label>Image path</label><input data-field="image" value="${escapeHtml(item.image)}"></div>
+        <div><label>Duration</label><input data-field="duration" value="${escapeHtml(item.duration)}"></div>
+        <div class="full"><label>Summary</label><textarea data-field="summary" rows="3">${escapeHtml(item.summary)}</textarea></div>
+        <div><label><input data-field="featured" type="checkbox" ${item.featured?"checked":""}> Feature on homepage data</label></div>
+        <div><label><input data-field="published" type="checkbox" ${item.published!==false?"checked":""}> Published</label></div>
+      </div>
+      <p style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="ok" type="button" onclick="saveOneWinter(${index})">Save</button>
+        <button class="danger" type="button" onclick="deleteOneWinter(${index})">Delete</button>
+      </p>
+    </article>`).join("") + `<p><button class="ok" type="button" onclick="addWinterItem()">Add winter item</button></p>`;
+}
+
+function readWinterCard(index){
+  const card = document.querySelector(`[data-winter="${index}"]`);
+  const item = Object.assign({}, winterDraft[index]);
+  card.querySelectorAll("[data-field]").forEach(el => {
+    const key = el.getAttribute("data-field");
+    if (el.type === "checkbox") item[key] = el.checked;
+    else item[key] = el.value;
+  });
+  return item;
+}
+
+async function loadWinterAdmin(){
+  winterDraft = winterItemsFromSeed().map(rowToItem);
+  try{
+    const data = await api({ action:"list", resource:"winter" });
+    if (data.items && data.items.length) {
+      const byId = {};
+      winterDraft.forEach(item => { byId[item.id] = item; });
+      data.items.forEach(row => {
+        const item = rowToItem(row);
+        byId[item.id] = Object.assign({}, byId[item.id] || {}, item);
+      });
+      winterDraft = Object.keys(byId).map(id => byId[id]);
+      winterNote("Loaded published winter records.");
+    } else {
+      winterNote("No saved winter rows yet. The public page is using the seed catalog.");
+    }
+  }catch(e){
+    winterNote("The winter table is not ready yet. Public pages still use the seed catalog. " + e.message, "error");
+  }
+  renderWinterEditor();
+}
+
+async function saveOneWinter(index){
+  const item = readWinterCard(index);
+  winterDraft[index] = item;
+  try{
+    await api({ action:"saveWinter", items:[item] });
+    winterNote("Saved " + item.title);
+  }catch(e){
+    winterNote(e.message, "error");
+  }
+}
+
+async function deleteOneWinter(index){
+  const item = winterDraft[index];
+  if (!item || !confirm("Delete this winter item?")) return;
+  try{
+    if (item.id) await api({ action:"deleteWinter", id:item.id });
+    winterDraft.splice(index, 1);
+    winterNote("Deleted");
+    renderWinterEditor();
+  }catch(e){
+    winterNote(e.message, "error");
+  }
+}
+
+function addWinterItem(){
+  winterDraft.push({
+    id: "winter-" + Date.now().toString(36),
+    kind: "tour",
+    title: "New winter experience",
+    destination: "",
+    location: "",
+    category: "Winter",
+    summary: "",
+    highlights: [],
+    duration: "",
+    startDate: "",
+    endDate: "",
+    priceLabel: "Request a Quote",
+    groupLabel: "Private or group",
+    availability: "on_request",
+    image: "images/guide/ulaanbaatar-winter.jpg",
+    alt: "Winter Mongolia",
+    featured: false,
+    published: false
+  });
+  renderWinterEditor();
+}
 </script>
+<script src="/data/winter-catalog.js"></script>
 </body>
 </html>

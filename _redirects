@@ -9,6 +9,7 @@
 /api/departures  /.netlify/functions/departures  200
 /api/create-booking  /.netlify/functions/create-booking  200
 /api/booking-status  /.netlify/functions/booking-status  200
+/api/winter-catalog  /.netlify/functions/winter-catalog  200
 
 # Force one URL form: extensionless -> .html (matches sitemap + canonicals)
 # Using 301 (not 200 rewrite) so Google does not keep duplicate URLs.
@@ -27,6 +28,9 @@
 /booking  /booking.html  301
 /about  /about.html  301
 /tours-dates  /tours-dates.html  301
+/winter-mongolia  /winter-mongolia.html  301
+/tours/winter-mongolia  /winter-mongolia  301
+/tours/winter-mongolia.html  /winter-mongolia  301
 /visa-requirements  /visa-requirements.html  301
 /nomadic-experience  /nomadic-experience.html  301
 /vip-helicopter-expedition  /vip-helicopter-expedition.html  301

@@ -7,7 +7,8 @@ const ALLOWED_TABLES = new Set([
   "guest_reviews",
   "review_invites",
   "booking_agreement_acceptances",
-  "gallery_items"
+  "gallery_items",
+  "winter_items"
 ]);
 
 const RESOURCE_TO_TABLE = {
@@ -19,7 +20,8 @@ const RESOURCE_TO_TABLE = {
   reviews: "guest_reviews",
   invites: "review_invites",
   agreements: "booking_agreement_acceptances",
-  gallery: "gallery_items"
+  gallery: "gallery_items",
+  winter: "winter_items"
 };
 
 const STATUS_BY_TABLE = {
@@ -100,10 +102,56 @@ exports.handler = async (event) => {
     if (action === "list") {
       const table = RESOURCE_TO_TABLE[body.resource];
       if (!table) return json(400, { error: "Invalid resource" });
-      const items = await supabaseFetch(`${table}?select=*&order=created_at.desc&limit=200`, {
+      const order = table === "winter_items" ? "sort.asc" : "created_at.desc";
+      const items = await supabaseFetch(`${table}?select=*&order=${order}&limit=200`, {
         method: "GET"
       });
       return json(200, { items });
+    }
+
+    if (action === "saveWinter") {
+      const raw = Array.isArray(body.items) ? body.items.slice(0, 40) : [];
+      if (!raw.length) return json(400, { error: "No winter items" });
+      const rows = raw.map((item, index) => {
+        const id = String(item.id || "").trim().slice(0, 80);
+        const kind = item.kind === "event" ? "event" : "tour";
+        if (!id || !/^[a-z0-9-]+$/.test(id)) throw new Error("Invalid winter id");
+        const highlights = Array.isArray(item.highlights) ? item.highlights.slice(0, 8).map((h) => String(h).slice(0, 80)) : [];
+        return {
+          id,
+          kind,
+          title: String(item.title || "").trim().slice(0, 140),
+          destination: String(item.destination || "").slice(0, 140),
+          location: String(item.location || item.destination || "").slice(0, 140),
+          category: String(item.category || "").slice(0, 80),
+          summary: String(item.summary || "").slice(0, 600),
+          highlights,
+          duration: String(item.duration || "").slice(0, 80),
+          start_date: item.startDate ? String(item.startDate).slice(0, 10) : null,
+          end_date: item.endDate ? String(item.endDate).slice(0, 10) : null,
+          price_label: String(item.priceLabel || "Request a Quote").slice(0, 80),
+          group_label: String(item.groupLabel || "").slice(0, 80),
+          availability: ["on_request", "seasonal", "upcoming", "sold_out", "completed", "dates_on_request"].includes(item.availability) ? item.availability : "on_request",
+          image: String(item.image || "").slice(0, 240),
+          alt: String(item.alt || "").slice(0, 180),
+          featured: Boolean(item.featured),
+          published: item.published !== false,
+          sort: index
+        };
+      });
+      const items = await supabaseFetch("winter_items", {
+        method: "POST",
+        prefer: "resolution=merge-duplicates,return=representation",
+        body: JSON.stringify(rows)
+      });
+      return json(200, { ok: true, items });
+    }
+
+    if (action === "deleteWinter") {
+      const id = String(body.id || "").trim();
+      if (!/^[a-z0-9-]+$/.test(id)) return json(400, { error: "Invalid id" });
+      await supabaseFetch(`winter_items?id=eq.${encodeURIComponent(id)}`, { method: "DELETE" });
+      return json(200, { ok: true });
     }
 
     if (action === "listCommentsForPost") {
