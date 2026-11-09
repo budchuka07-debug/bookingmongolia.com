@@ -182,6 +182,28 @@
       transform:scale(1.04);
       transition:opacity 1s ease, transform 6s ease;
     }
+    .hero-lcp{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .yt-facade{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      min-height:220px;
+      border:0;
+      border-radius:18px;
+      background:#1a1612 center/cover no-repeat;
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .video-main .yt-facade{min-height:360px;background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url('/images/hero/hero-1-mongolia.webp')}
+    .yt-facade iframe{width:100%;height:100%;min-height:inherit;border:0;border-radius:18px}
     .hero-slide.active{
       opacity:1;
       transform:scale(1);
@@ -384,10 +406,13 @@
     }
     .about-photo{
       min-height:480px;
+      width:100%;
+      height:480px;
+      object-fit:cover;
       border-radius:var(--radius);
       overflow:hidden;
       box-shadow:var(--shadow);
-      background:url('/images/hero/hero-nomadic-mongolia.jpg') center/cover no-repeat;
+      background:#e7d7c1;
     }
     .feature-list{
       display:grid;

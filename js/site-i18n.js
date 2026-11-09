@@ -5,7 +5,11 @@ const slides = document.querySelectorAll('.hero-slide');
       if (!slides.length) return;
       slides[currentSlide].classList.remove('active');
       currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add('active');
+      var next = slides[currentSlide];
+      if (next.dataset.src && !next.style.backgroundImage) {
+        next.style.backgroundImage = "url('" + next.dataset.src + "')";
+      }
+      next.classList.add('active');
     }
 
     if (slides.length) setInterval(showNextSlide, 4000);
@@ -1003,3 +1007,16 @@ read_more: "Read More",
     });
 
     setLanguage(getSavedLang());
+
+    document.querySelectorAll(".yt-facade").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.getAttribute("data-yt");
+        if (!id) return;
+        const frame = document.createElement("iframe");
+        frame.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1";
+        frame.title = button.textContent || "Mongolia video";
+        frame.allow = "autoplay; fullscreen";
+        frame.allowFullscreen = true;
+        button.replaceWith(frame);
+      });
+    });

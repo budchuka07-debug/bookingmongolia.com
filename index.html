@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SWZZY2HBZB"></script>
-<script>
+  <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-SWZZY2HBZB');
+window.addEventListener('load', function () {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SWZZY2HBZB';
+  s.onload = function () { gtag('js', new Date()); gtag('config', 'G-SWZZY2HBZB'); };
+  document.head.appendChild(s);
+});
 </script>
-<script src="/js/share.js"></script>
+<script src="/js/share.js" defer></script>
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0d3b66" />
   <title>Discover Mongolia 2027 | Bookings Open | Booking Mongolia</title>
   <meta name="description" content="2027 Mongolia season is open. Private tours, Gobi, Khuvsgul, Tsaatan and Altai journeys. Prices are shown on Tour Dates." />
-  <link rel="preload" as="image" href="/images/hero/hero-1-mongolia.webp" fetchpriority="high">
   <link rel="canonical" href="https://bookingmongolia.com/" />
   <link rel="alternate" hreflang="en" href="https://bookingmongolia.com/" />
   <link rel="alternate" hreflang="x-default" href="https://bookingmongolia.com/" />
@@ -119,10 +120,12 @@ gtag('config', 'G-SWZZY2HBZB');
   </header>
 
   <section class="hero" id="home">
-    <div class="hero-slide active" style="background-image:url('images/hero/hero-1-mongolia.webp');"></div>
-    <div class="hero-slide" style="background-image:url('images/hero/hero-horse-riders.webp');"></div>
-    <div class="hero-slide" style="background-image:url('images/hero/hero-khuvsgul-lake.webp');"></div>
-    <div class="hero-slide" style="background-image:url('images/hero/hero-nomadic-mongolia.webp');"></div>
+    <div class="hero-slide active">
+      <img class="hero-lcp" src="images/hero/hero-1-mongolia.webp" srcset="images/hero/hero-1-mongolia-800.webp 800w, images/hero/hero-1-mongolia.webp 1200w" sizes="100vw" alt="Open steppe and mountains in Mongolia" width="1200" height="800" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero-slide" data-src="images/hero/hero-horse-riders.webp"></div>
+    <div class="hero-slide" data-src="images/hero/hero-khuvsgul-lake.webp"></div>
+    <div class="hero-slide" data-src="images/hero/hero-nomadic-mongolia.webp"></div>
     <div class="hero-overlay"></div>
 
     <div class="container">
@@ -224,7 +227,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-nomadic-life.jpg" alt="Nomadic life" loading="lazy" decoding="async">
+          <img src="images/experiences/exp-nomadic-life.webp" alt="Nomadic life" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_4">Central Mongolia</span>
             <h3 data-i18n="exp_card_4_title">Nomadic Life Experience</h3>
@@ -233,7 +236,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Khuvsgul Lake" loading="lazy" decoding="async">
+          <img src="images/experiences/exp-khuvsgul-lake.webp" alt="Khuvsgul Lake" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_5">Lake Adventure</span>
             <h3 data-i18n="exp_card_5_title">Khuvsgul Lake Journey</h3>
@@ -447,7 +450,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/umnugovi.html" class="featured-place-card">
-          <img src="images/destinations/bayanzag.jpg" alt="Bayanzag" loading="lazy" decoding="async">
+          <img src="images/destinations/bayanzag.webp" alt="Bayanzag" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Umnugovi</span>
             <h3>Bayanzag</h3>
@@ -456,7 +459,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/umnugovi.html" class="featured-place-card">
-          <img src="images/destinations/khermen-tsav.jpg" alt="Khermen Tsav" loading="lazy" decoding="async">
+          <img src="images/destinations/khermen-tsav.webp" alt="Khermen Tsav" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Umnugovi</span>
             <h3>Khermen Tsav</h3>
@@ -492,7 +495,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/selenge.html" class="featured-place-card">
-          <img src="images/destinations/amarbayasgalant.jpg" alt="Amarbayasgalant Monastery" loading="lazy" decoding="async">
+          <img src="images/destinations/amarbayasgalant.webp" alt="Amarbayasgalant Monastery" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Selenge</span>
             <h3>Amarbayasgalant Monastery</h3>
@@ -501,7 +504,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/tuv.html" class="featured-place-card">
-          <img src="images/destinations/hustai.jpg" alt="Khustain Nuruu" loading="lazy" decoding="async">
+          <img src="images/destinations/hustai.webp" alt="Khustain Nuruu" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Tuv</span>
             <h3>Khustain Nuruu</h3>
@@ -510,7 +513,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/khuvsgul.html" class="featured-place-card">
-          <img src="images/destinations/khuvsgul-lake.jpg" alt="Khuvsgul Lake" loading="lazy" decoding="async">
+          <img src="images/destinations/khuvsgul-lake.webp" alt="Khuvsgul Lake" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Khuvsgul</span>
             <h3>Khuvsgul Lake</h3>
@@ -588,7 +591,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/english-immersion-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="English immersion beside Khuvsgul Lake" loading="lazy" decoding="async">
+          <img src="images/experiences/exp-khuvsgul-lake.webp" alt="English immersion beside Khuvsgul Lake" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Students · English</span>
             <h3>7 Day English Immersion in the Wild</h3>
@@ -688,7 +691,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/khuvsgul-lake-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Khuvsgul Lake Tour" loading="lazy" decoding="async">
+          <img src="images/experiences/exp-khuvsgul-lake.webp" alt="Khuvsgul Lake Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Lake Adventure</span>
             <h3>Khuvsgul Lake Tour</h3>
@@ -712,7 +715,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="winter-mongolia.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/guide/ulaanbaatar-winter.jpg" alt="Snowy steppe in Mongolia" loading="lazy" decoding="async">
+          <img src="images/guide/ulaanbaatar-winter.webp" alt="Snowy steppe in Mongolia" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Winter Tour</span>
             <h3 data-i18n="tour_winter_title">Winter Mongolia</h3>
@@ -724,7 +727,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/ice-festival-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Ice Festival Tour" loading="lazy" decoding="async">
+          <img src="images/experiences/exp-khuvsgul-lake.webp" alt="Ice Festival Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Winter Tour</span>
             <h3>Ice Festival Tour</h3>
@@ -736,7 +739,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/mongolia-grand-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/hero/hero-1-mongolia.jpg" alt="Mongolia Grand Tour" loading="lazy" decoding="async">
+          <img src="images/hero/hero-1-mongolia.webp" alt="Mongolia Grand Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Grand Journey</span>
             <h3>Mongolia Grand Tour</h3>
@@ -845,7 +848,7 @@ gtag('config', 'G-SWZZY2HBZB');
             </div>
           </div>
           <article class="card guide-card">
-  <img src="images/guide/animals.jpg" alt="Mongolian wildlife animals" loading="lazy" decoding="async">
+  <img src="images/guide/animals.webp" alt="Mongolian wildlife animals" loading="lazy" decoding="async">
 
   <div class="card-body">
     <span class="tag">Nature & Wildlife</span>
@@ -880,7 +883,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </div>
   
           <article class="card guide-card">
-            <img src="images/experiences/exp-nomadic-life.jpg" alt="Mongolian ger" loading="lazy" decoding="async">
+            <img src="images/experiences/exp-nomadic-life.webp" alt="Mongolian ger" loading="lazy" decoding="async">
             <div class="card-body">
               <h3 data-i18n="side_guide_2_title">Mongolian Ger & Daily Life</h3>
               <p class="muted" data-i18n="side_guide_2_text">Learn about ger etiquette and countryside daily life.</p>
@@ -913,13 +916,13 @@ gtag('config', 'G-SWZZY2HBZB');
       </div>
 
       <div class="video-main">
-        <iframe src="https://www.youtube.com/embed/I3UwzFhugZU" title="Discover Mongolia main video" allowfullscreen></iframe>
+        <button type="button" class="yt-facade" data-yt="I3UwzFhugZU">Play: Discover Mongolia</button>
       </div>
 
       <div class="video-small">
-        <iframe src="https://www.youtube.com/embed/oLMVrk5xGw0" title="Mongolia video 1" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Cr8ofaL-Ilw" title="Mongolia video 2" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Pni2kcTipaw" title="Mongolia video 3" allowfullscreen></iframe>
+        <button type="button" class="yt-facade" data-yt="oLMVrk5xGw0">Play video</button>
+        <button type="button" class="yt-facade" data-yt="Cr8ofaL-Ilw">Play video</button>
+        <button type="button" class="yt-facade" data-yt="Pni2kcTipaw">Play video</button>
       </div>
     </div>
   </section>
@@ -1293,7 +1296,7 @@ gtag('config', 'G-SWZZY2HBZB');
   <section class="about" id="about">
     <div class="container">
       <div class="about-wrap">
-        <div class="about-photo"></div>
+        <img class="about-photo" src="images/hero/hero-nomadic-mongolia-800.webp" alt="Nomadic Mongolia landscape" width="800" height="533" loading="lazy" decoding="async">
 
         <div>
           <div class="section-head" style="margin-bottom:16px">
