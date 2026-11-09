@@ -119,10 +119,9 @@
     var grid = document.getElementById("gallery-grid");
     if (!grid) return;
     var client = getClient();
-    if (!client) {
-      bindLightboxClicks(grid);
-      return;
-    }
+    bindLightboxClicks(grid);
+    startFilm();
+    if (!client) return;
 
     var result = await client
       .from("gallery_items")
@@ -134,6 +133,7 @@
     if (result.error) {
       console.error("loadGallery error:", result.error);
       bindLightboxClicks(grid);
+      startFilm();
       return;
     }
 
@@ -150,6 +150,139 @@
       marker.insertAdjacentHTML("afterend", html.replace(/<figure /g, '<figure data-gallery-live="1" '));
     }
     bindLightboxClicks(grid);
+    startFilm();
+  }
+
+  var filmFrame = 0;
+
+  function photoList(grid) {
+    var seen = {};
+    var list = [];
+    grid.querySelectorAll("img").forEach(function (img) {
+      var src = img.getAttribute("src");
+      if (!src || seen[src]) return;
+      seen[src] = true;
+      var alt = img.getAttribute("alt") || "";
+      if (/^Mongolia gallery \d+$/.test(alt)) alt = "";
+      list.push({ src: src, alt: alt });
+    });
+    return list;
+  }
+
+  function framePhotos(grid) {
+    var i = 0;
+    Array.from(grid.querySelectorAll(":scope > img")).forEach(function (img) {
+      var frame = document.createElement("div");
+      frame.className = "gallery-frame";
+      img.parentNode.insertBefore(frame, img);
+      frame.appendChild(img);
+      img.style.animationDelay = (-(i % 9) * 0.8) + "s";
+      i += 1;
+    });
+    grid.querySelectorAll(".gallery-card img").forEach(function (img) {
+      if (!img.style.animationDelay) img.style.animationDelay = (-(i % 9) * 0.8) + "s";
+      i += 1;
+    });
+  }
+
+  function startFilm() {
+    var grid = document.getElementById("gallery-grid");
+    if (!grid) return;
+    framePhotos(grid);
+    var photos = photoList(grid);
+    if (!photos.length) return;
+
+    var host = document.getElementById("gallery-film");
+    if (!host) {
+      host = document.createElement("div");
+      host.id = "gallery-film";
+      host.className = "gallery-film";
+      grid.parentNode.insertBefore(host, grid);
+    }
+    var key = photos.map(function (photo) { return photo.src; }).join("|");
+    if (host.dataset.key === key) return;
+    host.dataset.key = key;
+
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var stage = document.createElement("div");
+    stage.className = "gallery-stage";
+    var caption = document.createElement("p");
+    caption.className = "gallery-caption";
+    photos.forEach(function (photo, index) {
+      var img = document.createElement("img");
+      img.src = photo.src;
+      img.alt = photo.alt || "Mongolia";
+      img.setAttribute("data-slide", String(index));
+      if (index === 0) img.className = "is-on";
+      img.addEventListener("click", function () { openLightbox(photo.src); });
+      stage.appendChild(img);
+    });
+    caption.textContent = photos[0].alt || "Mongolia";
+    stage.appendChild(caption);
+
+    var wrap = document.createElement("div");
+    wrap.className = "gallery-strip-wrap";
+    var strip = document.createElement("div");
+    strip.className = "gallery-strip";
+    photos.concat(photos).forEach(function (photo, index) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-thumb";
+      var img = document.createElement("img");
+      img.src = photo.src;
+      img.alt = index < photos.length ? (photo.alt || "Mongolia") : "";
+      button.appendChild(img);
+      if (photo.alt) {
+        var label = document.createElement("span");
+        label.textContent = photo.alt;
+        button.appendChild(label);
+      }
+      button.addEventListener("click", function () { openLightbox(photo.src); });
+      strip.appendChild(button);
+    });
+    wrap.appendChild(strip);
+    host.replaceChildren(stage, wrap);
+
+    if (filmFrame) cancelAnimationFrame(filmFrame);
+    filmFrame = 0;
+    if (reduce || photos.length < 2) return;
+
+    var x = 0;
+    var elapsed = 0;
+    var index = 0;
+    var last = performance.now();
+    var tick = function (now) {
+      var dt = Math.min(32, now - last);
+      last = now;
+      elapsed += dt;
+      var half = strip.scrollWidth / 2;
+      if (half > 0) {
+        x -= dt * 0.09;
+        if (-x >= half) x += half;
+        strip.style.transform = "translate3d(" + x.toFixed(2) + "px,0,0)";
+      }
+      var slides = stage.querySelectorAll("[data-slide]");
+      var on = stage.querySelector(".is-on");
+      if (on) {
+        var wave = (Math.sin(now / 1400) + 1) / 2;
+        on.style.transform = "scale(" + (1.12 + wave * 0.1).toFixed(3) + ") translate3d(" + ((wave - 0.5) * 8).toFixed(2) + "%," + ((0.5 - wave) * 4).toFixed(2) + "%,0)";
+      }
+      strip.querySelectorAll("img").forEach(function (img, item) {
+        var wave = (Math.sin(now / 1400 + item * 0.55) + 1) / 2;
+        img.style.transform = "scale(" + (1.12 + wave * 0.08).toFixed(3) + ") translate3d(" + ((wave - 0.5) * 6).toFixed(2) + "%," + ((0.5 - wave) * 3).toFixed(2) + "%,0)";
+      });
+      if (elapsed >= 2600) {
+        elapsed = 0;
+        index = (index + 1) % photos.length;
+        slides.forEach(function (img, item) {
+          img.classList.toggle("is-on", item === index);
+          if (item !== index) img.style.transform = "";
+        });
+        caption.textContent = photos[index].alt || "Mongolia";
+      }
+      filmFrame = requestAnimationFrame(tick);
+    };
+    filmFrame = requestAnimationFrame(tick);
   }
 
   async function uploadImages(files) {
