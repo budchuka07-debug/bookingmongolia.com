@@ -103,7 +103,7 @@
     var who = item.photographer_name || "";
     return (
       '<figure class="gallery-card">' +
-        '<img src="' + escapeAttr(cover) + '" alt="' + escapeAttr(title || "Mongolia gallery photo") + '">' +
+        '<img src="' + escapeAttr(cover) + '" alt="' + escapeAttr(title || "Mongolia gallery photo") + '" loading="lazy" decoding="async">' +
         (title || text || who
           ? '<figcaption>' +
               (title ? "<strong>" + escapeHtml(title) + "</strong>" : "") +
@@ -185,11 +185,33 @@
     });
   }
 
+  var filmArmed = false;
+  var filmPending = false;
+
+  function armFilm() {
+    var grid = document.getElementById("gallery-grid");
+    if (!grid || filmArmed || !window.IntersectionObserver) return true;
+    if (filmPending) return false;
+    var rect = grid.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 240 && rect.bottom > -40) return true;
+    var obs = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+      obs.disconnect();
+      filmArmed = true;
+      startFilm();
+    }, { rootMargin: "240px" });
+    filmPending = true;
+    obs.observe(grid);
+    return false;
+  }
+
   function startFilm() {
     var grid = document.getElementById("gallery-grid");
     if (!grid) return;
+    if (!filmArmed && !armFilm()) return;
+    filmArmed = true;
     framePhotos(grid);
-    var photos = photoList(grid);
+    var photos = photoList(grid).slice(0, 8);
     if (!photos.length) return;
 
     var host = document.getElementById("gallery-film");
@@ -267,10 +289,6 @@
         var wave = (Math.sin(now / 1400) + 1) / 2;
         on.style.transform = "scale(" + (1.12 + wave * 0.1).toFixed(3) + ") translate3d(" + ((wave - 0.5) * 8).toFixed(2) + "%," + ((0.5 - wave) * 4).toFixed(2) + "%,0)";
       }
-      strip.querySelectorAll("img").forEach(function (img, item) {
-        var wave = (Math.sin(now / 1400 + item * 0.55) + 1) / 2;
-        img.style.transform = "scale(" + (1.12 + wave * 0.08).toFixed(3) + ") translate3d(" + ((wave - 0.5) * 6).toFixed(2) + "%," + ((0.5 - wave) * 3).toFixed(2) + "%,0)";
-      });
       if (elapsed >= 2600) {
         elapsed = 0;
         index = (index + 1) % photos.length;

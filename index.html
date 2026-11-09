@@ -17,6 +17,7 @@ gtag('config', 'G-SWZZY2HBZB');
   <meta name="theme-color" content="#0d3b66" />
   <title>Discover Mongolia 2027 | Bookings Open | Booking Mongolia</title>
   <meta name="description" content="2027 Mongolia season is open. Private tours, Gobi, Khuvsgul, Tsaatan and Altai journeys. Prices are shown on Tour Dates." />
+  <link rel="preload" as="image" href="/images/hero/hero-1-mongolia.webp" fetchpriority="high">
   <link rel="canonical" href="https://bookingmongolia.com/" />
   <link rel="alternate" hreflang="en" href="https://bookingmongolia.com/" />
   <link rel="alternate" hreflang="x-default" href="https://bookingmongolia.com/" />
@@ -28,15 +29,15 @@ gtag('config', 'G-SWZZY2HBZB');
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Mongolia Tours | Booking Mongolia" />
-  <meta name="twitter:description" content="Private Mongolia tours, nomadic experiences and local travel planning." />
+  <meta name="twitter:title" content="Discover Mongolia 2027 | Bookings Open" />
+  <meta name="twitter:description" content="2027 Mongolia season is open. See Tour Dates for each tour price." />
   <meta name="twitter:image" content="https://bookingmongolia.com/images/destinations/khongor-dunes.jpg" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": ["TravelAgency", "Organization"],
         "@id": "https://bookingmongolia.com/#organization",
         "name": "Booking Mongolia",
         "url": "https://bookingmongolia.com/",
@@ -65,13 +66,13 @@ gtag('config', 'G-SWZZY2HBZB');
     ]
   }
   </script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="/css/site.css" />
 <script src="/js/book-dates-btn.js" defer></script>
 <script src="/js/site-nav.js" defer></script>
 <script src="/js/nav-anchors.js" defer></script>
 </head>
-<body>
+<body class="bm-home">
 
   <div class="topbar">
     <div class="container">
@@ -118,10 +119,10 @@ gtag('config', 'G-SWZZY2HBZB');
   </header>
 
   <section class="hero" id="home">
-    <div class="hero-slide active" style="background-image:url('images/hero/hero-1-mongolia.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('images/hero/hero-horse-riders.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('images/hero/hero-khuvsgul-lake.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('images/hero/hero-nomadic-mongolia.jpg');"></div>
+    <div class="hero-slide active" style="background-image:url('images/hero/hero-1-mongolia.webp');"></div>
+    <div class="hero-slide" style="background-image:url('images/hero/hero-horse-riders.webp');"></div>
+    <div class="hero-slide" style="background-image:url('images/hero/hero-khuvsgul-lake.webp');"></div>
+    <div class="hero-slide" style="background-image:url('images/hero/hero-nomadic-mongolia.webp');"></div>
     <div class="hero-overlay"></div>
 
     <div class="container">
@@ -141,19 +142,6 @@ gtag('config', 'G-SWZZY2HBZB');
           <a class="quick-link" href="/register-service.html">📝 Register Service</a>
           <a class="quick-link" href="/contact.html">✉️ Contact</a>
         </div>
-<section style="padding:60px 20px; text-align:center;">
-  <h2 style="font-size:32px; margin-bottom:10px;">VIP Helicopter Expedition</h2>
-  <p style="max-width:700px; margin:auto; color:#555;">
-    Explore Mongolia by private helicopter across the Gobi Desert, Altai Mountains, Taiga and Khuvsgul Lake.
-  </p>
-
-  <div style="margin-top:30px;">
-    <a href="/vip-helicopter-expedition.html" 
-       style="background:#d4a85c; color:#000; padding:14px 28px; border-radius:30px; font-weight:bold;">
-       View Luxury Tour
-    </a>
-  </div>
-</section>
         <div class="hero-stats">
           <div class="stat">
             <strong>18+</strong>
@@ -173,6 +161,14 @@ gtag('config', 'G-SWZZY2HBZB');
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="heli-band" id="helicopter">
+    <div class="container">
+      <h2>VIP Helicopter Expedition</h2>
+      <p>A private helicopter day across the Gobi, Altai, taiga or Khuvsgul. The price is quoted after the route is confirmed.</p>
+      <a class="btn btn-primary" href="/vip-helicopter-expedition.html">View Luxury Tour</a>
     </div>
   </section>
 
@@ -201,7 +197,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <div class="grid grid-3">
         <article class="card exp-card">
-          <img src="images/experiences/exp-reindeer.jpg" alt="Reindeer experience in Mongolia">
+          <img src="images/experiences/exp-reindeer.jpg" alt="Reindeer experience in Mongolia" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_1">Northern Mongolia</span>
             <h3 data-i18n="exp_card_1_title">Reindeer Experience</h3>
@@ -210,7 +206,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-eagle-hunter.jpg" alt="Eagle hunter in Mongolia">
+          <img src="images/experiences/exp-eagle-hunter.jpg" alt="Eagle hunter in Mongolia" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_2">Western Mongolia</span>
             <h3 data-i18n="exp_card_2_title">Eagle Hunter Experience</h3>
@@ -219,7 +215,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-gobi-desert.jpg" alt="Gobi desert">
+          <img src="images/experiences/exp-gobi-desert.jpg" alt="Gobi desert" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_3">Southern Mongolia</span>
             <h3 data-i18n="exp_card_3_title">Gobi Desert Expedition</h3>
@@ -228,7 +224,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-nomadic-life.jpg" alt="Nomadic life">
+          <img src="images/experiences/exp-nomadic-life.jpg" alt="Nomadic life" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_4">Central Mongolia</span>
             <h3 data-i18n="exp_card_4_title">Nomadic Life Experience</h3>
@@ -237,7 +233,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Khuvsgul Lake">
+          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Khuvsgul Lake" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_5">Lake Adventure</span>
             <h3 data-i18n="exp_card_5_title">Khuvsgul Lake Journey</h3>
@@ -246,7 +242,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </article>
 
         <article class="card exp-card">
-          <img src="images/experiences/exp-naadam-festival.jpg" alt="Naadam festival">
+          <img src="images/experiences/exp-naadam-festival.jpg" alt="Naadam festival" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag" data-i18n="exp_tag_6">Festival Season</span>
             <h3 data-i18n="exp_card_6_title">Naadam Festival</h3>
@@ -345,7 +341,6 @@ gtag('config', 'G-SWZZY2HBZB');
               <strong>How to use it:</strong> First look at the full Mongolia map to see where famous places are. Then click a province name to make that area easier to read and reveal its most important attractions more clearly.
             </div>
 
-            <div class="destination-map-caption">Replace <code>images/destinations/mongolia-map-full.png</code> with your full Mongolia map image.</div>
 
             <h3 style="margin-top:22px">Quick Province Links</h3>
             <div class="destination-province-list">
@@ -417,7 +412,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <div class="featured-places-grid">
         <a href="destinations/arkhangai.html" class="featured-place-card">
-          <img src="images/destinations/terkhiin-tsagaan-nuur.jpg" alt="Terkhiin Tsagaan Lake">
+          <img src="images/destinations/terkhiin-tsagaan-nuur.jpg" alt="Terkhiin Tsagaan Lake" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Arkhangai</span>
             <h3>Terkhiin Tsagaan Lake</h3>
@@ -425,7 +420,7 @@ gtag('config', 'G-SWZZY2HBZB');
           </div>
         </a>
 <a href="modern-ulaanbaatar.html" class="featured-place-card">
-  <img src="images/destinations/ulaanbaatar.jpg" alt="Ulaanbaatar">
+  <img src="images/destinations/ulaanbaatar.jpg" alt="Ulaanbaatar" loading="lazy" decoding="async">
 
   <h3>Modern Ulaanbaatar</h3>
 
@@ -434,7 +429,7 @@ gtag('config', 'G-SWZZY2HBZB');
   </p>
 </a>
         <a href="destinations/arkhangai.html" class="featured-place-card">
-          <img src="images/destinations/tsenkher.jpg" alt="Tsenkher Hot Spring">
+          <img src="images/destinations/tsenkher.jpg" alt="Tsenkher Hot Spring" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Arkhangai</span>
             <h3>Tsenkher Hot Spring</h3>
@@ -443,7 +438,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/umnugovi.html" class="featured-place-card">
-          <img src="images/destinations/khongor-dunes.jpg" alt="Khongor Sand Dunes">
+          <img src="images/destinations/khongor-dunes.jpg" alt="Khongor Sand Dunes" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Umnugovi</span>
             <h3>Khongor Sand Dunes</h3>
@@ -452,7 +447,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/umnugovi.html" class="featured-place-card">
-          <img src="images/destinations/bayanzag.jpg" alt="Bayanzag">
+          <img src="images/destinations/bayanzag.jpg" alt="Bayanzag" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Umnugovi</span>
             <h3>Bayanzag</h3>
@@ -461,7 +456,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/umnugovi.html" class="featured-place-card">
-          <img src="images/destinations/khermen-tsav.jpg" alt="Khermen Tsav">
+          <img src="images/destinations/khermen-tsav.jpg" alt="Khermen Tsav" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Umnugovi</span>
             <h3>Khermen Tsav</h3>
@@ -470,7 +465,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/dundgovi.html" class="featured-place-card">
-          <img src="images/destinations/ongiin-khiid.jpg" alt="Ongiin Monastery">
+          <img src="images/destinations/ongiin-khiid.jpg" alt="Ongiin Monastery" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Dundgovi</span>
             <h3>Ongiin Monastery</h3>
@@ -479,7 +474,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/uvurkhangai.html" class="featured-place-card">
-          <img src="images/destinations/elsen-tasarkhai.jpg" alt="Elsen Tasarkhai">
+          <img src="images/destinations/elsen-tasarkhai.jpg" alt="Elsen Tasarkhai" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Uvurkhangai</span>
             <h3>Elsen Tasarkhai</h3>
@@ -488,7 +483,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/uvurkhangai.html" class="featured-place-card">
-          <img src="images/destinations/erdene-zuu.jpg" alt="Erdene Zuu Monastery">
+          <img src="images/destinations/erdene-zuu.jpg" alt="Erdene Zuu Monastery" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Uvurkhangai</span>
             <h3>Erdene Zuu & Kharkhorum</h3>
@@ -497,7 +492,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/selenge.html" class="featured-place-card">
-          <img src="images/destinations/amarbayasgalant.jpg" alt="Amarbayasgalant Monastery">
+          <img src="images/destinations/amarbayasgalant.jpg" alt="Amarbayasgalant Monastery" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Selenge</span>
             <h3>Amarbayasgalant Monastery</h3>
@@ -506,7 +501,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/tuv.html" class="featured-place-card">
-          <img src="images/destinations/hustai.jpg" alt="Khustain Nuruu">
+          <img src="images/destinations/hustai.jpg" alt="Khustain Nuruu" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Tuv</span>
             <h3>Khustain Nuruu</h3>
@@ -515,7 +510,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/khuvsgul.html" class="featured-place-card">
-          <img src="images/destinations/khuvsgul-lake.jpg" alt="Khuvsgul Lake">
+          <img src="images/destinations/khuvsgul-lake.jpg" alt="Khuvsgul Lake" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Khuvsgul</span>
             <h3>Khuvsgul Lake</h3>
@@ -524,7 +519,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
 
         <a href="destinations/bayan-ulgii.html" class="featured-place-card">
-          <img src="images/destinations/altai-tavan-bogd.jpg" alt="Altai Tavan Bogd">
+          <img src="images/destinations/altai-tavan-bogd.jpg" alt="Altai Tavan Bogd" loading="lazy" decoding="async">
           <div class="featured-place-body">
             <span class="featured-place-meta">Bayan-Ulgii</span>
             <h3>Altai Tavan Bogd</h3>
@@ -544,7 +539,7 @@ gtag('config', 'G-SWZZY2HBZB');
       <div class="cards">
         <a href="tours/tsaatan-winter-expedition.html" class="tour-link">
           <article class="card tour-card">
-            <img src="images/experiences/exp-reindeer.jpg" alt="Tsaatan reindeer herders in the snow">
+            <img src="images/experiences/exp-reindeer.jpg" alt="Tsaatan reindeer herders in the snow" loading="lazy" decoding="async">
             <div class="card-body">
               <span class="tag">Unique winter trip</span>
               <h3>Tsaatan Reindeer Expedition</h3>
@@ -555,7 +550,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
         <a href="tours/gobi-camel-festival.html" class="tour-link">
           <article class="card tour-card">
-            <img src="images/experiences/exp-gobi-desert.jpg" alt="Bactrian camels in the Gobi">
+            <img src="images/experiences/exp-gobi-desert.jpg" alt="Bactrian camels in the Gobi" loading="lazy" decoding="async">
             <div class="card-body">
               <span class="tag">Featured event</span>
               <h3>Gobi Camel Festival</h3>
@@ -566,7 +561,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </a>
         <a href="tours/terelj-dog-sledding.html" class="tour-link">
           <article class="card tour-card">
-            <img src="images/destinations/dest-terelj-national-park.jpg" alt="Snowy Terelj valley near Ulaanbaatar">
+            <img src="images/destinations/dest-terelj-national-park.jpg" alt="Snowy Terelj valley near Ulaanbaatar" loading="lazy" decoding="async">
             <div class="card-body">
               <span class="tag">Close to the city</span>
               <h3>Terelj Dog Sledding Adventure</h3>
@@ -593,7 +588,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/english-immersion-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="English immersion beside Khuvsgul Lake">
+          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="English immersion beside Khuvsgul Lake" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Students · English</span>
             <h3>7 Day English Immersion in the Wild</h3>
@@ -605,7 +600,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/terelj-hustai-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/destinations/dest-terelj-national-park.jpg" alt="Terelj Hustai Tour">
+          <img src="images/destinations/dest-terelj-national-park.jpg" alt="Terelj Hustai Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Short Tour</span>
             <h3>3 Day Terelj & Hustai Tour</h3>
@@ -616,7 +611,7 @@ gtag('config', 'G-SWZZY2HBZB');
       </a>
 <a href="/tours/horse-riding-tour.html" class="tour-link">
   <article class="card tour-card">
-    <img src="images/tour/horse-tour-hero.jpg" alt="Horse Riding Tour">
+    <img src="images/tour/horse-tour-hero.jpg" alt="Horse Riding Tour" loading="lazy" decoding="async">
 
     <div class="card-body">
       <span class="tag">Adventure</span>
@@ -633,7 +628,7 @@ gtag('config', 'G-SWZZY2HBZB');
 </a>
       <a href="tours/central-mongolia-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/destinations/dest-orkhon-valley.jpg" alt="Central Mongolia Tour">
+          <img src="images/destinations/dest-orkhon-valley.jpg" alt="Central Mongolia Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Cultural Tour</span>
             <h3>5 Day Central Mongolia Tour</h3>
@@ -645,7 +640,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/reindeer-taiga-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-reindeer.jpg" alt="Reindeer Taiga Tour">
+          <img src="images/experiences/exp-reindeer.jpg" alt="Reindeer Taiga Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Northern Adventure</span>
             <h3>7 Day Reindeer Taiga Tour</h3>
@@ -657,7 +652,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/altai-tavan-bogd-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/destinations/dest-altai-mountains.jpg" alt="Altai Tavan Bogd Tour">
+          <img src="images/destinations/dest-altai-mountains.jpg" alt="Altai Tavan Bogd Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Western Adventure</span>
             <h3>Altai Tavan Bogd Tour</h3>
@@ -669,7 +664,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/gobi-desert-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-gobi-desert.jpg" alt="Gobi Desert Tour">
+          <img src="images/experiences/exp-gobi-desert.jpg" alt="Gobi Desert Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Desert Tour</span>
             <h3>Gobi Desert Tour</h3>
@@ -681,7 +676,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/gobi-altai-combo-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/destinations/dest-gobi-desert.jpg" alt="Gobi Altai Combo Tour">
+          <img src="images/destinations/dest-gobi-desert.jpg" alt="Gobi Altai Combo Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Combo Tour</span>
             <h3>Gobi Altai Combo Tour</h3>
@@ -693,7 +688,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/khuvsgul-lake-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Khuvsgul Lake Tour">
+          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Khuvsgul Lake Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Lake Adventure</span>
             <h3>Khuvsgul Lake Tour</h3>
@@ -705,7 +700,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/naadam-festival-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-naadam-festival.jpg" alt="Naadam Festival Tour">
+          <img src="images/experiences/exp-naadam-festival.jpg" alt="Naadam Festival Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Festival Tour</span>
             <h3>Naadam Festival Tour</h3>
@@ -717,7 +712,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="winter-mongolia.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/guide/ulaanbaatar-winter.jpg" alt="Snowy steppe in Mongolia">
+          <img src="images/guide/ulaanbaatar-winter.jpg" alt="Snowy steppe in Mongolia" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Winter Tour</span>
             <h3 data-i18n="tour_winter_title">Winter Mongolia</h3>
@@ -729,7 +724,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/ice-festival-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Ice Festival Tour">
+          <img src="images/experiences/exp-khuvsgul-lake.jpg" alt="Ice Festival Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Winter Tour</span>
             <h3>Ice Festival Tour</h3>
@@ -741,7 +736,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
       <a href="tours/mongolia-grand-tour.html" class="tour-link">
         <article class="card tour-card">
-          <img src="images/hero/hero-1-mongolia.jpg" alt="Mongolia Grand Tour">
+          <img src="images/hero/hero-1-mongolia.jpg" alt="Mongolia Grand Tour" loading="lazy" decoding="async">
           <div class="card-body">
             <span class="tag">Grand Journey</span>
             <h3>Mongolia Grand Tour</h3>
@@ -850,7 +845,7 @@ gtag('config', 'G-SWZZY2HBZB');
             </div>
           </div>
           <article class="card guide-card">
-  <img src="images/guide/animals.jpg" alt="Mongolian wildlife animals">
+  <img src="images/guide/animals.jpg" alt="Mongolian wildlife animals" loading="lazy" decoding="async">
 
   <div class="card-body">
     <span class="tag">Nature & Wildlife</span>
@@ -871,7 +866,7 @@ gtag('config', 'G-SWZZY2HBZB');
       </div>
 
       <div class="guide-side">
-        <img src="images/guide/mongolia-safety-guide.jpg" alt="Mongolia Safety Guide">
+        <img src="images/guide/mongolia-safety-guide.jpg" alt="Mongolia Safety Guide" loading="lazy" decoding="async">
         <h4>Mongolia Travel Safety Guide</h4>
         <p class="muted">
           Essential safety information including first aid, emergency contacts, what to do if lost,
@@ -885,7 +880,7 @@ gtag('config', 'G-SWZZY2HBZB');
         </div>
   
           <article class="card guide-card">
-            <img src="images/experiences/exp-nomadic-life.jpg" alt="Mongolian ger">
+            <img src="images/experiences/exp-nomadic-life.jpg" alt="Mongolian ger" loading="lazy" decoding="async">
             <div class="card-body">
               <h3 data-i18n="side_guide_2_title">Mongolian Ger & Daily Life</h3>
               <p class="muted" data-i18n="side_guide_2_text">Learn about ger etiquette and countryside daily life.</p>
@@ -993,7 +988,7 @@ gtag('config', 'G-SWZZY2HBZB');
       </div>
       <div class="hotel-booking-layout">
         <div class="hotel-results-column">
-          <div class="hotel-result-count" id="hotel-result-count">Loading...</div>
+          <div class="hotel-result-count" id="hotel-result-count">Published stays</div>
           <div id="hotel-list"></div>
         </div>
 
@@ -1231,7 +1226,7 @@ gtag('config', 'G-SWZZY2HBZB');
           <div>
             <div class="community-card" style="margin-bottom:14px">
               <strong>Latest Traveler Stories</strong>
-              <p class="community-small" style="margin:6px 0 0">Real traveler posts will appear here automatically from Supabase.</p>
+              <p class="community-small" style="margin:6px 0 0">Stories are reviewed before they are shown here.</p>
             </div>
             <div id="community-blog-list" class="community-feed"><div class="community-empty">No traveler stories yet. Be the first to share one.</div></div>
           </div>
@@ -1291,7 +1286,6 @@ gtag('config', 'G-SWZZY2HBZB');
         </div>
       </div>
     </div>
-    <p class="community-small" style="margin-top:14px">Admin note: you can delete bad posts directly from Supabase table <strong>community_posts</strong>. Travelers upload photos directly from their device; Cloudinary stores the image files automatically.</p>
   </div>
 </section>
 
@@ -1332,36 +1326,36 @@ gtag('config', 'G-SWZZY2HBZB');
       </div>
 
       <div class="gallery-grid" id="gallery-grid">
-        <img src="images/gallery/gallery1.jpg" alt="Mongolia gallery 1">
-        <img src="images/gallery/gallery2.jpg" alt="Mongolia gallery 2">
-        <img src="images/gallery/gallery3.jpg" alt="Mongolia gallery 3">
-        <img src="images/gallery/gallery4.jpg" alt="Mongolia gallery 4">
-        <img src="images/gallery/gallery5.jpg" alt="Mongolia gallery 5">
-        <img src="images/gallery/gallery6.jpg" alt="Mongolia gallery 6">
-        <img src="images/gallery/gallery7.jpg" alt="Mongolia gallery 7">
-        <img src="images/gallery/gallery8.jpg" alt="Mongolia gallery 8">
-        <img src="images/gallery/gallery9.jpg" alt="Mongolia gallery 9">
-        <img src="images/gallery/gallery10.jpg" alt="Mongolia gallery 10">
-        <img src="images/gallery/gallery11.jpg" alt="Mongolia gallery 11">
-        <img src="images/gallery/gallery12.jpg" alt="Mongolia gallery 12">
-        <img src="images/gallery/gallery13.jpg" alt="Mongolia gallery 13">
-        <img src="images/gallery/gallery14.jpg" alt="Mongolia gallery 14">
-        <img src="images/gallery/gallery15.jpg" alt="Mongolia gallery 15">
-        <img src="images/gallery/gallery16.jpg" alt="Mongolia gallery 16">
-        <img src="images/gallery/gallery17.jpg" alt="Mongolia gallery 17">
-        <img src="images/gallery/gallery18.jpg" alt="Mongolia gallery 18">
-        <img src="images/gallery/gallery19.jpg" alt="Mongolia gallery 19">
-        <img src="images/gallery/gallery20.jpg" alt="Mongolia gallery 20">
-         <img src="images/gallery/gallery21.jpg" alt="Mongolia gallery 21">
-        <img src="images/gallery/gallery22.jpg" alt="Mongolia gallery 22">
-        <img src="images/gallery/gallery23.jpg" alt="Mongolia gallery 23">
-        <img src="images/gallery/gallery24.jpg" alt="Mongolia gallery 24">
-        <img src="images/gallery/gallery25.jpg" alt="Mongolia gallery 25">
-        <img src="images/gallery/gallery26.jpg" alt="Mongolia gallery 26">
-        <img src="images/gallery/gallery27.jpg" alt="Mongolia gallery 27">
-        <img src="images/gallery/gallery28.jpg" alt="Mongolia gallery 28">
-        <img src="images/gallery/gallery29.jpg" alt="Mongolia gallery 29">
-        <img src="images/gallery/gallery30.jpg" alt="Mongolia gallery 30">
+        <img src="images/gallery/gallery1.jpg" alt="Mongolia gallery 1" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery2.jpg" alt="Mongolia gallery 2" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery3.jpg" alt="Mongolia gallery 3" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery4.jpg" alt="Mongolia gallery 4" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery5.jpg" alt="Mongolia gallery 5" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery6.jpg" alt="Mongolia gallery 6" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery7.jpg" alt="Mongolia gallery 7" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery8.jpg" alt="Mongolia gallery 8" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery9.jpg" alt="Mongolia gallery 9" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery10.jpg" alt="Mongolia gallery 10" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery11.jpg" alt="Mongolia gallery 11" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery12.jpg" alt="Mongolia gallery 12" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery13.jpg" alt="Mongolia gallery 13" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery14.jpg" alt="Mongolia gallery 14" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery15.jpg" alt="Mongolia gallery 15" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery16.jpg" alt="Mongolia gallery 16" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery17.jpg" alt="Mongolia gallery 17" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery18.jpg" alt="Mongolia gallery 18" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery19.jpg" alt="Mongolia gallery 19" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery20.jpg" alt="Mongolia gallery 20" loading="lazy" decoding="async">
+         <img src="images/gallery/gallery21.jpg" alt="Mongolia gallery 21" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery22.jpg" alt="Mongolia gallery 22" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery23.jpg" alt="Mongolia gallery 23" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery24.jpg" alt="Mongolia gallery 24" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery25.jpg" alt="Mongolia gallery 25" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery26.jpg" alt="Mongolia gallery 26" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery27.jpg" alt="Mongolia gallery 27" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery28.jpg" alt="Mongolia gallery 28" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery29.jpg" alt="Mongolia gallery 29" loading="lazy" decoding="async">
+        <img src="images/gallery/gallery30.jpg" alt="Mongolia gallery 30" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -1393,10 +1387,10 @@ gtag('config', 'G-SWZZY2HBZB');
             <span class="pay-chip pay-swift">SWIFT</span>
           </div>
           <div class="qr-grid">
-            <figure class="qr-card"><img src="/images/pay/wechat-friend.jpg" alt="WeChat add friend QR"><figcaption>WeChat friend<br>Chuluunchimeg Bud</figcaption></figure>
-            <figure class="qr-card"><img src="/images/pay/alipay-friend.jpg" alt="Alipay friend QR"><figcaption>Alipay friend<br>chuka</figcaption></figure>
-            <figure class="qr-card qr-money"><img src="/images/pay/wechat-receive.jpg" alt="WeChat receive money QR"><figcaption>WeChat receive money<br>Chuluunchimeg Bud</figcaption></figure>
-            <figure class="qr-card qr-money"><img src="/images/pay/alipay-receive.jpg" alt="Alipay receive money QR"><figcaption>Alipay receive money<br>CHULUUNCHIMEG</figcaption></figure>
+            <figure class="qr-card"><img src="/images/pay/wechat-friend.jpg" alt="WeChat add friend QR" loading="lazy" decoding="async"><figcaption>WeChat friend<br>Chuluunchimeg Bud</figcaption></figure>
+            <figure class="qr-card"><img src="/images/pay/alipay-friend.jpg" alt="Alipay friend QR" loading="lazy" decoding="async"><figcaption>Alipay friend<br>chuka</figcaption></figure>
+            <figure class="qr-card qr-money"><img src="/images/pay/wechat-receive.jpg" alt="WeChat receive money QR" loading="lazy" decoding="async"><figcaption>WeChat receive money<br>Chuluunchimeg Bud</figcaption></figure>
+            <figure class="qr-card qr-money"><img src="/images/pay/alipay-receive.jpg" alt="Alipay receive money QR" loading="lazy" decoding="async"><figcaption>Alipay receive money<br>CHULUUNCHIMEG</figcaption></figure>
           </div>
           <p class="pay-note">Top two QRs are for adding as a friend. Bottom two are for receiving money: WeChat Receive Money and Alipay Receive. Wise / SWIFT details are still sent after the travel agreement is confirmed.</p>
           <div class="contact-actions">
@@ -1461,7 +1455,7 @@ gtag('config', 'G-SWZZY2HBZB');
 
   <div id="image-lightbox" class="image-lightbox" onclick="closeImageLightbox()">
     <span class="image-lightbox-close">&times;</span>
-    <img id="image-lightbox-img" src="" alt="Large image">
+    <img id="image-lightbox-img" src="" alt="Large image" loading="lazy" decoding="async">
   </div>
 
   <footer>
