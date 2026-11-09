@@ -53,19 +53,19 @@
       IMG.guesthouse,
       u("photo-1566073771259-6a8506099945"),
       u("photo-1445019980597-93fa8acb246c"),
-      g(9), g(10), g(11), d("karakorum.jpg"), e("exp-nomadic-life.webp")
+      g(9), g(10), g(11), d("karakorum.jpg"), e("exp-nomadic-life.jpg")
     ],
     ger: [
       IMG.ger,
       u("photo-1520250497591-112f2f40a3f4"),
       u("photo-1501785888041-af3ef285b470"),
-      g(12), g(13), g(14), e("exp-nomadic-life.webp"), d("dest-terelj-national-park.jpg")
+      g(12), g(13), g(14), e("exp-nomadic-life.jpg"), d("dest-terelj-national-park.jpg")
     ],
     lodge: [
       IMG.lodge,
       u("photo-1582719478250-c89cae4dc85b"),
       u("photo-1542314831-068cd1dbfeeb"),
-      g(15), g(16), d("dest-khuvsgul-lake.webp"), d("khuvsgul-lake.webp")
+      g(15), g(16), d("dest-khuvsgul-lake.jpg"), d("khuvsgul-lake.jpg")
     ],
     resort: [
       IMG.resort,
@@ -77,13 +77,13 @@
     terelj: [
       IMG.terelj,
       d("dest-terelj-national-park.jpg"),
-      g(20), g(21), e("exp-nomadic-life.webp"),
+      g(20), g(21), e("exp-nomadic-life.jpg"),
       u("photo-1501785888041-af3ef285b470")
     ],
     gobi: [
       IMG.gobi,
       d("dest-gobi-desert.jpg"),
-      d("bayanzag.webp"),
+      d("bayanzag.jpg"),
       d("khongor-dunes.jpg"),
       d("yol-valley.jpg"),
       e("exp-gobi-desert.jpg"),
@@ -91,10 +91,10 @@
     ],
     khuvsgul: [
       IMG.khuvsgul,
-      d("dest-khuvsgul-lake.webp"),
-      d("khuvsgul-lake.webp"),
+      d("dest-khuvsgul-lake.jpg"),
+      d("khuvsgul-lake.jpg"),
       d("khatgal.jpg"),
-      e("exp-khuvsgul-lake.webp"),
+      e("exp-khuvsgul-lake.jpg"),
       g(24), g(25)
     ],
     altai: [
@@ -116,9 +116,9 @@
     nature: [
       IMG.terelj,
       g(30), g(1), g(12),
-      d("hustai.webp"),
+      d("hustai.jpg"),
       d("elsen-tasarkhai.jpg"),
-      e("exp-nomadic-life.webp")
+      e("exp-nomadic-life.jpg")
     ]
   };
 
