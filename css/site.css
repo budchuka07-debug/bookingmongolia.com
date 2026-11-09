@@ -1324,3 +1324,16 @@
     min-width:150px;
   }
 }
+
+.hero h1{font-family:Georgia,"Iowan Old Style",Palatino,serif;letter-spacing:.01em}
+.hero-price{margin:8px 0 0;font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:.04em;color:#f3e6cf}
+.hero-price-note{margin-top:4px;color:rgba(255,255,255,.82);font-size:14px}
+.season-badge{animation:season-in .6s ease both}
+@keyframes season-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.trust-band{padding:28px 0 10px}
+.trust-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.trust-grid article{background:#fffdf8;border:1px solid rgba(90,62,28,.12);border-radius:18px;padding:16px 16px 8px;box-shadow:0 10px 24px rgba(40,28,12,.05)}
+.trust-grid h3{font-size:16px;color:#2b241c}
+.trust-grid p{color:#5c5348;font-size:14px}
+@media(max-width:900px){.trust-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.trust-grid{grid-template-columns:1fr}}
