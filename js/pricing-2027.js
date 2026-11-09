@@ -62,6 +62,58 @@
     };
   }
 
+  var PACKAGES = {
+    budget: { id: "budget", name: "Budget" },
+    standard: { id: "standard", name: "Standard" },
+    premium: { id: "premium", name: "Premium" }
+  };
+
+  function packageKey(packageId) {
+    var key = String(packageId || "standard").toLowerCase();
+    return PACKAGES[key] ? key : "standard";
+  }
+
+  function adjustedDaily(baseDaily, packageId) {
+    var key = packageKey(packageId);
+    if (key === "budget") return Math.round(baseDaily * 0.9);
+    if (key === "premium") return baseDaily + 50;
+    return baseDaily;
+  }
+
+  function packageQuote(tour, travelers, packageId) {
+    var base = quote(tour, travelers);
+    var key = packageKey(packageId);
+    var pack = PACKAGES[key];
+    if (base.quote) {
+      return {
+        quote: true,
+        reason: base.reason,
+        tier: base.tier,
+        days: base.days,
+        travelers: base.travelers,
+        daily: null,
+        packageId: key,
+        packageName: pack.name,
+        baseDaily: null
+      };
+    }
+    var daily = adjustedDaily(base.daily, key);
+    var perPerson = daily * base.days;
+    return {
+      quote: false,
+      reason: null,
+      tier: base.tier,
+      packageId: key,
+      packageName: pack.name,
+      baseDaily: base.daily,
+      daily: daily,
+      days: base.days,
+      travelers: base.travelers,
+      perPerson: perPerson,
+      total: perPerson * base.travelers
+    };
+  }
+
   function money(value) {
     return "$" + Number(value).toLocaleString("en-US");
   }
@@ -76,6 +128,7 @@
     RATES: RATES,
     tierFor: tierFor,
     quote: quote,
+    packageQuote: packageQuote,
     money: money,
     fromLabel: fromLabel
   };

@@ -19,16 +19,17 @@
   function draw(travelers) {
     var box = root.querySelector("[data-result]");
     var sample = tour.days ? tour : Object.assign({}, tour, { days: 1 });
-    var priced = window.BMPricing.quote(sample, travelers);
-    if (!priced || priced.quote) {
-      box.textContent = "Request a Quote. One traveler, and tours without a published daily rate, are quoted before any payment.";
+    if (!window.BMPricing.packageQuote) {
+      box.textContent = "Request a Quote.";
       return;
     }
-    if (!tour.days) {
-      box.textContent = money(priced.daily) + " per person per day. This page lists a length range, so the total is the daily rate times the confirmed days times the number of travelers.";
-      return;
-    }
-    box.textContent = money(priced.daily) + " per person per day · " + money(priced.perPerson) + " per person for " + priced.days + " days · " + money(priced.total) + " for " + priced.travelers + " travelers.";
+    var lines = ["budget", "standard", "premium"].map(function (id) {
+      var offer = window.BMPricing.packageQuote(sample, travelers, id);
+      if (!offer || offer.quote) return offer.packageName + ": Request a Quote";
+      if (!tour.days) return offer.packageName + ": " + money(offer.daily) + " per person per day";
+      return offer.packageName + ": " + money(offer.daily) + "/day = " + money(offer.perPerson) + "/person for " + offer.days + " days · " + money(offer.total) + " for " + offer.travelers + " travelers";
+    });
+    box.innerHTML = lines.map(function (line) { return "<span style=\"display:block;margin:0 0 6px\">" + line + "</span>"; }).join("");
   }
 
   var lead = four && !four.quote

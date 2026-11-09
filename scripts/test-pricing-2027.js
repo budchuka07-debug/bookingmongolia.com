@@ -57,3 +57,47 @@ test("quoted products stay quotes", function () {
   var q = pricing.quote({ name: "VIP Helicopter Expedition", days: 1, priceMode: "ask" }, 4);
   assert.strictEqual(q.quote, true);
 });
+
+test("package prices use the itinerary base rate once", function () {
+  var tour = { id: "gobi-classic-7d", name: "Gobi Desert Tour", region: "gobi", days: 7 };
+  var base = pricing.quote(tour, 4);
+  assert.strictEqual(base.daily, 220);
+  var budget = pricing.packageQuote(tour, 4, "budget");
+  var standard = pricing.packageQuote(tour, 4, "standard");
+  var premium = pricing.packageQuote(tour, 4, "premium");
+  assert.strictEqual(budget.baseDaily, 220);
+  assert.strictEqual(budget.daily, 198);
+  assert.strictEqual(budget.perPerson, 1386);
+  assert.strictEqual(budget.total, 1386 * 4);
+  assert.strictEqual(standard.daily, 220);
+  assert.strictEqual(standard.perPerson, 1540);
+  assert.strictEqual(standard.total, 1540 * 4);
+  assert.strictEqual(premium.daily, 270);
+  assert.strictEqual(premium.perPerson, 1890);
+  assert.strictEqual(premium.total, 1890 * 4);
+  assert.strictEqual(pricing.quote(tour, 4).daily, 220);
+});
+
+test("packages follow traveler count, category, and duration", function () {
+  var central = { name: "Central Mongolia 5 Days", region: "central", days: 5 };
+  var two = pricing.packageQuote(central, 2, "budget");
+  var three = pricing.packageQuote(central, 3, "premium");
+  var five = pricing.packageQuote(central, "5+", "standard");
+  assert.strictEqual(two.baseDaily, 260);
+  assert.strictEqual(two.daily, 234);
+  assert.strictEqual(two.perPerson, 234 * 5);
+  assert.strictEqual(two.total, 234 * 5 * 2);
+  assert.strictEqual(three.baseDaily, 220);
+  assert.strictEqual(three.daily, 270);
+  assert.strictEqual(three.total, 270 * 5 * 3);
+  assert.strictEqual(five.daily, 190);
+  assert.strictEqual(five.travelers, 5);
+  assert.strictEqual(five.total, 190 * 5 * 5);
+  var altai = pricing.packageQuote({ id: "altai-tavan-bogd-7d", name: "Altai Tavan Bogd", region: "west", days: 8 }, 3, "budget");
+  assert.strictEqual(altai.baseDaily, 250);
+  assert.strictEqual(altai.daily, 225);
+  assert.strictEqual(altai.perPerson, 225 * 8);
+  var solo = pricing.packageQuote(central, 1, "premium");
+  assert.strictEqual(solo.quote, true);
+  assert.strictEqual(solo.packageName, "Premium");
+});

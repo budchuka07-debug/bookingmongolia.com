@@ -195,10 +195,16 @@
     .detail-list li{margin:0 0 8px}
     .tier-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
     .tier-box{border:1px solid #e5e7eb;border-radius:16px;padding:14px;background:#fafafa}
+    button.tier-box{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
     .tier-box strong{display:block;margin-bottom:6px;color:var(--primary-dark)}
     .tier-box.budget{background:#f8fafc}
     .tier-box.standard{background:#fff8eb}
     .tier-box.premium{background:#eef6ff}
+    .tier-box.selected{border-color:#0d3b66;box-shadow:0 0 0 2px rgba(13,59,102,.35)}
+    .tier-price{display:block;margin-top:10px;font-weight:800;color:#14532d;font-size:16px}
+    .tier-line{display:block;margin-top:3px;font-size:13px;font-weight:700;color:#1f2937}
+    .tier-party{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-weight:700;color:var(--primary-dark)}
+    .tier-party select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid #dbe3ef;background:#fff}
     .detail-topline{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
     .detail-section{margin-top:16px}
     .detail-section h4{margin-bottom:10px;color:var(--primary-dark)}
@@ -1236,10 +1242,22 @@
 
     let selectedPeople = '2';
     let regionFilter = 'all';
+    let activePackage = 'standard';
+    let activeDetailId = null;
 
     function offerFor(tour, travelers){
       if (!window.BMPricing) return null;
       return window.BMPricing.quote(tour, travelers);
+    }
+
+    function packageOffer(tour, travelers, packageId){
+      if (!window.BMPricing || typeof window.BMPricing.packageQuote !== 'function') return offerFor(tour, travelers);
+      return window.BMPricing.packageQuote(tour, travelers, packageId || activePackage || 'standard');
+    }
+
+    function packageLabel(){
+      const names = { budget: 'Budget', standard: 'Standard', premium: 'Premium' };
+      return names[activePackage] || 'Standard';
     }
 
     function matchesRegion(tour, filter){
@@ -1400,10 +1418,52 @@
       `).join('');
     }
 
+    function packageCards(tour, detail){
+      const people = document.getElementById('detailTravelers');
+      const count = people ? people.value : selectedPeople;
+      return ['budget','standard','premium'].map(function(id){
+        const priced = packageOffer(tour, count, id);
+        const name = priced && priced.packageName ? priced.packageName : id.charAt(0).toUpperCase() + id.slice(1);
+        const selected = id === activePackage;
+        const prices = (!priced || priced.quote)
+          ? '<span class="tier-price">Request a Quote</span>'
+          : '<span class="tier-price">' + formatPrice(priced.daily) + ' / person / day</span>'
+            + '<span class="tier-line">' + formatPrice(priced.perPerson) + ' / person for ' + priced.days + ' days</span>'
+            + '<span class="tier-line">' + formatPrice(priced.total) + ' for ' + priced.travelers + ' travelers</span>';
+        return '<button type="button" class="tier-box ' + id + (selected ? ' selected' : '') + '" aria-pressed="' + (selected ? 'true' : 'false') + '" onclick="selectTravelPackage(\'' + id + '\')"><strong>' + name + '</strong><div>' + (detail[id] || '') + '</div>' + prices + '</button>';
+      }).join('');
+    }
+
+    function selectTravelPackage(id){
+      activePackage = id || 'standard';
+      const tour = tours.find(t => t.id === activeDetailId);
+      const detail = tourDetails[activeDetailId];
+      const grid = document.getElementById('packageTierGrid');
+      if (tour && detail && grid) grid.innerHTML = packageCards(tour, detail);
+    }
+
+    function setDetailTravelers(value){
+      selectedPeople = value;
+      const bookingPeople = document.getElementById('selectedPeople');
+      if (bookingPeople) bookingPeople.value = value;
+      selectTravelPackage(activePackage);
+    }
+
+    function confirmDetailDates(){
+      const tour = tours.find(t => t.id === activeDetailId);
+      if (!tour) return;
+      const people = document.getElementById('detailTravelers');
+      if (people) selectedPeople = people.value;
+      openBooking(Object.assign({}, tour, { travelPackage: activePackage }));
+      closeDetailModal();
+    }
+
     function openDetailModal(id){
       const tour = tours.find(t => t.id === id);
       const detail = tourDetails[id];
       if(!tour || !detail) return;
+      if (activeDetailId !== id) activePackage = 'standard';
+      activeDetailId = id;
       const pricedFour = offerFor(tour, 4);
       const perDay = (!pricedFour || pricedFour.quote) ? 'Request a Quote' : `From ${formatPrice(pricedFour.daily)} per person per day, based on 4+ travelers.`;
       const routeImage = tour.routeImage || `images/tour/marshrut/${tour.code}.jpg`;
@@ -1438,10 +1498,18 @@
 
         <div class="detail-section">
           <h4>Accommodation & travel style options</h4>
-          <div class="tier-grid">
-            <div class="tier-box budget"><strong>Budget</strong><div>${detail.budget}</div></div>
-            <div class="tier-box standard"><strong>Standard</strong><div>${detail.standard}</div></div>
-            <div class="tier-box premium"><strong>Premium</strong><div>${detail.premium}</div></div>
+          <label class="tier-party">Travelers
+            <select id="detailTravelers" onchange="setDetailTravelers(this.value)">
+              <option value="1"${selectedPeople === '1' ? ' selected' : ''}>1 person</option>
+              <option value="2"${selectedPeople === '2' ? ' selected' : ''}>2 people</option>
+              <option value="3"${selectedPeople === '3' ? ' selected' : ''}>3 people</option>
+              <option value="4"${selectedPeople === '4' ? ' selected' : ''}>4 people</option>
+              <option value="5+"${selectedPeople === '5+' ? ' selected' : ''}>5+ people</option>
+            </select>
+          </label>
+          <p class="small-note">This itinerary’s price is already calculated for the days above. You do not need to multiply it yourself.</p>
+          <div class="tier-grid" id="packageTierGrid">
+            ${packageCards(tour, detail)}
           </div>
         </div>
 
@@ -1484,7 +1552,7 @@
         </div>
 
         <div class="tour-actions" style="margin-top:18px;">
-          <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(tour).replace(/'/g,"&#39;")}); closeDetailModal();'>${tour.priceMode === 'ask' ? i18n('td_ask_quote','Ask Quote') : i18n('td_confirm_dates','Confirm Dates')}</button>
+          <button class="tour-btn primary" onclick="confirmDetailDates()">${tour.priceMode === 'ask' ? i18n('td_ask_quote','Ask Quote') : i18n('td_confirm_dates','Confirm Dates')}</button>
           <button class="tour-btn" onclick="closeDetailModal()">Close</button>
         </div>
       `;
@@ -1514,6 +1582,7 @@
 
     function openBooking(tour){
       activeTour = tour;
+      activePackage = (tour && tour.travelPackage) || 'standard';
       document.getElementById('bookingModal').classList.add('open');
       document.getElementById('requestType').value = tour.priceMode === 'ask' ? 'heli' : 'tour';
       document.getElementById('selectedTour').value = tour.durationLabel ? (tour.name + ' (' + tour.durationLabel + ')') : tour.name;
@@ -1537,6 +1606,7 @@
 
     function openJoinDeparture(dep){
       if (!dep || !dep.departure_id) return;
+      activePackage = 'standard';
       activeTour = {
         id: dep.tour_id || dep.departure_id,
         name: dep.tour_name,
@@ -1567,6 +1637,7 @@
 
     function openServiceRequest(type){
       activeTour = null;
+      activePackage = 'standard';
       document.getElementById('bookingModal').classList.add('open');
       const requestType = document.getElementById('requestType');
       if(type.toLowerCase().includes('nomadic')) requestType.value = 'nomad';
@@ -1643,9 +1714,10 @@
         updateDepositField();
         return;
       }
-      const priced = activeTour ? offerFor(activeTour, peopleValue) : null;
+      const priced = activeTour ? packageOffer(activeTour, peopleValue, activePackage) : null;
       if(priced && !priced.quote){
-        priceInput.value = `${formatPrice(priced.perPerson)} / person · ${formatPrice(priced.total)} total · ${formatPrice(priced.daily)} / person / day`;
+        const name = priced.packageName || packageLabel();
+        priceInput.value = `${name} · ${formatPrice(priced.perPerson)} / person for ${priced.days} days · ${formatPrice(priced.total)} for ${priced.travelers} travelers · ${formatPrice(priced.daily)} / person / day`;
       } else {
         priceInput.value = 'Request a Quote';
       }
@@ -1696,6 +1768,7 @@
         `Preferred Date: ${document.getElementById('selectedDate').value || '-'}`,
         `Preferred Month: ${document.getElementById('travelMonth').value || '-'}`,
         `Travelers: ${document.getElementById('selectedPeople').value || '-'}`,
+        ...(type === 'tour' ? [`Package: ${packageLabel()}`] : []),
         `Adults / Children: ${document.getElementById('guestFamilyInfo').value || '-'}`,
         `Food Preference: ${document.getElementById('foodPreference').value || '-'}`,
         `Childcare Option: ${document.getElementById('childcareOption').value || '-'}`,
