@@ -33,7 +33,7 @@
   }
 
   var lead = four && !four.quote
-    ? "From " + money(four.daily) + " per person per day, based on 4+ travelers."
+    ? money(four.perPerson) + " per person for " + four.days + " days (" + money(four.daily) + " per person per day, 4+ travelers)."
     : "Request a Quote.";
 
   var dateHtml = dates.length

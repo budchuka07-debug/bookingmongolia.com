@@ -1344,10 +1344,16 @@
       return `${formatPrice(priced.perPerson)} / person`;
     }
 
+    function itineraryDailyNote(t){
+      const priced = offerFor(t, 4);
+      if(!priced || priced.quote) return 'Request a Quote';
+      return `${formatPrice(priced.daily)} / person / day × ${priced.days} days, based on 4+ travelers.`;
+    }
+
     function getPriceFrom(t){
       const priced = offerFor(t, 4);
       if(!priced || priced.quote) return 'Request a Quote';
-      return `From ${formatPrice(priced.daily)} / person / day`;
+      return `From ${formatPrice(priced.perPerson)} / person for ${priced.days} days`;
     }
 
     let seasonFilter = (location.hash === '#winter') ? 'winter' : 'all';
@@ -1405,8 +1411,8 @@
               ${t.highlights.slice(0,3).map(h => `<span class="pill">${h}</span>`).join('')}
             </div>
             <div class="detail-price">${getPriceFrom(t)}</div>
-            <div class="small-note">2027 SEASON</div>
-            <div class="small-note">Based on 4+ travelers. One traveler is a quote.</div>
+            <div class="small-note">${itineraryDailyNote(t)}</div>
+            <div class="small-note">2027 SEASON · one traveler is a quote.</div>
             <div class="small-note">${i18n('td_private_note','Private or group joining possible • Dates confirmed before payment.')}</div>
             <div class="small-note">${i18n('td_seats_note','Limited seats • Ask for final room and vehicle availability.')}</div>
             <div class="tour-actions">
@@ -1465,7 +1471,7 @@
       if (activeDetailId !== id) activePackage = 'standard';
       activeDetailId = id;
       const pricedFour = offerFor(tour, 4);
-      const perDay = (!pricedFour || pricedFour.quote) ? 'Request a Quote' : `From ${formatPrice(pricedFour.daily)} per person per day, based on 4+ travelers.`;
+      const perDay = (!pricedFour || pricedFour.quote) ? 'Request a Quote' : `${formatPrice(pricedFour.perPerson)} per person for ${pricedFour.days} days (${formatPrice(pricedFour.daily)} per person per day, 4+ travelers).`;
       const routeImage = tour.routeImage || `images/tour/marshrut/${tour.code}.jpg`;
       const modalHtml = `
         <div class="detail-topline">
