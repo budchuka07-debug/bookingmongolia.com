@@ -13,16 +13,46 @@
   <link rel="stylesheet" href="/css/brand-store.css" />
   <script src="/js/site-nav.js" defer></script>
 </head>
-<body class="store-page">
+<body class="bm-inner-page">
+  <div class="topbar">
+    <div class="container">
+      <div>Local Mongolia Travel Expert • Private Tours • Transport Help</div>
+      <div>WhatsApp: +976 90283039 • English / 日本語 / 한국어</div>
+    </div>
+  </div>
   <header>
     <div class="container nav">
       <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
-      <button class="menu-toggle" type="button" aria-label="Open menu">☰</button>
+      <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">☰</button>
       <nav class="nav-links" id="siteNav">
-        <a href="/tours-dates.html">Tours &amp; Dates</a>
-        <a href="/brand-store">Brand Store</a>
+        <a href="/experiences.html">Experiences</a>
+        <a href="/visa-requirements.html">Visa Information</a>
+        <a href="/destinations.html">Destinations</a>
+        <a href="/hotels.html">Hotels</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/car-rental.html">Car Rental</a>
+        <a href="/travel-hub.html">Traveler Hub</a>
         <a href="/contact.html">Contact</a>
+        <a href="/vip-helicopter-expedition.html">Helicopter Tour</a>
+        <a href="/tours.html">VIP Tours</a>
+        <a href="/nomadic-experience.html">Nomadic Experience</a>
+        <a href="/travel-guide.html">Travel Guide</a>
+        <a href="/tours-dates.html">Tour&amp;dates</a>
+        <a href="/winter-mongolia">Winter Mongolia</a>
+        <a href="/videos.html">Videos</a>
+        <a href="/gallery.html">Gallery</a>
+        <a href="/brand-store">Brand Store</a>
+        <a href="/about.html">About</a>
       </nav>
+      <div class="header-actions">
+        <a class="header-register-link" href="/register-service.html">Register Service</a>
+        <div class="lang-switch">
+          <button type="button" class="active" data-store-lang="en">EN</button>
+          <button type="button" data-store-lang="mn">MN</button>
+          <button type="button" data-store-lang="ko">한국어</button>
+          <button type="button" data-store-lang="ja">日本語</button>
+        </div>
+      </div>
     </div>
   </header>
   <div class="container store-subnav">
@@ -34,8 +64,9 @@
     <a href="/brand-store/category/traditional-clothing">Clothing</a>
     <a href="/brand-store/category/gifts-souvenirs">Gifts</a>
     <a href="/brand-store/become-a-seller">Become a Seller</a>
+    <button type="button" id="store-cart-open">Saved list</button>
   </div>
-  <main data-store-page="category" data-category="traditional-clothing">
+<main data-store-page="category" data-category="traditional-clothing">
     <section class="store-hero store-hero-short" style="background-image:url('/images/hero/hero-horse-riders.webp')">
       <div class="container">
         <p class="store-kicker">Mongolia Brand Store</p>
@@ -49,8 +80,23 @@
       </div>
     </section>
   </main>
+  
+  <footer class="store-footer">
+    <div class="container footer-wrap">
+      <div>© 2026 Booking Mongolia</div>
+      <div>Local travel guide, private tours and Mongolia Brand Store.</div>
+      <div class="footer-links" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px;font-size:14px;">
+        <a href="/brand-store">Brand Store</a>
+        <a href="/tours-dates.html">Tours &amp; Dates</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/about.html">About</a>
+      </div>
+    </div>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/js/brand-store-i18n.js"></script>
   <script src="/js/brand-store.js"></script>
+  <script src="/js/site-i18n.js"></script>
 </body>
 </html>
