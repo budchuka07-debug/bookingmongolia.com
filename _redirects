@@ -1,3 +1,14 @@
+# Mongolia Brand Store
+/brand-store  /brand-store/index.html  200
+/brand-store/become-a-seller  /brand-store/become-a-seller.html  200
+/brand-store/category/cashmere  /brand-store/category/cashmere.html  200
+/brand-store/category/leather-crafts  /brand-store/category/leather-crafts.html  200
+/brand-store/category/art-crafts  /brand-store/category/art-crafts.html  200
+/brand-store/category/ger-home  /brand-store/category/ger-home.html  200
+/brand-store/category/traditional-clothing  /brand-store/category/traditional-clothing.html  200
+/brand-store/category/gifts-souvenirs  /brand-store/category/gifts-souvenirs.html  200
+/brand-store/product/:slug  /brand-store/product.html?slug=:slug  200
+
 # Permanent redirects for consolidated duplicate URLs (Netlify)
 /horse-riding-tour.html  /tours/horse-riding-tour.html  301
 /safety-guide.html  /guide/safety-guide.html  301

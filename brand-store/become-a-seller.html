@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Become a Seller | Mongolia Brand Store</title>
+  <meta name="description" content="Mongolian manufacturers and artisans can apply to sell on Mongolia Brand Store. Applications stay pending until Booking Mongolia approves them." />
+  <link rel="canonical" href="https://bookingmongolia.com/brand-store/become-a-seller" />
+  <meta property="og:title" content="Become a Seller | Mongolia Brand Store" />
+  <meta property="og:description" content="Apply to sell products made in Mongolia. Applications stay pending until approved." />
+  <meta property="og:image" content="https://bookingmongolia.com/images/hero/hero-nomadic-mongolia.webp" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/brand-store.css" />
+  <script src="/js/site-nav.js" defer></script>
+</head>
+<body class="store-page">
+  <header>
+    <div class="container nav">
+      <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
+      <button class="menu-toggle" type="button" aria-label="Open menu">☰</button>
+      <nav class="nav-links" id="siteNav">
+        <a href="/tours-dates.html">Tours &amp; Dates</a>
+        <a href="/brand-store">Brand Store</a>
+        <a href="/brand-store/become-a-seller" aria-current="page">Become a Seller</a>
+      </nav>
+      <div class="lang-switch">
+        <button type="button" data-store-lang="en">EN</button>
+        <button type="button" data-store-lang="mn">MN</button>
+        <button type="button" data-store-lang="ko">한국어</button>
+        <button type="button" data-store-lang="ja">日本語</button>
+      </div>
+    </div>
+  </header>
+  <main class="store-section" data-store-page="seller">
+    <div class="container">
+      <p class="store-kicker" data-store-i18n="kicker">Mongolia Brand Store</p>
+      <h1 data-store-i18n="seller_cta">Become a Seller</h1>
+      <p class="store-lead">For Mongolian manufacturers and artisans. An application is saved as Pending and is not published until Booking Mongolia approves it. Checkout is not open.</p>
+      <form id="seller-form" class="store-form">
+        <label>Business / brand name<input name="brand_name" required maxlength="140"></label>
+        <label>Contact person<input name="contact_name" required maxlength="140"></label>
+        <label>Email<input name="email" type="email" required maxlength="160"></label>
+        <label>Phone<input name="phone" required maxlength="40"></label>
+        <label>Product category
+          <select name="category" required>
+            <option value="cashmere">Mongolian Cashmere</option>
+            <option value="leather-crafts">Leather &amp; Handmade Crafts</option>
+            <option value="art-crafts">Mongolian Art &amp; Crafts</option>
+            <option value="ger-home">Mongolian Ger &amp; Home</option>
+            <option value="traditional-clothing">Traditional Mongolian Clothing</option>
+            <option value="gifts-souvenirs">Mongolian Gifts &amp; Souvenirs</option>
+          </select>
+        </label>
+        <label>Production location<input name="production_location" required maxlength="180" placeholder="City or aimag in Mongolia"></label>
+        <label class="full">Product description<textarea name="product_description" rows="5" required maxlength="4000"></textarea></label>
+        <label>Website<input name="website" maxlength="240"></label>
+        <label>Facebook<input name="facebook" maxlength="240"></label>
+        <label>Instagram<input name="instagram" maxlength="240"></label>
+        <label>Product images<input name="images" type="file" accept="image/*" multiple></label>
+        <label class="full store-check"><input name="made_in_mongolia" type="checkbox" required> <span data-store-i18n="confirm_origin">I confirm these products are made in Mongolia.</span></label>
+        <button class="store-btn dark" type="submit" data-store-i18n="send">Send application</button>
+        <p id="seller-note" class="full" role="status"></p>
+      </form>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/brand-store-i18n.js"></script>
+  <script src="/js/brand-store.js"></script>
+</body>
+</html>

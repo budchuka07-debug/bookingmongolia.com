@@ -8,7 +8,10 @@ const ALLOWED_TABLES = new Set([
   "review_invites",
   "booking_agreement_acceptances",
   "gallery_items",
-  "winter_items"
+  "winter_items",
+  "brand_sellers",
+  "brand_products",
+  "brand_inquiries"
 ]);
 
 const RESOURCE_TO_TABLE = {
@@ -21,7 +24,10 @@ const RESOURCE_TO_TABLE = {
   invites: "review_invites",
   agreements: "booking_agreement_acceptances",
   gallery: "gallery_items",
-  winter: "winter_items"
+  winter: "winter_items",
+  sellers: "brand_sellers",
+  products: "brand_products",
+  inquiries: "brand_inquiries"
 };
 
 const STATUS_BY_TABLE = {
@@ -31,7 +37,10 @@ const STATUS_BY_TABLE = {
   vehicle_submissions: ["published", "hidden", "pending", "approved"],
   guide_submissions: ["published", "hidden", "pending", "approved"],
   guest_reviews: ["pending", "approved", "rejected"],
-  gallery_items: ["published", "hidden", "pending"]
+  gallery_items: ["published", "hidden", "pending"],
+  brand_sellers: ["pending", "approved", "rejected", "hidden"],
+  brand_products: ["pending", "published", "hidden"],
+  brand_inquiries: ["pending", "hidden"]
 };
 
 function json(statusCode, body) {
@@ -241,6 +250,60 @@ exports.handler = async (event) => {
       const link = `${siteOrigin}/review.html?${params.toString()}`;
 
       return json(200, { ok: true, invite, link });
+    }
+
+    if (action === "saveBrandProduct") {
+      const categories = new Set([
+        "cashmere",
+        "leather-crafts",
+        "art-crafts",
+        "ger-home",
+        "traditional-clothing",
+        "gifts-souvenirs"
+      ]);
+      const name = String(body.name || "").trim().slice(0, 140);
+      const slug = String(body.slug || "").trim().toLowerCase();
+      const category = String(body.category_slug || "").trim();
+      const description = String(body.description || "").trim().slice(0, 4000);
+      const brandName = String(body.brand_name || "").trim().slice(0, 140);
+      if (!name || !description || !brandName) return json(400, { error: "Name, brand and description are required" });
+      if (!/^[a-z0-9-]{3,80}$/.test(slug)) return json(400, { error: "Invalid slug" });
+      if (!categories.has(category)) return json(400, { error: "Invalid category" });
+      const priceRaw = String(body.price_amount == null ? "" : body.price_amount).trim();
+      const price = priceRaw === "" ? null : Number(priceRaw);
+      if (priceRaw !== "" && (!Number.isFinite(price) || price < 0)) return json(400, { error: "Invalid price" });
+      const currency = ["USD", "MNT", "EUR", "JPY", "KRW"].includes(body.price_currency) ? body.price_currency : "USD";
+      const stock = ["unlisted", "in_stock", "made_to_order", "out_of_stock"].includes(body.stock_status) ? body.stock_status : "unlisted";
+      const status = body.status === "published" ? "published" : "pending";
+      const list = (value, max) => String(value || "").split(",").map((part) => part.trim()).filter(Boolean).slice(0, max);
+      const images = (Array.isArray(body.image_urls) ? body.image_urls : String(body.image_urls || "").split(","))
+        .map((url) => String(url || "").trim())
+        .filter((url) => /^https:\/\//i.test(url))
+        .slice(0, 8);
+      const row = {
+        slug,
+        category_slug: category,
+        name,
+        description,
+        price_amount: price,
+        price_currency: currency,
+        brand_name: brandName,
+        origin: "Mongolia",
+        materials: String(body.materials || "").trim().slice(0, 500),
+        sizes: list(body.sizes, 12),
+        colors: list(body.colors, 12),
+        image_urls: images,
+        stock_status: stock,
+        shipping_note: String(body.shipping_note || "").trim().slice(0, 500),
+        status,
+        seller_id: body.seller_id || null
+      };
+      const items = await supabaseFetch("brand_products?on_conflict=slug", {
+        method: "POST",
+        prefer: "resolution=merge-duplicates,return=representation",
+        body: JSON.stringify(row)
+      });
+      return json(200, { ok: true, item: Array.isArray(items) ? items[0] : items });
     }
 
     return json(400, { error: "Invalid action" });

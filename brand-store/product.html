@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product | Mongolia Brand Store</title>
+  <meta name="description" content="A Mongolia Brand Store product page. Only an approved Mongolian-made product is shown here." />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://bookingmongolia.com/brand-store" />
+  <meta property="og:title" content="Mongolia Brand Store" />
+  <meta property="og:image" content="https://bookingmongolia.com/images/hero/hero-1-mongolia.webp" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/brand-store.css" />
+  <script src="/js/site-nav.js" defer></script>
+</head>
+<body class="store-page">
+  <header>
+    <div class="container nav">
+      <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
+      <button class="menu-toggle" type="button" aria-label="Open menu">☰</button>
+      <nav class="nav-links" id="siteNav">
+        <a href="/tours-dates.html">Tours &amp; Dates</a>
+        <a href="/brand-store">Brand Store</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+      <div class="lang-switch">
+        <button type="button" data-store-lang="en">EN</button>
+        <button type="button" data-store-lang="mn">MN</button>
+        <button type="button" data-store-lang="ko">한국어</button>
+        <button type="button" data-store-lang="ja">日本語</button>
+      </div>
+    </div>
+  </header>
+  <div class="container store-subnav">
+    <a href="/brand-store">Collection</a>
+    <a href="/brand-store/become-a-seller">Become a Seller</a>
+  </div>
+  <main class="store-section" data-store-page="product">
+    <div class="container" id="store-product"></div>
+  </main>
+  <div id="store-cart" class="store-cart" hidden></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/brand-store-i18n.js"></script>
+  <script src="/js/brand-store.js"></script>
+</body>
+</html>

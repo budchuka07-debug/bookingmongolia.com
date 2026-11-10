@@ -104,6 +104,9 @@
         <button class="tab" data-tab="agreements" onclick="setTab('agreements')">Agreements</button>
         <button class="tab" data-tab="gallery" onclick="setTab('gallery')">Gallery</button>
         <button class="tab" data-tab="winter" onclick="setTab('winter')">Winter</button>
+        <button class="tab" data-tab="sellers" onclick="setTab('sellers')">Brand Sellers</button>
+        <button class="tab" data-tab="products" onclick="setTab('products')">Brand Products</button>
+        <button class="tab" data-tab="inquiries" onclick="setTab('inquiries')">Brand Inquiries</button>
       </div>
       <div class="toolbar">
         <div>
@@ -173,6 +176,41 @@
       <div id="inviteResult" class="invite-link hidden"></div>
     </div>
 
+    <div id="brandProductPanel" class="panel hidden">
+      <h3 style="margin:0 0 8px;color:var(--primary)">Publish a Mongolia Brand Store product</h3>
+      <p class="muted">Only products you enter here can appear in the store. Leave the price empty if the maker has not set one. New rows stay pending until you publish them.</p>
+      <div class="invite-grid">
+        <div><label>Name</label><input id="bpName" placeholder="Product name"></div>
+        <div><label>Slug</label><input id="bpSlug" placeholder="cashmere-shawl"></div>
+        <div><label>Category</label>
+          <select id="bpCategory">
+            <option value="cashmere">Mongolian Cashmere</option>
+            <option value="leather-crafts">Leather & Handmade Crafts</option>
+            <option value="art-crafts">Mongolian Art & Crafts</option>
+            <option value="ger-home">Mongolian Ger & Home</option>
+            <option value="traditional-clothing">Traditional Mongolian Clothing</option>
+            <option value="gifts-souvenirs">Mongolian Gifts & Souvenirs</option>
+          </select>
+        </div>
+        <div><label>Brand</label><input id="bpBrand" placeholder="Maker or brand name"></div>
+        <div><label>Price amount</label><input id="bpPrice" placeholder="Leave empty if unset"></div>
+        <div><label>Currency</label>
+          <select id="bpCurrency"><option>USD</option><option>MNT</option><option>EUR</option><option>JPY</option><option>KRW</option></select>
+        </div>
+        <div><label>Stock status</label>
+          <select id="bpStock"><option value="unlisted">Unlisted</option><option value="in_stock">In stock</option><option value="made_to_order">Made to order</option><option value="out_of_stock">Out of stock</option></select>
+        </div>
+        <div><label>Seller id (optional)</label><input id="bpSeller" placeholder="UUID from an approved seller"></div>
+        <div class="full"><label>Description</label><textarea id="bpDescription" rows="3"></textarea></div>
+        <div><label>Materials</label><input id="bpMaterials"></div>
+        <div><label>Sizes, comma separated</label><input id="bpSizes"></div>
+        <div><label>Colors, comma separated</label><input id="bpColors"></div>
+        <div><label>Shipping note</label><input id="bpShipping"></div>
+        <div class="full"><label>Image URLs, comma separated https links</label><input id="bpImages" placeholder="https://"></div>
+        <div class="full"><button class="ok" onclick="saveBrandProduct()">Save product as pending</button></div>
+      </div>
+    </div>
+
     <div id="winterPanel" class="panel hidden">
       <h3 style="margin:0 0 8px;color:var(--primary)">Winter tours and events</h3>
       <p class="muted">Dates and prices stay blank until you publish them. Run <code>supabase/winter_items.sql</code> once in Supabase. Until that table exists, the public page keeps the seed catalog.</p>
@@ -192,7 +230,7 @@
 const API = "/.netlify/functions/admin-action";
 let adminPassword = sessionStorage.getItem("bm_admin_password") || "";
 let activeTab = "community";
-let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [], agreements: [], gallery: [] };
+let cache = { community: [], comments: [], hotels: [], cars: [], reviews: [], agreements: [], gallery: [], sellers: [], products: [], inquiries: [] };
 let nameCache = { hotels: {}, cars: {}, guides: {} };
 
 function showNotice(msg, type="success"){
@@ -253,8 +291,10 @@ function setTab(tab){
   document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab===tab));
   document.getElementById("invitePanel").classList.toggle("hidden", tab !== "reviews");
   const winter = document.getElementById("winterPanel");
+  const brandProduct = document.getElementById("brandProductPanel");
   const content = document.getElementById("content");
   if (winter) winter.classList.toggle("hidden", tab !== "winter");
+  if (brandProduct) brandProduct.classList.toggle("hidden", tab !== "products");
   if (content) content.classList.toggle("hidden", tab === "winter");
   syncTypeFilterOptions();
   if (tab === "winter") { loadWinterAdmin(); return; }
@@ -305,7 +345,7 @@ function textMatch(item, q){
     item.guest_name,item.guest_country,item.review_type,item.booking_ref,
     item.traveler_name,item.traveler_email,item.traveler_contact,item.booking_id,
     item.selected_tour,item.service_type,item.agreement_version,
-    item.caption,item.photographer_name
+    item.caption,item.photographer_name,item.brand_name,item.slug,item.category,item.category_slug,item.email,item.phone,item.message
   ].join(" ").toLowerCase();
   return blob.includes(q);
 }
@@ -340,6 +380,71 @@ function renderCurrent(){
   if(activeTab === "reviews") c.innerHTML = items.map(renderReview).join("");
   if(activeTab === "agreements") c.innerHTML = items.map(renderAgreement).join("");
   if(activeTab === "gallery") c.innerHTML = items.map(renderGalleryItem).join("");
+  if(activeTab === "sellers") c.innerHTML = items.map(renderBrandSeller).join("");
+  if(activeTab === "products") c.innerHTML = items.map(renderBrandProduct).join("");
+  if(activeTab === "inquiries") c.innerHTML = items.map(renderBrandInquiry).join("");
+}
+function renderBrandSeller(s){
+  return `<div class="card">
+    <div class="card-top"><div><h3>${escapeHtml(s.brand_name || "Seller")}</h3>
+      <div class="muted">${escapeHtml(s.contact_name || "")} • ${escapeHtml(s.email || "")} • ${escapeHtml(s.phone || "")}</div></div>${getStatusBadge(s.status)}</div>
+    <p>${escapeHtml(s.product_description || "")}</p>
+    <div class="muted">${escapeHtml(s.category || "")} • ${escapeHtml(s.production_location || "")} • Made in Mongolia: ${s.made_in_mongolia ? "Yes" : "No"}</div>
+    <div class="muted">${escapeHtml(s.website || "")} ${escapeHtml(s.facebook || "")} ${escapeHtml(s.instagram || "")}</div>
+    ${renderImages(s.image_urls)}
+    <div class="actions">
+      <button class="ok" onclick="updateStatus('brand_sellers','${s.id}','approved')">Approve</button>
+      <button class="warn" onclick="updateStatus('brand_sellers','${s.id}','rejected')">Reject</button>
+      <button class="secondary" onclick="updateStatus('brand_sellers','${s.id}','hidden')">Hide</button>
+    </div>
+  </div>`;
+}
+function renderBrandProduct(p){
+  const price = p.price_amount == null ? "No price set" : (p.price_currency || "USD") + " " + p.price_amount;
+  return `<div class="card">
+    <div class="card-top"><div><h3>${escapeHtml(p.name || "Product")}</h3>
+      <div class="muted">${escapeHtml(p.brand_name || "")} • ${escapeHtml(p.category_slug || "")} • ${escapeHtml(price)}</div></div>${getStatusBadge(p.status)}</div>
+    <p>${escapeHtml(p.description || "")}</p>
+    <div class="muted">Slug: ${escapeHtml(p.slug || "")} • Stock: ${escapeHtml(p.stock_status || "")} • Origin: ${escapeHtml(p.origin || "Mongolia")}</div>
+    ${renderImages(p.image_urls)}
+    <div class="actions">
+      <button class="ok" onclick="updateStatus('brand_products','${p.id}','published')">Publish</button>
+      <button class="warn" onclick="updateStatus('brand_products','${p.id}','hidden')">Hide</button>
+      <button class="secondary" onclick="updateStatus('brand_products','${p.id}','pending')">Pending</button>
+    </div>
+  </div>`;
+}
+function renderBrandInquiry(q){
+  return `<div class="card">
+    <div class="card-top"><div><h3>${escapeHtml(q.name || "Inquiry")}</h3>
+      <div class="muted">${escapeHtml(q.email || "")} • Product ${escapeHtml(q.product_id || "-")}</div></div>${getStatusBadge(q.status)}</div>
+    <p>${escapeHtml(q.message || "")}</p>
+    <div class="actions"><button class="warn" onclick="updateStatus('brand_inquiries','${q.id}','hidden')">Hide</button></div>
+  </div>`;
+}
+async function saveBrandProduct(){
+  try{
+    const name = document.getElementById("bpName").value.trim();
+    await api({
+      action: "saveBrandProduct",
+      name,
+      slug: document.getElementById("bpSlug").value.trim() || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+      category_slug: document.getElementById("bpCategory").value,
+      brand_name: document.getElementById("bpBrand").value,
+      price_amount: document.getElementById("bpPrice").value,
+      price_currency: document.getElementById("bpCurrency").value,
+      stock_status: document.getElementById("bpStock").value,
+      seller_id: document.getElementById("bpSeller").value.trim() || null,
+      description: document.getElementById("bpDescription").value,
+      materials: document.getElementById("bpMaterials").value,
+      sizes: document.getElementById("bpSizes").value,
+      colors: document.getElementById("bpColors").value,
+      shipping_note: document.getElementById("bpShipping").value,
+      image_urls: document.getElementById("bpImages").value
+    });
+    showNotice("Product saved as pending.");
+    loadCurrent();
+  }catch(e){ showNotice(e.message, "error"); }
 }
 function renderGalleryItem(g){
   let urls = [];

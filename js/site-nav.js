@@ -31,7 +31,23 @@
     });
   }
 
+  function ensureBrandStoreLink() {
+    var nav = document.getElementById("siteNav");
+    if (!nav || nav.querySelector('a[href="/brand-store"]')) return;
+    var link = document.createElement("a");
+    link.href = "/brand-store";
+    link.setAttribute("data-i18n", "nav_brand_store");
+    link.textContent = global.BM_I18N && global.BM_I18N.t
+      ? global.BM_I18N.t("nav_brand_store", "Brand Store")
+      : "Brand Store";
+    var gallery = nav.querySelector('a[href="/gallery.html"]');
+    if (gallery && gallery.nextSibling) nav.insertBefore(link, gallery.nextSibling);
+    else if (gallery) gallery.insertAdjacentElement("afterend", link);
+    else nav.appendChild(link);
+  }
+
   function init() {
+    ensureBrandStoreLink();
     markCurrentPage();
     var nav = document.getElementById("siteNav");
     var btn = document.querySelector(".menu-toggle");

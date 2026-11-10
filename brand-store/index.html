@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mongolia Brand Store | Discover Mongolia. Take a Piece of Mongolia Home.</title>
+  <meta name="description" content="Mongolia Brand Store is Booking Mongolia’s shop for products made in Mongolia by Mongolian artisans, artists, designers and manufacturers." />
+  <link rel="canonical" href="https://bookingmongolia.com/brand-store" />
+  <meta property="og:site_name" content="Booking Mongolia" />
+  <meta property="og:title" content="Mongolia Brand Store" />
+  <meta property="og:description" content="Discover Mongolia. Take a Piece of Mongolia Home." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bookingmongolia.com/brand-store" />
+  <meta property="og:image" content="https://bookingmongolia.com/images/hero/hero-nomadic-mongolia.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/brand-store.css" />
+  <script src="/js/site-nav.js" defer></script>
+</head>
+<body class="store-page">
+  <header>
+    <div class="container nav">
+      <a href="/index.html" class="logo">Booking<span>Mongolia</span></a>
+      <button class="menu-toggle" type="button" aria-label="Open menu">☰</button>
+      <nav class="nav-links" id="siteNav">
+        <a href="/experiences.html">Experiences</a>
+        <a href="/destinations.html">Destinations</a>
+        <a href="/tours-dates.html">Tours &amp; Dates</a>
+        <a href="/brand-store" data-i18n="nav_brand_store" aria-current="page">Brand Store</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button type="button" data-store-lang="en">EN</button>
+          <button type="button" data-store-lang="mn">MN</button>
+          <button type="button" data-store-lang="ko">한국어</button>
+          <button type="button" data-store-lang="ja">日本語</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container store-subnav">
+    <a href="/brand-store" aria-current="page">Collection</a>
+    <a href="/brand-store/category/cashmere">Cashmere</a>
+    <a href="/brand-store/category/leather-crafts">Leather</a>
+    <a href="/brand-store/category/art-crafts">Art</a>
+    <a href="/brand-store/category/ger-home">Ger &amp; Home</a>
+    <a href="/brand-store/category/traditional-clothing">Clothing</a>
+    <a href="/brand-store/category/gifts-souvenirs">Gifts</a>
+    <a href="/brand-store/become-a-seller">Become a Seller</a>
+    <button type="button" id="store-cart-open">Saved list</button>
+  </div>
+  <main data-store-page="home">
+    <section class="store-hero" style="background-image:url('/images/hero/hero-1-mongolia.webp')">
+      <div class="container">
+        <p class="store-kicker" data-store-i18n="kicker">Mongolia Brand Store</p>
+        <h1 data-store-i18n="hero_title">Discover Authentic Mongolia</h1>
+        <p data-store-i18n="hero_sub">Shop Mongolian Cashmere, Traditional Crafts, Art and Heritage Products.</p>
+        <p>Discover Mongolia. Take a Piece of Mongolia Home.</p>
+        <div class="store-actions">
+          <a class="store-btn" href="#collection" data-store-i18n="hero_cta">Explore the Collection</a>
+          <a class="store-btn-ghost" href="/brand-store/become-a-seller" data-store-i18n="seller_cta">Become a Seller</a>
+        </div>
+      </div>
+    </section>
+    <section class="store-section" id="collection">
+      <div class="container">
+        <h2 data-store-i18n="cats_title">The collection</h2>
+        <p class="store-lead">Six places for Mongolian-made work. Category photographs are landscapes from Mongolia, not products for sale.</p>
+        <div class="store-cats" id="store-cats">
+          <a class="store-cat" href="/brand-store/category/cashmere" style="background-image:url('/images/hero/hero-nomadic-mongolia.webp')"><span>Mongolian Cashmere</span><small>Sweaters, scarves, coats, accessories</small></a>
+          <a class="store-cat" href="/brand-store/category/leather-crafts" style="background-image:url('/images/experiences/exp-nomadic-life.webp')"><span>Leather &amp; Handmade Crafts</span><small>Bags, wallets, belts, handmade work</small></a>
+          <a class="store-cat" href="/brand-store/category/art-crafts" style="background-image:url('/images/destinations/hustai.webp')"><span>Mongolian Art &amp; Crafts</span><small>Paintings, felt, traditional artwork</small></a>
+          <a class="store-cat" href="/brand-store/category/ger-home" style="background-image:url('/images/destinations/dest-khuvsgul-lake.webp')"><span>Mongolian Ger &amp; Home</span><small>Ger models and home pieces</small></a>
+          <a class="store-cat" href="/brand-store/category/traditional-clothing" style="background-image:url('/images/hero/hero-horse-riders.webp')"><span>Traditional Mongolian Clothing</span><small>Deel, fashion, accessories</small></a>
+          <a class="store-cat" href="/brand-store/category/gifts-souvenirs" style="background-image:url('/images/destinations/bayanzag.webp')"><span>Mongolian Gifts &amp; Souvenirs</span><small>Gifts that can travel home</small></a>
+        </div>
+      </div>
+    </section>
+    <section class="store-section">
+      <div class="container">
+        <h2 data-store-i18n="products_title">Featured Mongolian products</h2>
+        <p class="store-lead" data-store-i18n="products_lead">Only products approved by Booking Mongolia appear here. Nothing on this page is for sale until a Mongolian maker is approved.</p>
+        <p class="store-currency"><span data-store-i18n="currency_note">Prices stay in the maker’s currency. Conversion is not turned on.</span>
+          <select aria-label="Currency display" disabled><option>USD</option><option>MNT</option><option>EUR</option><option>JPY</option><option>KRW</option></select>
+        </p>
+        <div id="store-products" class="store-grid"></div>
+        <article class="store-preview" style="margin-top:18px">
+          <div class="ph"></div>
+          <div>
+            <p class="store-origin">Layout preview · not for sale</p>
+            <h3 data-store-i18n="preview_title">How a product card will look</h3>
+            <p data-store-i18n="preview_text">Layout preview. This is not a product, not a brand, and not for sale.</p>
+            <p class="store-price">Price appears only after a real product is approved</p>
+            <p class="store-brand">Maker name · Mongolia</p>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="store-section">
+      <div class="container store-split">
+        <img src="/images/experiences/exp-nomadic-life.webp" alt="Mongolian steppe, used to introduce makers rather than as a product photo" />
+        <div>
+          <p class="store-kicker">Made in Mongolia</p>
+          <h2 data-store-i18n="made_title">Made in Mongolia</h2>
+          <p data-store-i18n="made_text">The store is for work made in Mongolia by Mongolian artisans, artists, designers and manufacturers. Buying from them keeps cashmere, leather, felt, painting and ger-making skills at home.</p>
+        </div>
+      </div>
+    </section>
+    <section class="store-section">
+      <div class="container">
+        <h2 data-store-i18n="brands_title">Mongolian brands</h2>
+        <div id="store-brands" class="store-brands"></div>
+      </div>
+    </section>
+    <section class="store-section">
+      <div class="container">
+        <div class="store-band">
+          <p class="store-kicker">Booking Mongolia travel</p>
+          <h2 data-store-i18n="travel_title">Visited Mongolia? Take the Experience Home.</h2>
+          <p data-store-i18n="travel_text">Travelers who booked a journey with Booking Mongolia can come back to this store for a piece of what they saw. The shop is a separate part of Booking Mongolia, beside the tours.</p>
+          <p><a href="/tours-dates.html">See tour dates</a> · <a href="/brand-store/become-a-seller">Mongolian makers can apply</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="store-cart" class="store-cart" hidden></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/brand-store-i18n.js"></script>
+  <script src="/js/brand-store.js"></script>
+  <script src="/js/site-i18n.js"></script>
+</body>
+</html>
