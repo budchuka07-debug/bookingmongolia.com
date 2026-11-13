@@ -38,6 +38,8 @@
 /register-service  /register-service.html  301
 /booking  /booking.html  301
 /about  /about.html  301
+# B2B partnership keeps the extensionless URL (canonical). 200 rewrite, not a redirect.
+/b2b-partnership  /b2b-partnership.html  200
 /tours-dates  /tours-dates.html  301
 /winter-mongolia  /winter-mongolia.html  200
 /tours/tsaatan-winter-expedition  /tours/tsaatan-winter-expedition.html  200
