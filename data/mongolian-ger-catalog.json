@@ -43,6 +43,12 @@
         "Complete or customized package"
       ],
       "package_note": "A complete ger package can be requested. Package contents: To be confirmed.",
+      "image_alts": {
+        "/images/mongolian-ger/ereen/finished-white-gers.jpg": "Finished white Mongolian gers with orange doors and red decorative bands standing on grassland.",
+        "/images/mongolian-ger/ereen/orange-frame-and-painted-door.jpg": "Orange-painted roof poles, wooden lattice wall, and a colorful painted ger door on an assembled frame.",
+        "/images/mongolian-ger/ereen/painted-toono-and-doors.jpg": "Orange-painted ger crown rings and doors with colorful traditional patterns in the workshop.",
+        "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg": "Workshop view with orange painted ger walls, a carved wooden door, and a carved column."
+      },
       "specs": {
         "dimensions": "To be confirmed",
         "total_weight_kg": "To be confirmed",
@@ -61,30 +67,24 @@
           "id": "ereen",
           "label": "Traditional Ereen Ger",
           "images": [
-            "/images/mongolian-ger/ereen/ereen-exterior-01.jpg",
-            "/images/mongolian-ger/ereen/ereen-pattern-detail-01.jpg",
-            "/images/mongolian-ger/ereen/ereen-wooden-door-01.jpg",
-            "/images/mongolian-ger/ereen/ereen-roof-01.jpg"
+            "/images/mongolian-ger/ereen/finished-white-gers.jpg",
+            "/images/mongolian-ger/ereen/orange-frame-and-painted-door.jpg",
+            "/images/mongolian-ger/ereen/painted-toono-and-doors.jpg"
           ]
         },
         {
           "id": "components",
           "label": "Painted wooden components",
           "images": [
-            "/images/mongolian-ger/components/painted-wall-component-01.jpg",
-            "/images/mongolian-ger/components/painted-roof-pole-01.jpg",
-            "/images/mongolian-ger/components/painted-crown-detail-01.jpg"
+            "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg"
           ]
         }
       ],
       "image_urls": [
-        "/images/mongolian-ger/ereen/ereen-exterior-01.jpg",
-        "/images/mongolian-ger/ereen/ereen-pattern-detail-01.jpg",
-        "/images/mongolian-ger/ereen/ereen-wooden-door-01.jpg",
-        "/images/mongolian-ger/ereen/ereen-roof-01.jpg",
-        "/images/mongolian-ger/components/painted-wall-component-01.jpg",
-        "/images/mongolian-ger/components/painted-roof-pole-01.jpg",
-        "/images/mongolian-ger/components/painted-crown-detail-01.jpg"
+        "/images/mongolian-ger/ereen/finished-white-gers.jpg",
+        "/images/mongolian-ger/ereen/orange-frame-and-painted-door.jpg",
+        "/images/mongolian-ger/ereen/painted-toono-and-doors.jpg",
+        "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg"
       ]
     },
     {
@@ -131,6 +131,14 @@
         "Complete or customized package"
       ],
       "package_note": "A complete or customized package can be requested. Package contents: To be confirmed.",
+      "image_alts": {
+        "/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg": "Close view of a hand-carved wooden crown ring with dragons, clouds, and a central ornament.",
+        "/images/mongolian-ger/doors/carved-lion-door.jpg": "Hand-carved wooden ger door with a lion medallion and scrollwork.",
+        "/images/mongolian-ger/luxury-carved/toono-uni-and-column.jpg": "Carved wooden crown ring, a bundle of roof poles, and a carved door-frame piece in the workshop.",
+        "/images/mongolian-ger/luxury-carved/carved-toono-and-columns.jpg": "Large hand-carved wooden crown ring leaning beside carved columns and roof poles.",
+        "/images/mongolian-ger/interior/carved-crown-and-roof.jpg": "Interior view of roof poles meeting a carved wooden crown ring above a lattice wall.",
+        "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg": "Workshop view with orange painted ger walls, a carved wooden door, and a carved column."
+      },
       "specs": {
         "dimensions": "To be confirmed",
         "total_weight_kg": "To be confirmed",
@@ -146,59 +154,49 @@
       },
       "galleries": [
         {
-          "id": "luxury-carved",
-          "label": "Luxury hand-carved ger",
+          "id": "crown-ring",
+          "label": "Decorative crown ring",
           "images": [
-            "/images/mongolian-ger/luxury-carved/luxury-carved-exterior-01.jpg",
-            "/images/mongolian-ger/luxury-carved/luxury-carved-columns-01.jpg",
-            "/images/mongolian-ger/luxury-carved/luxury-carved-overview-01.jpg"
+            "/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg"
           ]
         },
         {
           "id": "doors",
           "label": "Carved wooden doors",
           "images": [
-            "/images/mongolian-ger/doors/carved-door-01.jpg",
-            "/images/mongolian-ger/doors/carved-door-detail-01.jpg"
+            "/images/mongolian-ger/doors/carved-lion-door.jpg"
           ]
         },
         {
-          "id": "crown-ring",
-          "label": "Decorative crown ring",
+          "id": "luxury-carved",
+          "label": "Luxury hand-carved ger",
           "images": [
-            "/images/mongolian-ger/crown-ring/carved-crown-ring-01.jpg",
-            "/images/mongolian-ger/crown-ring/carved-crown-ring-detail-01.jpg"
+            "/images/mongolian-ger/luxury-carved/toono-uni-and-column.jpg",
+            "/images/mongolian-ger/luxury-carved/carved-toono-and-columns.jpg"
           ]
         },
         {
           "id": "interior",
           "label": "Interior",
           "images": [
-            "/images/mongolian-ger/interior/luxury-interior-01.jpg",
-            "/images/mongolian-ger/interior/luxury-interior-detail-01.jpg"
+            "/images/mongolian-ger/interior/carved-crown-and-roof.jpg"
           ]
         },
         {
           "id": "components",
           "label": "Natural carved components",
           "images": [
-            "/images/mongolian-ger/components/carved-column-component-01.jpg",
-            "/images/mongolian-ger/components/carved-wood-component-01.jpg"
+            "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg"
           ]
         }
       ],
       "image_urls": [
-        "/images/mongolian-ger/luxury-carved/luxury-carved-exterior-01.jpg",
-        "/images/mongolian-ger/luxury-carved/luxury-carved-columns-01.jpg",
-        "/images/mongolian-ger/luxury-carved/luxury-carved-overview-01.jpg",
-        "/images/mongolian-ger/doors/carved-door-01.jpg",
-        "/images/mongolian-ger/doors/carved-door-detail-01.jpg",
-        "/images/mongolian-ger/crown-ring/carved-crown-ring-01.jpg",
-        "/images/mongolian-ger/crown-ring/carved-crown-ring-detail-01.jpg",
-        "/images/mongolian-ger/interior/luxury-interior-01.jpg",
-        "/images/mongolian-ger/interior/luxury-interior-detail-01.jpg",
-        "/images/mongolian-ger/components/carved-column-component-01.jpg",
-        "/images/mongolian-ger/components/carved-wood-component-01.jpg"
+        "/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg",
+        "/images/mongolian-ger/doors/carved-lion-door.jpg",
+        "/images/mongolian-ger/luxury-carved/toono-uni-and-column.jpg",
+        "/images/mongolian-ger/luxury-carved/carved-toono-and-columns.jpg",
+        "/images/mongolian-ger/interior/carved-crown-and-roof.jpg",
+        "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg"
       ]
     }
   ]

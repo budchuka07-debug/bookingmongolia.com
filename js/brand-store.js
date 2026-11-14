@@ -110,6 +110,13 @@
     return !!(product && (product.ger_collection || GER_SLUGS[product.slug]));
   }
 
+  function imageAlt(product, url) {
+    var map = product && product.image_alts;
+    var text = map && map[url];
+    if (text) return String(text);
+    return (product && product.name) || "";
+  }
+
   function isUuid(value) {
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(value || ""));
   }
@@ -291,7 +298,7 @@
     var gallery = isGerProduct(product) ? visibleProductImages(product.image_urls, activeManifest) : images(product);
     var cover = gallery[0] || "";
     var photo = cover
-      ? '<img src="' + esc(cover) + '" alt="' + esc(product.name) + '">'
+      ? '<img src="' + esc(cover) + '" alt="' + esc(imageAlt(product, cover)) + '">'
       : (isGerProduct(product)
         ? '<div class="ph ger-wait-card"><p>Product photographs are waiting for the manufacturer\'s upload.</p></div>'
         : '<div class="ph"></div>');
@@ -425,14 +432,15 @@
       var urls = visibleProductImages(group.images && group.images.length ? group.images : product.image_urls, activeManifest);
       if (!urls.length) return;
       if (!first) first = urls[0];
-      blocks.push('<section class="ger-group"><h3>' + esc(group.label || "Photographs") + '</h3><div class="store-thumbs ger-gallery">' + urls.map(function (url, index) {
-        return '<button type="button" data-photo="' + esc(url) + '" aria-label="' + esc(product.name) + ' ' + (index + 1) + '"><img src="' + esc(url) + '" alt="' + esc(product.name) + '"></button>';
+      blocks.push('<section class="ger-group"><h3>' + esc(group.label || "Photographs") + '</h3><div class="store-thumbs ger-gallery">' + urls.map(function (url) {
+        var alt = imageAlt(product, url);
+        return '<button type="button" data-photo="' + esc(url) + '" data-alt="' + esc(alt) + '" aria-label="' + esc(alt) + '"><img src="' + esc(url) + '" alt="' + esc(alt) + '"></button>';
       }).join("") + '</div></section>');
     });
     if (!blocks.length) {
       return '<div class="ger-wait"><p>Product photographs are waiting for the manufacturer\'s upload.</p></div>';
     }
-    return '<div class="store-gallery"><img id="store-main-photo" src="' + esc(first) + '" alt="' + esc(product.name) + '">' + blocks.join("") + '</div>';
+    return '<div class="store-gallery"><img id="store-main-photo" src="' + esc(first) + '" alt="' + esc(imageAlt(product, first)) + '">' + blocks.join("") + '</div>';
   }
 
   function renderSpecTable(product) {
@@ -528,7 +536,11 @@
     root.querySelectorAll("[data-photo]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var photo = document.getElementById("store-main-photo");
-        if (photo) photo.src = btn.getAttribute("data-photo");
+        if (photo) {
+          photo.src = btn.getAttribute("data-photo");
+          var nextAlt = btn.getAttribute("data-alt");
+          if (nextAlt) photo.alt = nextAlt;
+        }
       });
     });
     root.querySelectorAll("[data-choice]").forEach(function (btn) {

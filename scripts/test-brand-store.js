@@ -84,7 +84,17 @@ assert.ok(store.whatsappLink({ name: "Traditional Ereen Mongolian Ger", price_am
 
 const catalog = JSON.parse(read("data/mongolian-ger-catalog.json"));
 const manifest = JSON.parse(read("data/mongolian-ger-manifest.json"));
-assert.deepStrictEqual(manifest.files, []);
+assert.deepStrictEqual(manifest.files, [
+  "/images/mongolian-ger/ereen/finished-white-gers.jpg",
+  "/images/mongolian-ger/ereen/orange-frame-and-painted-door.jpg",
+  "/images/mongolian-ger/ereen/painted-toono-and-doors.jpg",
+  "/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg",
+  "/images/mongolian-ger/doors/carved-lion-door.jpg",
+  "/images/mongolian-ger/luxury-carved/toono-uni-and-column.jpg",
+  "/images/mongolian-ger/luxury-carved/carved-toono-and-columns.jpg",
+  "/images/mongolian-ger/interior/carved-crown-and-roof.jpg",
+  "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg"
+]);
 assert.strictEqual(catalog.shipping_notice, SHIPPING);
 assert.strictEqual(catalog.products.length, 2);
 const forbidden = /naadam|terelj|khuvsgul|steppe|\/images\/(?:destinations|tour|hero|experiences|guide)\//i;
@@ -117,6 +127,17 @@ const ereen = catalog.products.find((item) => item.slug === "traditional-ereen-g
 const luxury = catalog.products.find((item) => item.slug === "luxury-hand-carved-ger");
 assert.strictEqual(ereen.price_amount, 2000);
 assert.strictEqual(luxury.price_amount, 35000);
+assert.strictEqual(ereen.image_urls[0], "/images/mongolian-ger/ereen/finished-white-gers.jpg");
+assert.strictEqual(luxury.image_urls[0], "/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg");
+const workshop = "/images/mongolian-ger/components/workshop-painted-walls-and-carved-door.jpg";
+assert.strictEqual(ereen.image_urls[ereen.image_urls.length - 1], workshop);
+assert.strictEqual(luxury.image_urls[luxury.image_urls.length - 1], workshop);
+assert.deepStrictEqual(store.visibleProductImages(ereen.image_urls, manifest.files), ereen.image_urls);
+assert.deepStrictEqual(store.visibleProductImages(luxury.image_urls, manifest.files), luxury.image_urls);
+assert.ok(store.productJsonLd(ereen, manifest.files).image[0].endsWith("/images/mongolian-ger/ereen/finished-white-gers.jpg"));
+assert.ok(store.productJsonLd(luxury, manifest.files).image[0].endsWith("/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg"));
+assert.strictEqual(ereen.image_alts[ereen.image_urls[0]], "Finished white Mongolian gers with orange doors and red decorative bands standing on grassland.");
+assert.strictEqual(luxury.image_alts[luxury.image_urls[0]], "Close view of a hand-carved wooden crown ring with dragons, clouds, and a central ornament.");
 assert.strictEqual(store.productJsonLd(ereen, []).offers.price, "2000");
 assert.strictEqual(store.productJsonLd(luxury, []).offers.price, "35000");
 assert.strictEqual(store.startingLabel(2000, "USD"), "Starting at $2,000");
@@ -141,18 +162,36 @@ assert.ok(!gerPage.includes("og:image"));
 assert.ok(!/khuvsgul|miniature|destinations\/|images\/tour/i.test(gerPage));
 assert.ok(gerPage.includes("https://schema.org/PreOrder"));
 assert.ok(!gerPage.includes("InStock"));
+assert.ok(!gerPage.includes("waiting for the manufacturer's upload"));
+assert.ok(gerPage.includes("/images/mongolian-ger/ereen/finished-white-gers.jpg"));
+assert.ok(gerPage.includes("/images/mongolian-ger/crown-ring/dragon-toono-closeup.jpg"));
 
 const productPage = read("brand-store/product.html");
 assert.ok(!productPage.includes("og:image"));
 assert.ok(!/images\/(?:destinations|tour|hero|experiences)/.test(productPage));
 
-["ereen", "luxury-carved", "components", "interior", "doors", "crown-ring"].forEach((folder) => {
+const expectedPhotos = {
+  ereen: ["finished-white-gers.jpg", "orange-frame-and-painted-door.jpg", "painted-toono-and-doors.jpg"],
+  "luxury-carved": ["carved-toono-and-columns.jpg", "toono-uni-and-column.jpg"],
+  components: ["workshop-painted-walls-and-carved-door.jpg"],
+  interior: ["carved-crown-and-roof.jpg"],
+  doors: ["carved-lion-door.jpg"],
+  "crown-ring": ["dragon-toono-closeup.jpg"]
+};
+Object.keys(expectedPhotos).forEach((folder) => {
   assert.ok(fs.existsSync(path.join(root, "images/mongolian-ger", folder)));
   const names = fs.readdirSync(path.join(root, "images/mongolian-ger", folder)).filter((name) => !name.startsWith("."));
-  assert.deepStrictEqual(names, [], folder);
+  assert.deepStrictEqual(names.sort(), expectedPhotos[folder].slice().sort(), folder);
+  names.forEach((name) => {
+    const bytes = fs.readFileSync(path.join(root, "images/mongolian-ger", folder, name));
+    assert.ok(bytes.length > 1000, name);
+    assert.strictEqual(bytes[0], 0xff);
+    assert.strictEqual(bytes[1], 0xd8);
+    assert.strictEqual(bytes[2], 0xff);
+  });
 });
 const photoReadme = read("images/mongolian-ger/README.md");
-["ereen-exterior-01.jpg", "luxury-carved-exterior-01.jpg", "painted-wall-component-01.jpg", "carved-column-component-01.jpg", "luxury-interior-01.jpg", "carved-door-01.jpg", "carved-crown-ring-01.jpg"].forEach((name) => {
+["finished-white-gers.jpg", "dragon-toono-closeup.jpg", "carved-lion-door.jpg", "workshop-painted-walls-and-carved-door.jpg", "carved-crown-and-roof.jpg", "toono-uni-and-column.jpg", "carved-toono-and-columns.jpg", "orange-frame-and-painted-door.jpg", "painted-toono-and-doors.jpg"].forEach((name) => {
   assert.ok(photoReadme.includes(name), name);
 });
 
