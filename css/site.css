@@ -246,6 +246,48 @@
       flex-wrap:wrap;
       margin-top:6px;
     }
+    .hero-offers{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      margin:16px 0 0;
+    }
+    .hero-offer{
+      color:var(--dark);
+    }
+    .hero-offer .card-body{padding:14px}
+    .hero-offer h3{
+      margin:0 0 6px;
+      font-size:16px;
+      color:var(--primary-dark);
+    }
+    .hero .hero-offer p{
+      margin:0 0 8px;
+      max-width:none;
+      font-size:13px;
+      line-height:1.45;
+      color:var(--muted);
+    }
+    .hero .hero-offer .hero-offer-line{
+      margin-bottom:6px;
+      color:#14532d;
+      font-weight:700;
+    }
+    .hero-offer .btn{
+      width:100%;
+      margin-top:4px;
+      padding:10px 12px;
+      font-size:13px;
+    }
+    .hero-offer-contact{
+      display:block;
+      margin-top:8px;
+      text-align:center;
+      font-size:12px;
+      font-weight:700;
+      color:var(--accent-dark);
+      text-decoration:underline;
+    }
     .btn{
       display:inline-flex;
       align-items:center;
@@ -1221,6 +1263,7 @@
       .nav-links a.nav-hotels{width:auto;justify-content:flex-start;text-align:left;font-size:inherit;padding:8px 0}
       .hero{min-height:auto}
       .hero-content{padding:80px 0 70px}
+      .hero-offers{grid-template-columns:1fr}
       .video-main iframe{min-height:260px}
       .video-small iframe{height:220px}
       .about-photo{min-height:300px}
