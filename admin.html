@@ -178,7 +178,7 @@
 
     <div id="brandProductPanel" class="panel hidden">
       <h3 style="margin:0 0 8px;color:var(--primary)">Publish a Mongolia Brand Store product</h3>
-      <p class="muted">Only products you enter here can appear in the store. Leave the price empty if the maker has not set one. New rows stay pending until you publish them.</p>
+      <p class="muted">The Mongolian Ger Collection is already public from the local catalog, at the starting prices in that file. Publish a row with the same slug to replace the file. Leave the price empty only when a maker has not set one. New rows stay pending until you publish them.</p>
       <div class="invite-grid">
         <div><label>Name</label><input id="bpName" placeholder="Product name"></div>
         <div><label>Slug</label><input id="bpSlug" placeholder="cashmere-shawl"></div>
@@ -206,8 +206,23 @@
         <div><label>Sizes, comma separated</label><input id="bpSizes"></div>
         <div><label>Colors, comma separated</label><input id="bpColors"></div>
         <div><label>Shipping note</label><input id="bpShipping"></div>
-        <div class="full"><label>Image URLs, comma separated https links</label><input id="bpImages" placeholder="https://"></div>
-        <div class="full"><button class="ok" onclick="saveBrandProduct()">Save product as pending</button></div>
+        <div><label>Availability</label>
+          <select id="bpStatus"><option value="pending">Pending</option><option value="published">Published</option><option value="hidden">Hidden</option></select>
+        </div>
+        <div class="full"><label>Image URLs, comma separated</label><textarea id="bpImages" rows="3" placeholder="https:// or /images/mongolian-ger/..."></textarea></div>
+        <div class="full"><p class="muted">Ger specifications stay “To be confirmed” until you replace them. Run <code>supabase/migrations/20261114_brand_product_specs.sql</code> once in the Supabase SQL editor before these specification fields can be stored. Do not paste destination or tour photographs.</p></div>
+        <div><label>Dimensions</label><input id="bpDimensions" placeholder="To be confirmed"></div>
+        <div><label>Total weight kg</label><input id="bpWeightTotal" placeholder="To be confirmed"></div>
+        <div><label>Wooden structure weight</label><input id="bpWeightWood" placeholder="To be confirmed"></div>
+        <div><label>Complete package weight</label><input id="bpWeightPackage" placeholder="To be confirmed"></div>
+        <div><label>Number of packages</label><input id="bpPackageCount" placeholder="To be confirmed"></div>
+        <div><label>Individual package dimensions</label><input id="bpPackageDimensions" placeholder="To be confirmed"></div>
+        <div><label>Total CBM</label><input id="bpCbm" placeholder="To be confirmed"></div>
+        <div><label>Packaging type</label><input id="bpPackaging" placeholder="To be confirmed"></div>
+        <div><label>Available shipping methods</label><input id="bpShipMethods" placeholder="To be confirmed"></div>
+        <div><label>Production lead time</label><input id="bpLead" placeholder="To be confirmed"></div>
+        <div class="full"><label>Customization notes</label><textarea id="bpCustom" rows="3" placeholder="Available upon request"></textarea></div>
+        <div class="full"><button class="ok" onclick="saveBrandProduct()">Save brand product</button></div>
       </div>
     </div>
 
@@ -399,6 +414,15 @@ function renderBrandSeller(s){
     </div>
   </div>`;
 }
+function imageUrlList(urls){
+  return Array.isArray(urls) ? urls.map(url => String(url || "").trim()).filter(Boolean) : [];
+}
+function httpsImageUrls(urls){
+  return imageUrlList(urls).filter(url => url.indexOf("https://") === 0);
+}
+function localImageUrls(urls){
+  return imageUrlList(urls).filter(url => url.indexOf("https://") !== 0);
+}
 function renderBrandProduct(p){
   const price = p.price_amount == null ? "No price set" : (p.price_currency || "USD") + " " + p.price_amount;
   return `<div class="card">
@@ -406,8 +430,10 @@ function renderBrandProduct(p){
       <div class="muted">${escapeHtml(p.brand_name || "")} • ${escapeHtml(p.category_slug || "")} • ${escapeHtml(price)}</div></div>${getStatusBadge(p.status)}</div>
     <p>${escapeHtml(p.description || "")}</p>
     <div class="muted">Slug: ${escapeHtml(p.slug || "")} • Stock: ${escapeHtml(p.stock_status || "")} • Origin: ${escapeHtml(p.origin || "Mongolia")}</div>
-    ${renderImages(p.image_urls)}
+    ${renderImages(httpsImageUrls(p.image_urls))}
+    <div class="muted">${escapeHtml(localImageUrls(p.image_urls).join(", "))}</div>
     <div class="actions">
+      <button class="secondary" type="button" onclick="fillBrandProduct('${p.id}')">Edit</button>
       <button class="ok" onclick="updateStatus('brand_products','${p.id}','published')">Publish</button>
       <button class="warn" onclick="updateStatus('brand_products','${p.id}','hidden')">Hide</button>
       <button class="secondary" onclick="updateStatus('brand_products','${p.id}','pending')">Pending</button>
@@ -422,10 +448,46 @@ function renderBrandInquiry(q){
     <div class="actions"><button class="warn" onclick="updateStatus('brand_inquiries','${q.id}','hidden')">Hide</button></div>
   </div>`;
 }
+function specField(id){
+  const node = document.getElementById(id);
+  return node ? node.value.trim() : "";
+}
+function fillBrandProduct(id){
+  const product = (cache.products || []).find(item => item.id === id);
+  if(!product) return showNotice("Product was not found in the current list.", "error");
+  const specs = product.specs && typeof product.specs === "object" ? product.specs : {};
+  document.getElementById("bpName").value = product.name || "";
+  document.getElementById("bpSlug").value = product.slug || "";
+  document.getElementById("bpCategory").value = product.category_slug || "ger-home";
+  document.getElementById("bpBrand").value = product.brand_name || "";
+  document.getElementById("bpPrice").value = product.price_amount == null ? "" : product.price_amount;
+  document.getElementById("bpCurrency").value = product.price_currency || "USD";
+  document.getElementById("bpStock").value = product.stock_status || "made_to_order";
+  document.getElementById("bpSeller").value = product.seller_id || "";
+  document.getElementById("bpDescription").value = product.description || "";
+  document.getElementById("bpMaterials").value = product.materials || "";
+  document.getElementById("bpSizes").value = Array.isArray(product.sizes) ? product.sizes.join(", ") : "";
+  document.getElementById("bpColors").value = Array.isArray(product.colors) ? product.colors.join(", ") : "";
+  document.getElementById("bpShipping").value = product.shipping_note || "";
+  document.getElementById("bpStatus").value = product.status || "pending";
+  document.getElementById("bpImages").value = Array.isArray(product.image_urls) ? product.image_urls.join(", ") : "";
+  document.getElementById("bpDimensions").value = specs.dimensions || "";
+  document.getElementById("bpWeightTotal").value = specs.total_weight_kg || "";
+  document.getElementById("bpWeightWood").value = specs.wooden_structure_weight || "";
+  document.getElementById("bpWeightPackage").value = specs.complete_package_weight || "";
+  document.getElementById("bpPackageCount").value = specs.number_of_packages || "";
+  document.getElementById("bpPackageDimensions").value = specs.package_dimensions || "";
+  document.getElementById("bpCbm").value = specs.total_cbm || "";
+  document.getElementById("bpPackaging").value = specs.packaging_type || "";
+  document.getElementById("bpShipMethods").value = specs.shipping_methods || "";
+  document.getElementById("bpLead").value = specs.production_lead_time || "";
+  document.getElementById("bpCustom").value = specs.customization_notes || "";
+  document.getElementById("brandProductPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+}
 async function saveBrandProduct(){
   try{
     const name = document.getElementById("bpName").value.trim();
-    await api({
+    const data = await api({
       action: "saveBrandProduct",
       name,
       slug: document.getElementById("bpSlug").value.trim() || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
@@ -434,15 +496,27 @@ async function saveBrandProduct(){
       price_amount: document.getElementById("bpPrice").value,
       price_currency: document.getElementById("bpCurrency").value,
       stock_status: document.getElementById("bpStock").value,
+      status: document.getElementById("bpStatus").value,
       seller_id: document.getElementById("bpSeller").value.trim() || null,
       description: document.getElementById("bpDescription").value,
       materials: document.getElementById("bpMaterials").value,
       sizes: document.getElementById("bpSizes").value,
       colors: document.getElementById("bpColors").value,
       shipping_note: document.getElementById("bpShipping").value,
-      image_urls: document.getElementById("bpImages").value
+      image_urls: document.getElementById("bpImages").value,
+      dimensions: specField("bpDimensions"),
+      total_weight_kg: specField("bpWeightTotal"),
+      wooden_structure_weight: specField("bpWeightWood"),
+      complete_package_weight: specField("bpWeightPackage"),
+      number_of_packages: specField("bpPackageCount"),
+      package_dimensions: specField("bpPackageDimensions"),
+      total_cbm: specField("bpCbm"),
+      packaging_type: specField("bpPackaging"),
+      shipping_methods: specField("bpShipMethods"),
+      production_lead_time: specField("bpLead"),
+      customization_notes: specField("bpCustom")
     });
-    showNotice("Product saved as pending.");
+    showNotice(data.warning || "Brand product saved.");
     loadCurrent();
   }catch(e){ showNotice(e.message, "error"); }
 }

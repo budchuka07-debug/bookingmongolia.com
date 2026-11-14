@@ -1,0 +1,205 @@
+{
+  "shipping_notice": "International shipping is arranged and paid for separately by the buyer. Import duties, customs clearance, taxes, and local delivery are the buyer's responsibility.",
+  "products": [
+    {
+      "slug": "traditional-ereen-ger",
+      "name": "Traditional Ereen Mongolian Ger",
+      "category_slug": "ger-home",
+      "ger_collection": true,
+      "price_amount": 2000,
+      "price_currency": "USD",
+      "shipping_included": false,
+      "brand_name": "Booking Mongolia",
+      "origin": "Mongolia",
+      "stock_status": "made_to_order",
+      "materials": "Wood",
+      "sizes": [],
+      "colors": [],
+      "description": "A traditional Mongolian Ereen Ger with colorful decorative patterns, a wooden structure, and complete package options. This Traditional Mongolian Ger for Sale is a Mongolian Ereen Ger for buyers who want to buy a Mongolian yurt.",
+      "seo_title": "Traditional Mongolian Ger for Sale | Mongolian Ereen Ger",
+      "seo_description": "Traditional Mongolian Ger for Sale. A Mongolian Ereen Ger with colorful decorative patterns and a wooden structure. Buy Mongolian Yurt from a starting price of $2,000 USD. Shipping is not included.",
+      "keywords": [
+        "Traditional Mongolian Ger for Sale",
+        "Mongolian Ereen Ger",
+        "Buy Mongolian Yurt"
+      ],
+      "features": [
+        "Traditional painted wooden components",
+        "Decorative Ereen patterns",
+        "Traditional wooden door",
+        "Wooden wall structure",
+        "Roof poles and crown ring",
+        "Complete ger package",
+        "Custom color and pattern requests"
+      ],
+      "requests": [
+        "6-wall or 8-wall configuration, subject to manufacturer confirmation",
+        "Custom wooden carving",
+        "Custom painted patterns",
+        "Custom colors",
+        "Door designs",
+        "Interior decoration",
+        "Additional furniture",
+        "Complete or customized package"
+      ],
+      "package_note": "A complete ger package can be requested. Package contents: To be confirmed.",
+      "specs": {
+        "dimensions": "To be confirmed",
+        "total_weight_kg": "To be confirmed",
+        "wooden_structure_weight": "To be confirmed",
+        "complete_package_weight": "To be confirmed",
+        "number_of_packages": "To be confirmed",
+        "package_dimensions": "To be confirmed",
+        "total_cbm": "To be confirmed",
+        "packaging_type": "To be confirmed",
+        "shipping_methods": "To be confirmed",
+        "production_lead_time": "To be confirmed",
+        "customization_notes": "Available upon request"
+      },
+      "galleries": [
+        {
+          "id": "ereen",
+          "label": "Traditional Ereen Ger",
+          "images": [
+            "/images/mongolian-ger/ereen/ereen-exterior-01.jpg",
+            "/images/mongolian-ger/ereen/ereen-pattern-detail-01.jpg",
+            "/images/mongolian-ger/ereen/ereen-wooden-door-01.jpg",
+            "/images/mongolian-ger/ereen/ereen-roof-01.jpg"
+          ]
+        },
+        {
+          "id": "components",
+          "label": "Painted wooden components",
+          "images": [
+            "/images/mongolian-ger/components/painted-wall-component-01.jpg",
+            "/images/mongolian-ger/components/painted-roof-pole-01.jpg",
+            "/images/mongolian-ger/components/painted-crown-detail-01.jpg"
+          ]
+        }
+      ],
+      "image_urls": [
+        "/images/mongolian-ger/ereen/ereen-exterior-01.jpg",
+        "/images/mongolian-ger/ereen/ereen-pattern-detail-01.jpg",
+        "/images/mongolian-ger/ereen/ereen-wooden-door-01.jpg",
+        "/images/mongolian-ger/ereen/ereen-roof-01.jpg",
+        "/images/mongolian-ger/components/painted-wall-component-01.jpg",
+        "/images/mongolian-ger/components/painted-roof-pole-01.jpg",
+        "/images/mongolian-ger/components/painted-crown-detail-01.jpg"
+      ]
+    },
+    {
+      "slug": "luxury-hand-carved-ger",
+      "name": "Luxury Hand-Carved Mongolian Ger",
+      "category_slug": "ger-home",
+      "ger_collection": true,
+      "price_amount": 35000,
+      "price_currency": "USD",
+      "shipping_included": false,
+      "brand_name": "Booking Mongolia",
+      "origin": "Mongolia",
+      "stock_status": "made_to_order",
+      "materials": "Wood",
+      "sizes": [],
+      "colors": [],
+      "description": "A large luxury Mongolian Ger with elaborate handmade wooden carvings, traditional decorative craftsmanship, detailed wooden columns, ornate doors, and customized decorative components. This premium large-scale handmade product is made to order. It is a luxury Mongolian ger, a hand-carved Mongolian ger, a handmade Mongolian wooden yurt, and a luxury traditional Mongolian yurt.",
+      "seo_title": "Luxury Mongolian Ger | Hand-Carved Mongolian Ger",
+      "seo_description": "Luxury Mongolian Ger and Hand-Carved Mongolian Ger. A handmade Mongolian wooden yurt with carved columns, ornate doors, and a decorative crown ring. Luxury Traditional Mongolian Yurt, made to order, from a starting price of $35,000 USD. Shipping is not included.",
+      "keywords": [
+        "Luxury Mongolian Ger",
+        "Hand-Carved Mongolian Ger",
+        "Handmade Mongolian Wooden Yurt",
+        "Luxury Traditional Mongolian Yurt"
+      ],
+      "features": [
+        "Extensive handmade wood carving",
+        "Decorative wooden columns",
+        "Elaborately carved wooden doors",
+        "Decorative crown ring",
+        "Traditional artistic patterns",
+        "Luxury interior design",
+        "Custom color and decorative options",
+        "Made-to-order production"
+      ],
+      "requests": [
+        "6-wall or 8-wall configuration, subject to manufacturer confirmation",
+        "Custom wooden carving",
+        "Custom painted patterns",
+        "Custom colors",
+        "Door designs",
+        "Interior decoration",
+        "Additional furniture",
+        "Complete or customized package"
+      ],
+      "package_note": "A complete or customized package can be requested. Package contents: To be confirmed.",
+      "specs": {
+        "dimensions": "To be confirmed",
+        "total_weight_kg": "To be confirmed",
+        "wooden_structure_weight": "To be confirmed",
+        "complete_package_weight": "To be confirmed",
+        "package_dimensions": "To be confirmed",
+        "number_of_packages": "To be confirmed",
+        "total_cbm": "To be confirmed",
+        "packaging_type": "To be confirmed",
+        "shipping_methods": "To be confirmed",
+        "production_lead_time": "To be confirmed",
+        "customization_notes": "Available upon request"
+      },
+      "galleries": [
+        {
+          "id": "luxury-carved",
+          "label": "Luxury hand-carved ger",
+          "images": [
+            "/images/mongolian-ger/luxury-carved/luxury-carved-exterior-01.jpg",
+            "/images/mongolian-ger/luxury-carved/luxury-carved-columns-01.jpg",
+            "/images/mongolian-ger/luxury-carved/luxury-carved-overview-01.jpg"
+          ]
+        },
+        {
+          "id": "doors",
+          "label": "Carved wooden doors",
+          "images": [
+            "/images/mongolian-ger/doors/carved-door-01.jpg",
+            "/images/mongolian-ger/doors/carved-door-detail-01.jpg"
+          ]
+        },
+        {
+          "id": "crown-ring",
+          "label": "Decorative crown ring",
+          "images": [
+            "/images/mongolian-ger/crown-ring/carved-crown-ring-01.jpg",
+            "/images/mongolian-ger/crown-ring/carved-crown-ring-detail-01.jpg"
+          ]
+        },
+        {
+          "id": "interior",
+          "label": "Interior",
+          "images": [
+            "/images/mongolian-ger/interior/luxury-interior-01.jpg",
+            "/images/mongolian-ger/interior/luxury-interior-detail-01.jpg"
+          ]
+        },
+        {
+          "id": "components",
+          "label": "Natural carved components",
+          "images": [
+            "/images/mongolian-ger/components/carved-column-component-01.jpg",
+            "/images/mongolian-ger/components/carved-wood-component-01.jpg"
+          ]
+        }
+      ],
+      "image_urls": [
+        "/images/mongolian-ger/luxury-carved/luxury-carved-exterior-01.jpg",
+        "/images/mongolian-ger/luxury-carved/luxury-carved-columns-01.jpg",
+        "/images/mongolian-ger/luxury-carved/luxury-carved-overview-01.jpg",
+        "/images/mongolian-ger/doors/carved-door-01.jpg",
+        "/images/mongolian-ger/doors/carved-door-detail-01.jpg",
+        "/images/mongolian-ger/crown-ring/carved-crown-ring-01.jpg",
+        "/images/mongolian-ger/crown-ring/carved-crown-ring-detail-01.jpg",
+        "/images/mongolian-ger/interior/luxury-interior-01.jpg",
+        "/images/mongolian-ger/interior/luxury-interior-detail-01.jpg",
+        "/images/mongolian-ger/components/carved-column-component-01.jpg",
+        "/images/mongolian-ger/components/carved-wood-component-01.jpg"
+      ]
+    }
+  ]
+}

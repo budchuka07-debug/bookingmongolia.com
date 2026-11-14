@@ -274,12 +274,37 @@ exports.handler = async (event) => {
       if (priceRaw !== "" && (!Number.isFinite(price) || price < 0)) return json(400, { error: "Invalid price" });
       const currency = ["USD", "MNT", "EUR", "JPY", "KRW"].includes(body.price_currency) ? body.price_currency : "USD";
       const stock = ["unlisted", "in_stock", "made_to_order", "out_of_stock"].includes(body.stock_status) ? body.stock_status : "unlisted";
-      const status = body.status === "published" ? "published" : "pending";
+      const status = ["pending", "published", "hidden"].includes(body.status) ? body.status : "pending";
       const list = (value, max) => String(value || "").split(",").map((part) => part.trim()).filter(Boolean).slice(0, max);
-      const images = (Array.isArray(body.image_urls) ? body.image_urls : String(body.image_urls || "").split(","))
+      const isAllowedProductImage = (url) => {
+        const value = String(url || "").trim();
+        if (!value) return false;
+        if (/naadam|terelj|khuvsgul|steppe/i.test(value)) return false;
+        if (/\/images\/(destinations|tour|hero|experiences|guide)\//i.test(value)) return false;
+        if (/^https:\/\//i.test(value)) return true;
+        return /^\/images\/mongolian-ger\/[a-z0-9/_-]+\.(jpe?g|png|webp)$/i.test(value);
+      };
+      const rawImages = (Array.isArray(body.image_urls) ? body.image_urls : String(body.image_urls || "").split(/[\n,]/))
         .map((url) => String(url || "").trim())
-        .filter((url) => /^https:\/\//i.test(url))
-        .slice(0, 8);
+        .filter(Boolean);
+      if (rawImages.some((url) => !isAllowedProductImage(url))) {
+        return json(400, { error: "Use manufacturer photos under /images/mongolian-ger/ or https links. Destination and tour images are not product photos." });
+      }
+      const images = rawImages.slice(0, 12);
+      const cleanSpec = (value, max = 240) => String(value == null ? "" : value).trim().slice(0, max);
+      const specs = {
+        dimensions: cleanSpec(body.dimensions),
+        total_weight_kg: cleanSpec(body.total_weight_kg),
+        wooden_structure_weight: cleanSpec(body.wooden_structure_weight),
+        complete_package_weight: cleanSpec(body.complete_package_weight),
+        number_of_packages: cleanSpec(body.number_of_packages),
+        package_dimensions: cleanSpec(body.package_dimensions),
+        total_cbm: cleanSpec(body.total_cbm),
+        packaging_type: cleanSpec(body.packaging_type),
+        shipping_methods: cleanSpec(body.shipping_methods),
+        production_lead_time: cleanSpec(body.production_lead_time),
+        customization_notes: cleanSpec(body.customization_notes, 2000)
+      };
       const row = {
         slug,
         category_slug: category,
@@ -295,15 +320,29 @@ exports.handler = async (event) => {
         image_urls: images,
         stock_status: stock,
         shipping_note: String(body.shipping_note || "").trim().slice(0, 500),
+        specs,
         status,
         seller_id: body.seller_id || null
       };
-      const items = await supabaseFetch("brand_products?on_conflict=slug", {
+      const saveRow = async (payload) => supabaseFetch("brand_products?on_conflict=slug", {
         method: "POST",
         prefer: "resolution=merge-duplicates,return=representation",
-        body: JSON.stringify(row)
+        body: JSON.stringify(payload)
       });
-      return json(200, { ok: true, item: Array.isArray(items) ? items[0] : items });
+      try {
+        const items = await saveRow(row);
+        return json(200, { ok: true, item: Array.isArray(items) ? items[0] : items });
+      } catch (error) {
+        if (!/specs/i.test(String(error.message || ""))) throw error;
+        const fallback = { ...row };
+        delete fallback.specs;
+        const items = await saveRow(fallback);
+        return json(200, {
+          ok: true,
+          item: Array.isArray(items) ? items[0] : items,
+          warning: "Product saved without specifications. Run supabase/migrations/20261114_brand_product_specs.sql once in the Supabase SQL editor."
+        });
+      }
     }
 
     return json(400, { error: "Invalid action" });

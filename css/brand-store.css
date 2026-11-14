@@ -6,6 +6,26 @@
 .store-hero h1{color:#fff;font-size:clamp(34px,5vw,56px);margin:0 0 10px}
 .store-hero p{color:#f6f1e7;max-width:40rem;margin:0 0 14px}
 .store-hero-short{min-height:240px}
+.store-hero-plain{background:#2c241c}
+.store-hero-plain::after{display:none}
+.store-crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;margin:0 0 14px}
+.store-crumbs a{font-weight:700}
+.ger-hero{background:#2c241c;color:#fff;border-radius:24px;padding:clamp(24px,4vw,48px);margin-bottom:22px}
+.ger-hero h1{color:#fff;margin:0 0 8px;font-size:clamp(32px,5vw,52px)}
+.ger-hero p{color:#f6f1e7;max-width:42rem}
+.ger-price{font-size:clamp(26px,3vw,36px);font-weight:800;margin:8px 0}
+.ger-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+.ger-wait,.ger-wait-card{display:flex;align-items:center;justify-content:center;text-align:center;background:#f6f1e7;color:#2c241c;padding:28px 18px}
+.ger-wait{border-radius:var(--radius);min-height:220px}
+.ger-wait-card{min-height:180px}
+.ger-wait p,.ger-wait-card p{margin:0}
+.ger-specs{width:100%;border-collapse:collapse;margin:8px 0 18px}
+.ger-specs th,.ger-specs td{text-align:left;padding:10px 8px;border-bottom:1px solid rgba(44,36,28,.1);vertical-align:top}
+.ger-specs th{width:46%;font-weight:800}
+.ger-gallery{flex-wrap:wrap}
+.ger-gallery img{width:120px;height:120px}
+.ger-group{margin-top:16px}
+.ger-group h3{margin:0 0 8px}
 .store-actions{display:flex;flex-wrap:wrap;gap:10px}
 .store-btn,.store-btn-ghost{display:inline-flex;align-items:center;border-radius:999px;padding:12px 18px;font-weight:800}
 .store-btn{background:var(--accent);color:#fff}
@@ -49,6 +69,10 @@
 .store-cart[hidden]{display:none}
 .store-footer{padding:28px 0 40px}
 @media (max-width:900px){
-  .store-cats,.store-grid,.store-brands,.store-split,.store-product,.store-form{grid-template-columns:1fr}
+  .store-cats,.store-grid,.store-brands,.store-split,.store-product,.store-form,.ger-layout{grid-template-columns:1fr}
   .store-hero{min-height:280px}
+  .store-form input,.store-form textarea,.store-form select{font-size:16px}
+  .ger-hero{border-radius:18px;padding:22px 16px}
+  .ger-specs,.ger-specs tbody,.ger-specs tr,.ger-specs th,.ger-specs td{display:block;width:100%}
+  .ger-specs th{padding-bottom:0}
 }
