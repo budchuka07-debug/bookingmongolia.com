@@ -110,6 +110,7 @@ function buildLlms(tours) {
     "## Contact",
     "- [Contact Booking Mongolia](" + origin + "/contact.html): WhatsApp +976 90283039, email bookingmongoliatour@gmail.com, Ulaanbaatar, Mongolia.",
     "- [About](" + origin + "/about.html): English. [회사 소개](" + origin + "/about-ko.html): Korean.",
+    "- [B2B partnerships](" + origin + "/b2b-partnership): Booking Mongolia introduces Mongolia to international agencies, tour operators, DMCs, and corporate organizers and offers local ground handling.",
     "",
     "## Tours and 2027 itinerary totals",
     "- [Tour Dates](" + origin + "/tours-dates.html): every published tour, its days, and the itinerary total."
