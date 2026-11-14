@@ -365,6 +365,31 @@
           "Days 6–7: Return to Ulaanbaatar."
         ]
       }
+    }),
+    tour({
+      id: "khentii-chinggis-3d",
+      title: "Khentii and Chinggis Khan's Birthplace",
+      destination: "Tsonjin Boldog, Burkhan Khaldun, and Deluun Boldog in Khentii",
+      image: "images/hero/hero-1-mongolia.webp",
+      alt: "Winter steppe in Khentii on the Chinggis Khan homeland route",
+      durationMin: 3,
+      durationMax: 3,
+      filters: ["Cultural Experiences", "Multi-day Tours"],
+      section: "history",
+      tourType: "Private winter route",
+      difficulty: "Moderate, road and weather dependent",
+      groupLabel: "Private",
+      availability: "on_request",
+      featured: true,
+      summary: "Three days at Tsonjin Boldog, Burkhan Khaldun, and Deluun Boldog in Khentii. The Dadal road is used only when it is open.",
+      highlights: ["Tsonjin Boldog statue", "Burkhan Khaldun", "Deluun Boldog", "Khentii winter steppe"],
+      plans: {
+        "3": [
+          "Day 1: Leave Ulaanbaatar for the Chinggis Khan statue complex at Tsonjin Boldog. Visit the equestrian statue and the museum in its base, then continue into Khentii. Night in a heated ger or a soum house that is open.",
+          "Day 2: Go with a local guide to Burkhan Khaldun in the Khan Khentii protected area. The day uses the permitted approach and the sacred sites open to visitors. The summit is not a hike. Night in Khentii.",
+          "Day 3: When the winter road is open, visit Deluun Boldog near Dadal, on the Onon, the place remembered as Chinggis Khan's birthplace, then return to Ulaanbaatar. If that road is closed, return from Burkhan Khaldun instead of forcing the extra drive."
+        ]
+      }
     })
   ];
 
