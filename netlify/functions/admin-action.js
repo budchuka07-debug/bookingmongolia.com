@@ -11,7 +11,8 @@ const ALLOWED_TABLES = new Set([
   "winter_items",
   "brand_sellers",
   "brand_products",
-  "brand_inquiries"
+  "brand_inquiries",
+  "winter_inquiries"
 ]);
 
 const RESOURCE_TO_TABLE = {
@@ -27,7 +28,8 @@ const RESOURCE_TO_TABLE = {
   winter: "winter_items",
   sellers: "brand_sellers",
   products: "brand_products",
-  inquiries: "brand_inquiries"
+  inquiries: "brand_inquiries",
+  winterInquiries: "winter_inquiries"
 };
 
 const STATUS_BY_TABLE = {
@@ -40,7 +42,8 @@ const STATUS_BY_TABLE = {
   gallery_items: ["published", "hidden", "pending"],
   brand_sellers: ["pending", "approved", "rejected", "hidden"],
   brand_products: ["pending", "published", "hidden"],
-  brand_inquiries: ["pending", "hidden"]
+  brand_inquiries: ["pending", "hidden"],
+  winter_inquiries: ["pending", "hidden"]
 };
 
 function json(statusCode, body) {

@@ -228,8 +228,11 @@
 
     <div id="winterPanel" class="panel hidden">
       <h3 style="margin:0 0 8px;color:var(--primary)">Winter tours and events</h3>
-      <p class="muted">Dates and prices stay blank until you publish them. Run <code>supabase/winter_items.sql</code> once in Supabase. Until that table exists, the public page keeps the seed catalog.</p>
+      <p class="muted">Leave the price label as Request a Quote. Do not type a dollar amount. Run <code>supabase/winter_items.sql</code> once in Supabase. Until that table exists, the public page keeps the seed catalog.</p>
       <div id="winterNotice" class="notice"></div>
+      <h3 style="margin:18px 0 8px;color:var(--primary)">Winter tour inquiries</h3>
+      <p class="muted">Read-only list from <code>winter_inquiries</code>. The price shown to guests stays Request a Quote.</p>
+      <div id="winterInquiries"></div>
       <div id="winterList"></div>
     </div>
 
@@ -806,7 +809,7 @@ function renderWinterEditor(){
         <div><label>Location</label><input data-field="location" value="${escapeHtml(item.location)}"></div>
         <div><label>Start date</label><input data-field="startDate" type="date" value="${escapeHtml(item.startDate)}"></div>
         <div><label>End date</label><input data-field="endDate" type="date" value="${escapeHtml(item.endDate)}"></div>
-        <div><label>Price label</label><input data-field="priceLabel" value="${escapeHtml(item.priceLabel || "Request a Quote")}"></div>
+        <div><label>Price label</label><input data-field="priceLabel" value="${escapeHtml(item.priceLabel || "Request a Quote")}" placeholder="Request a Quote"></div>
         <div><label>Availability</label>
           <select data-field="availability">
             ${WINTER_STATUSES.map(s => `<option value="${s}" ${item.availability===s?"selected":""}>${s}</option>`).join("")}
@@ -858,6 +861,32 @@ async function loadWinterAdmin(){
     winterNote("The winter table is not ready yet. Public pages still use the seed catalog. " + e.message, "error");
   }
   renderWinterEditor();
+  loadWinterInquiries();
+}
+
+function renderWinterInquiry(q){
+  return `<div class="card">
+    <div class="card-top"><div><h3>${escapeHtml(q.name || "Inquiry")}</h3>
+      <div class="muted">${escapeHtml(q.email || "")} • ${escapeHtml(q.whatsapp || "")} • ${escapeHtml(q.tour_slug || "")}</div></div>${getStatusBadge(q.status)}</div>
+    <p>${escapeHtml(q.message || "")}</p>
+    <div class="muted">${escapeHtml(q.nationality || "")} • ${escapeHtml(q.travelers || "")} travelers • ${escapeHtml(q.departure_date || "")} • ${escapeHtml(q.days || "")} days • ${escapeHtml(q.party || "")} • ${escapeHtml(q.accommodation || "")}</div>
+    <div class="muted">Price line for the guest: Request a Quote</div>
+    <div class="actions"><button class="warn" type="button" onclick="updateStatus('winter_inquiries','${q.id}','hidden')">Hide</button></div>
+  </div>`;
+}
+
+async function loadWinterInquiries(){
+  const box = document.getElementById("winterInquiries");
+  if (!box) return;
+  try{
+    const data = await api({ action:"list", resource:"winterInquiries" });
+    const items = data.items || [];
+    box.innerHTML = items.length
+      ? items.map(renderWinterInquiry).join("")
+      : `<p class="muted">No winter tour inquiries yet.</p>`;
+  }catch(e){
+    box.innerHTML = `<p class="muted">Winter inquiries are not available until the table is migrated. ${escapeHtml(e.message)}</p>`;
+  }
 }
 
 async function saveOneWinter(index){

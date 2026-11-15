@@ -1,0 +1,273 @@
+/* Winter Tours pages. Does not restyle the global header. */
+body.wt-page {
+  background: #f6f1e7;
+  color: #1f2937;
+}
+
+.wt-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 68vh;
+  color: #fff;
+  overflow: hidden;
+}
+
+.wt-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wt-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(8, 20, 33, 0.28), rgba(8, 20, 33, 0.72));
+}
+
+.wt-hero-copy {
+  position: relative;
+  z-index: 1;
+  padding: 72px 0 56px;
+  max-width: 820px;
+}
+
+.wt-hero h1,
+.wt-hero p {
+  color: #fff;
+}
+
+.wt-hero h1 {
+  font-size: clamp(32px, 5vw, 58px);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+}
+
+.wt-hero p {
+  font-size: 18px;
+  max-width: 720px;
+  margin: 0;
+}
+
+.wt-main {
+  padding: 28px 0 72px;
+}
+
+.wt-crumbs {
+  font-size: 14px;
+  margin: 0 0 18px;
+  color: #6d6256;
+}
+
+.wt-crumbs a {
+  color: #0d3b66;
+  font-weight: 700;
+}
+
+.wt-section,
+.wt-card,
+.wt-form-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 14px 34px rgba(40, 28, 12, 0.08);
+}
+
+.wt-section,
+.wt-form-card {
+  padding: 22px 22px 8px;
+  margin: 0 0 18px;
+}
+
+.wt-section h2,
+.wt-form-card h2,
+.wt-related h2 {
+  color: #0d3b66;
+  font-size: clamp(24px, 3vw, 32px);
+}
+
+.wt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 8px 0 22px;
+}
+
+.wt-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.wt-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.wt-card-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.wt-card h2 {
+  color: #0d3b66;
+  font-size: 26px;
+  margin: 0;
+}
+
+.wt-duration {
+  margin: 0;
+  color: #0d3b66;
+  font-weight: 700;
+}
+
+.wt-card p,
+.wt-section p,
+.wt-section li {
+  margin: 0 0 10px;
+}
+
+.wt-label {
+  margin: 4px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8c6840;
+  font-weight: 800;
+}
+
+.wt-price {
+  margin: 4px 0 0;
+  font-weight: 800;
+  color: #0d3b66;
+}
+
+.wt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.wt-page .btn-primary {
+  background: #b8893d;
+  color: #fff;
+  border-color: transparent;
+}
+
+.wt-page .btn-primary:hover {
+  background: #c98b2f;
+  color: #fff;
+}
+
+.wt-page a.btn-ghost {
+  background: #fff;
+  color: #0d3b66;
+  border: 2px solid #0d3b66;
+}
+
+.wt-map {
+  height: 320px;
+  width: 100%;
+  border-radius: 16px;
+  margin: 0 0 12px;
+  background: #e7d7c1;
+}
+
+.wt-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.wt-gallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.wt-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 14px;
+  margin: 0 0 18px;
+}
+
+.wt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 700;
+  color: #0d3b66;
+  font-size: 14px;
+}
+
+.wt-form .full {
+  grid-column: 1 / -1;
+}
+
+.wt-form input,
+.wt-form select,
+.wt-form textarea {
+  width: 100%;
+  border: 1px solid #e7d7c1;
+  border-radius: 12px;
+  padding: 12px 12px;
+  font: inherit;
+  background: #fffdf8;
+  color: #1f2937;
+}
+
+.wt-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.wt-note {
+  min-height: 1.4em;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+.wt-note.ok { color: #14532d; }
+.wt-note.bad { color: #9f1239; }
+
+.wt-related ul {
+  padding-left: 18px;
+}
+
+.wt-related a {
+  color: #0d3b66;
+  font-weight: 700;
+}
+
+#inquiry {
+  scroll-margin-top: 120px;
+}
+
+@media (max-width: 800px) {
+  .wt-hero {
+    min-height: 62vh;
+  }
+
+  .wt-grid,
+  .wt-form {
+    grid-template-columns: 1fr;
+  }
+
+  .wt-card img {
+    height: 200px;
+  }
+
+  body.wt-page header .nav {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+}

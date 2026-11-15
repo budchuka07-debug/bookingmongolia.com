@@ -148,6 +148,7 @@ read_more: "Read More",
         footer_text: "Local travel guide, private tours and Mongolia trip planning.",
         nav_tours_dates: "Tours & Dates",
         nav_winter: "Winter Mongolia",
+        nav_winter_tours: "Winter Tours",
         contact_whatsapp: "WhatsApp:",
         contact_wechat_line: "Scan the WeChat friend QR below (Chuluunchimeg Bud).",
         contact_alipay_line: "Scan the friend QR to add us, or the orange receive QR to pay.",
@@ -464,6 +465,7 @@ read_more: "Read More",
         footer_text: "現地旅行ガイド、プライベートツアー、モンゴル旅行計画。",
         nav_tours_dates: "ツアー＆日程",
         nav_winter: "冬のモンゴル",
+        nav_winter_tours: "冬のツアー",
         contact_whatsapp: "WhatsApp:",
         contact_wechat_line: "下のWeChat友達用QRをスキャンしてください（Chuluunchimeg Bud）。",
         contact_alipay_line: "友達追加用QR、またはオレンジ色の受取QRでお支払いできます。",
@@ -780,6 +782,7 @@ read_more: "Read More",
         footer_text: "현지 여행 가이드, 프라이빗 투어, 몽골 여행 플래닝.",
         nav_tours_dates: "투어 & 일정",
         nav_winter: "겨울 몽골",
+        nav_winter_tours: "겨울 투어",
         contact_whatsapp: "WhatsApp:",
         contact_wechat_line: "아래 WeChat 친구 QR을 스캔하세요 (Chuluunchimeg Bud).",
         contact_alipay_line: "친구 추가 QR을 스캔하거나, 주황색 수령 QR로 결제하세요.",
@@ -966,6 +969,9 @@ read_more: "Read More",
         about_find_5: "여행 서비스와 추천",
         about_contact_heading: "문의",
         about_location: "위치:"
+      },
+      mn: {
+        nav_winter_tours: "Өвлийн аялал"
       }
     };
 
@@ -990,6 +996,16 @@ read_more: "Read More",
       return (pack && pack[key]) || (translations.en && translations.en[key]) || fallback || key;
     }
 
+    function lookup(lang, key) {
+      if (translations[lang] && translations[lang][key] != null && translations[lang][key] !== "") {
+        return translations[lang][key];
+      }
+      if (lang !== "en" && translations.en && translations.en[key] != null) {
+        return translations.en[key];
+      }
+      return null;
+    }
+
     function setLanguage(lang) {
       if (!translations[lang]) lang = "en";
       currentLang = lang;
@@ -1000,16 +1016,20 @@ read_more: "Read More",
 
       document.querySelectorAll("[data-i18n]").forEach((el) => {
         const key = el.getAttribute("data-i18n");
-        if (translations[lang] && translations[lang][key] != null) {
-          el.textContent = translations[lang][key];
-        }
+        const value = lookup(lang, key);
+        if (value != null) el.textContent = value;
       });
 
       document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
         const key = el.getAttribute("data-i18n-placeholder");
-        if (translations[lang] && translations[lang][key] != null) {
-          el.setAttribute("placeholder", translations[lang][key]);
-        }
+        const value = lookup(lang, key);
+        if (value != null) el.setAttribute("placeholder", value);
+      });
+
+      document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-alt");
+        const value = lookup(lang, key);
+        if (value != null) el.setAttribute("alt", value);
       });
 
       document.querySelectorAll(".lang-switch button").forEach((btn) => {
@@ -1040,7 +1060,7 @@ read_more: "Read More",
           window.location.href = "https://visitmongoliatours.com/";
           return;
         }
-        if (lang !== "en" && lang !== "ja" && lang !== "ko") return;
+        if (lang !== "en" && lang !== "ja" && lang !== "ko" && lang !== "mn") return;
         setLanguage(lang);
       });
     });

@@ -46,8 +46,23 @@
     else nav.appendChild(link);
   }
 
+  function ensureWinterToursLink() {
+    var nav = document.getElementById("siteNav");
+    if (!nav || nav.querySelector('a[href="/winter-tours"]')) return;
+    var link = document.createElement("a");
+    link.href = "/winter-tours";
+    link.setAttribute("data-i18n", "nav_winter_tours");
+    link.textContent = global.BM_I18N && global.BM_I18N.t
+      ? global.BM_I18N.t("nav_winter_tours", "Winter Tours")
+      : "Winter Tours";
+    var winter = nav.querySelector('a[href="/winter-mongolia"], a.nav-winter');
+    if (winter) winter.insertAdjacentElement("afterend", link);
+    else nav.appendChild(link);
+  }
+
   function init() {
     ensureBrandStoreLink();
+    ensureWinterToursLink();
     markCurrentPage();
     var nav = document.getElementById("siteNav");
     var btn = document.querySelector(".menu-toggle");
