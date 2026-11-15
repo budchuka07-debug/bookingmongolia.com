@@ -70,8 +70,9 @@ window.addEventListener('load', function () {
   }
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
-  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/site.css?v=20261115hero" />
 <script src="/js/book-dates-btn.js" defer></script>
+<script src="/js/hero-services.js" defer></script>
 <script src="/js/site-nav.js" defer></script>
 <script src="/js/nav-anchors.js" defer></script>
 </head>
@@ -132,44 +133,19 @@ window.addEventListener('load', function () {
     <div class="hero-overlay"></div>
 
     <div class="container">
-      <div class="hero-content">
+      <div class="hero-content hero-intro">
         <div class="eyebrow season-badge" data-i18n="hero_eyebrow">2027 SEASON — BOOKINGS OPEN</div>
         <h1 data-i18n="hero_title">DISCOVER MONGOLIA 2027</h1>
-        <p data-i18n="hero_text">Private tours, airport transfers, and local experiences are arranged from Ulaanbaatar. Each tour price is listed on Tour Dates.</p>
+        <p class="hero-lead" data-i18n="hero_text">Private tours, airport transfers, and local experiences are arranged from Ulaanbaatar.</p>
+        <p class="hero-lead" data-i18n="hero_text_2">Each tour price is listed on Tour Dates.</p>
 
        <div class="cta-row">
   <a class="btn btn-primary" href="/tours-dates.html" data-i18n="hero_btn_1">EXPLORE TOURS</a>
   <a class="btn btn-outline" href="/tours-dates.html#calendar-list" data-i18n="hero_btn_2">BOOK YOUR ADVENTURE</a>
 </div>
-        <div class="hero-offers">
-          <article class="card hero-offer">
-            <div class="card-body">
-              <h3 data-i18n="offer_pickup_title">Airport transfer</h3>
-              <p class="hero-offer-line" data-i18n="offer_pickup_line">$40</p>
-              <p data-i18n="offer_pickup_text">Chinggis Khaan Airport pickup or drop-off, any time. $40 for the car. Travelers in the same car can split the fare.</p>
-              <a class="btn btn-primary" href="https://wa.me/97690283039?text=Airport%20transfer%20%2440" target="_blank" rel="noopener" data-i18n="offer_wa">Order on WhatsApp</a>
-              <a class="hero-offer-contact" href="/contact" data-i18n="offer_contact">Contact</a>
-            </div>
-          </article>
-          <article class="card hero-offer">
-            <div class="card-body">
-              <h3 data-i18n="offer_terelj_title">Terelj transfer</h3>
-              <p class="hero-offer-line" data-i18n="offer_terelj_line">$40</p>
-              <p data-i18n="offer_terelj_text">Pickup and return between Ulaanbaatar and Terelj. $40 for a 5-seat car or a 6-seat Alphard.</p>
-              <a class="btn btn-primary" href="https://wa.me/97690283039?text=Terelj%20transfer%20%2440" target="_blank" rel="noopener" data-i18n="offer_wa">Order on WhatsApp</a>
-              <a class="hero-offer-contact" href="/contact" data-i18n="offer_contact">Contact</a>
-            </div>
-          </article>
-          <article class="card hero-offer">
-            <div class="card-body">
-              <h3 data-i18n="offer_esim_title">eSIM before you land</h3>
-              <p class="hero-offer-line" data-i18n="offer_esim_line">$15 · 10GB + 10,000 local calls</p>
-              <p data-i18n="offer_esim_text">Set up internet before you arrive. Mongolia's widest network, 10GB of data and 10,000 local calls.</p>
-              <a class="btn btn-primary" href="https://wa.me/97690283039?text=eSIM%20before%20you%20land%20%2415" target="_blank" rel="noopener" data-i18n="offer_wa">Order on WhatsApp</a>
-              <a class="hero-offer-contact" href="/contact" data-i18n="offer_contact">Contact</a>
-            </div>
-          </article>
-        </div>
+      </div>
+      <div data-bm-services="airport,terelj,esim" data-bm-variant="home"></div>
+      <div class="hero-content hero-follow">
         <div class="quick-links">
           <a class="quick-link quick-hotels" href="/hotels.html">Hotels &amp; Camps</a>
           <a class="quick-link" href="/car-rental.html">🚙 Car Rental</a>
@@ -1524,7 +1500,7 @@ window.addEventListener('load', function () {
 <script src="/js/index-app.js"></script>
 <script src="/js/gallery.js"></script>
 
-<script src="/js/site-i18n.js"></script>
+<script src="/js/site-i18n.js?v=20261115hero"></script>
 
   <script src="/js/destinations-map.js"></script>
 
