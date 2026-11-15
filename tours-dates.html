@@ -1438,7 +1438,7 @@
       </div>
 
       <div class="calendar-layout">
-        <div id="winterEventList"></div>
+        <div id="winter"><div id="winterEventList"></div></div>
         <div id="regionFilters" class="season-filters" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px">
           <button type="button" class="tour-btn primary" data-region="all" onclick="setRegion('all')">All Tours</button>
           <button type="button" class="tour-btn" data-region="central" onclick="setRegion('central')">Central Mongolia</button>
@@ -1897,44 +1897,162 @@
 
     };
 
-    if (window.BM_WINTER && Array.isArray(window.BM_WINTER.tours)) {
-      window.BM_WINTER.tours.forEach(function (w) {
-        tours.push({
-          id: w.id,
-          name: w.title,
-          region: 'winter',
-          style: 'winter',
-          days: w.durationMin,
-          daysMax: w.durationMax,
-          durationLabel: w.durationLabel,
-          status: 'request',
-          priceMode: 'ask',
-          seasons: ['winter'],
-          image: w.image,
-          highlights: w.highlights || [],
-          dates: ['November – April'],
-          fromUB: w.destination,
-          season: 'Nov–Apr',
-          group: w.groupLabel,
-          page: w.page
-        });
-        var lines = [];
-        Object.keys(w.plans || {}).forEach(function (key) {
-          lines.push(key + '-day option:');
-          (w.plans[key] || []).forEach(function (line) { lines.push(line); });
-        });
-        tourDetails[w.id] = {
-          route: w.destination + '. Estimated length ' + w.durationLabel + '.',
-          itinerary: lines,
-          standard: 'Quoted after the month and group size are set.',
-          budget: 'Ask for a simpler ger where a winter camp is open.',
-          premium: 'Ask for a private room when the camp has one.',
-          includes: ['Guide','Ground transport for the quoted days','The activities named in the quote'],
-          notIncluded: ['International flights','Domestic flights when the route needs a plane','Festival tickets if a town charges one'],
-          note: 'Season November to April. ' + w.durationLabel + ' is an estimate, not a confirmed departure date.'
-        };
-      });
+    function escapeHtml(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
+
+    function addWinterRouteTour(w) {
+      if (!w || w.published === false) return;
+      if (tours.some(function (t) { return t.id === w.id; })) return;
+      tours.push({
+        id: w.id,
+        name: w.title,
+        region: 'winter',
+        style: 'winter',
+        days: w.durationMin,
+        daysMax: w.durationMax,
+        durationLabel: w.durationLabel,
+        status: 'request',
+        priceMode: 'ask',
+        seasons: ['winter'],
+        image: w.image,
+        highlights: w.highlights || [],
+        dates: ['November – April'],
+        fromUB: w.destination,
+        season: 'Nov–Apr',
+        group: w.groupLabel || 'Private or small group',
+        page: w.page
+      });
+      var lines = [];
+      if (Array.isArray(w.itinerary)) {
+        w.itinerary.forEach(function (line) { lines.push(line); });
+      }
+      Object.keys(w.plans || {}).forEach(function (key) {
+        lines.push(key + '-day option:');
+        (w.plans[key] || []).forEach(function (line) { lines.push(line); });
+      });
+      tourDetails[w.id] = {
+        route: (w.destination || '') + '. Estimated length ' + (w.durationLabel || '') + '.',
+        itinerary: lines,
+        standard: 'Quoted after the month and group size are set.',
+        budget: 'Ask for a simpler ger where a winter camp is open.',
+        premium: 'Ask for a private room when the camp has one.',
+        includes: ['Guide','Ground transport for the quoted days','The activities named in the quote'],
+        notIncluded: ['International flights','Domestic flights when the route needs a plane','Festival tickets if a town charges one'],
+        note: 'Season November to April. ' + (w.durationLabel || '') + ' is an estimate, not a confirmed departure date.'
+      };
+    }
+
+    var winterPageRoutes = [
+      {
+        id: 'khuvsgul-winter-adventure',
+        title: 'Khuvsgul Ice & Winter Adventure',
+        destination: 'Khuvsgul Lake, Murun and Khatgal',
+        durationMin: 5,
+        durationMax: 7,
+        durationLabel: '5–7 days',
+        page: '/winter-tours/khuvsgul-winter-adventure',
+        image: 'images/hero/hero-khuvsgul-lake.webp',
+        highlights: ['Frozen lake landscapes around Khuvsgul', 'Horse-drawn sleigh only where a local operator is working', 'Nomadic culture and an optional visit with a local family'],
+        groupLabel: 'Private or small group',
+        published: true,
+        itinerary: [
+          'Day 1 — Murun to Khatgal',
+          'Travel from Murun toward Khatgal on Khuvsgul. The summer-road estimate is about 100 km, and the drive takes longer in snow. The driver confirms the time. The evening is a heated ger or a heated room after Booking Mongolia confirms it.',
+          'Day 2 — Frozen lake landscapes',
+          'The day is for winter photography and the frozen lake landscapes near Khatgal. Any ice activity stays inside an officially designated safe area and follows the local safety assessment.',
+          'Day 3 — Sleigh and a family visit',
+          'A horse-drawn sleigh runs only where a local operator is working that day. An optional visit with a local family happens if the household can receive guests. Horseback riding on the frozen lake is not offered.',
+          'Day 4 — Nomadic culture',
+          'A slower day with nomadic culture: livestock near the ger, time with the host family, and photographs when the light is good. If the weather turns, the plan stays near the confirmed lodging.',
+          'Day 5 — What the weather allows',
+          'The group keeps the activities that are actually operating: photography, a short time on designated ice, or a quiet day. Closed activities are left out.',
+          'Day 6 — Extra day on the longer plan',
+          'Used on the 6- or 7-day version if snow slows the road or you want another day by the lake. It does not add a new list of promised activities.',
+          'Day 7 — Return toward Murun',
+          'Return toward Murun. The longer plan exists because snow and ice can change the drive. The driver confirms the winter road.'
+        ]
+      },
+      {
+        id: 'khentii-chinggis-khan',
+        title: 'Khentii – In the Footsteps of Chinggis Khan',
+        destination: 'Ulaanbaatar, Tsonjin Boldog, and Khentii',
+        durationMin: 3,
+        durationMax: 4,
+        durationLabel: '3–4 days',
+        page: '/winter-tours/khentii-chinggis-khan',
+        image: 'images/hero/hero-1-mongolia.webp',
+        highlights: ['Chinggis Khan Equestrian Statue at Tsonjin Boldog', 'Khentii landscapes and local history at stops that are open', 'Dadal and Deluun Boldog only if the road and access allow'],
+        groupLabel: 'Private or small group',
+        published: true,
+        itinerary: [
+          'Day 1 — Ulaanbaatar and Tsonjin Boldog',
+          'The day starts in Ulaanbaatar, visits Tsonjin Boldog and the Chinggis Khan Equestrian Statue, and continues toward Khentii only if the road allows. Ulaanbaatar to Tsonjin Boldog is about 54 km on a summer-road estimate and takes longer in snow. The driver confirms the time.',
+          'Day 2 — Khentii landscapes',
+          'Khentii landscapes and local history, using only the stops that are accessible that day.',
+          'Day 3 — Dadal only if access allows',
+          'Dadal and Deluun Boldog only if the road and access allow, then the return begins. If access is closed, the group does not force the extra drive.',
+          'Day 4 — Optional',
+          'Optional extra sightseeing, or the return to Ulaanbaatar. A three-day plan returns on day 3.'
+        ]
+      },
+      {
+        id: 'central-mongolia-winter',
+        title: 'Central Mongolia Winter Discovery',
+        destination: 'Khugnu Khan, Elsen Tasarkhai, Kharkhorin, the Orkhon Valley, and Hustai',
+        durationMin: 5,
+        durationMax: 6,
+        durationLabel: '5–6 days',
+        page: '/winter-tours/central-mongolia-winter',
+        image: 'images/destinations/dest-orkhon-valley.jpg',
+        highlights: ['Khugnu Khan and Elsen Tasarkhai', 'Kharkhorin and Erdene Zuu', 'Orkhon Valley winter landscapes'],
+        groupLabel: 'Private or small group',
+        published: true,
+        itinerary: [
+          'Day 1 — Ulaanbaatar, Khugnu Khan, Elsen Tasarkhai',
+          'Drive from Ulaanbaatar toward Khugnu Khan and Elsen Tasarkhai, about 280 km on a summer-road estimate. Snow makes the day longer. The driver confirms the time, and the stop is used only if winter access is open.',
+          'Day 2 — Camels and a family visit',
+          'Camel riding only if the weather and the operator allow it, plus a visit with a nomadic family when a household can host.',
+          'Day 3 — Kharkhorin and Erdene Zuu',
+          'Kharkhorin and Erdene Zuu. Ulaanbaatar to Kharkhorin is about 360 km as a summer-road estimate. The driver confirms how long the day\'s road takes, and the stop is checked for winter access.',
+          'Day 4 — Orkhon Valley',
+          'Orkhon Valley winter landscapes, staying on roads that are open that day.',
+          'Day 5 — Tsenkher only if it is open',
+          'Tsenkher Hot Springs only if the spring is operating and the road is open. This day runs only in that case, and the driver confirms the time. There is no published kilometre figure for the Kharkhorin to Tsenkher road.',
+          'Day 6 — Hustai, then Ulaanbaatar',
+          'Hustai National Park, then Ulaanbaatar. Ulaanbaatar to Hustai is about 100 km on a summer-road estimate, and the drive takes longer in snow. The driver confirms the time.'
+        ]
+      },
+      {
+        id: 'terelj-winter',
+        title: 'Terelj Winter Experience',
+        destination: 'Gorkhi-Terelj',
+        durationMin: 1,
+        durationMax: 2,
+        durationLabel: '1–2 days',
+        page: '/winter-tours/terelj-winter',
+        image: 'images/destinations/dest-terelj-national-park.jpg',
+        highlights: ['Chinggis Khan statue complex at Tsonjin Boldog', 'Turtle Rock (Melkhii Khad) when the road is open', 'Dog sledding, camel riding, or horseback riding only with the operator who is working'],
+        groupLabel: 'Private or small group',
+        published: true,
+        itinerary: [
+          'Day 1 — Ulaanbaatar to Terelj',
+          'Leave Ulaanbaatar for Gorkhi-Terelj. The summer-road estimate is about 70 km, and the drive often takes 1.5–2 hours, longer in snow. The Chinggis Khan statue complex at Tsonjin Boldog is about 54 km from Ulaanbaatar on a summer-road estimate. The day can include Turtle Rock (Melkhii Khad) when the road is open, plus one activity that is actually operating, such as dog sledding, camel riding, or horseback riding. The driver confirms the time. A one-day plan returns to Ulaanbaatar the same day.',
+          'Day 2 — Optional second day',
+          'A traditional ger stay, winter photography, or a cultural visit can fill a second day when that activity is operating and a heated ger or room is confirmed. These are not added on top of every day-1 activity.'
+        ]
+      }
+    ];
+
+    if (window.BM_WINTER && Array.isArray(window.BM_WINTER.tours)) {
+      window.BM_WINTER.tours.forEach(addWinterRouteTour);
+    }
+    winterPageRoutes.forEach(addWinterRouteTour);
 
     let selectedPeople = '2';
     let regionFilter = 'all';
@@ -2052,26 +2170,67 @@
       return `From ${formatPrice(priced.perPerson)} / person for ${priced.days} days`;
     }
 
-    let seasonFilter = (location.hash === '#winter') ? 'winter' : 'all';
+    let seasonFilter = (location.hash === '#winter' || String(location.hash || '').indexOf('#winter-') === 0) ? 'winter' : 'all';
 
     function tourSeasons(t){
       if(Array.isArray(t.seasons) && t.seasons.length) return t.seasons;
       return ['spring','summer','autumn'];
     }
 
+    function winterRouteArticles() {
+      const routes = [];
+      if (window.BM_WINTER && Array.isArray(window.BM_WINTER.tours)) {
+        window.BM_WINTER.tours.forEach(function (tour) {
+          if (tour && tour.published !== false) routes.push(tour);
+        });
+      }
+      winterPageRoutes.forEach(function (tour) {
+        if (tour && tour.published !== false) routes.push(tour);
+      });
+      return routes.map(function (tour) {
+        const detail = tourDetails[tour.id] || { route: '', itinerary: [] };
+        const card = tours.find(function (item) { return item.id === tour.id; }) || {};
+        const title = tour.title || card.name || '';
+        const duration = tour.durationLabel || card.durationLabel || '';
+        const destination = tour.destination || card.fromUB || '';
+        const page = tour.page || card.page || '';
+        const lines = (detail.itinerary || []).map(function (line) {
+          return '<li>' + escapeHtml(line) + '</li>';
+        }).join('');
+        const booking = escapeHtml(JSON.stringify({
+          id: tour.id,
+          name: title,
+          durationLabel: duration || 'November – April',
+          priceMode: 'ask',
+          dates: card.dates || ['November – April']
+        }));
+        const fullPage = page ? '<a class="tour-btn" href="' + escapeHtml(page) + '">Full page</a>' : '';
+        return '<article class="tour-card" id="winter-' + escapeHtml(tour.id) + '" style="margin-bottom:12px"><div class="tour-body"><span class="tour-badge">WINTER ROUTE</span><h3 class="tour-title">' + escapeHtml(title) + '</h3><p>' + escapeHtml(duration) + (destination ? ' · ' + escapeHtml(destination) : '') + '</p><p>' + escapeHtml(detail.route || '') + '</p><ul>' + lines + '</ul><p>Request a Quote</p><div class="tour-actions"><button class="tour-btn" type="button" onclick="openDetailModal(\'' + escapeHtml(tour.id) + '\')">Itinerary</button>' + fullPage + '<button class="tour-btn primary" type="button" onclick="openBooking(' + booking + ')">Ask Quote</button></div></div></article>';
+      }).join('');
+    }
+
     function renderWinterEvents(){
       const box = document.getElementById('winterEventList');
       if (!box) return;
-      if (seasonFilter !== 'winter' || !window.BM_WINTER || !Array.isArray(window.BM_WINTER.events)) {
+      if (seasonFilter !== 'winter') {
         box.innerHTML = '';
         return;
       }
-      box.innerHTML = '<div class="section-head" style="margin:8px 0 14px"><h3>Winter events, November – April</h3><p>Exact festival days are confirmed when you book.</p></div>' +
-        window.BM_WINTER.events.map(function (ev) {
-          const related = (window.BM_WINTER.tours || []).find(function (tour) { return tour.id === ev.relatedTourId; });
-          const href = related && related.page ? related.page : '/winter-mongolia.html';
-          return '<article class="tour-card" style="margin-bottom:12px"><div class="tour-body"><span class="tour-badge">WINTER EVENT</span><h3 class="tour-title">' + ev.title + '</h3><p>' + ev.destination + ' · ' + ev.startDate + ' – ' + ev.endDate + '</p><p>' + ev.summary + '</p><div class="tour-actions"><a class="tour-btn" href="' + href + '">View Details</a><button class="tour-btn primary" onclick="openBooking({id:\'' + ev.relatedTourId + '\',name:\'' + ev.title.replace(/'/g, '') + '\',durationLabel:\'' + ((related && related.durationLabel) || 'November – April') + '\',priceMode:\'ask\'})">Ask Quote</button></div></div></article>';
-        }).join('');
+      const events = (window.BM_WINTER && Array.isArray(window.BM_WINTER.events)) ? window.BM_WINTER.events : [];
+      const eventHtml = events.map(function (ev) {
+        const related = (window.BM_WINTER.tours || []).find(function (tour) { return tour.id === ev.relatedTourId; });
+        const href = related && related.page ? related.page : '/winter-mongolia.html';
+        const booking = escapeHtml(JSON.stringify({
+          id: ev.relatedTourId,
+          name: String(ev.title || '').replace(/'/g, ''),
+          durationLabel: (related && related.durationLabel) || 'November – April',
+          priceMode: 'ask',
+          dates: ['November – April']
+        }));
+        return '<article class="tour-card" style="margin-bottom:12px"><div class="tour-body"><span class="tour-badge">WINTER EVENT</span><h3 class="tour-title">' + escapeHtml(ev.title) + '</h3><p>' + escapeHtml(ev.destination) + ' · ' + escapeHtml(ev.startDate) + ' – ' + escapeHtml(ev.endDate) + '</p><p>' + escapeHtml(ev.summary) + '</p><div class="tour-actions"><a class="tour-btn" href="' + escapeHtml(href) + '">View Details</a><button class="tour-btn primary" type="button" onclick="openBooking(' + booking + ')">Ask Quote</button></div></div></article>';
+      }).join('');
+      box.innerHTML = '<div class="section-head" style="margin:8px 0 14px"><h3>Winter tour routes</h3></div>' + winterRouteArticles() +
+        '<div class="section-head" style="margin:8px 0 14px"><h3>Winter events, November – April</h3><p>Exact festival days are confirmed when you book.</p></div>' + eventHtml;
     }
 
     function setSeason(season){
@@ -2112,7 +2271,7 @@
             <div class="small-note">${i18n('td_private_note','Private or group joining possible • Dates confirmed before payment.')}</div>
             <div class="small-note">${i18n('td_seats_note','Limited seats • Ask for final room and vehicle availability.')}</div>
             <div class="tour-actions">
-              ${t.page ? `<a class="tour-btn" href="${t.page}">${i18n('td_view_details','View Details')}</a>` : `<button class="tour-btn" onclick="openDetailModal('${t.id}')">${i18n('td_view_details','View Details')}</button>`}
+              ${((t.region === 'winter' || t.priceMode === 'ask') && t.page) ? `<button class="tour-btn" type="button" onclick="openDetailModal('${t.id}')">${i18n('td_view_details','View Details')}</button><a class="tour-btn" href="${t.page}">Full page</a>` : (t.page ? `<a class="tour-btn" href="${t.page}">${i18n('td_view_details','View Details')}</a>` : `<button class="tour-btn" type="button" onclick="openDetailModal('${t.id}')">${i18n('td_view_details','View Details')}</button>`)}
               <button class="tour-btn primary" onclick='openBooking(${JSON.stringify(t).replace(/'/g,"&#39;")})'>${t.priceMode === 'ask' ? 'Request a Quote' : 'Book Now'}</button>
             </div>
           </div>
@@ -2688,6 +2847,11 @@
 
     function openTourFromHash(){
       const hash = String(location.hash || '');
+      if (hash === '#winter' || hash.indexOf('#winter-') === 0) {
+        if (seasonFilter !== 'winter') setSeason('winter');
+        const target = document.getElementById(hash.slice(1));
+        if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView();
+      }
       if (hash.indexOf('#tour-') === 0) {
         openDetailModal(hash.slice('#tour-'.length));
       }
