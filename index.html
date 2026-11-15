@@ -70,7 +70,42 @@ window.addEventListener('load', function () {
   }
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
-  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/site.css?v=20261115hero" />
+  <style id="hero-offers-critical">
+    .hero p.hero-lead{
+      color:#fff;
+      background:transparent;
+      font-size:18px;
+      line-height:1.45;
+      margin:0 0 8px;
+      max-width:700px;
+    }
+    .hero p.hero-lead + .hero-lead{margin-bottom:18px}
+    .hero-offers{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      margin:16px 0 0;
+      align-items:start;
+    }
+    .hero-offer{color:#1a1612;height:auto;min-height:0}
+    .hero-offer .card-body{padding:14px}
+    .hero-offer h3{margin:0 0 6px;font-size:16px;line-height:1.3;color:#1a1612}
+    .hero .hero-offer p{
+      margin:0 0 8px;
+      max-width:none;
+      font-size:13px;
+      line-height:1.45;
+      color:#4a4036;
+      background:transparent;
+    }
+    .hero .hero-offer .hero-offer-line{margin-bottom:6px;color:#14532d;font-weight:700}
+    .hero-offer .btn{width:100%;margin-top:4px;padding:10px 12px;font-size:13px}
+    .hero-offer-contact{display:block;margin-top:8px;text-align:center;font-size:12px;font-weight:700;color:#8c6840}
+    @media (max-width:720px){
+      .hero-offers{grid-template-columns:1fr}
+    }
+  </style>
 <script src="/js/book-dates-btn.js" defer></script>
 <script src="/js/site-nav.js" defer></script>
 <script src="/js/nav-anchors.js" defer></script>
@@ -135,7 +170,8 @@ window.addEventListener('load', function () {
       <div class="hero-content">
         <div class="eyebrow season-badge" data-i18n="hero_eyebrow">2027 SEASON — BOOKINGS OPEN</div>
         <h1 data-i18n="hero_title">DISCOVER MONGOLIA 2027</h1>
-        <p data-i18n="hero_text">Private tours, airport transfers, and local experiences are arranged from Ulaanbaatar. Each tour price is listed on Tour Dates.</p>
+        <p class="hero-lead" data-i18n="hero_text">Private tours, airport transfers, and local experiences are arranged from Ulaanbaatar.</p>
+        <p class="hero-lead" data-i18n="hero_text_2">Each tour price is listed on Tour Dates.</p>
 
        <div class="cta-row">
   <a class="btn btn-primary" href="/tours-dates.html" data-i18n="hero_btn_1">EXPLORE TOURS</a>
@@ -1524,7 +1560,7 @@ window.addEventListener('load', function () {
 <script src="/js/index-app.js"></script>
 <script src="/js/gallery.js"></script>
 
-<script src="/js/site-i18n.js"></script>
+<script src="/js/site-i18n.js?v=20261115hero"></script>
 
   <script src="/js/destinations-map.js"></script>
 
