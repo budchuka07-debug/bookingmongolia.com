@@ -1,0 +1,110 @@
+body.bm-home > .hero{align-items:flex-start}
+.hero-intro.hero-content{padding-bottom:8px}
+.hero-follow.hero-content{padding-top:16px;padding-bottom:36px}
+
+.bm-services{width:100%;margin:8px 0 4px}
+.bm-services-row{
+  display:grid;
+  grid-template-columns:repeat(var(--bm-n, 3),minmax(0,1fr));
+  gap:12px;
+  align-items:stretch;
+}
+.bm-service{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  min-height:0;
+  padding:14px 16px 16px;
+  background:rgba(22,18,14,.42);
+  border:1px solid rgba(255,253,248,.24);
+  border-radius:18px;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  color:#fffdf8;
+  font-family:inherit;
+}
+.bm-service h3{
+  margin:0 0 4px;
+  color:#c98b2f;
+  font-family:inherit;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.3;
+}
+.bm-service p{
+  max-width:none;
+  font-family:inherit;
+}
+.bm-service .bm-service-price{
+  margin:0 0 6px;
+  color:#fffdf8;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.35;
+}
+.bm-service .bm-service-text{
+  margin:0 0 12px;
+  color:rgba(255,253,248,.92);
+  font-size:14px;
+  line-height:1.45;
+}
+.bm-service-wa{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  margin-top:auto;
+  padding:10px 14px;
+  border-radius:999px;
+  background:#b8893d;
+  color:#fff;
+  font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.2;
+  text-align:center;
+  text-decoration:none;
+}
+.bm-service-wa:hover{background:#8c6840;color:#fff}
+.bm-service-contact{
+  display:block;
+  margin-top:8px;
+  color:#fffdf8;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:700;
+  text-align:center;
+  text-decoration:underline;
+}
+.bm-services-band{
+  border-radius:22px;
+  margin:18px 0;
+  padding:18px;
+  background:
+    linear-gradient(rgba(12,24,36,.55),rgba(12,24,36,.68)),
+    url("/images/hero/hero-1-mongolia.webp") center/cover no-repeat;
+}
+.hero .bm-service h3{color:#c98b2f}
+.hero .bm-service .bm-service-price{color:#fffdf8}
+.hero .bm-service .bm-service-text{
+  margin:0 0 12px;
+  max-width:none;
+  color:rgba(255,253,248,.92);
+  font-size:14px;
+  line-height:1.45;
+  background:transparent;
+}
+
+@media (max-width:720px){
+  .bm-services-row{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    gap:10px;
+    padding-bottom:4px;
+  }
+  .bm-services-row > .bm-service{
+    flex:0 0 min(240px,82%);
+    scroll-snap-align:start;
+  }
+}
