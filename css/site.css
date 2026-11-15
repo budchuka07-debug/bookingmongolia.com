@@ -240,6 +240,15 @@
       margin:0 0 28px;
       max-width:700px;
     }
+    .hero p.hero-lead{
+      color:#fff;
+      background:transparent;
+      margin:0 0 8px;
+    }
+    .hero p.hero-lead + .hero-lead{margin-bottom:18px}
+    body.bm-home > .hero{align-items:flex-start}
+    .hero-intro.hero-content{padding-bottom:8px}
+    .hero-follow.hero-content{padding-top:16px;padding-bottom:36px}
     .cta-row{
       display:flex;
       gap:14px;
