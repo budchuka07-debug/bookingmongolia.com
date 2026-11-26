@@ -50,7 +50,7 @@
     .heli-band{padding:28px 0 8px}
     .heli-band h2{margin-bottom:8px}
     a{text-decoration:none;color:inherit}
-    img{display:block;max-width:100%}
+    img{display:block;max-width:100%;height:auto}
     .container{width:min(92%,var(--max));margin:0 auto}
 
     .topbar{
