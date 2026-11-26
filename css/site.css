@@ -1013,6 +1013,7 @@
     body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at top left,rgba(201,139,47,.10),transparent 28%),radial-gradient(circle at top right,rgba(13,59,102,.10),transparent 30%),linear-gradient(180deg,#faf7f1 0%,#f7f5ef 50%,#fbfaf6 100%);pointer-events:none;z-index:-1}
     .logo{text-shadow:0 1px 0 rgba(255,255,255,.35)}
     .section-head h2{margin-bottom:10px;color:var(--primary-dark)}
+    .community-section .section-head h1{margin-bottom:10px;color:var(--primary-dark);font-size:clamp(28px,4vw,40px)}
     .card{border:1px solid rgba(13,59,102,.06)}
     .tour-link{display:block;color:inherit}
     .tour-link .card{height:100%}
